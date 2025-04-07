@@ -1,4 +1,4 @@
-const userService = require('../services/userService');
+import userService from '@/services/userService';
 
 const logUserAction = async (req, res, next) => {
 	try {
@@ -13,4 +13,4 @@ const logUserAction = async (req, res, next) => {
 	next();
 };
 
-module.exports = { logUserAction };
+export default { logUserAction };
