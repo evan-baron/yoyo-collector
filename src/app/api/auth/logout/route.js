@@ -1,9 +1,25 @@
+import { authenticateUser } from '@/middlewares/authMiddleware';
+import { cookies } from 'next/headers';
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
 	try {
-		const cookie = serialize('session_token', '', {
+		const cookieStore = cookies();
+		const sessionToken = cookieStore.get('session_token')?.value;
+
+		const authResult = authenticateUser({
+			cookies: { session_token: sessionToken },
+		});
+
+		if (authResult) {
+			return NextResponse.json(
+				{ message: authResult.message },
+				{ status: authResult.status }
+			);
+		}
+
+		const expiredCookie = serialize('session_token', '', {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
 			sameSite: 'Strict',
@@ -15,7 +31,7 @@ export async function POST(req) {
 			message: 'Logged out successfully',
 		});
 
-		response.headers.set('Set-Cookie', cookie);
+		response.headers.set('Set-Cookie', expiredCookie);
 
 		return response;
 	} catch (err) {
