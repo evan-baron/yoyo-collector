@@ -1,19 +1,17 @@
 import jwt from 'jsonwebtoken';
 
-const authenticateUser = (req, res, next) => {
+export const authenticateUser = (req) => {
 	const token = req.cookies.session_token;
 
 	if (!token) {
-		return res.status(401).json({ message: 'Unauthorized: No token provided' });
+		return { status: 401, message: 'Unauthorized: No token provided' };
 	}
 
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
-		req.user = decoded; // Attach user info to request
-		next();
+		req.user = decoded;
+		return null; // No error, authentication passed
 	} catch (error) {
-		res.status(401).json({ message: 'Unauthorized: Invalid token' });
+		return { status: 401, message: 'Unauthorized: Invalid token' };
 	}
 };
-
-export default { authenticateUser };

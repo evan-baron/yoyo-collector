@@ -1,0 +1,35 @@
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
+import jwt from 'jsonwebtoken';
+import { getUserById } from '@/services/userService';
+
+export async function GET(req) {
+	try {
+		const authHeader = req.headers.get('authorization');
+		const cookieStore = cookies();
+		const token =
+			authHeader?.split(' ')[1] || cookieStore.get('session_token')?.value;
+
+		if (!token) {
+			return NextResponse.json(
+				{ message: 'No token provided' },
+				{ status: 401 }
+			);
+		}
+
+		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+		const user = await getUserById(decoded.userId);
+
+		return NextResponse.json(user);
+	} catch (err) {
+		console.error(
+			'Error during token verification at /api/token/authenticate/route.js:',
+			err
+		);
+		return NextResponse.json(
+			{ message: 'Invalid or expired token' },
+			{ status: 401 }
+		);
+	}
+}
