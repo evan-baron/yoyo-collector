@@ -1,5 +1,6 @@
 import { Roboto, Open_Sans } from 'next/font/google';
 import '@/styles/globals.css';
+import Header from './components/header/header';
 
 const roboto = Roboto({
 	variable: '--font-roboto',
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang='en'>
 			<body className={`${roboto.variable} ${openSans.variable}`}>
+				<Header />
 				{children}
 			</body>
 		</html>
