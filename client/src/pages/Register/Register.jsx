@@ -1,5 +1,6 @@
 // External Libraries
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 // Utilities
 import axiosInstance from '../../utils/axios';
@@ -15,13 +16,13 @@ import {
 } from '@mui/icons-material';
 
 // Assets & Styles
-import './register.scss';
+import styles from './register.module.scss';
 
 // Context
 import { useAppContext } from '../../context/AppContext';
 
 // Components
-import LoadingKey from '../../components/Loading/LoadingKey';
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
 
 const Register = () => {
 	// CONTEXT
@@ -41,7 +42,6 @@ const Register = () => {
 	const [emailValid, setEmailValid] = useState(null);
 	const [nameEmailComplete, setNameEmailComplete] = useState(false);
 	const [nameEmailSubmitted, setNameEmailSubmitted] = useState(false);
-	const [passwordSubmitted, setPasswordSubmitted] = useState(false);
 	const [passwordValid, setPasswordValid] = useState(null);
 	const [passwordReqs, setPasswordReqs] = useState({
 		length: false,
@@ -196,24 +196,27 @@ const Register = () => {
 	};
 
 	return (
-		<section aria-labelledby='sign-up-form' className='signup-content'>
+		<section
+			aria-labelledby='sign-up-form'
+			className={styles['signup-content']}
+		>
 			{!registrationComplete ? (
-				<form className='signup-form'>
-					<h3 className='signup-title'>Register</h3>
+				<form className={styles['signup-form']}>
+					<h3 className={styles['signup-title']}>Register</h3>
 
 					{loadingScreen ? (
-						<LoadingKey />
+						<LoadingSpinner />
 					) : (
 						<>
 							{!nameEmailSubmitted ? (
 								<fieldset
-									className='name-email'
+									className={styles['name-email']}
 									aria-labelledby='name-email-fields'
 								>
-									<div className='registrant-name'>
-										<div className='input-field'>
+									<div className={styles['registrant-name']}>
+										<div className={styles['input-field']}>
 											<label htmlFor='email'>First Name:</label>
-											<div className='input-container'>
+											<div className={styles['input-container']}>
 												<input
 													id='first'
 													type='text'
@@ -226,9 +229,9 @@ const Register = () => {
 												/>
 											</div>
 										</div>
-										<div className='input-field'>
+										<div className={styles['input-field']}>
 											<label htmlFor='email'>Last Name:</label>
-											<div className='input-container'>
+											<div className={styles['input-container']}>
 												<input
 													id='last'
 													type='text'
@@ -242,9 +245,9 @@ const Register = () => {
 											</div>
 										</div>
 									</div>
-									<div className='input-field'>
+									<div className={styles['input-field']}>
 										<label htmlFor='email'>Email:</label>
-										<div className='input-container'>
+										<div className={styles['input-container']}>
 											<input
 												id='email'
 												type='email'
@@ -258,7 +261,7 @@ const Register = () => {
 										</div>
 										{formSubmitted && !emailValid ? (
 											<p
-												className='validation-error'
+												className={styles['validation-error']}
 												role='alert'
 												aria-live='polite'
 											>
@@ -267,11 +270,11 @@ const Register = () => {
 										) : null}
 									</div>
 								</fieldset>
-							) : !passwordSubmitted ? (
-								<fieldset className='password-section'>
-									<div className='input-field'>
+							) : (
+								<fieldset className={styles['password-section']}>
+									<div className={styles['input-field']}>
 										<label htmlFor='password'>Password:</label>
-										<div className='input-container'>
+										<div className={styles['input-container']}>
 											<input
 												id='password'
 												type={passwordVisible ? 'text' : 'password'}
@@ -285,7 +288,7 @@ const Register = () => {
 											{formData.password ? (
 												passwordVisible ? (
 													<Visibility
-														className='visible'
+														className={styles.visible}
 														role='button'
 														tabIndex='0'
 														aria-label='Toggle password visibility'
@@ -300,7 +303,7 @@ const Register = () => {
 													/>
 												) : (
 													<VisibilityOff
-														className='visible'
+														className={styles.visible}
 														role='button'
 														tabIndex='0'
 														aria-label='Toggle password visibility'
@@ -317,9 +320,9 @@ const Register = () => {
 											) : null}
 										</div>
 									</div>
-									<div className='input-field'>
+									<div className={styles['input-field']}>
 										<label htmlFor='confirm'>Confirm Password:</label>
-										<div className='input-container'>
+										<div className={styles['input-container']}>
 											<input
 												id='confirm'
 												type='password'
@@ -334,14 +337,14 @@ const Register = () => {
 											{passwordMatch !== null && formData.confirm ? (
 												passwordMatch ? (
 													<Check
-														className='validatePw'
+														className={styles.validatePw}
 														role='img'
 														aria-label='Passwords match'
 														sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
 													/>
 												) : (
 													<Close
-														className='validatePw'
+														className={styles.validatePw}
 														role='img'
 														aria-label='Passwords do not match'
 														sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
@@ -349,11 +352,11 @@ const Register = () => {
 												)
 											) : null}
 										</div>
-										<div className='password-requirements'>
-											<p className='requirements-description'>
+										<div className={styles['password-requirements']}>
+											<p className={styles['requirements-description']}>
 												Your password must contain:
 											</p>
-											<div className='requirement'>
+											<div className={styles.requirement}>
 												{passwordReqs.length && (
 													<Check
 														sx={{
@@ -364,7 +367,7 @@ const Register = () => {
 												)}
 												<p>8 characters</p>
 											</div>
-											<div className='requirement'>
+											<div className={styles.requirement}>
 												{passwordReqs.uppercase && (
 													<Check
 														sx={{
@@ -375,7 +378,7 @@ const Register = () => {
 												)}
 												<p>1 uppercase</p>
 											</div>
-											<div className='requirement'>
+											<div className={styles.requirement}>
 												{passwordReqs.number && (
 													<Check
 														sx={{
@@ -386,7 +389,7 @@ const Register = () => {
 												)}
 												<p>1 number</p>
 											</div>
-											<div className='requirement'>
+											<div className={styles.requirement}>
 												{passwordReqs.character && (
 													<Check
 														sx={{
@@ -410,36 +413,6 @@ const Register = () => {
 										</div>
 									</div>
 								</fieldset>
-							) : (
-								<>
-									<h3 className='gratuity'>Would you like to add gratuity?</h3>
-									<div className='gratuity-buttons'>
-										<button
-											onClick={(e) => {
-												e.preventDefault();
-												return;
-											}}
-										>
-											22%
-										</button>
-										<button
-											onClick={(e) => {
-												e.preventDefault();
-												return;
-											}}
-										>
-											25%
-										</button>
-										<button
-											onClick={(e) => {
-												e.preventDefault();
-												return;
-											}}
-										>
-											30%
-										</button>
-									</div>
-								</>
 							)}
 
 							{!nameEmailSubmitted ? (
@@ -459,10 +432,10 @@ const Register = () => {
 									Next
 									<East />
 								</button>
-							) : !passwordSubmitted ? (
-								<div className='back-submit'>
+							) : (
+								<div className={styles['back-submit']}>
 									<button
-										className='back'
+										className={styles.back}
 										type='button'
 										role='button'
 										aria-label='Confirm names and email'
@@ -478,26 +451,7 @@ const Register = () => {
 										Back
 									</button>
 									<button
-										className='submit'
-										type='button'
-										role='button'
-										aria-label='Submit registration form'
-										onClick={() => setPasswordSubmitted(true)}
-										disabled={!formComplete}
-										style={{
-											backgroundColor: formComplete
-												? null
-												: 'rgba(82, 82, 82, .5)',
-											cursor: formComplete ? 'pointer' : null,
-										}}
-									>
-										Create Account
-									</button>
-								</div>
-							) : (
-								<div className='back-submit'>
-									<button
-										className='submit'
+										className={styles.submit}
 										type='button'
 										role='button'
 										aria-label='Submit registration form'
@@ -510,13 +464,13 @@ const Register = () => {
 											cursor: formComplete ? 'pointer' : null,
 										}}
 									>
-										No! Create Account
+										Create Account
 									</button>
 								</div>
 							)}
 
 							{registrationError && (
-								<p aria-live='polite' role='alert' className='alert'>
+								<p aria-live='polite' role='alert' className={styles.alert}>
 									{registrationError}
 								</p>
 							)}
@@ -527,7 +481,7 @@ const Register = () => {
 						Already have an account?
 						<br />
 						<a
-							className='link'
+							className={styles.link}
 							role='link'
 							aria-label='Go to login page'
 							onClick={() => setComponent('login')}
@@ -537,29 +491,27 @@ const Register = () => {
 					</span>
 				</form>
 			) : (
-				<form className='completed-form'>
-					<h2>
-						I'm <span style={{ fontStyle: 'italic' }}>very</span> confused
-						why...
-					</h2>
+				<form className={styles['completed-form']}>
+					<h2>Welcome to Yoyo Collector!</h2>
 					<p>
-						...but <span style={{ fontStyle: 'italic' }}>thank you</span> for
-						registering with{' '}
-						<span style={{ fontSize: '1.25rem' }}>
-							cant <span style={{ color: 'red' }}>delete</span> it
-						</span>
-						. You must really hate traditional social media! Or you're
-						masochistic... Either way...
+						Your one-stop-shop for keeping track of your collection and sharing
+						with others!
 					</p>
 					<p>
 						<span style={{ fontWeight: 'bold', color: 'red' }}>
 							Please check your email for a link to verify your account.
 						</span>{' '}
 						If it doesn't show up after a few minutes, check your spam or junk
-						folders. Happy posting!
+						folders.
 					</p>
-					<p>- Evan</p>
+					<p>- Yoyo Collector Team</p>
 				</form>
+			)}
+
+			{registrationComplete && (
+				<Link to='/' className={styles['home-button']}>
+					Home
+				</Link>
 			)}
 		</section>
 	);

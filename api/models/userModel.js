@@ -11,15 +11,6 @@ const User = {
 		return result;
 	},
 
-	// Log user action
-	async logAction(user, action, ip_address) {
-		const [result] = await pool.execute(
-			'INSERT INTO user_logs (user_id, action, ip_address) VALUES (?, ?, ?)',
-			[user, action, ip_address]
-		);
-		return result;
-	},
-
 	// Get a user by email
 	async findUserByEmail(email) {
 		const [rows] = await pool.execute(

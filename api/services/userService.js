@@ -104,11 +104,6 @@ const getUserById = async (id) => {
 	return await userModel.findUserById(id);
 };
 
-// Log user action
-const logUserAction = async (user, action, ip_address) => {
-	return await userModel.logAction(user, action, ip_address);
-};
-
 // Update password
 const updatePassword = async (password, token) => {
 	try {
@@ -129,19 +124,18 @@ const updatePassword = async (password, token) => {
 				isMatch = true;
 				break;
 			}
-		};
+		}
 
 		if (isMatch) {
 			console.log("You can't use a previously used password.");
 			return {
 				success: false,
-				message:
-					'For security reasons, you cannot reuse a previous password.',
+				message: 'For security reasons, you cannot reuse a previous password.',
 			};
 		} else {
 			console.log(`The passwords don't match. Proceed`);
 
-		// Step 4: Hash the new password
+			// Step 4: Hash the new password
 			const newPassword = await bcrypt.hash(password, 10);
 
 			// Step 5: Update the password and token
@@ -151,7 +145,6 @@ const updatePassword = async (password, token) => {
 
 			return { success: true, message: 'Password updated successfully.' };
 		}
-		
 	} catch (err) {
 		console.error('Error during password update: ', err.message);
 		return { success: false, message: 'Error updating password.' };
@@ -177,7 +170,6 @@ module.exports = {
 	getTokenData,
 	getUserByEmail,
 	getUserById,
-	logUserAction,
 	updatePassword,
 	updateVerified,
 };
