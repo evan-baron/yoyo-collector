@@ -14,6 +14,7 @@ import PasswordReset from '../pages/PasswordReset/PasswordReset.jsx';
 // Components
 import Header from '../components/Header/Header.jsx';
 import Footer from '../components/Footer/Footer.jsx';
+import HorizontalDivider from '../components/Dividers/HorizontalDivider.jsx';
 
 const App = () => {
 	const { user } = useAppContext();
@@ -30,6 +31,7 @@ const App = () => {
 					/>
 				</Routes>
 			</main>
+			<HorizontalDivider />
 			<Footer />
 		</div>
 	);
