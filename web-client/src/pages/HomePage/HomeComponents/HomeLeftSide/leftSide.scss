@@ -1,0 +1,569 @@
+$masterBackground: #f6f6f6;
+$darkerGray: #121212;
+$darkGray: #252525;
+$mediumGray: #373737;
+$lightGray: #525252;
+$lighterGray: #aaaaaa;
+$lightestGray: #eeeeee;
+
+.left-side {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: calc(7 / 12 * 100%);
+	background-color: $darkGray;
+	box-shadow: 0 0 1rem black;
+	
+	@media (max-width: 820px) {
+		width: 100%;
+		min-height: 100dvh;
+	}
+
+	@media (max-height: 480px) and (orientation: landscape) {
+		width: 100%;
+		height: auto;
+		justify-content: flex-start;
+	}
+
+	.content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 2rem;
+		height: 100%;
+		width: 100%;
+		padding: 1rem;
+		color: white;
+		z-index: 1;
+
+		@media (max-width: 820px) {
+			padding: 2.75rem 1rem 1rem 1rem;
+			gap: 1rem;
+			justify-content: flex-start;
+		}
+
+		@media (max-height: 700px) and (orientation: portrait) {
+			min-height: 100dvh;
+			justify-content: space-between;
+			gap: 0;
+		}
+
+		@media (max-height: 480px) and (orientation: landscape) {
+			padding: 2.5rem 1rem 1rem 1rem;
+			gap: 1rem;
+		}
+
+		.hero {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: end;
+			gap: 1rem;
+			width: 80%;
+
+			@media (max-width: 480px) {
+				width: 100%;
+			}
+
+			@media (max-width: 400px) and (max-height: 700px) {
+				gap: .5rem;
+			}
+
+			.title {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				font-size: clamp(4.25rem, 12vw, 6rem);
+				text-transform: lowercase;
+				text-shadow: 2px 2px 0.25rem #111111;
+
+				@media (max-width: 480px) {
+					font-size: 14vw;
+				}
+			}
+
+
+			.pitch {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+				width: 100%;
+				max-width: 45rem;
+				font-size: clamp(1.5rem, 5vw, 2rem);
+				text-transform: uppercase;
+				text-shadow: 2px 2px 0.25rem #111111;
+
+				@media (max-width: 680px) {
+					width: 100%;
+					text-align: center;
+					font-size: clamp(1.25rem, 4vw, 2rem);
+				}
+			}
+		}
+
+		.rules {
+			display: flex;
+			flex-direction: column;
+			width: 80%;
+			max-width: 45rem;
+			padding: 1rem;
+
+			@media (max-width: 720px) {
+				width: 90%;
+			}
+
+			@media (max-width: 480px) {
+				width: 100%;
+			}
+
+			@media (max-width: 360px) {
+				padding: 0;
+			}
+
+			h2 {
+				font-size: clamp(2rem, 8vw, 3rem);
+				text-shadow: 2px 2px 0.25rem #111111;
+
+				@media (max-width: 480px) {
+					font-size: 8vw;
+				}
+			}
+
+			.divider {
+				width: 100%;
+				margin-bottom: 1rem;
+				border: 1px solid white;
+				box-shadow: 2px 2px 0.25rem #111111;
+
+				@media (max-width: 400px) and (max-height: 700px) {
+					margin-bottom: .5rem;
+				}
+			}
+
+			ul {
+				display: flex;
+				flex-direction: column;
+				gap: 1.25rem;
+				width: 100%;
+
+				@media (max-width: 480px) {
+					gap: .75rem;
+				}
+			}
+
+			li {
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+				width: 100%;
+				font-size: 1.75rem;
+				text-shadow: 2px 2px 0.25rem #111111;
+
+				@media (max-width: 680px) {
+					font-size: 1.5rem;
+				}
+
+				@media (max-width: 480px) {
+					font-size: 1.25rem;
+				}
+
+				@media (max-width: 400px) {
+					font-size: 1rem;
+				}
+
+
+				p {
+					width: 100%;
+					line-height: 1.125;
+				}
+			}
+		}
+
+		.demo {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+			width: 80%;
+			max-width: 45rem;
+			height: 20rem;
+			padding: 0 1rem 1rem 1rem;
+
+			@media (max-width: 820px) {
+				height: auto;
+				width: 80%;
+			}
+
+			@media (max-width: 720px) {
+				width: 90%;
+			}
+
+			@media (max-width: 480px) {
+				width: 100%;
+			}
+
+			@media (max-width: 360px) and (orientation: portrait) {
+				padding: 0;
+			}
+
+			@media (max-width: 400px) and (max-height: 700px) {
+				gap: .5rem;
+			}
+
+			@media (max-height: 820px) and (orientation: landscape) {
+				height: auto;
+			}
+
+			h2 {
+				font-size: 3rem;
+				text-shadow: 2px 2px 0.25rem #111111;
+
+				@media (max-width: 480px) {
+					font-size: 8vw;
+				}
+			}
+
+			.demo-container {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 1rem;
+
+				.demo-content {
+					position: relative;
+					display: flex;
+					flex-direction: column;
+					gap: 1rem;
+					width: 100%;
+					padding: 1rem;
+					background-color: $darkGray;
+					border: 2px solid $mediumGray;
+					border-radius: 0.5rem;
+					box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.2),
+						0 0 1.5rem rgba(0, 0, 0, 0.2);
+					overflow: hidden;
+
+					.write-post {
+						position: relative;
+						display: flex;
+						flex-direction: column;
+						gap: 0.375rem;
+						width: 100%;
+						z-index: 2 !important;
+
+						.input {
+							display: flex;
+							align-items: center;
+							gap: 1rem;
+							width: 100%;
+
+							textarea {
+								position: relative;
+								height: 2.5rem;
+								align-content: center;
+								max-height: 4.5rem;
+								overflow-y: scroll;
+								width: 100%;
+								font-size: 1.25rem;
+								padding-left: 1rem;
+								padding-right: 2.5rem;
+								border: none;
+								border-radius: 1.25rem;
+								outline: none;
+								color: $darkGray;
+								background-color: $masterBackground;
+
+								@media (max-width: 480px) and (orientation: portrait) {
+									height: 2rem;
+									padding-left: .75rem;
+									font-size: 1rem;
+								}
+
+								@media (max-width: 400px) {
+									height: 2rem;
+									font-size: .85rem;
+								}
+							}
+
+							textarea::-webkit-scrollbar {
+								display: none;
+							}
+
+							.timer {
+								position: absolute;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								color: $darkerGray;
+								height: 2.5rem;
+								right: 0.5rem;
+								width: 2rem;
+							}
+						}
+
+						.input-decorations {
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+							width: 100%;
+
+							.characters-remaining {
+								align-self: flex-start;
+								color: $lightGray;
+								font-size: 0.875rem;
+								padding-left: 1rem;
+
+								@media (max-width: 480px) and (orientation: portrait) {
+									padding-left: .75rem;
+								}
+							}
+
+							button {
+								outline: none;
+								border: none;
+								border-radius: 1.25rem;
+								color: white;
+								font-size: 1.25rem;
+								background-color: $lightGray;
+								height: 2.5rem;
+								width: 6rem;
+								position: relative;
+								cursor: pointer;
+
+								@media (max-width: 480px) {
+									height: 2rem;
+								}
+							}
+
+							button:active {
+								background-color: $lighterGray;
+							}
+						}
+					}
+
+					.posted-content {
+						display: flex;
+						width: 100%;
+						gap: 1rem;
+						z-index: 2 !important;
+
+						@media (max-width: 480px) {
+							gap: .5rem;
+						}
+
+						.profile-picture {
+							height: 3.5rem;
+							aspect-ratio: 1;
+							border-radius: 50%;
+
+							@media (max-width: 480px) {
+								height: 2.75rem;
+							}
+
+							img {
+								height: 100%;
+								aspect-ratio: 1;
+								object-fit: cover;
+								border-radius: 50%;
+							}
+						}
+
+						.posted-content-container {
+							position: relative;
+							display: flex;
+							flex-direction: column;
+							gap: 0.5rem;
+							width: 100%;
+							z-index: 2 !important;
+
+							.user {
+								font-size: 2rem;
+								padding-left: 0.5rem;
+								color: $lightestGray;
+
+								@media (max-width: 480px) {
+									font-size: 5vw;
+								}
+							}
+
+							.post-content {
+								display: block;
+								min-height: 2rem;
+								width: 100%;
+								align-items: center;
+								padding: 0.5rem;
+								color: $lightestGray;
+								white-space: normal;
+								word-wrap: break-word;
+								word-break: break-word;
+								background-color: $mediumGray;
+								border-radius: 0.25rem;
+
+								span {
+									display: inline-block;
+									max-width: 100%;
+								}
+							}
+
+							.post-decorations {
+								display: flex;
+								width: 100%;
+								align-items: center;
+								justify-content: space-between;
+								padding: 0 0.5rem;
+
+								.timestamp {
+									align-self: start;
+									color: $lightGray;
+									font-size: 0.75rem;
+								}
+
+								.post-buttons {
+									display: flex;
+									align-items: center;
+									gap: 0.5rem;
+									height: 2rem;
+
+									@media (max-width: 480px) {
+										height: auto;
+									}
+
+									.score-box {
+										display: flex;
+										align-items: center;
+										justify-content: space-evenly;
+										height: 2rem;
+										border: 2px solid $lightGray;
+										border-radius: 1rem;
+
+										@media (max-width: 480px) {
+											height: 1.5rem;
+										}
+
+										.symbol {
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											width: 2rem;
+											cursor: pointer;
+
+											@media (max-width: 480px) {
+												width: 1.25rem;
+											}
+										}
+
+										.post-buttons-divider {
+											height: 1.5rem;
+											border: 1px solid $lightGray;
+
+											@media (max-width: 480px) {
+												display: none;
+											}
+										}
+
+										.post-score {
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											width: 2rem;
+											max-width: 4rem;
+
+											@media (max-width: 480px) {
+												width: auto;
+												padding: .375rem;
+												font-size: .75rem;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+
+					.style-blob-2 {
+						position: absolute;
+						bottom: 0;
+						right: 0;
+						transform: translate(50%, 60%);
+						width: 75rem;
+						aspect-ratio: 1;
+						border-radius: 50%;
+						background-image: radial-gradient($mediumGray 20%, $darkGray 60%);
+					}
+				}
+
+				.signup-button {
+					position: relative;
+					bottom: 0;
+					align-self: center;
+					outline: none;
+					border: 0.125rem solid $masterBackground;
+					border-radius: 2rem;
+					color: $masterBackground;
+					font-size: 2rem;
+					background-color: transparent;
+					height: 4rem;
+					width: 15rem;
+					cursor: pointer;
+
+					@media (max-width: 480px) {
+						font-size: 1.75rem;
+						width: 12rem;
+						height: 3rem;
+					}
+
+					@media (max-height: 700px) {
+						font-size: 1.5rem;
+						height: 2.5rem;
+						width: 10rem;
+					}
+
+					@media (max-height: 480px) and (orientation: landscape) {
+						font-size: 2rem;
+						height: 3.5rem;
+						width: 12rem;
+					}
+				}
+
+				.signup-button:active {
+					background-color: $lighterGray;
+				}
+			}
+		}
+	}
+
+	.background-style {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+
+		@media (max-width: 820px) and (orientation: landscape) {
+			position: fixed;
+		}
+
+		.style-blob-1 {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			transform: translate(50%, 50%);
+			width: 150rem;
+			aspect-ratio: 1;
+			border-radius: 50%;
+			background-image: radial-gradient($lightGray 20%, $darkGray 60%);
+
+			@media (max-width: 820px) {
+				position: fixed;
+				width: 105rem;
+			}
+		}
+	}
+}

@@ -1,0 +1,120 @@
+$masterBackground: #f6f6f6;
+$darkerGray: #121212;
+$darkGray: #252525;
+$mediumGray: #373737;
+$lightGray: #525252;
+$lighterGray: #aaaaaa;
+$lightestGray: #eeeeee;
+
+.right-side {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: .5rem;
+	height: 100%;
+	width: calc(5 / 12 * 100%);
+	overflow: hidden;
+
+	@media (max-width: 480px) and (orientation: portrait) {
+		width: 100%;
+		padding: 1rem;
+		height: 100dvh;
+		background-color: $darkGray;
+	}
+
+	@media (max-height: 480px) and (orientation: landscape) {
+		width: 100%;
+		height: auto;
+		flex-grow: 1;
+		padding: 1rem;
+		overflow: visible;
+		background-color: $darkGray;
+	}
+
+	.content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		color: $darkGray;
+		z-index: 1;
+
+		@media (max-width: 480px) and (orientation: portrait) {
+			width: 100%;
+		}
+
+		@media (max-height: 480px) and (orientation: landscape) {
+			width: 100%;
+			flex-direction: row;
+			height: 100%;
+		}
+
+		.sign-up-link {
+			position: absolute;
+			bottom: 0;
+			transform: translateY(calc(.25rem + 100%));
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-width: 20rem;
+			height: 1.5rem;
+			gap: .5rem;
+			font-size: 1.25rem;
+			color: $darkGray;
+			cursor: pointer;
+			user-select: none;
+
+			@media (max-height: 480px) and (orientation: landscape) {
+				position: fixed;
+				width: auto;
+				height: 1rem;
+				bottom: 0;
+				left: 1rem;
+				transform: translateY(-100%);
+				min-width: 0;
+			}
+
+			.direction {
+				@media (max-width: 480px) and (orientation: portrait) {
+					color: white;
+				}
+
+				@media (max-height: 480px) and (orientation: landscape) {
+					color: white;
+				}
+			}
+
+			.arrow {
+				width: 1.5rem;
+				flex-shrink: 0;
+				height: auto;
+			}
+
+			.hidden {
+				opacity: 0;
+				visibility: hidden;
+			}
+		}
+	}
+
+	.background-style {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+
+		.style-blob-1 {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			transform: translate(50%, 50%);
+			width: 150rem;
+			aspect-ratio: 1;
+			border-radius: 50%;
+			background-image: radial-gradient($lightGray 20%, $darkGray 60%);
+		}
+	}
+}
