@@ -1,9 +1,10 @@
 :root {
 	--masterBackground: #f6f6f6;
-	--darkerGray: #121212;
-	--darkGray: #252525;
-	--mediumGray: #373737;
-	--gray: #525252;
+	--darkestGray: #121212;
+	--darkerGray: #252525;
+	--darkGray: #373737;
+	--mediumGray: #525252;
+	--gray: #757575;
 	--lightGray: #aaaaaa;
 	--lighterGray: #cccccc;
 	--lightestGray: #eeeeee;
@@ -11,7 +12,6 @@
 
 * {
 	box-sizing: border-box !important;
-	color: var(--darkGray);
 }
 
 html,

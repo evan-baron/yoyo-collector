@@ -5,9 +5,10 @@
 	padding-right: 1rem;
 	box-shadow: 2px 2px 0.5rem rgba(0, 0, 0, 0.1);
 	height: 4rem;
+	color: var(--mediumGray);
 
 	a {
-		color: var(--darkGray);
+		color: var(--mediumGray);
 	}
 
 	.menu {
@@ -22,6 +23,7 @@
 			height: 4rem;
 			aspect-ratio: 1;
 			cursor: pointer;
+			color: var(--lightGray);
 		}
 	}
 
