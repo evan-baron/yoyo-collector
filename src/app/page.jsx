@@ -4,7 +4,8 @@
 import { useAppContext } from './context/AppContext';
 
 // Components
-import Modal from './components/modal/modal';
+import Modal from './components/modal/Modal';
+import Register from './components/register/Register';
 
 // Styles
 import styles from './page.module.css';
@@ -18,6 +19,7 @@ export default function Home() {
 	return (
 		<main className={styles.main}>
 			{component === 'home' && <div>Hello World</div>}
+			{component === 'register' && <Register />}
 			{isModalOpen && <Modal />}
 		</main>
 	);

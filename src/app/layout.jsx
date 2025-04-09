@@ -1,8 +1,8 @@
 import { ContextProvider } from './context/AppContext';
 import { Roboto, Open_Sans } from 'next/font/google';
 import '@/styles/globals.css';
-import Header from './components/header/header';
-import Footer from './components/footer/footer';
+import Header from './components/header/Header';
+import Footer from './components/footer/Footer';
 
 const roboto = Roboto({
 	variable: '--font-roboto',
