@@ -6,6 +6,10 @@
 	box-shadow: 2px 2px 0.5rem rgba(0, 0, 0, 0.1);
 	height: 4rem;
 
+	a {
+		color: var(--darkGray);
+	}
+
 	.menu {
 		display: flex;
 		align-items: center;
