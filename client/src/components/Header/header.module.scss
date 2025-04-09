@@ -1,16 +1,25 @@
-$masterBackground: #f6f6f6;
-$darkerGray: #121212;
-$darkGray: #252525;
-$mediumGray: #373737;
-$lightGray: #525252;
-$lighterGray: #aaaaaa;
-$lightestGray: #eeeeee;
-
 .nav {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0 2rem;
+	padding-right: 1rem;
+	box-shadow: 2px 2px 0.5rem rgba(0, 0, 0, 0.1);
+	height: 4rem;
+
+	.menu {
+		display: flex;
+		align-items: center;
+		height: 100%;
+
+		.hamburger {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 4rem;
+			aspect-ratio: 1;
+			cursor: pointer;
+		}
+	}
 
 	ul {
 		display: flex;
@@ -19,14 +28,16 @@ $lightestGray: #eeeeee;
 
 	.logo,
 	li {
-		padding: 1rem 0;
+		cursor: pointer;
 	}
 
 	.logo {
 		font-size: 1.75rem;
+		padding: 1rem;
 	}
 
 	li {
 		font-size: 1.25rem;
+		padding: 1rem 0;
 	}
 }

@@ -9,7 +9,6 @@ import { useAppContext } from '../context/AppContext.jsx';
 
 // Pages
 import Home from '../pages/Home/Home.jsx';
-import Register from '../pages/Register/Register.jsx';
 import PasswordReset from '../pages/PasswordReset/PasswordReset.jsx';
 
 // Components
@@ -25,7 +24,6 @@ const App = () => {
 			<main>
 				<Routes>
 					<Route path='/' element={<Home to='/' />} />
-					<Route path='/register' element={<Register to='/register' />} />
 					<Route
 						path='/reset-password'
 						element={user ? <Navigate to='/' /> : <PasswordReset />}

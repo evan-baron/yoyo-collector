@@ -9,8 +9,6 @@ $lightestGray: #eeeeee;
 .home {
 	position: relative;
 	display: flex;
-	height: 100%;
-	width: 100%;
 	background-color: $masterBackground;
 
 	@media (max-width: 820px) and (orientation: landscape) {

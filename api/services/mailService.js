@@ -36,7 +36,7 @@ const sendContactForm = async (name, email, message) => {
 
 	const mailOptions = {
 		from: process.env.EMAIL,
-		to: process.env.PERSONAL_EMAIL,
+		to: process.env.CONTACT_EMAIL,
 		subject: `Contact Us Message From ${name}`,
 		html: htmlContent,
 	};

@@ -12,12 +12,11 @@ const AppContext = createContext(null);
 export const ContextProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const [component, setComponent] = useState('founder');
+	const [component, setComponent] = useState('home');
 	const [searchParams] = useSearchParams();
 	const [emailVerified, setEmailVerified] = useState(null);
 	const [screenHeight, setScreenHeight] = useState(window.innerHeight);
 	const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-	const [sideActive, setSideActive] = useState('left');
 
 	const urlToken = searchParams.get('token');
 
@@ -113,8 +112,6 @@ export const ContextProvider = ({ children }) => {
 				loading,
 				screenHeight,
 				screenWidth,
-				sideActive,
-				setSideActive
 			}}
 		>
 			{children}

@@ -1,0 +1,13 @@
+.horizontal {
+	border: 1px solid var(--lightGray);
+	opacity: 0.5;
+	height: 0;
+	width: 80%;
+}
+
+.vertical {
+	border: 1px solid var(--lightGray);
+	opacity: 0.5;
+	height: 80%;
+	width: 0;
+}

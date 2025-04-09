@@ -1,11 +1,23 @@
 import React from 'react';
+
+//Utilities
 import axiosInstance from '../../utils/axios';
+
+// Libraries
 import { Link } from 'react-router-dom';
-import { useAppContext } from '../../context/AppContext';
+import { Menu } from '@mui/icons-material';
+
+// Styles
 import styles from './header.module.scss';
 
+// Components
+import VerticalDivider from '../Dividers/VerticalDivider';
+
+// Context
+import { useAppContext } from '../../context/AppContext';
+
 const Header = () => {
-	const { user, setUser } = useAppContext();
+	const { user, setComponent, setUser } = useAppContext();
 
 	const handleLogout = async () => {
 		try {
@@ -22,16 +34,28 @@ const Header = () => {
 	return (
 		<header>
 			<nav className={styles.nav}>
-				<Link to='/' className={styles.logo}>
-					Yoyo Collector
-				</Link>
+				<div className={styles.menu}>
+					<div className={styles.hamburger}>
+						<Menu
+							sx={{
+								fontSize: '2rem',
+							}}
+						/>
+					</div>
+					<VerticalDivider />
+					<Link
+						to='/'
+						className={styles.logo}
+						onClick={() => setComponent('home')}
+					>
+						Yoyo Collector
+					</Link>
+				</div>
 				<ul>
 					<li>About</li>
-					<li>Contact</li>
-					<li>
-						<Link to='/register'>Register</Link>
-					</li>
-					<li>Login</li>
+					<li onClick={() => setComponent('contact')}>Contact</li>
+					<li onClick={() => setComponent('register')}>Register</li>
+					<li onClick={() => setComponent('login')}>Login</li>
 					<li>
 						<Link to='/' onClick={handleLogout}>
 							Logout
