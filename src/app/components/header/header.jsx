@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import styles from './header.module.css';
+import styles from './header.module.scss';
 
 function Header() {
 	return (
@@ -11,6 +11,8 @@ function Header() {
 				</Link>
 				<ul className={styles.links}>
 					<li className={styles.link}>Login</li>
+					<li className={styles.link}>Register</li>
+					<li className={styles.link}>Contact</li>
 				</ul>
 			</nav>
 		</header>
