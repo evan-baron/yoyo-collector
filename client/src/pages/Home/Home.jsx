@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import styles from './home.module.scss';
 
 // MUI Icons
-import { Login, Mail } from '@mui/icons-material';
+import {} from '@mui/icons-material';
 
 // Context
 import { useAppContext } from '../../context/AppContext';
@@ -24,11 +24,25 @@ const Home = () => {
 		// setComponent,
 	} = useAppContext();
 
+	const { email_verified } = user || '';
+
 	useEffect(() => {}, [user]);
 
 	return (
 		<>
-			{component === 'home' && <section className={styles.home}>Home</section>}
+			{component === 'home' && (
+				<section className={styles.home}>
+					{user ? (
+						email_verified ? (
+							<div>Hello {user.first_name}</div>
+						) : (
+							<div>Please verify your email</div>
+						)
+					) : (
+						<div>Home</div>
+					)}
+				</section>
+			)}
 			{component === 'register' && <Register />}
 			{component === 'login' && <LoginForm />}
 			{component === 'contact' && <ContactForm />}

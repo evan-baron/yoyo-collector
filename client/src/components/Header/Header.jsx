@@ -54,13 +54,18 @@ const Header = () => {
 				<ul>
 					<li>About</li>
 					<li onClick={() => setComponent('contact')}>Contact</li>
-					<li onClick={() => setComponent('register')}>Register</li>
-					<li onClick={() => setComponent('login')}>Login</li>
-					<li>
-						<Link to='/' onClick={handleLogout}>
-							Logout
-						</Link>
-					</li>
+					{user ? (
+						<li>
+							<Link to='/' onClick={handleLogout}>
+								Logout
+							</Link>
+						</li>
+					) : (
+						<>
+							<li onClick={() => setComponent('login')}>Login</li>
+							<li onClick={() => setComponent('register')}>Register</li>
+						</>
+					)}
 				</ul>
 			</nav>
 		</header>
