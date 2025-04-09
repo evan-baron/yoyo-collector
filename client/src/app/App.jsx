@@ -1,5 +1,3 @@
-// UNFORTUNATELY UNTIL CHROMIUM ALLOWS FOR KEYCODES TO BE IDENTIFIED ON MOBILE, THIS PROJECT IS POSTPONED INDEFINITELY
-
 // External Libraries
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
@@ -11,10 +9,12 @@ import { useAppContext } from '../context/AppContext.jsx';
 
 // Pages
 import Home from '../pages/HomePage/Home.jsx';
+import Register from '../pages/Register/Register.jsx';
 import PasswordReset from '../pages/PasswordResetPage/PasswordReset.jsx';
 
 // Components
-import Navbar from '../components/Navbar/Navbar.jsx';
+import Header from '../components/Header/Header.jsx';
+import Footer from '../components/Footer/Footer.jsx';
 
 const App = () => {
 	const { user } = useAppContext();
@@ -22,18 +22,18 @@ const App = () => {
 	return (
 		<div className='app'>
 			<div className='container'>
-				<header>
-					{user && <Navbar />}
-				</header>
+				<Header />
 				<main>
 					<Routes>
 						<Route path='/' element={<Home to='/' />} />
+						<Route path='/register' element={<Register to='/register' />} />
 						<Route
 							path='/reset-password'
 							element={user ? <Navigate to='/' /> : <PasswordReset />}
 						/>
 					</Routes>
 				</main>
+				<Footer />
 			</div>
 		</div>
 	);

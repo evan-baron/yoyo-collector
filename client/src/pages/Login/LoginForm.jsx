@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../../../utils/axios';
+import axiosInstance from '../../utils/axios';
 import { useNavigate, Link } from 'react-router-dom';
 import {
 	CheckBox,
@@ -7,7 +7,7 @@ import {
 	Visibility,
 	VisibilityOff,
 } from '@mui/icons-material';
-import { useAppContext } from '../../../../context/AppContext';
+import { useAppContext } from '../../context/AppContext';
 import './LoginForm.scss';
 
 const LoginForm = () => {
@@ -37,11 +37,11 @@ const LoginForm = () => {
 
 	useEffect(() => {
 		setFormComplete(formData.email !== '' && formData.password !== '');
-	}, [formData.email, formData.password]);	
+	}, [formData.email, formData.password]);
 
 	const handleSubmit = async () => {
 		if (formComplete) {
-			const winner = Math.random() < .9;
+			const winner = Math.random() < 0.9;
 
 			if (winner) {
 				try {
@@ -50,25 +50,25 @@ const LoginForm = () => {
 						password: formData.password,
 						checked: checked,
 					});
-	
+
 					const { token } = response.data;
-	
+
 					// Store token in localstorage if remember me checked
 					if (checked) {
 						localStorage.setItem('token', token);
 					} else {
 						sessionStorage.setItem('token', token);
 					}
-	
+
 					// Reset the form and related states
 					setFormData({
 						email: '',
 						password: '',
 					});
-	
+
 					// Sets current user
 					setUser(response.data.user);
-	
+
 					// // Redirects to home
 					navigate('/');
 				} catch (error) {

@@ -2,9 +2,9 @@ import React from 'react';
 import axiosInstance from '../../utils/axios';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
-import './navbar.scss';
+import styles from './header.module.scss';
 
-const Navbar = () => {
+const Header = () => {
 	const { user, setUser } = useAppContext();
 
 	const handleLogout = async () => {
@@ -20,19 +20,27 @@ const Navbar = () => {
 	};
 
 	return (
-		<div className='navbar'>
-			<div className='nav-container'>
-				<Link to='/' className='logo'>
-					can't <span style={{color: 'red'}}>delete</span> it
+		<header>
+			<nav className={styles.nav}>
+				<Link to='/' className={styles.logo}>
+					Yoyo Collector
 				</Link>
-				<div className='links'>
-					<Link to='/' className='logout' onClick={handleLogout}>
-						Logout
-					</Link>
-				</div>
-			</div>
-		</div>
+				<ul>
+					<li>About</li>
+					<li>Contact</li>
+					<li>
+						<Link to='/register'>Register</Link>
+					</li>
+					<li>Login</li>
+					<li>
+						<Link to='/' onClick={handleLogout}>
+							Logout
+						</Link>
+					</li>
+				</ul>
+			</nav>
+		</header>
 	);
 };
 
-export default Navbar;
+export default Header;

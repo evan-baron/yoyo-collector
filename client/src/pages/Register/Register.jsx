@@ -2,22 +2,28 @@
 import React, { useState, useEffect } from 'react';
 
 // Utilities
-import axiosInstance from '../../../../utils/axios';
+import axiosInstance from '../../utils/axios';
 
 // MUI Icons
-import { Check, Close, East, Visibility, VisibilityOff, West } from '@mui/icons-material';
+import {
+	Check,
+	Close,
+	East,
+	Visibility,
+	VisibilityOff,
+	West,
+} from '@mui/icons-material';
 
 // Assets & Styles
-import './signup.scss';
-import crossout from '../../../../assets/site/crossout.png';
+import './register.scss';
 
 // Context
-import { useAppContext } from '../../../../context/AppContext';
+import { useAppContext } from '../../context/AppContext';
 
 // Components
-import LoadingKey from '../../../../components/Loading/LoadingKey';
+import LoadingKey from '../../components/Loading/LoadingKey';
 
-const Signup = () => {
+const Register = () => {
 	// CONTEXT
 	const { setComponent } = useAppContext();
 
@@ -117,8 +123,7 @@ const Signup = () => {
 
 				if (available) {
 					setNameEmailSubmitted((prev) => !prev);
-				} 
-
+				}
 			} catch (error) {
 				console.error('Registration error: ', error.response?.data);
 				setRegistrationError(
@@ -194,19 +199,7 @@ const Signup = () => {
 		<section aria-labelledby='sign-up-form' className='signup-content'>
 			{!registrationComplete ? (
 				<form className='signup-form'>
-					<h3 className='signup-title'>
-						Don't Sign Up
-						<img
-							className='crossout-up'
-							src={crossout}
-							alt='cross-out decoration'
-						/>
-						<img
-							className='crossout-down'
-							src={crossout}
-							alt='cross-out decoration'
-						/>
-					</h3>
+					<h3 className='signup-title'>Register</h3>
 
 					{loadingScreen ? (
 						<LoadingKey />
@@ -572,4 +565,4 @@ const Signup = () => {
 	);
 };
 
-export default Signup;
+export default Register;

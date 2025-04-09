@@ -6,17 +6,27 @@ $lightGray: #525252;
 $lighterGray: #aaaaaa;
 $lightestGray: #eeeeee;
 
-.nav-container {
+.nav {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 1rem 2rem;
-	
+	padding: 0 2rem;
+
+	ul {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.logo,
+	li {
+		padding: 1rem 0;
+	}
+
 	.logo {
 		font-size: 1.75rem;
 	}
 
-	.links {
+	li {
 		font-size: 1.25rem;
 	}
 }
