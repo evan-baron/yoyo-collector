@@ -25,23 +25,28 @@ export const ContextProvider = ({ children }) => {
 		const verifyEmail = async () => {
 			if (!urlToken) {
 				console.log('No token found. Redirecting to home.');
+				return;
 			} else {
-				setSideActive('right');
 				try {
+					console.log('Trying to authenticate verify token...');
 					const response = await axiosInstance.get('/authenticateVerifyToken', {
 						params: { token: urlToken },
 					});
 					const { userId, tokenType, emailVerified } = response.data;
 
 					if (tokenType === 'email_verification') {
-						setComponent('verify');
 						if (emailVerified === 0) {
-							setEmailVerified(false);
 							try {
 								await axiosInstance.post('/updateVerified', {
 									user_id: userId,
 									token: urlToken,
 								});
+								setEmailVerified(true);
+								setComponent('home');
+
+								const newUrl =
+									window.location.origin + window.location.pathname;
+								window.history.replaceState({}, document.title, newUrl);
 							} catch (error) {
 								console.log('There was an error.', error);
 							}
@@ -69,6 +74,7 @@ export const ContextProvider = ({ children }) => {
 						headers: { Authorization: `Bearer ${token}` },
 					});
 					setUser(response.data);
+					setEmailVerified(response.data.email_verified);
 				} catch (error) {
 					console.error('Error authenticating: ', error);
 				}
@@ -78,6 +84,7 @@ export const ContextProvider = ({ children }) => {
 						withCredentials: true,
 					});
 					setUser(response.data);
+					setEmailVerified(response.data.email_verified);
 				} catch (error) {
 					console.error('Error authenticating: ', error);
 				}
