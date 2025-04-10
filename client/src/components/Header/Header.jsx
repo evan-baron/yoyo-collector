@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 //Utilities
 import axiosInstance from '../../utils/axios';
@@ -16,8 +16,14 @@ import VerticalDivider from '../Dividers/VerticalDivider';
 // Context
 import { useAppContext } from '../../context/AppContext';
 
+// Assets
+import logo from '../../assets/site/Logo/red-yoyo-logo.png';
+
 const Header = () => {
 	const { user, setComponent, setUser } = useAppContext();
+
+	const [active, setActive] = useState(false);
+	const [animate, setAnimate] = useState(false);
 
 	const handleLogout = async () => {
 		try {
@@ -35,21 +41,35 @@ const Header = () => {
 		<header>
 			<nav className={styles.nav}>
 				<div className={styles.menu}>
-					<div className={styles.hamburger}>
+					{/* {user && (
+						<> */}
+					<div className={styles.icon}>
 						<Menu
 							sx={{
 								fontSize: '2rem',
 							}}
+							onClick={() => {
+								if (active) {
+									setAnimate((prev) => !prev);
+									setTimeout(() => {
+										setActive((prev) => !prev);
+									}, 500);
+								} else {
+									setAnimate((prev) => !prev);
+									setActive((prev) => !prev);
+								}
+							}}
 						/>
 					</div>
 					<VerticalDivider />
-					<Link
-						to='/'
-						className={styles.logo}
-						onClick={() => setComponent('home')}
-					>
-						Yoyo Collector
-					</Link>
+					{/* </>
+					)} */}
+					<div className={styles.logo}>
+						<img src={logo} className={styles.yoyo} />
+						<Link to='/' onClick={() => setComponent('home')}>
+							Yoyo Collector
+						</Link>
+					</div>
 				</div>
 				<ul>
 					<li>About</li>
@@ -71,6 +91,21 @@ const Header = () => {
 					)}
 				</ul>
 			</nav>
+			{active && (
+				<div
+					className={`${styles.hamburger} ${
+						animate ? styles.active : styles.inactive
+					}`}
+				>
+					<ul>
+						<li>My Collection</li>
+						<li>All Collections</li>
+						<li>All Manufacturers</li>
+						<li>All Yoyos</li>
+						<li>Search</li> {/* Users, Yoyos, Manufacturers, etc. */}
+					</ul>
+				</div>
+			)}
 		</header>
 	);
 };

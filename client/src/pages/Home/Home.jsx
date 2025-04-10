@@ -76,7 +76,7 @@ const Home = () => {
 							</div>
 						)
 					) : (
-						<div>Hello</div>
+						<div>Not Logged In</div>
 					)}
 				</section>
 			)}
