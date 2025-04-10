@@ -55,11 +55,14 @@ const Header = () => {
 					<li>About</li>
 					<li onClick={() => setComponent('contact')}>Contact</li>
 					{user ? (
-						<li>
-							<Link to='/' onClick={handleLogout}>
-								Logout
-							</Link>
-						</li>
+						<>
+							<li>Profile</li>
+							<li>
+								<Link to='/' onClick={handleLogout}>
+									Logout
+								</Link>
+							</li>
+						</>
 					) : (
 						<>
 							<li onClick={() => setComponent('login')}>Login</li>

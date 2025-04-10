@@ -41,46 +41,40 @@ const LoginForm = () => {
 
 	const handleSubmit = async () => {
 		if (formComplete) {
-			const winner = Math.random() < 0.9;
+			try {
+				const response = await axiosInstance.post('/login', {
+					email: formData.email,
+					password: formData.password,
+					checked: checked,
+				});
 
-			if (winner) {
-				try {
-					const response = await axiosInstance.post('/login', {
-						email: formData.email,
-						password: formData.password,
-						checked: checked,
-					});
+				const { token } = response.data;
 
-					const { token } = response.data;
-
-					// Store token in localstorage if remember me checked
-					if (checked) {
-						localStorage.setItem('token', token);
-					} else {
-						sessionStorage.setItem('token', token);
-					}
-
-					// Reset the form and related states
-					setFormData({
-						email: '',
-						password: '',
-					});
-
-					// Sets current user
-					setUser(response.data.user);
-
-					// // Redirects to home
-					navigate('/');
-				} catch (error) {
-					console.error('Login error: ', error.response?.data);
-					setLoginError(
-						error.response ? error.response.data.message : 'An error occurred'
-					);
-					setFormComplete(false);
+				// Store token in localstorage if remember me checked
+				if (checked) {
+					localStorage.setItem('token', token);
+				} else {
+					sessionStorage.setItem('token', token);
 				}
-			} else {
-				setLoginError('Incorrect email or password');
-				return;
+
+				// Reset the form and related states
+				setFormData({
+					email: '',
+					password: '',
+				});
+
+				// Sets current user
+				setUser(response.data.user);
+
+				// // Redirects to home
+				setComponent('home');
+				navigate('/');
+			} catch (error) {
+				console.error('Login error: ', error.response?.data);
+				setLoginError(
+					error.response ? error.response.data.message : 'An error occurred'
+				);
+				setFormComplete(false);
 			}
 		}
 	};
