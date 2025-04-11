@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Components
-import Login from '../login/Login';
+import Login from './login/Login';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
