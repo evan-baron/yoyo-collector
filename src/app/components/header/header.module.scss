@@ -1,25 +1,54 @@
 .header {
-	display: flex;
-	align-items: center;
-	width: 100%;
+	position: relative;
+	// background-color: var(--lightestGray);
 
 	.nav {
+		position: relative;
 		display: flex;
 		justify-content: space-between;
-		width: 100%;
-		padding: 0 2rem;
+		align-items: center;
+		padding-right: 1rem;
+		height: 4rem;
+		color: var(--darkGray);
+		box-shadow: 2px 2px 0.5rem rgba(0, 0, 0, 0.1);
+		background-color: white;
+		z-index: 10;
+
+		.a {
+			color: var(--darkGray);
+		}
+
+		.menu {
+			display: flex;
+			align-items: center;
+			height: 100%;
+		}
+
+		.ul {
+			display: flex;
+			gap: 1rem;
+		}
+
+		.yoyo {
+			height: 2rem;
+			width: 2rem;
+		}
+
+		.logo,
+		.li {
+			cursor: pointer;
+		}
 
 		.logo {
+			display: flex;
+			gap: 1rem;
+			font-size: 1.75rem;
 			padding: 1rem;
 		}
 
-		.links {
-			display: flex;
-			gap: 1rem;
-
-			.link {
-				padding: 1rem;
-			}
+		.li {
+			font-size: 1.25rem;
+			padding: 1rem 0;
 		}
 	}
 }

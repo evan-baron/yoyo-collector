@@ -1,0 +1,14 @@
+.horizontal {
+	align-self: center;
+	border: 1px solid var(--lightGray);
+	opacity: 0.5;
+	height: 0;
+	width: calc(100% - 2rem);
+}
+
+.vertical {
+	border: 1px solid var(--lightGray);
+	opacity: 0.5;
+	height: 80%;
+	width: 0;
+}

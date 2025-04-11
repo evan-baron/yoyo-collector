@@ -1,5 +1,30 @@
 @import './reset.css';
 
+:root {
+	--masterBackground: #f6f6f6;
+	--darkestGray: #121212;
+	--darkerGray: #252525;
+	--darkGray: #373737;
+	--mediumGray: #525252;
+	--gray: #757575;
+	--lightGray: #aaaaaa;
+	--lighterGray: #cccccc;
+	--lightestGray: #eeeeee;
+
+	--darkestCyan: #003033;
+	--darkerCyan: #004f55;
+	--darkCyan: #007177;
+	--mediumCyan: #339ba0;
+	--cyan: #55c3ca;
+	--lightCyan: #92dee2;
+	--lighterCyan: #c6f0f2;
+	--lightestCyan: #e9fcfc;
+}
+
+* {
+	box-sizing: border-box !important;
+}
+
 html,
 body {
   display: flex;
