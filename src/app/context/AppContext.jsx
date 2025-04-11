@@ -11,9 +11,11 @@ const AppContext = createContext(null);
 
 // Create the context provider component
 export const ContextProvider = ({ children }) => {
-	const [user, setUser] = useState(null);
 	const [emailVerified, setEmailVerified] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [modalOpen, setModalOpen] = useState(false);
+	const [modalType, setModalType] = useState(null);
+	const [user, setUser] = useState(null);
 
 	useEffect(() => {
 		const fetchUserData = async () => {
@@ -64,10 +66,14 @@ export const ContextProvider = ({ children }) => {
 		<AppContext.Provider
 			value={{
 				emailVerified,
-				setEmailVerified,
 				loading,
-				setLoading,
+				modalOpen,
+				modalType,
 				user,
+				setEmailVerified,
+				setLoading,
+				setModalOpen,
+				setModalType,
 				setUser,
 			}}
 		>

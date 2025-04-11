@@ -14,14 +14,17 @@ import { useRouter } from 'next/navigation';
 import styles from './header.module.scss';
 
 // Context
-import { useAppContext } from '../../context/AppContext';
+import { useAppContext } from '@/app/context/AppContext';
 
 // Assets
 import logo from '@/app/assets/red-yoyo-logo.png';
 
+// Components
+import Modal from '@/app/components/modal/Modal';
+
 const Header = () => {
-	const { user, setUser } = useAppContext();
-	const router = useRouter();
+	const { modalOpen, setModalOpen, setModalType, user, setUser } =
+		useAppContext();
 
 	const handleLogout = async () => {
 		try {
@@ -35,24 +38,18 @@ const Header = () => {
 		setUser(null);
 	};
 
-	const handleNavigate = (path) => {
-		router.push(path);
-	};
-
 	return (
 		<header className={styles.header}>
 			<nav className={styles.nav}>
 				<div className={styles.menu}>
-					<div className={styles.logo}>
+					<Link href='/' className={styles.logo}>
 						<Image
 							src={logo}
 							alt='Yoyo Collector Logo'
 							className={styles.yoyo}
 						/>
-						<Link href='/' onClick={() => navigateWithHistory('home')}>
-							Yoyo Collector
-						</Link>
-					</div>
+						<h1>Yoyo Collector</h1>
+					</Link>
 				</div>
 				<ul className={styles.ul}>
 					{user ? (
@@ -68,20 +65,21 @@ const Header = () => {
 						<>
 							<li
 								className={styles.li}
-								onClick={() => handleNavigate('/login')}
+								onClick={() => {
+									setModalOpen(true);
+									setModalType('login');
+								}}
 							>
 								Login
 							</li>
-							<li
-								className={styles.li}
-								onClick={() => handleNavigate('/register')}
-							>
+							<Link className={styles.li} href='/register'>
 								Register
-							</li>
+							</Link>
 						</>
 					)}
 				</ul>
 			</nav>
+			{modalOpen && <Modal />}
 		</header>
 	);
 };

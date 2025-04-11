@@ -1,0 +1,10 @@
+.modal {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100dvw;
+	height: 100dvh;
+	top: 0;
+	z-index: 5;
+}

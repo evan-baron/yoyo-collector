@@ -10,6 +10,9 @@ import { useAppContext } from '@/app/context/AppContext';
 // Styles
 import styles from './sidepanel.module.scss';
 
+// Components
+import VerticalDivider from '../dividers/VerticalDivider';
+
 function SidePanel() {
 	const { user } = useAppContext();
 
@@ -35,6 +38,7 @@ function SidePanel() {
 					</li>
 				</ul>
 			</nav>
+			<VerticalDivider />
 		</section>
 	);
 }

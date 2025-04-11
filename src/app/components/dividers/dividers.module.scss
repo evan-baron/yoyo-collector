@@ -1,5 +1,6 @@
 .horizontal {
 	align-self: center;
+	justify-self: center;
 	border: 1px solid var(--lightGray);
 	opacity: 0.5;
 	height: 0;
@@ -7,8 +8,10 @@
 }
 
 .vertical {
+	align-self: center;
+	justify-self: center;
 	border: 1px solid var(--lightGray);
 	opacity: 0.5;
-	height: 80%;
+	height: calc(100% - 2rem);
 	width: 0;
 }
