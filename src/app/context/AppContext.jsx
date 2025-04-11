@@ -24,8 +24,14 @@ export const ContextProvider = ({ children }) => {
 					const response = await axiosInstance.get('/api/token/authenticate', {
 						headers: { Authorization: `Bearer ${token}` },
 					});
-					setUser(response.data);
-					setEmailVerified(response.data.email_verified);
+
+					if (response.data && response.data.userId) {
+						setUser(response.data);
+						setEmailVerified(response.data.email_verified);
+					} else {
+						// If the response does not contain user data, reset the user
+						setUser(null);
+					}
 				} catch (error) {
 					console.error('Error authenticating: ', error);
 				}
@@ -34,8 +40,14 @@ export const ContextProvider = ({ children }) => {
 					const response = await axiosInstance.get('/api/token/authenticate', {
 						withCredentials: true,
 					});
-					setUser(response.data);
-					setEmailVerified(response.data.email_verified);
+
+					if (response.data && response.data.userId) {
+						setUser(response.data);
+						setEmailVerified(response.data.email_verified);
+					} else {
+						// If the response does not contain user data, reset the user
+						setUser(null);
+					}
 				} catch (error) {
 					console.error('Error authenticating: ', error);
 				}

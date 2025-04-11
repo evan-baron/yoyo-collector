@@ -3,7 +3,7 @@ import Modal from './components/modal/Modal';
 import Register from './components/register/Register';
 
 // Styles
-import styles from './page.module.css';
+import styles from './page.module.scss';
 
 // Next.js Components
 import Image from 'next/image';

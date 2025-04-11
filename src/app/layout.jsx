@@ -1,8 +1,16 @@
+// Contextw
 import { ContextProvider } from './context/AppContext';
+
+// Fonts
 import { Roboto, Open_Sans } from 'next/font/google';
-import '@/styles/globals.css';
+
+// Components
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
+import HorizontalDivider from './components/dividers/HorizontalDivider';
+
+// Styles
+import '@/styles/globals.css';
 
 const roboto = Roboto({
 	variable: '--font-roboto',
@@ -26,6 +34,7 @@ export default function RootLayout({ children }) {
 				<body className={`${roboto.variable} ${openSans.variable}`}>
 					<Header />
 					{children}
+					<HorizontalDivider />
 					<Footer />
 				</body>
 			</html>

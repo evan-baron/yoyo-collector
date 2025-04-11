@@ -25,7 +25,7 @@ const Header = () => {
 
 	const handleLogout = async () => {
 		try {
-			await axiosInstance.post('/logout', user);
+			await axiosInstance.post('/api/auth/logout', user);
 			setUser(null);
 		} catch (error) {
 			console.error('Logout failed: ', error.response?.data || error.message);
