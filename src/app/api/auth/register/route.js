@@ -1,4 +1,5 @@
-import { register } from '@/services/authService';
+import authService from '@/services/authService';
+const { register } = authService;
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {

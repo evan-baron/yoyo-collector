@@ -1,4 +1,5 @@
-import { getUserByEmail } from '@/services/userService';
+import userService from '@/services/userService';
+const { getUserByEmail } = userService;
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {

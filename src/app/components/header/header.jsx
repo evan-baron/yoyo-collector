@@ -72,9 +72,15 @@ const Header = () => {
 							>
 								Login
 							</li>
-							<Link className={styles.li} href='/register'>
+							<li
+								className={styles.li}
+								onClick={() => {
+									setModalOpen(true);
+									setModalType('register');
+								}}
+							>
 								Register
-							</Link>
+							</li>
 						</>
 					)}
 				</ul>

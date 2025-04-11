@@ -14,8 +14,9 @@ const transporter = nodemailer.createTransport({
 });
 
 const getTemplate = (templateName, replacements = {}) => {
-	const filePath = path.resolve(
-		'services/emailTemplates',
+	const filePath = path.join(
+		process.cwd(),
+		'src/services/emailTemplates',
 		`${templateName}.html`
 	);
 	let template = fs.readFileSync(filePath, 'utf8');

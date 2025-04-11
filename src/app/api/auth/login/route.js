@@ -1,4 +1,5 @@
-import { login } from '@/services/authService';
+import authService from '@/services/authService';
+const { login } = authService;
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
 

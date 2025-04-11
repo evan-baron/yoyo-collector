@@ -15,7 +15,7 @@ import { useAppContext } from '@/app/context/AppContext';
 import styles from './login.module.scss';
 
 const Login = () => {
-	const { setComponent, setModalOpen, setUser } = useAppContext();
+	const { setComponent, setModalOpen, setModalType, setUser } = useAppContext();
 
 	const [formData, setFormData] = useState({
 		email: '',
@@ -200,18 +200,18 @@ const Login = () => {
 				<span className={styles.span}>
 					Don't have an account?
 					<br />
-					<Link
+					<a
 						className={styles.link}
 						role='link'
 						aria-label='Go to sign up page'
-						href='/register'
+						onClick={() => setModalType('register')}
 					>
 						Register
-					</Link>
+					</a>
 				</span>
 			</form>
 			<div className={styles.close} onClick={() => setModalOpen(false)}>
-				<Close />
+				<Close sx={{ fontSize: '2rem' }} />
 			</div>
 		</section>
 	);

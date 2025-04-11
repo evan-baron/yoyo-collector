@@ -1,4 +1,5 @@
-import { getUserByEmail, generateToken } from '@/services/userService';
+import userService from '@/services/userService';
+const { getUserByEmail, generateToken } = userService;
 import { sendPasswordResetEmail } from '@/services/mailService';
 import { NextResponse } from 'next/server';
 

@@ -1,4 +1,5 @@
-import { getTokenData, getUserById } from '@/services/userService';
+import userService from '@/services/userService';
+const { getTokenData, getUserById } = userService;
 import { NextResponse } from 'next/server';
 import dayjs from 'dayjs';
 

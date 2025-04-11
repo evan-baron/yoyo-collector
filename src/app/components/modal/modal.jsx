@@ -3,6 +3,7 @@ import React from 'react';
 
 // Components
 import Login from './login/Login';
+import Register from './register/Register';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -18,6 +19,8 @@ function Modal() {
 		switch (modalType) {
 			case 'login':
 				return <Login />;
+			case 'register':
+				return <Register />;
 			default:
 				return <div>Modal</div>;
 		}

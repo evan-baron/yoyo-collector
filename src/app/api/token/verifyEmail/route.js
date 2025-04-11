@@ -1,5 +1,7 @@
-import { getUserByEmail, generateToken } from '@/services/userService';
-import { sendVerificationEmail } from '@/services/mailService';
+import userService from '@/services/userService';
+const { getUserByEmail, generateToken } = userService;
+import mailService from '@/services/mailService';
+const { sendVerificationEmail } = mailService;
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {

@@ -1,4 +1,5 @@
-import { updateVerified } from '@/services/userService';
+import userService from '@/services/userService';
+const { updateVerified } = userService;
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {

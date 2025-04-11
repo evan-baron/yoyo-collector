@@ -1,4 +1,5 @@
-import { getTokenData } from '@/services/userService';
+import userService from '@/services/userService';
+const { getTokenData } = userService;
 import { NextResponse } from 'next/server';
 
 export async function GET(req) {

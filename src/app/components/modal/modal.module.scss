@@ -4,7 +4,7 @@
 	justify-content: center;
 	align-items: center;
 	width: 100dvw;
-	height: 100dvh;
-	top: 0;
+	height: calc(100dvh - 12rem);
+	top: 4rem;
 	z-index: 5;
 }

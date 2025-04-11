@@ -1,4 +1,5 @@
-import { updatePassword } from '@/services/userService';
+import userService from '@/services/userService';
+const { updatePassword } = userService;
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
