@@ -1,19 +1,20 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
-import { getUserById } from '@/services/userService';
+import userService from '@/services/userService';
+const { getUserById } = userService;
 
 export async function GET(req) {
 	try {
 		const authHeader = req.headers.get('authorization');
-		const cookieStore = cookies();
+		const cookieStore = await cookies();
 		const token =
 			authHeader?.split(' ')[1] || cookieStore.get('session_token')?.value;
 
 		if (!token) {
 			return NextResponse.json(
 				{ message: 'No token provided' },
-				{ status: 401 }
+				{ status: 200 }
 			);
 		}
 
@@ -29,7 +30,7 @@ export async function GET(req) {
 		);
 		return NextResponse.json(
 			{ message: 'Invalid or expired token' },
-			{ status: 401 }
+			{ status: 200 }
 		);
 	}
 }

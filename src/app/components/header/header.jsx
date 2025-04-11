@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 
 //Utilities
 import axiosInstance from '@/utils/axios';
@@ -21,9 +21,6 @@ import logo from '@/app/assets/red-yoyo-logo.png';
 
 const Header = () => {
 	const { user, setUser } = useAppContext();
-
-	const [active, setActive] = useState(false);
-	const [animate, setAnimate] = useState(false);
 	const router = useRouter();
 
 	const handleLogout = async () => {
