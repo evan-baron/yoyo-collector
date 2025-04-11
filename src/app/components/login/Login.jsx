@@ -74,7 +74,7 @@ const Login = () => {
 				setComponent('home');
 				router.push('/');
 			} catch (error) {
-				console.error('Login error: ', error.response?.data);
+				console.error('Login error: ', error.response?.message);
 				setLoginError(
 					error.response ? error.response.data.message : 'An error occurred'
 				);
