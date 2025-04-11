@@ -1,4 +1,4 @@
-// Contextw
+// Context
 import { ContextProvider } from './context/AppContext';
 
 // Fonts
@@ -8,6 +8,7 @@ import { Roboto, Open_Sans } from 'next/font/google';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import HorizontalDivider from './components/dividers/HorizontalDivider';
+import SidePanel from './components/sidepanel/SidePanel';
 
 // Styles
 import '@/styles/globals.css';
@@ -33,7 +34,10 @@ export default function RootLayout({ children }) {
 			<html lang='en'>
 				<body className={`${roboto.variable} ${openSans.variable}`}>
 					<Header />
-					{children}
+					<main>
+						<SidePanel />
+						{children}
+					</main>
 					<HorizontalDivider />
 					<Footer />
 				</body>

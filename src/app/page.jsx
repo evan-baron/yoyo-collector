@@ -1,7 +1,3 @@
-// Components
-import Modal from './components/modal/Modal';
-import Register from './components/register/Register';
-
 // Styles
 import styles from './page.module.scss';
 
@@ -9,5 +5,9 @@ import styles from './page.module.scss';
 import Image from 'next/image';
 
 export default function Home() {
-	return <main className={styles.main}>Home</main>;
+	return (
+		<>
+			<section className={styles.home}>Home</section>
+		</>
+	);
 }

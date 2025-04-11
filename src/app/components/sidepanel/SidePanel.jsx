@@ -15,8 +15,8 @@ function SidePanel() {
 
 	return (
 		<section className={styles['side-panel']}>
-			<nav>
-				<ul>
+			<nav className={styles.nav}>
+				<ul className={styles.ul}>
 					<Link href='/'>Home</Link>
 					{user && (
 						<>

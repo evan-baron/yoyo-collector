@@ -1,0 +1,66 @@
+.collections {
+	grid-column: span 8;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	overflow: auto;
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* Internet Explorer 10+ */
+
+	&::-webkit-scrollbar {
+		display: none; /* Chrome, Safari, Opera */
+	}
+
+	outline: 1px solid orange;
+
+	.middle {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		outline: 1px solid greenyellow;
+
+		height: 100%;
+
+		.tilebox {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			grid-template-rows: repeat(3, 1fr);
+			gap: 1rem;
+			padding: 1rem;
+			outline: 1px solid red;
+
+			height: 100%;
+			width: auto;
+			aspect-ratio: 1;
+
+			justify-self: center;
+			align-self: center;
+
+			.tile {
+				grid-column: span 1;
+				grid-row: span 1;
+				outline: 1px solid red;
+			}
+		}
+
+		.more {
+			outline: 1px solid red;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 1rem;
+
+			.h2 {
+				position: relative;
+			}
+
+			.p {
+				position: absolute;
+				transform: translateX(calc(100% + 1rem));
+			}
+		}
+	}
+}

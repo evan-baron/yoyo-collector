@@ -47,7 +47,17 @@ body::-webkit-scrollbar {
 }
 
 body {
+	display: grid;
+	grid-template-rows: auto 1fr auto auto;
+	min-height: 100dvh;
+	margin: 0;
+
   font-family: var(--font-roboto), var(--font-open-sans), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
 }
