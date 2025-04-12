@@ -11,7 +11,7 @@ import HorizontalDivider from './components/dividers/HorizontalDivider';
 import SidePanel from './components/sidepanel/SidePanel';
 
 // Styles
-import '@/styles/globals.css';
+import '@/styles/globals.scss';
 
 const roboto = Roboto({
 	variable: '--font-roboto',
@@ -30,16 +30,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 	return (
-		<ContextProvider>
-			<html lang='en'>
-				<body className={`${roboto.variable} ${openSans.variable}`}>
+		<html lang='en'>
+			<body className={`${roboto.variable} ${openSans.variable}`}>
+				<ContextProvider>
 					<Header />
 					{/* <SidePanel /> */}
 					<main>{children}</main>
 					<HorizontalDivider />
 					<Footer />
-				</body>
-			</html>
-		</ContextProvider>
+				</ContextProvider>
+			</body>
+		</html>
 	);
 }

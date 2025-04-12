@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export default function Home() {
 	return (
-		<>
+		<div className={styles.home}>
 			<section className={styles.hero}>
 				<div className={styles.screen}>
 					<h1 className={styles.h1}>Welcome to Yoyo Collector!</h1>
@@ -19,13 +19,36 @@ export default function Home() {
 			</section>
 			<section className={styles.preview}>
 				<h2 className={styles.h2}>Top Collections</h2>
-				<div className={styles.collection}></div>
+				<div className={styles['scroll-wrapper']}>
+					<div className={styles.collection}>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+					</div>
+				</div>
+
 				<h2 className={styles.h2}>Newest Collections</h2>
-				<div className={styles.collection}></div>
+				<div className={styles['scroll-wrapper']}>
+					<div className={styles.collection}>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+						<div className={styles.tile}></div>
+					</div>
+				</div>
 			</section>
 			<Link href='/collections' className={styles.link}>
 				View All
 			</Link>
-		</>
+		</div>
 	);
 }
