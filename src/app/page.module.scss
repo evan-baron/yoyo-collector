@@ -6,10 +6,12 @@
 	background-image: url('./assets/site/banner.png');
 	background-size: cover;
 	background-position: center;
+	box-shadow: inset 5px 5px 0.5rem rgba(0, 0, 0, 0.5);
 
 	width: 100%;
 	max-width: 125rem;
 	height: 30%;
+	max-height: 12.5rem;
 
 	.screen {
 		display: flex;
@@ -25,14 +27,32 @@
 	.h1 {
 		font-size: 3rem;
 		font-weight: bold;
-		color: white;
+		color: var(--lightestGray);
 	}
 
 	.p {
 		text-align: center;
 		font-size: 1.25rem;
 		font-weight: bold;
-		color: white;
+		color: var(--lightestGray);
 		width: 50%;
 	}
+}
+
+.preview {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	width: 100%;
+	padding: 1rem 20rem;
+	color: var(--lightestGray);
+
+	.collection {
+		width: 100%;
+		border: 1px solid white;
+	}
+}
+
+.link {
+	color: var(--lightestGray);
 }

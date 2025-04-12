@@ -9,13 +9,13 @@
 		align-items: center;
 		padding-right: 1rem;
 		height: 4rem;
-		color: var(--darkGray);
+		color: var(--lightestGray);
 		box-shadow: 5px 5px 0.5rem rgba(0, 0, 0, 0.5);
-		background-color: white;
+		background-color: var(--darkerGray);
 		z-index: 10;
 
 		.a {
-			color: var(--darkGray);
+			color: var(--lightestGray);
 		}
 
 		.menu {
@@ -45,6 +45,7 @@
 			gap: 1rem;
 			font-size: 1.75rem;
 			padding: 1rem;
+			color: var(--lightestGray);
 		}
 
 		.li {

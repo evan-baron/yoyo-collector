@@ -38,7 +38,7 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
 
-  background-color: var(--masterBackground);
+  background-color: var(--darkerGray);
 }
 
 html::-webkit-scrollbar,
@@ -60,5 +60,6 @@ body {
 
 main {
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
+	align-items: center;
 }
