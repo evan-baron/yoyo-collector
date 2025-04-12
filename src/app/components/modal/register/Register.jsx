@@ -125,6 +125,9 @@ const Register = () => {
 
 				if (available) {
 					setNameEmailSubmitted((prev) => !prev);
+				} else {
+					setRegistrationError(response.data.message);
+					setNameEmailComplete(false);
 				}
 			} catch (error) {
 				console.error('Registration error: ', error.response?.data);

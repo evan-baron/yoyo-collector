@@ -12,10 +12,13 @@ export async function POST(req) {
 			return NextResponse.json({ available: true }, { status: 200 });
 		}
 
-		return NextResponse.json({
-			available: false,
-			message: 'Email already in use',
-		});
+		return NextResponse.json(
+			{
+				available: false,
+				message: 'Email already in use',
+			},
+			{ status: 200 }
+		);
 	} catch (err) {
 		console.log('There was an error at api/user/checkEmail/route.js:', err);
 		return NextResponse.json(

@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '@/utils/axios';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import {
 	CheckBox,
 	CheckBoxOutlineBlank,
@@ -169,7 +168,7 @@ const Login = () => {
 								role='link'
 								aria-label='Go to recover password page'
 								className={styles.link}
-								onClick={() => console.log('password')}
+								onClick={() => setModalType('forgot-password')}
 							>
 								Forgot password?
 							</a>

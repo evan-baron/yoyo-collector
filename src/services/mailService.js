@@ -54,7 +54,7 @@ const sendContactForm = async (name, email, message) => {
 const sendPasswordResetEmail = async (user, resetToken) => {
 	const { email } = user;
 
-	const resetLink = `https://localhost:5173/reset-password?token=${resetToken}`;
+	const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
 
 	const htmlContent = getTemplate('passwordReset', {
 		resetLink,
@@ -80,7 +80,7 @@ const sendPasswordResetEmail = async (user, resetToken) => {
 const sendVerificationEmail = async (user, verificationToken) => {
 	const { email } = user;
 
-	const verifyLink = `https://localhost:5173/?token=${verificationToken}`;
+	const verifyLink = `http://localhost:3000/?token=${verificationToken}`;
 
 	const htmlContent = getTemplate('emailVerification', {
 		verifyLink,

@@ -1,6 +1,7 @@
 import userService from '@/services/userService';
 const { getUserByEmail, generateToken } = userService;
-import { sendPasswordResetEmail } from '@/services/mailService';
+import mailService from '@/services/mailService';
+const { sendPasswordResetEmail } = mailService;
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
