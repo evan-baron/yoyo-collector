@@ -41,12 +41,6 @@ function SidePanel() {
 							>
 								My Collection
 							</Link>
-							<Link
-								className={styles.link}
-								href={`/${user.handle || user.id}/new`}
-							>
-								New Collection
-							</Link>
 						</>
 					)}
 					<Link
@@ -54,7 +48,7 @@ function SidePanel() {
 						href='/collections'
 						onClick={() => setModalOpen(false)}
 					>
-						View Collections
+						Collections
 					</Link>
 					<li className={styles.search}>
 						<label htmlFor='search'>Search</label>

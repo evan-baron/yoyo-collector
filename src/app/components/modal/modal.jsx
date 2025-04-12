@@ -14,8 +14,7 @@ import { useAppContext } from '@/app/context/AppContext';
 import styles from './modal.module.scss';
 
 function Modal() {
-	const { modalOpen, setModalOpen, modalType, setModalType, user, setUser } =
-		useAppContext();
+	const { modalType } = useAppContext();
 
 	const modalContent = () => {
 		switch (modalType) {

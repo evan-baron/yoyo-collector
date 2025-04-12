@@ -1,6 +1,10 @@
 .side-panel {
-	grid-column: span 2;
+	position: absolute;
+	top: 4rem;
 	display: flex;
+	height: calc(100% - 8rem);
+	width: 20%;
+	max-width: 15rem;
 	z-index: 10;
 
 	.nav {

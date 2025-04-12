@@ -34,10 +34,8 @@ export default function RootLayout({ children }) {
 			<html lang='en'>
 				<body className={`${roboto.variable} ${openSans.variable}`}>
 					<Header />
-					<main>
-						<SidePanel />
-						{children}
-					</main>
+					{/* <SidePanel /> */}
+					<main>{children}</main>
 					<HorizontalDivider />
 					<Footer />
 				</body>

@@ -38,6 +38,7 @@ const Header = () => {
 		localStorage.removeItem('token');
 		localStorage.removeItem('user');
 		setUser(null);
+		router.push('/');
 	};
 
 	return (

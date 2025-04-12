@@ -47,6 +47,7 @@ body::-webkit-scrollbar {
 }
 
 body {
+	position: relative;
 	display: grid;
 	grid-template-rows: auto 1fr auto auto;
 	min-height: 100dvh;
@@ -58,6 +59,6 @@ body {
 }
 
 main {
-	display: grid;
-	grid-template-columns: repeat(12, 1fr);
+	display: flex;
+	justify-content: center;
 }
