@@ -138,7 +138,9 @@ const updatePassword = async (password, token) => {
 				message: 'For security reasons, you cannot reuse a previous password.',
 			};
 		} else {
-			console.log(`The passwords don't match. Proceed`);
+			console.log(
+				`The new password doesn't match a previously used password. Proceed`
+			);
 
 			// Step 4: Hash the new password
 			const newPassword = await bcrypt.hash(password, 10);

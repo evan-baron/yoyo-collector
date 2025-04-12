@@ -54,7 +54,7 @@ const sendContactForm = async (name, email, message) => {
 const sendPasswordResetEmail = async (user, resetToken) => {
 	const { email } = user;
 
-	const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
+	const resetLink = `http://localhost:3000/?token=${resetToken}`;
 
 	const htmlContent = getTemplate('passwordReset', {
 		resetLink,

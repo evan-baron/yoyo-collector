@@ -3,6 +3,7 @@
 // Libraries
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -14,13 +15,22 @@ import styles from './sidepanel.module.scss';
 import VerticalDivider from '../dividers/VerticalDivider';
 
 function SidePanel() {
-	const { user } = useAppContext();
+	const { user, setModalOpen } = useAppContext();
+
+	const router = useRouter();
 
 	return (
 		<section className={styles['side-panel']}>
 			<nav className={styles.nav}>
 				<ul className={styles.ul}>
-					<Link className={styles.link} href='/'>
+					<Link
+						className={styles.link}
+						href='/'
+						onClick={() => {
+							router.push(window.location.pathname);
+							setModalOpen(false);
+						}}
+					>
 						Home
 					</Link>
 					{user && (
@@ -39,7 +49,11 @@ function SidePanel() {
 							</Link>
 						</>
 					)}
-					<Link className={styles.link} href='/collections'>
+					<Link
+						className={styles.link}
+						href='/collections'
+						onClick={() => setModalOpen(false)}
+					>
 						View Collections
 					</Link>
 					<li className={styles.search}>

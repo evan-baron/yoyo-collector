@@ -2,6 +2,7 @@
 
 // Libraries
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 // Utils
 import axiosInstance from '@/utils/axios';
@@ -15,7 +16,45 @@ export const ContextProvider = ({ children }) => {
 	const [loading, setLoading] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalType, setModalType] = useState(null);
+	const [resendEmail, setResendEmail] = useState(null);
+	const [timeRemaining, setTimeRemaining] = useState(null);
+	const [tokenValid, setTokenValid] = useState(null);
 	const [user, setUser] = useState(null);
+
+	// URL & Query Parameters
+	const searchParams = useSearchParams();
+	const urlToken = searchParams.get('token');
+
+	useEffect(() => {
+		const validateUrlToken = async () => {
+			const token = urlToken;
+
+			if (!token) {
+				return;
+			}
+
+			setModalOpen(true);
+			setModalType('reset-password');
+
+			try {
+				const response = await axiosInstance.get(
+					'/api/token/authenticateRecoveryToken',
+					{
+						params: { token },
+					}
+				);
+				const { tokenValid, timeRemaining, email } = response.data;
+				console.log(tokenValid);
+
+				setResendEmail(email);
+				setTokenValid(tokenValid);
+				setTimeRemaining(tokenValid ? timeRemaining : 0);
+			} catch (error) {
+				console.error('Error authenticating token:', error);
+			}
+		};
+		validateUrlToken();
+	}, [urlToken]);
 
 	useEffect(() => {
 		const fetchUserData = async () => {
@@ -69,11 +108,17 @@ export const ContextProvider = ({ children }) => {
 				loading,
 				modalOpen,
 				modalType,
+				resendEmail,
+				timeRemaining,
+				tokenValid,
 				user,
 				setEmailVerified,
 				setLoading,
 				setModalOpen,
 				setModalType,
+				setResendEmail,
+				setTimeRemaining,
+				setTokenValid,
 				setUser,
 			}}
 		>

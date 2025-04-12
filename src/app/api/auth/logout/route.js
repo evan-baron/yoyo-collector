@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req) {
 	try {
-		const cookieStore = cookies();
+		const cookieStore = await cookies();
 		const sessionToken = cookieStore.get('session_token')?.value;
 
 		const authResult = authenticateUser({

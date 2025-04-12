@@ -2,7 +2,6 @@
 
 // External Libraries
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 
 // Utilities
 import axiosInstance from '@/utils/axios';

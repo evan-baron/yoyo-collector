@@ -26,6 +26,8 @@ const Header = () => {
 	const { modalOpen, setModalOpen, setModalType, user, setUser } =
 		useAppContext();
 
+	const router = useRouter();
+
 	const handleLogout = async () => {
 		try {
 			await axiosInstance.post('/api/auth/logout', user);
@@ -42,7 +44,14 @@ const Header = () => {
 		<header className={styles.header}>
 			<nav className={styles.nav}>
 				<div className={styles.menu}>
-					<Link href='/' className={styles.logo}>
+					<Link
+						href='/'
+						className={styles.logo}
+						onClick={() => {
+							router.push(window.location.pathname);
+							setModalOpen(false);
+						}}
+					>
 						<Image
 							src={logo}
 							alt='Yoyo Collector Logo'
@@ -67,6 +76,7 @@ const Header = () => {
 								className={styles.li}
 								onClick={() => {
 									setModalOpen(true);
+									router.push(window.location.pathname);
 									setModalType('login');
 								}}
 							>
@@ -76,6 +86,7 @@ const Header = () => {
 								className={styles.li}
 								onClick={() => {
 									setModalOpen(true);
+									router.push(window.location.pathname);
 									setModalType('register');
 								}}
 							>

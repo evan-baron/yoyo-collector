@@ -14,7 +14,7 @@ import { useAppContext } from '@/app/context/AppContext';
 import styles from './login.module.scss';
 
 const Login = () => {
-	const { setComponent, setModalOpen, setModalType, setUser } = useAppContext();
+	const { setModalOpen, setModalType, setUser } = useAppContext();
 
 	const [formData, setFormData] = useState({
 		email: '',
@@ -45,7 +45,7 @@ const Login = () => {
 	const handleSubmit = async () => {
 		if (formComplete) {
 			try {
-				const response = await axiosInstance.post('/login', {
+				const response = await axiosInstance.post('/api/auth/login', {
 					email: formData.email,
 					password: formData.password,
 					checked: checked,
@@ -69,9 +69,11 @@ const Login = () => {
 				// Sets current user
 				setUser(response.data.user);
 
-				// // Redirects to home
-				setComponent('home');
+				// Redirects to home
 				router.push('/');
+
+				// Closes modal
+				setModalOpen(false);
 			} catch (error) {
 				console.error('Login error: ', error.response?.message);
 				setLoginError(

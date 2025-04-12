@@ -5,6 +5,7 @@ import React from 'react';
 import Login from './login/Login';
 import Register from './register/Register';
 import ForgotPassword from './forgotPassword/ForgotPassword';
+import ResetPassword from './resetPassword/ResetPassword';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -24,6 +25,8 @@ function Modal() {
 				return <Register />;
 			case 'forgot-password':
 				return <ForgotPassword />;
+			case 'reset-password':
+				return <ResetPassword />;
 			default:
 				return <div>Modal</div>;
 		}
