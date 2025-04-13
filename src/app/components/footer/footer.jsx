@@ -3,6 +3,8 @@ import Link from 'next/link';
 
 import styles from './footer.module.scss';
 
+import HorizontalDivider from '../dividers/HorizontalDivider';
+
 function Footer() {
 	return (
 		<footer className={styles.footer}>

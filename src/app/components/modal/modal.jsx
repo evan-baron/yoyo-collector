@@ -14,7 +14,7 @@ import { useAppContext } from '@/app/context/AppContext';
 import styles from './modal.module.scss';
 
 function Modal() {
-	const { modalType } = useAppContext();
+	const { modalType, setModalOpen } = useAppContext();
 
 	const modalContent = () => {
 		switch (modalType) {
@@ -31,7 +31,15 @@ function Modal() {
 		}
 	};
 
-	return <div className={styles.modal}>{modalContent()}</div>;
+	return (
+		<div className={styles.modal}>
+			<div
+				className={styles.background}
+				onClick={() => setModalOpen(false)}
+			></div>
+			{modalContent()}
+		</div>
+	);
 }
 
 export default Modal;

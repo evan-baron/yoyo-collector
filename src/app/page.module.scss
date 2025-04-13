@@ -1,4 +1,6 @@
 .home {
+	margin-top: 4rem; // IMPORTANT!! - pushes the home page below the header navbar
+	position: relative;
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;

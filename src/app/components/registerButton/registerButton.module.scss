@@ -11,8 +11,13 @@
 	transition: 0.3s;
 	box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
 
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	backface-visibility: hidden;
+	will-change: transform;
+
 	&:hover {
-		scale: 1.05;
+		transform: scale(1.05);
 		box-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.75);
 	}
 }

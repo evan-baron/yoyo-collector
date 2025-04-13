@@ -7,7 +7,9 @@ $lighterGray: #aaaaaa;
 $lightestGray: #eeeeee;
 
 .login-content {
-	position: relative;
+	position: fixed;
+	transform: translateY(-4rem);
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;
