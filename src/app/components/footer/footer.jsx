@@ -14,7 +14,7 @@ function Footer() {
 				•{' '}
 				<Link href='/about' className={styles.link}>
 					About
-				</Link>
+				</Link>{' '}
 				•{' '}
 				<Link href='/contact' className={styles.link}>
 					Contact
@@ -22,7 +22,7 @@ function Footer() {
 				•{' '}
 				<Link href='/bug-report' className={styles.link}>
 					Report a Bug
-				</Link>{' '}
+				</Link>
 			</p>
 		</footer>
 	);

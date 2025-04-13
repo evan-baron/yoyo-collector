@@ -17,38 +17,44 @@ export default function Home() {
 					</p>
 				</div>
 			</section>
-			<section className={styles.preview}>
-				<h2 className={styles.h2}>Top Collections</h2>
-				<div className={styles['scroll-wrapper']}>
+			<section className={styles['preview-container']}>
+				<div className={styles.preview}>
 					<div className={styles.collection}>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
+						<h2 className={styles.h2}>Top Collections</h2>
+						<div className={styles['scroll-wrapper']}>
+							<div className={styles.carousel}>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+							</div>
+						</div>
 					</div>
-				</div>
 
-				<h2 className={styles.h2}>Newest Collections</h2>
-				<div className={styles['scroll-wrapper']}>
 					<div className={styles.collection}>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
-						<div className={styles.tile}></div>
+						<h2 className={styles.h2}>Newest Collections</h2>
+						<div className={styles['scroll-wrapper']}>
+							<div className={styles.carousel}>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+								<div className={styles.tile}></div>
+							</div>
+						</div>
 					</div>
 				</div>
+				<Link href='/collections' className={styles.link}>
+					View All
+				</Link>
 			</section>
-			<Link href='/collections' className={styles.link}>
-				View All
-			</Link>
 		</div>
 	);
 }
