@@ -5,6 +5,9 @@ import styles from './page.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 
+// Components
+import RegisterButton from './components/registerButton/RegisterButton';
+
 export default function Home() {
 	return (
 		<div className={styles.home}>
@@ -16,6 +19,18 @@ export default function Home() {
 						and share your collections with the world!{' '}
 					</p>
 				</div>
+			</section>
+			<section className={styles.description}>
+				<h2 className={styles.h2}>
+					With Yoyo Collector, you can create collections, keeping track of each
+					individual yoyo, it's specs, pictures, and more. You can then share
+					your collections publicly, anonymously, or keep them completely
+					private.
+				</h2>
+				<h2 className={styles.h2}>
+					Register an account and start collecting today!
+				</h2>
+				<RegisterButton />
 			</section>
 			<section className={styles['preview-container']}>
 				<div className={styles.preview}>
