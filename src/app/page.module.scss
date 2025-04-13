@@ -60,18 +60,26 @@
 		width: 100%;
 		max-width: 45rem;
 
+		-webkit-mask-image: linear-gradient(
+			to right,
+			rgba(0, 0, 0, 0) 0%,
+			rgba(0, 0, 0, 1) 35%,
+			rgba(0, 0, 0, 1) 65%,
+			rgba(0, 0, 0, 0) 100%
+		);
+		mask-image: linear-gradient(
+			to right,
+			rgba(0, 0, 0, 0) 0%,
+			rgba(0, 0, 0, 1) 35%,
+			rgba(0, 0, 0, 1) 65%,
+			rgba(0, 0, 0, 0) 100%
+		);
+
 		.collection {
 			display: flex;
 			gap: 1rem;
 			animation: scroll-left 20s linear infinite;
 			width: max-content;
-			// overflow: auto;
-			// scrollbar-width: none; /* Firefox */
-			// -ms-overflow-style: none; /* Internet Explorer 10+ */
-
-			// &::-webkit-scrollbar {
-			// 	display: none; /* Chrome, Safari, Opera */
-			// }
 
 			.tile {
 				flex-shrink: 0;
