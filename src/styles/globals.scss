@@ -57,8 +57,9 @@ html {
 
 		main {
 			flex-grow: 1;
+			display: flex;
 			width: 100%;
-			height: auto;
+			height: 100%;
 		}
 	}
 }

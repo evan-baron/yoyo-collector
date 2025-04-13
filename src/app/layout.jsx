@@ -40,7 +40,6 @@ export default function RootLayout({ children }) {
 					<Footer />
 				</ContextProvider>
 			</body>
-			<div className='background-gradient'></div>
 		</html>
 	);
 }
