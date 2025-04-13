@@ -22,6 +22,11 @@
 			display: flex;
 			align-items: center;
 			height: 100%;
+
+			.h1 {
+				height: 100%;
+				align-self: center;
+			}
 		}
 
 		.ul {
@@ -31,8 +36,8 @@
 		}
 
 		.yoyo {
-			height: 2rem;
-			width: 2rem;
+			height: 2.5rem;
+			width: 2.5rem;
 		}
 
 		.logo,

@@ -58,7 +58,7 @@ const Header = () => {
 							alt='Yoyo Collector Logo'
 							className={styles.yoyo}
 						/>
-						<h1>Yoyo Collector</h1>
+						<h1 className={styles.h1}>Yoyo Collector</h1>
 					</Link>
 				</div>
 				<ul className={styles.ul}>
