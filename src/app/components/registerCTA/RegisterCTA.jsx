@@ -29,8 +29,8 @@ function RegisterCTA() {
 					Register
 				</button>
 			) : (
-				<Link className={styles.button} href='/collections'>
-					Checkout the Collections page!
+				<Link className={styles['link-button']} href='/collections'>
+					Go to My Collections
 				</Link>
 			)}
 		</>
