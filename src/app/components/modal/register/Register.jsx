@@ -207,265 +207,269 @@ const Register = () => {
 		>
 			{!loadingScreen ? (
 				!registrationComplete ? (
-					<form className={styles['signup-form']}>
-						<h3 className={styles['signup-title']}>Register</h3>
-						{!nameEmailSubmitted ? (
-							<fieldset
-								className={`${styles.fieldset} ${styles['name-email']}`}
-								aria-labelledby='name-email-fields'
-							>
-								<div className={styles['registrant-name']}>
-									<div className={styles['input-field']}>
-										<label htmlFor='email' className={styles.label}>
-											First Name:
-										</label>
-										<div className={styles['input-container']}>
-											<input
-												className={styles.input}
-												id='first'
-												type='text'
-												name='first'
-												placeholder=''
-												value={formData.first || ''}
-												onChange={handleChange}
-												required
-												aria-label='First Name'
-											/>
+					<>
+						<form className={styles['signup-form']}>
+							<h3 className={styles['signup-title']}>Register</h3>
+							{!nameEmailSubmitted ? (
+								<fieldset
+									className={`${styles.fieldset} ${styles['name-email']}`}
+									aria-labelledby='name-email-fields'
+								>
+									<div className={styles['registrant-name']}>
+										<div className={styles['input-field']}>
+											<label htmlFor='email' className={styles.label}>
+												First Name:
+											</label>
+											<div className={styles['input-container']}>
+												<input
+													className={styles.input}
+													id='first'
+													type='text'
+													name='first'
+													placeholder=''
+													value={formData.first || ''}
+													onChange={handleChange}
+													required
+													aria-label='First Name'
+												/>
+											</div>
+										</div>
+										<div className={styles['input-field']}>
+											<label htmlFor='email' className={styles.label}>
+												Last Name:
+											</label>
+											<div className={styles['input-container']}>
+												<input
+													className={styles.input}
+													id='last'
+													type='text'
+													name='last'
+													placeholder=''
+													value={formData.last || ''}
+													onChange={handleChange}
+													required
+													aria-label='Last Name'
+												/>
+											</div>
 										</div>
 									</div>
 									<div className={styles['input-field']}>
 										<label htmlFor='email' className={styles.label}>
-											Last Name:
+											Email:
 										</label>
 										<div className={styles['input-container']}>
 											<input
 												className={styles.input}
-												id='last'
-												type='text'
-												name='last'
+												id='email'
+												type='email'
+												name='email'
 												placeholder=''
-												value={formData.last || ''}
 												onChange={handleChange}
+												value={formData.email || ''}
 												required
-												aria-label='Last Name'
+												aria-label='Enter your email address'
 											/>
 										</div>
-									</div>
-								</div>
-								<div className={styles['input-field']}>
-									<label htmlFor='email' className={styles.label}>
-										Email:
-									</label>
-									<div className={styles['input-container']}>
-										<input
-											className={styles.input}
-											id='email'
-											type='email'
-											name='email'
-											placeholder=''
-											onChange={handleChange}
-											value={formData.email || ''}
-											required
-											aria-label='Enter your email address'
-										/>
-									</div>
-									{formSubmitted && !emailValid ? (
-										<p
-											className={styles['validation-error']}
-											role='alert'
-											aria-live='polite'
-										>
-											Please enter a valid email address
-										</p>
-									) : null}
-								</div>
-							</fieldset>
-						) : (
-							<fieldset
-								className={`${styles.fieldset} ${styles['password-section']}`}
-							>
-								<div className={styles['input-field']}>
-									<label htmlFor='password' className={styles.label}>
-										Password:
-									</label>
-									<div className={styles['input-container']}>
-										<input
-											className={styles.input}
-											id='password'
-											type={passwordVisible ? 'text' : 'password'}
-											name='password'
-											placeholder=''
-											value={formData.password || ''}
-											onChange={handleChange}
-											required
-											aria-label='Enter your password'
-										/>
-										{formData.password ? (
-											passwordVisible ? (
-												<Visibility
-													className={styles.visible}
-													role='button'
-													tabIndex='0'
-													aria-label='Toggle password visibility'
-													onClick={() => {
-														setPasswordVisible((prev) => !prev);
-													}}
-													sx={{
-														fontSize: '1.75rem',
-														color: '#777777',
-														outline: 'none',
-													}}
-												/>
-											) : (
-												<VisibilityOff
-													className={styles.visible}
-													role='button'
-													tabIndex='0'
-													aria-label='Toggle password visibility'
-													onClick={() => {
-														setPasswordVisible((prev) => !prev);
-													}}
-													sx={{
-														fontSize: '1.75rem',
-														color: '#777777',
-														outline: 'none',
-													}}
-												/>
-											)
+										{formSubmitted && !emailValid ? (
+											<p
+												className={styles['validation-error']}
+												role='alert'
+												aria-live='polite'
+											>
+												Please enter a valid email address
+											</p>
 										) : null}
 									</div>
-								</div>
-								<div className={styles['input-field']}>
-									<label htmlFor='confirm' className={styles.label}>
-										Confirm Password:
-									</label>
-									<div className={styles['input-container']}>
-										<input
-											className={styles.input}
-											id='confirm'
-											type='password'
-											name='confirm'
-											value={formData.confirm || ''}
-											placeholder=''
-											onChange={handleChange}
-											required
-											aria-label='Confirm your password'
-										/>
-
-										{passwordMatch !== null && formData.confirm ? (
-											passwordMatch ? (
-												<Check
-													className={styles.validatePw}
-													role='img'
-													aria-label='Passwords match'
-													sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
-												/>
-											) : (
-												<Close
-													className={styles.validatePw}
-													role='img'
-													aria-label='Passwords do not match'
-													sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
-												/>
-											)
-										) : null}
+								</fieldset>
+							) : (
+								<fieldset
+									className={`${styles.fieldset} ${styles['password-section']}`}
+								>
+									<div className={styles['input-field']}>
+										<label htmlFor='password' className={styles.label}>
+											Password:
+										</label>
+										<div className={styles['input-container']}>
+											<input
+												className={styles.input}
+												id='password'
+												type={passwordVisible ? 'text' : 'password'}
+												name='password'
+												placeholder=''
+												value={formData.password || ''}
+												onChange={handleChange}
+												required
+												aria-label='Enter your password'
+											/>
+											{formData.password ? (
+												passwordVisible ? (
+													<Visibility
+														className={styles.visible}
+														role='button'
+														tabIndex='0'
+														aria-label='Toggle password visibility'
+														onClick={() => {
+															setPasswordVisible((prev) => !prev);
+														}}
+														sx={{
+															fontSize: '1.75rem',
+															color: '#777777',
+															outline: 'none',
+														}}
+													/>
+												) : (
+													<VisibilityOff
+														className={styles.visible}
+														role='button'
+														tabIndex='0'
+														aria-label='Toggle password visibility'
+														onClick={() => {
+															setPasswordVisible((prev) => !prev);
+														}}
+														sx={{
+															fontSize: '1.75rem',
+															color: '#777777',
+															outline: 'none',
+														}}
+													/>
+												)
+											) : null}
+										</div>
 									</div>
-									<PasswordValidation passwordReqs={passwordReqs} />
-								</div>
-							</fieldset>
-						)}
+									<div className={styles['input-field']}>
+										<label htmlFor='confirm' className={styles.label}>
+											Confirm Password:
+										</label>
+										<div className={styles['input-container']}>
+											<input
+												className={styles.input}
+												id='confirm'
+												type='password'
+												name='confirm'
+												value={formData.confirm || ''}
+												placeholder=''
+												onChange={handleChange}
+												required
+												aria-label='Confirm your password'
+											/>
 
-						{!nameEmailSubmitted ? (
-							<button
-								className={styles.button}
-								type='button'
-								role='button'
-								aria-label='Confirm names and email'
-								onClick={handleNext}
-								disabled={!nameEmailComplete}
-								style={{
-									opacity: nameEmailComplete ? '1' : '.5',
-									cursor: nameEmailComplete ? 'pointer' : null,
-								}}
-							>
-								Next
-								<East />
-							</button>
-						) : (
-							<div className={styles['back-submit']}>
+											{passwordMatch !== null && formData.confirm ? (
+												passwordMatch ? (
+													<Check
+														className={styles.validatePw}
+														role='img'
+														aria-label='Passwords match'
+														sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
+													/>
+												) : (
+													<Close
+														className={styles.validatePw}
+														role='img'
+														aria-label='Passwords do not match'
+														sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
+													/>
+												)
+											) : null}
+										</div>
+										<PasswordValidation passwordReqs={passwordReqs} />
+									</div>
+								</fieldset>
+							)}
+
+							{!nameEmailSubmitted ? (
 								<button
-									className={`${styles.button} ${styles.back}`}
+									className={styles.button}
 									type='button'
 									role='button'
 									aria-label='Confirm names and email'
 									onClick={handleNext}
-								>
-									<West />
-									Back
-								</button>
-								<button
-									className={`${styles.button} ${styles.submit}`}
-									type='button'
-									role='button'
-									aria-label='Submit registration form'
-									onClick={handleSubmit}
-									disabled={!formComplete}
+									disabled={!nameEmailComplete}
 									style={{
-										opacity: formComplete ? '1' : '.5',
-										cursor: formComplete ? 'pointer' : null,
+										opacity: nameEmailComplete ? '1' : '.5',
+										cursor: nameEmailComplete ? 'pointer' : null,
 									}}
 								>
-									Create Account
+									Next
+									<East />
 								</button>
-							</div>
-						)}
+							) : (
+								<div className={styles['back-submit']}>
+									<button
+										className={`${styles.button} ${styles.back}`}
+										type='button'
+										role='button'
+										aria-label='Confirm names and email'
+										onClick={handleNext}
+									>
+										<West />
+										Back
+									</button>
+									<button
+										className={`${styles.button} ${styles.submit}`}
+										type='button'
+										role='button'
+										aria-label='Submit registration form'
+										onClick={handleSubmit}
+										disabled={!formComplete}
+										style={{
+											opacity: formComplete ? '1' : '.5',
+											cursor: formComplete ? 'pointer' : null,
+										}}
+									>
+										Create Account
+									</button>
+								</div>
+							)}
 
-						{registrationError && (
-							<p aria-live='polite' role='alert' className={styles.alert}>
-								{registrationError}
-							</p>
-						)}
+							{registrationError && (
+								<p aria-live='polite' role='alert' className={styles.alert}>
+									{registrationError}
+								</p>
+							)}
 
-						<span className={styles.span}>
-							Already have an account?
-							<br />
-							<a
-								className={styles.link}
-								role='link'
-								aria-label='Go to login page'
-								onClick={() => {
-									setModalType('login');
-								}}
-							>
-								Login
-							</a>
-						</span>
-					</form>
-				) : (
-					<form className={styles['completed-form']}>
-						<h2 className={styles.h2}>Welcome to Yoyo Collector!</h2>
-						<p className={styles.p}>
-							Your one-stop-shop for keeping track of your collection and
-							sharing with others!
-						</p>
-						<p className={styles.p}>
 							<span className={styles.span}>
-								Please check your email for a link to verify your account.
-							</span>{' '}
-							If it doesn't show up after a few minutes, check your spam or junk
-							folders.
-						</p>
-						<p className={styles.p}>- Yoyo Collector Team</p>
-					</form>
+								Already have an account?
+								<br />
+								<a
+									className={styles.link}
+									role='link'
+									aria-label='Go to login page'
+									onClick={() => {
+										setModalType('login');
+									}}
+								>
+									Login
+								</a>
+							</span>
+						</form>
+						<div className={styles.close} onClick={() => setModalOpen(false)}>
+							<Close sx={{ fontSize: '2rem' }} />
+						</div>
+					</>
+				) : (
+					<>
+						<form className={styles['completed-form']}>
+							<h2 className={styles.h2}>Welcome to Yoyo Collector!</h2>
+							<p className={styles.p}>
+								Your one-stop-shop for keeping track of your collection and
+								sharing with others!
+							</p>
+							<p className={styles.p}>
+								<span className={styles.span}>
+									Please check your email for a link to verify your account.
+								</span>{' '}
+								If it doesn't show up after a few minutes, check your spam or
+								junk folders.
+							</p>
+							<p className={styles.p}>- Yoyo Collector Team</p>
+						</form>
+						<div className={styles.close} onClick={() => setModalOpen(false)}>
+							<Close sx={{ fontSize: '2rem' }} />
+						</div>
+					</>
 				)
 			) : (
-				<LoadingSpinner />
-			)}
-
-			{!loadingScreen && (
-				<div className={styles.close} onClick={() => setModalOpen(false)}>
-					<Close sx={{ fontSize: '2rem' }} />
-				</div>
+				<LoadingSpinner message='Loading' />
 			)}
 		</section>
 	);

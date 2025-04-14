@@ -69,14 +69,14 @@ const ForgotPassword = () => {
 		>
 			{!emailSent ? (
 				<form className={styles['recovery-form']} role='form'>
-					<h1 className={styles.h1} id='password-recovery-form'>
+					<h2 className={styles.h2} id='password-recovery-form'>
 						Recover Password
-					</h1>
+					</h2>
 					<div className={styles['input-field']}>
-						<h2 className={styles.h2}>
+						<h3 className={styles.h3}>
 							Please enter the email you registered with below to receive a
 							password reset link.
-						</h2>
+						</h3>
 						<div className={styles['recovery-input']}>
 							<label className={styles.label} htmlFor='email'>
 								Email:

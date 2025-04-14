@@ -85,7 +85,7 @@ const ResetPassword = () => {
 		const passwordsMatch =
 			formData.password && formData.password === formData.confirm;
 		setPasswordMatch(passwordsMatch);
-		setFormComplete(passwordsMatch);
+		setFormComplete(passwordsMatch && passwordValid);
 	}, [formData.password, formData.confirm]);
 
 	// Handle Input Change
@@ -127,12 +127,6 @@ const ResetPassword = () => {
 				);
 				console.error('Error:', error.response?.data);
 			}
-			return;
-		}
-
-		if (!passwordValid) {
-			console.log('Registration Error! Password Valid:', passwordValid);
-			setFormComplete(false);
 			return;
 		}
 

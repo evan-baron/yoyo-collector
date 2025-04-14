@@ -10,7 +10,6 @@ export async function POST(req) {
 		const firstName = first.trim();
 		const lastName = last.trim();
 		const emailTrimmed = email.trim();
-		const passwordTrimmed = password.trim();
 
 		const nameValid = /^[a-zA-Z\s'-]+$/;
 
@@ -38,7 +37,7 @@ export async function POST(req) {
 		}
 
 		const passwordValid =
-			passwordTrimmed.length >= 8 &&
+			password.length >= 8 &&
 			/[A-Z]/.test(password) &&
 			/\d/.test(password) &&
 			/[!@#$%^&*()_+{}\[\]:;"'<>,.?/|\\~]/.test(password);
@@ -59,7 +58,7 @@ export async function POST(req) {
 			firstName,
 			lastName,
 			emailTrimmed,
-			passwordTrimmed
+			password
 		);
 
 		const response = NextResponse.json(

@@ -80,7 +80,6 @@
 			.label {
 				font-size: 1.125rem;
 				color: var(--lightestGray);
-				text-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
 			}
 
 			.input-container {
@@ -227,6 +226,7 @@
 		.h2 {
 			font-size: 2rem;
 			color: var(--lightestGray);
+			text-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
 		}
 
 		.p {
@@ -236,10 +236,14 @@
 
 		.span {
 			font-weight: bold;
-			color: var(--lightestGray);
-			background: linear-gradient(135deg, rgb(255, 0, 255), rgb(0, 200, 225));
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
+			color: red;
+
+			@supports (-webkit-background-clip: text) {
+				background: linear-gradient(135deg, rgb(255, 0, 255), rgb(0, 200, 225));
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				cursor: pointer;
+			}
 		}
 	}
 

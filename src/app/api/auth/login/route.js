@@ -7,6 +7,18 @@ export async function POST(req) {
 	try {
 		const { email, password, checked } = await req.json();
 
+		if (!validator.isEmail(email)) {
+			const response = NextResponse.json(
+				{
+					message:
+						'Your email must be in valid email format. E.g.: email@domain.com',
+				},
+				{ status: 400 }
+			);
+
+			return response;
+		}
+
 		const { user, token } = await login(email, password, checked);
 
 		const cookie = serialize('session_token', token, {

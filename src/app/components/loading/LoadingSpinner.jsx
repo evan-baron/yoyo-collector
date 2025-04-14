@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './loadingSpinner.module.scss';
 
-function LoadingSpinner() {
+function LoadingSpinner({ message }) {
 	const [loadingText, setLoadingText] = useState('');
 
 	useEffect(() => {
@@ -21,7 +21,7 @@ function LoadingSpinner() {
 	return (
 		<div className={styles.container}>
 			<h2 className={styles.h2}>
-				Loading
+				{message}
 				<div className={styles.elipses}>{loadingText}</div>
 			</h2>
 			<div className={styles.spinner}>

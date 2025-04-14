@@ -6,9 +6,34 @@ export async function POST(req) {
 	try {
 		const { password, token } = await req.json();
 
+		const passwordValid =
+			password.length >= 8 &&
+			/[A-Z]/.test(password) &&
+			/\d/.test(password) &&
+			/[!@#$%^&*()_+{}\[\]:;"'<>,.?/|\\~]/.test(password);
+
+		if (!passwordValid) {
+			const response = NextResponse.json(
+				{
+					message:
+						'Your password must be at least 8 characters long, contain one uppercase character, and one special character',
+				},
+				{ status: 400 }
+			);
+
+			return response;
+		}
+
 		if (!token) {
 			return NextResponse.json(
 				{ message: 'Reset token is required.' },
+				{ status: 400 }
+			);
+		}
+
+		if (typeof token !== 'string' || token.length > 512) {
+			return NextResponse.json(
+				{ message: 'Invalid or malformed reset token.' },
 				{ status: 400 }
 			);
 		}
