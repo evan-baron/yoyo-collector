@@ -388,9 +388,7 @@ const Register = () => {
 									onClick={handleNext}
 									disabled={!nameEmailComplete}
 									style={{
-										backgroundColor: nameEmailComplete
-											? null
-											: 'rgba(82, 82, 82, .5)',
+										opacity: nameEmailComplete ? '1' : '.5',
 										cursor: nameEmailComplete ? 'pointer' : null,
 									}}
 								>
@@ -405,12 +403,6 @@ const Register = () => {
 										role='button'
 										aria-label='Confirm names and email'
 										onClick={handleNext}
-										style={{
-											backgroundColor: nameEmailComplete
-												? null
-												: 'rgba(82, 82, 82, .5)',
-											cursor: nameEmailComplete ? 'pointer' : null,
-										}}
 									>
 										<West />
 										Back
@@ -423,9 +415,7 @@ const Register = () => {
 										onClick={handleSubmit}
 										disabled={!formComplete}
 										style={{
-											backgroundColor: formComplete
-												? null
-												: 'rgba(82, 82, 82, .5)',
+											opacity: formComplete ? '1' : '.5',
 											cursor: formComplete ? 'pointer' : null,
 										}}
 									>
@@ -465,7 +455,7 @@ const Register = () => {
 						with others!
 					</p>
 					<p className={styles.p}>
-						<span style={{ fontWeight: 'bold', color: 'red' }}>
+						<span className={styles.span}>
 							Please check your email for a link to verify your account.
 						</span>{' '}
 						If it doesn't show up after a few minutes, check your spam or junk
@@ -475,14 +465,6 @@ const Register = () => {
 				</form>
 			)}
 
-			{registrationComplete && (
-				<a
-					className={styles['home-button']}
-					onClick={() => setModalOpen(false)}
-				>
-					Home
-				</a>
-			)}
 			<div className={styles.close} onClick={() => setModalOpen(false)}>
 				<Close sx={{ fontSize: '2rem' }} />
 			</div>

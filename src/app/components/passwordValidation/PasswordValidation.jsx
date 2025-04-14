@@ -59,14 +59,7 @@ const PasswordValidation = ({ passwordReqs }) => {
 				)}
 				<p>
 					1 special character<span>&nbsp;</span>
-					<span
-						style={{
-							color: 'rgba(0, 0, 0, .5)',
-							fontSize: '.675rem',
-						}}
-					>
-						(e.g. $, !, @, %, &)
-					</span>
+					<span className={styles.span}>(e.g. $, !, @, %, &)</span>
 				</p>
 			</div>
 		</div>
