@@ -83,7 +83,7 @@ export const ContextProvider = ({ children }) => {
 						withCredentials: true,
 					});
 
-					if (response.data && response.data.userId) {
+					if (response.data && response.data.id) {
 						setUser({ ...response.data });
 						setEmailVerified(response.data.email_verified);
 					} else {
