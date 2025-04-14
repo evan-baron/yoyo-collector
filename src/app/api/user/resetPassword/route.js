@@ -6,9 +6,15 @@ import { checkRateLimit } from '@/utils/rateLimiter';
 export async function POST(req) {
 	try {
 		const { password, token } = await req.json();
-		const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		const ip =
+			req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+			req.ip ||
+			'anonymous';
 
+		console.log('there is likely an error before the rate limiter');
 		await checkRateLimit(ip);
+
+		console.log('you made it past the check rate limit');
 
 		const passwordValid =
 			password.length >= 8 &&

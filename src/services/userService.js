@@ -111,6 +111,7 @@ const logUserAction = async (user, action, ip_address) => {
 
 // Update password
 const updatePassword = async (password, token) => {
+	console.log('you are in userservice.updatepassword now');
 	try {
 		// Step 1: Get the user id by searching the token
 		const response = await tokenModel.getTokenData(token);
@@ -120,7 +121,6 @@ const updatePassword = async (password, token) => {
 		const existingPasswords = await userModel.getPasswordById(user_id);
 
 		// Step 3: Check if the new password is the same as the old one
-
 		let isMatch = false;
 
 		for (let passwordObj of existingPasswords) {
@@ -135,7 +135,8 @@ const updatePassword = async (password, token) => {
 			console.log("You can't use a previously used password.");
 			return {
 				success: false,
-				message: 'For security reasons, you cannot reuse a previous password.',
+				message:
+					'For security purposes, you cannot use a previously used password.',
 			};
 		} else {
 			console.log(

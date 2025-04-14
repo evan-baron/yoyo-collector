@@ -8,8 +8,10 @@ import { checkRateLimit } from '@/utils/rateLimiter';
 export async function POST(req) {
 	try {
 		const { email, tokenName } = await req.json();
-		const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-
+		const ip =
+			req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+			req.ip ||
+			'anonymous';
 		await checkRateLimit(ip);
 
 		const user = await getUserByEmail(email);

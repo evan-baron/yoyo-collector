@@ -28,6 +28,7 @@ const ResetPassword = () => {
 	const {
 		resendEmail,
 		setResendEmail,
+		token,
 		tokenValid,
 		setTokenValid,
 		timeRemaining,
@@ -55,10 +56,7 @@ const ResetPassword = () => {
 	// Process States
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [formComplete, setFormComplete] = useState(false);
-	// const [tokenValid, setTokenValid] = useState(null);
-	// const [resendEmail, setResendEmail] = useState(null);
 	const [emailSent, setEmailSent] = useState(false);
-	// const [timeRemaining, setTimeRemaining] = useState(null);
 	const [passwordReset, setPasswordReset] = useState(false);
 	const [errorMessage, setErrorMessage] = useState(null);
 
@@ -136,8 +134,6 @@ const ResetPassword = () => {
 				password: formData.password.trim(),
 			});
 
-			console.log(response);
-
 			const { success, message } = response.data;
 
 			if (success) {
@@ -156,7 +152,7 @@ const ResetPassword = () => {
 			setErrorMessage(
 				error.response ? error.response.data.message : 'An error occurred'
 			);
-			setFormComplete(false);
+			// setFormComplete(false);
 		}
 	};
 
