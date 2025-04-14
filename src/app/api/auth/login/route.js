@@ -26,7 +26,11 @@ export async function POST(req) {
 			return response;
 		}
 
-		const { user, token } = await login(email, password, checked);
+		const userInfo = await login(email, password, checked);
+
+		console.log('the user info:', userInfo);
+
+		const { user, token } = userInfo;
 
 		const cookie = serialize('session_token', token, {
 			httpOnly: true,

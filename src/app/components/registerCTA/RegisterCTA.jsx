@@ -18,9 +18,21 @@ function RegisterCTA() {
 			<h2 className={styles.h2}>
 				{!user && 'Register an account and start collecting today!'}
 			</h2>
-			<Link className={styles.button} href='/collections'>
-				{!user ? 'Register' : 'Checkout the Collections page!'}
-			</Link>
+			{!user ? (
+				<button
+					className={styles.button}
+					onClick={() => {
+						setModalOpen(true);
+						setModalType('register');
+					}}
+				>
+					Register
+				</button>
+			) : (
+				<Link className={styles.button} href='/collections'>
+					Checkout the Collections page!
+				</Link>
+			)}
 		</>
 	);
 }
