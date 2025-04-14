@@ -59,6 +59,7 @@ export const ContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		const fetchUserData = async () => {
+			setLoading(true);
 			const token = localStorage.getItem('token');
 
 			if (token) {
@@ -66,8 +67,7 @@ export const ContextProvider = ({ children }) => {
 					const response = await axiosInstance.get('/api/token/authenticate', {
 						headers: { Authorization: `Bearer ${token}` },
 					});
-
-					if (response.data && response.data.userId) {
+					if (response.data && response.data.id) {
 						setUser(response.data);
 						setEmailVerified(response.data.email_verified);
 					} else {
@@ -84,7 +84,7 @@ export const ContextProvider = ({ children }) => {
 					});
 
 					if (response.data && response.data.userId) {
-						setUser(response.data);
+						setUser({ ...response.data });
 						setEmailVerified(response.data.email_verified);
 					} else {
 						// If the response does not contain user data, reset the user

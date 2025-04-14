@@ -23,7 +23,7 @@ import logo from '@/app/assets/uip5-yoyo-logo.png';
 import Modal from '@/app/components/modal/Modal';
 
 const Header = () => {
-	const { modalOpen, setModalOpen, setModalType, user, setUser } =
+	const { modalOpen, setModalOpen, setModalType, user, setUser, loading } =
 		useAppContext();
 
 	const router = useRouter();
@@ -66,7 +66,7 @@ const Header = () => {
 						<>
 							<li className={styles.li}>Profile</li>
 							<li className={styles.li}>
-								<Link href='/' onClick={handleLogout}>
+								<Link href='/' onClick={handleLogout} className={styles.li}>
 									Logout
 								</Link>
 							</li>

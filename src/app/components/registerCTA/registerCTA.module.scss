@@ -1,0 +1,27 @@
+.button {
+	align-self: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.5rem;
+	border: 2px solid var(--lightestGray);
+	border-radius: 0.5rem;
+	height: 3.5rem;
+	min-width: 10rem;
+	padding: 0 1rem;
+	color: var(--lightestGray);
+	background-color: transparent;
+	cursor: pointer;
+	transition: 0.3s;
+	box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	backface-visibility: hidden;
+	will-change: transform;
+
+	&:hover {
+		transform: scale(1.05);
+		box-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.75);
+	}
+}

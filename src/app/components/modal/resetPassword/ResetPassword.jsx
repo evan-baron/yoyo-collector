@@ -152,7 +152,7 @@ const ResetPassword = () => {
 			setErrorMessage(
 				error.response ? error.response.data.message : 'An error occurred'
 			);
-			// setFormComplete(false);
+			setFormComplete(false);
 		}
 	};
 

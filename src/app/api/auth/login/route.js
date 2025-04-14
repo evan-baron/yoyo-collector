@@ -3,6 +3,7 @@ const { login } = authService;
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
 import { checkRateLimit } from '@/utils/rateLimiter';
+import validator from 'validator';
 
 export async function POST(req) {
 	try {

@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 // Components
 import RegisterButton from './components/registerButton/RegisterButton';
+import RegisterCTA from './components/registerCTA/RegisterCTA';
 
 export default function Home() {
 	return (
@@ -27,10 +28,7 @@ export default function Home() {
 					your collections publicly, anonymously, or keep them completely
 					private.
 				</h2>
-				<h2 className={styles.h2}>
-					Register an account and start collecting today!
-				</h2>
-				<RegisterButton />
+				<RegisterCTA />
 			</section>
 			<section className={styles['preview-container']}>
 				<div className={styles.preview}>
