@@ -3,10 +3,14 @@ const { getUserByEmail, generateToken } = userService;
 import mailService from '@/services/mailService';
 const { sendPasswordResetEmail } = mailService;
 import { NextResponse } from 'next/server';
+import { checkRateLimit } from '@/utils/rateLimiter';
 
 export async function POST(req) {
 	try {
 		const { email, tokenName } = await req.json();
+		const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+		await checkRateLimit(ip);
 
 		const user = await getUserByEmail(email);
 

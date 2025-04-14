@@ -2,10 +2,14 @@ import authService from '@/services/authService';
 const { register } = authService;
 import { NextResponse } from 'next/server';
 import validator from 'validator';
+import { checkRateLimit } from '@/utils/rateLimiter';
 
 export async function POST(req) {
 	try {
 		const { first, last, email, password } = await req.json();
+		const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+		await checkRateLimit(ip);
 
 		const firstName = first.trim();
 		const lastName = last.trim();

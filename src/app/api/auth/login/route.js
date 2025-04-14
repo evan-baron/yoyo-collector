@@ -2,10 +2,14 @@ import authService from '@/services/authService';
 const { login } = authService;
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
+import { checkRateLimit } from '@/utils/rateLimiter';
 
 export async function POST(req) {
 	try {
 		const { email, password, checked } = await req.json();
+		const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+		await checkRateLimit(ip);
 
 		if (!validator.isEmail(email)) {
 			const response = NextResponse.json(

@@ -1,10 +1,14 @@
 import userService from '@/services/userService';
 const { updatePassword } = userService;
 import { NextResponse } from 'next/server';
+import { checkRateLimit } from '@/utils/rateLimiter';
 
 export async function POST(req) {
 	try {
 		const { password, token } = await req.json();
+		const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+		await checkRateLimit(ip);
 
 		const passwordValid =
 			password.length >= 8 &&
