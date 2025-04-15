@@ -34,38 +34,60 @@ export const ContextProvider = ({ children }) => {
 		setLoading(true);
 		const token = localStorage.getItem('token');
 
-		if (token) {
-			try {
-				const response = await axiosInstance.get('/api/token/authenticate', {
-					headers: { Authorization: `Bearer ${token}` },
-				});
-				if (response.data && response.data.id) {
-					return response.data;
-				} else {
-					// If the response does not contain user data, reset the user
-					setUser(null);
-				}
-			} catch (error) {
-				console.error('Error authenticating: ', error);
-			}
-		} else {
-			try {
-				const response = await axiosInstance.get('/api/token/authenticate', {
-					withCredentials: true,
-				});
+		try {
+			const config = token
+				? { headers: { Authorization: `Bearer ${token}` } }
+				: { withCredentials: true };
 
-				if (response.data && response.data.id) {
-					return response.data;
-				} else {
-					// If the response does not contain user data, reset the user
-					setUser(null);
-				}
-			} catch (error) {
-				console.error('Error authenticating: ', error);
+			const response = await axiosInstance.get(
+				'/api/token/authenticate',
+				config
+			);
+
+			if (response.data?.id) {
+				return response.data;
 			}
+
+			setUser(null);
+		} catch (error) {
+			console.error('Error authenticating: ', error);
+		} finally {
+			setLoading(false);
 		}
 
-		setLoading(false);
+		// ORIGINAL CODE BELOW
+
+		// if (token) {
+		// 	try {
+		// 		const response = await axiosInstance.get('/api/token/authenticate', {
+		// 			headers: { Authorization: `Bearer ${token}` },
+		// 		});
+		// 		if (response.data && response.data.id) {
+		// 			return response.data;
+		// 		} else {
+		// 			// If the response does not contain user data, reset the user
+		// 			setUser(null);
+		// 		}
+		// 	} catch (error) {
+		// 		console.error('Error authenticating: ', error);
+		// 	}
+		// } else {
+		// 	try {
+		// 		const response = await axiosInstance.get('/api/token/authenticate', {
+		// 			withCredentials: true,
+		// 		});
+
+		// 		if (response.data && response.data.id) {
+		// 			return response.data;
+		// 		} else {
+		// 			// If the response does not contain user data, reset the user
+		// 			setUser(null);
+		// 		}
+		// 	} catch (error) {
+		// 		console.error('Error authenticating: ', error);
+		// 	}
+		// setLoading(false)
+		// }
 	};
 
 	// Helper function to fetch token data
@@ -77,7 +99,7 @@ export const ContextProvider = ({ children }) => {
 
 			return response.data;
 		} catch (error) {
-			console.log('Error in helper function getTokenData in AppContext.jsx');
+			console.error('Error in helper function getTokenData in AppContext.jsx');
 		}
 	};
 
@@ -90,21 +112,16 @@ export const ContextProvider = ({ children }) => {
 				setUser(user);
 			} else {
 				// There is a token! Find the token data
-				console.log('fetching token data...');
 				const { tokenData } = await getTokenData(urlToken);
-				console.log('token data: ', tokenData);
 
 				// Has the token been used? Return
 				if (tokenData.token_used) {
-					console.log('the token was already used...');
 					router.push(window.location.pathname);
 					return;
 				}
 
 				// If the token is a verify token
 				if (tokenData.token_name === 'email_verification') {
-					console.log('updating email verification token status...');
-
 					// Updating verify token from not used to used
 					const response = await axiosInstance.put(
 						'/api/token/authenticateVerifyToken',
@@ -113,10 +130,8 @@ export const ContextProvider = ({ children }) => {
 							id: tokenData.user_id,
 						}
 					);
-					console.log('email verification token used...');
 
 					const { userData } = response.data;
-					console.log(userData);
 					setUser(userData);
 					router.push(window.location.pathname);
 					setModalOpen(true);
@@ -124,8 +139,6 @@ export const ContextProvider = ({ children }) => {
 
 					// If the token is a password recovery token
 				} else if (tokenData.token_name === 'email_recovery') {
-					console.log('email recovery token used');
-
 					try {
 						const response = await axiosInstance.get(
 							'/api/token/authenticateRecoveryToken',
