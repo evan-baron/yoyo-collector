@@ -18,8 +18,6 @@ export const ContextProvider = ({ children }) => {
 	const [modalType, setModalType] = useState(null);
 	const [resendEmail, setResendEmail] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState(null);
-	const [token, setToken] = useState(null);
-	const [tokenType, setTokenType] = useState(null);
 	const [tokenValid, setTokenValid] = useState(null);
 	const [user, setUser] = useState(null);
 
@@ -175,7 +173,6 @@ export const ContextProvider = ({ children }) => {
 				modalType,
 				resendEmail,
 				timeRemaining,
-				token,
 				tokenValid,
 				user,
 				setEmailVerified,
