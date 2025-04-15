@@ -5,8 +5,8 @@ import { ContextProvider } from './context/AppContext';
 import { Roboto, Open_Sans } from 'next/font/google';
 
 // Components
-import Header from './components/header/Header';
-import Footer from './components/footer/Footer';
+import Header from './components/header/header';
+import Footer from './components/footer/footer';
 import HorizontalDivider from './components/dividers/HorizontalDivider';
 import SidePanel from './components/sidepanel/SidePanel';
 

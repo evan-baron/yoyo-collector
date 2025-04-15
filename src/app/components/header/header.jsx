@@ -20,7 +20,7 @@ import { useAppContext } from '@/app/context/AppContext';
 import logo from '@/app/assets/uip5-yoyo-logo.png';
 
 // Components
-import Modal from '@/app/components/modal/Modal';
+import Modal from '@/app/components/modal/modal';
 
 const Header = () => {
 	const { modalOpen, setModalOpen, setModalType, user, setUser, loading } =
