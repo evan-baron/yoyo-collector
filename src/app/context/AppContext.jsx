@@ -101,7 +101,7 @@ export const ContextProvider = ({ children }) => {
 					return;
 				}
 
-				// If the token is this, do that
+				// If the token is a verify token
 				if (tokenData.token_name === 'email_verification') {
 					console.log('updating email verification token status...');
 
@@ -121,6 +121,8 @@ export const ContextProvider = ({ children }) => {
 					router.push(window.location.pathname);
 					setModalOpen(true);
 					setModalType('thank-you');
+
+					// If the token is a password recovery token
 				} else if (tokenData.token_name === 'email_recovery') {
 					console.log('email recovery token used');
 
@@ -141,6 +143,8 @@ export const ContextProvider = ({ children }) => {
 					} catch (error) {
 						console.error('Error authenticating token:', error);
 					}
+
+					// If the token is unknown
 				} else {
 					console.error('unknown token');
 				}
