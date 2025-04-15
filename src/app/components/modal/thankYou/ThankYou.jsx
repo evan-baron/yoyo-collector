@@ -1,5 +1,6 @@
 // Libraries
 import React from 'react';
+import Link from 'next/link';
 
 // Styles
 import styles from './thankYou.module.scss';
@@ -17,9 +18,13 @@ function ThankYou() {
 		<div className={styles.thanks}>
 			<h2 className={styles.h2}>Thank you for verifying your email.</h2>
 
-			<button className={styles.button} onClick={() => setModalOpen(false)}>
+			<Link
+				href='/profile'
+				className={styles.button}
+				onClick={() => setModalOpen(false)}
+			>
 				Continue to Profile
-			</button>
+			</Link>
 
 			<div className={styles.close} onClick={() => setModalOpen(false)}>
 				<Close sx={{ fontSize: '2rem' }} />
