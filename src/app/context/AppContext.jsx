@@ -2,7 +2,7 @@
 
 // Libraries
 import { createContext, useContext, useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 // Utils
 import axiosInstance from '@/utils/axios';
@@ -19,87 +19,189 @@ export const ContextProvider = ({ children }) => {
 	const [resendEmail, setResendEmail] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState(null);
 	const [token, setToken] = useState(null);
+	const [tokenType, setTokenType] = useState(null);
 	const [tokenValid, setTokenValid] = useState(null);
 	const [user, setUser] = useState(null);
+
+	const router = useRouter();
 
 	// URL & Query Parameters
 	const searchParams = useSearchParams();
 	const urlToken = searchParams.get('token');
 
-	useEffect(() => {
-		const validateUrlToken = async () => {
-			const token = urlToken;
+	// Helper function to fetch user data
+	const fetchUserData = async () => {
+		setLoading(true);
+		const token = localStorage.getItem('token');
 
-			if (!token) {
-				return;
-			}
-
-			setToken(token);
-			setModalOpen(true);
-			setModalType('reset-password');
-
+		if (token) {
 			try {
-				const response = await axiosInstance.get(
-					'/api/token/authenticateRecoveryToken',
-					{
-						params: { token },
-					}
-				);
-				const { tokenValid, timeRemaining, email } = response.data;
-
-				setResendEmail(email);
-				setTokenValid(tokenValid);
-				setTimeRemaining(tokenValid ? timeRemaining : 0);
+				const response = await axiosInstance.get('/api/token/authenticate', {
+					headers: { Authorization: `Bearer ${token}` },
+				});
+				if (response.data && response.data.id) {
+					return response.data;
+				} else {
+					// If the response does not contain user data, reset the user
+					setUser(null);
+				}
 			} catch (error) {
-				console.error('Error authenticating token:', error);
+				console.error('Error authenticating: ', error);
 			}
-		};
-		validateUrlToken();
-	}, [urlToken]);
+		} else {
+			try {
+				const response = await axiosInstance.get('/api/token/authenticate', {
+					withCredentials: true,
+				});
+
+				if (response.data && response.data.id) {
+					return response.data;
+				} else {
+					// If the response does not contain user data, reset the user
+					setUser(null);
+				}
+			} catch (error) {
+				console.error('Error authenticating: ', error);
+			}
+		}
+
+		setLoading(false);
+	};
+
+	// Helper function to fetch token data
+	const getTokenData = async (param) => {
+		try {
+			const response = await axiosInstance.get('/api/token/getTokenData', {
+				params: { token: param },
+			});
+
+			return response.data;
+		} catch (error) {
+			console.log('Error in helper function getTokenData in AppContext.jsx');
+		}
+	};
 
 	useEffect(() => {
-		const fetchUserData = async () => {
-			setLoading(true);
-			const token = localStorage.getItem('token');
-
-			if (token) {
-				try {
-					const response = await axiosInstance.get('/api/token/authenticate', {
-						headers: { Authorization: `Bearer ${token}` },
-					});
-					if (response.data && response.data.id) {
-						setUser(response.data);
-						setEmailVerified(response.data.email_verified);
-					} else {
-						// If the response does not contain user data, reset the user
-						setUser(null);
-					}
-				} catch (error) {
-					console.error('Error authenticating: ', error);
-				}
+		const fetchAndValidate = async () => {
+			// First we're going to check if there's NOT a token in the url
+			if (!urlToken) {
+				// There isn't a token in the url, so hydrate the page with the user data if there is any
+				const user = await fetchUserData();
+				setUser(user);
 			} else {
-				try {
-					const response = await axiosInstance.get('/api/token/authenticate', {
-						withCredentials: true,
-					});
+				// There is a token! Find the token data
+				console.log('fetching token data...');
+				const { tokenData } = await getTokenData(urlToken);
+				console.log('token data: ', tokenData);
 
-					if (response.data && response.data.id) {
-						setUser({ ...response.data });
-						setEmailVerified(response.data.email_verified);
-					} else {
-						// If the response does not contain user data, reset the user
-						setUser(null);
-					}
-				} catch (error) {
-					console.error('Error authenticating: ', error);
+				// Has the token been used? Return
+				if (tokenData.token_used) {
+					console.log('the token was already used...');
+					router.push(window.location.pathname);
+					return;
+				}
+
+				// If the token is this, do that
+				if (tokenData.token_name === 'email_verification') {
+					console.log('updating email verification token status...');
+
+					// Updating verify token from not used to used
+					const response = await axiosInstance.put(
+						'/api/token/authenticateVerifyToken',
+						{
+							token: urlToken,
+							id: tokenData.user_id,
+						}
+					);
+					console.log('email verification token used...');
+
+					const { userData } = response.data;
+					console.log(userData);
+					setUser(userData);
+					router.push(window.location.pathname);
+					setModalOpen(true);
+					setModalType('thank-you');
+				} else if (tokenData.token_name === 'email_recovery') {
+					console.log('email recovery token used');
+				} else {
+					console.error('unknown token');
 				}
 			}
-
-			setLoading(false);
 		};
+		fetchAndValidate();
+		// setToken(urlToken);
+		// const fetchAndValidate = async () => {
+		// 	try {
+		// 		const response = await axiosInstance.get('/api/token/getTokenData', {
+		// 			params: { token: urlToken },
+		// 		});
+		// 		const { tokenData } = response.data;
+		// 		console.log(tokenData);
+		// 		const { user_id, token_name } = tokenData;
+		// 		console.log(token_name);
 
-		fetchUserData();
+		// 		if (token_name === 'email_recovery') {
+		// 			console.log('email recovery token used');
+		// 		} else if (token_name === 'email_verification') {
+		// 			console.log('email verification token used');
+		// 			try {
+		// 				await axiosInstance.post('/api/token/updateVerified', {
+		// 					user_id: user_id,
+		// 					token: urlToken,
+		// 				});
+		// 				console.log('Email verified');
+		// 				setEmailVerified(user.email_verified);
+		// 			} catch (error) {
+		// 				console.log(
+		// 					'There was an error at app/context/AppContext.jsx at useEffect fetchTokenDataAndValidate'
+		// 				);
+		// 			}
+		// 		} else {
+		// 			console.log('unknown token');
+		// 			return;
+		// 		}
+		// 	} catch (error) {
+		// 		console.log(
+		// 			'There was an error fetching the token data',
+		// 			error.message
+		// 		);
+		// 	}
+		// };
+		// fetchAndValidate();
 	}, []);
+
+	// useEffect(() => {
+	// 	const validateUrlToken = async () => {
+	// 		if (!urlToken) {
+	// 			return;
+	// 		}
+
+	// 		setModalOpen(true);
+	// 		setModalType('reset-password');
+
+	// 		try {
+	// 			const response = await axiosInstance.get(
+	// 				'/api/token/authenticateRecoveryToken',
+	// 				{
+	// 					params: { token: urlToken },
+	// 				}
+	// 			);
+	// 			const { tokenValid, timeRemaining, email } = response.data;
+
+	// 			setResendEmail(email);
+	// 			setTokenValid(tokenValid);
+	// 			setTimeRemaining(tokenValid ? timeRemaining : 0);
+	// 		} catch (error) {
+	// 			console.error('Error authenticating token:', error);
+	// 		}
+	// 	};
+	// 	validateUrlToken();
+	// }, [urlToken]);
+
+	// useEffect(() => {
+
+	// 	fetchUserData();
+	// }, []);
 
 	// Returning the context provider with the values
 	return (

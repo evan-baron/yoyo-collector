@@ -11,16 +11,20 @@ import { Close } from '@mui/icons-material';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
+// Components
+import LoadingSpinner from '../../loading/LoadingSpinner';
+
 function VerifyEmail() {
 	const [clicked, setClicked] = useState(false);
 	const [emailSent, setEmailSent] = useState(false);
+	const [loading, setLoading] = useState(false);
+
 	const { user, setModalOpen } = useAppContext();
 	const resendEmail = user.email;
 
 	const handleClick = async () => {
-		console.log('button clicked');
-		console.log('email to send to:', resendEmail);
 		setClicked((prev) => !prev);
+		setLoading((prev) => !prev);
 
 		try {
 			await axiosInstance.post('/api/token/verifyEmail', {
@@ -28,6 +32,7 @@ function VerifyEmail() {
 				tokenName: 'email_verification',
 			});
 			setEmailSent((prev) => !prev);
+			setLoading((prev) => !prev);
 		} catch (error) {
 			console.log(
 				'There was an error at modal/verifyEmail/VerifyEmail.jsx handleClick',
@@ -38,29 +43,37 @@ function VerifyEmail() {
 
 	return (
 		<div className={styles.verify}>
-			<h2 className={styles.h2}>Please Verify Your Email</h2>
-			<p className={styles.p}>
-				You must verify your email in order to use certain features on Yoyo
-				Collector:
-			</p>
-			<ul className={styles.ul}>
-				<li className={styles.li}>Update profile information</li>
-				<li className={styles.li}>View other profiles</li>
-				<li className={styles.li}>Add collections</li>
-				<li className={styles.li}>Like collections</li>
-				<li className={styles.li}>And more</li>
-			</ul>
-			<p className={styles.p}>
-				Please check your email for the verification link.
-			</p>
-			{!emailSent ? (
-				<button
-					className={styles.button}
-					onClick={handleClick}
-					disabled={clicked}
-				>
-					Resend Link
-				</button>
+			{!emailSent && (
+				<>
+					<h2 className={styles.h2}>Please Verify Your Email</h2>
+					<p className={styles.p}>
+						You must verify your email in order to use certain features on Yoyo
+						Collector:
+					</p>
+					<ul className={styles.ul}>
+						<li className={styles.li}>Update profile information</li>
+						<li className={styles.li}>View other profiles</li>
+						<li className={styles.li}>Add collections</li>
+						<li className={styles.li}>Like collections</li>
+						<li className={styles.li}>And more</li>
+					</ul>
+					<p className={styles.p}>
+						Please check your email for the verification link.
+					</p>
+				</>
+			)}
+			{loading ? (
+				<LoadingSpinner message='Sending' />
+			) : !emailSent ? (
+				<>
+					<button
+						className={styles.button}
+						onClick={handleClick}
+						disabled={clicked}
+					>
+						Resend Link
+					</button>
+				</>
 			) : (
 				<>
 					<p className={`${styles.p} ${styles.sent}`}>

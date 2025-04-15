@@ -1,4 +1,4 @@
-.verify {
+.thanks {
 	position: fixed;
 	transform: translateY(-4rem);
 	display: flex;
@@ -8,7 +8,7 @@
 	gap: 1rem;
 	color: var(--lightestGray);
 	font-size: 2rem;
-	max-width: 35rem;
+	width: 35rem;
 	border-radius: 0.5rem;
 	background-color: var(--darkGray);
 	padding: 2rem;
@@ -16,29 +16,6 @@
 
 	.h2 {
 		font-size: 2rem;
-		text-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
-	}
-
-	.p {
-		align-self: start;
-		font-size: 1.25rem;
-	}
-
-	.sent {
-		align-self: center;
-		font-size: 2rem;
-	}
-
-	.ul {
-		position: relative;
-		align-self: start;
-		left: 2rem;
-		display: flex;
-		flex-direction: column;
-		list-style-type: disc;
-		.li {
-			font-size: 1rem;
-		}
 	}
 
 	.button {

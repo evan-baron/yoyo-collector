@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 
-//Utilities
+// Utilities
 import axiosInstance from '@/utils/axios';
 
 // Libraries
@@ -23,21 +23,15 @@ import logo from '@/app/assets/uip5-yoyo-logo.png';
 import Modal from '@/app/components/modal/modal';
 
 const Header = () => {
-	const {
-		modalOpen,
-		setModalOpen,
-		setModalType,
-		user,
-		setUser,
-		emailVerified,
-	} = useAppContext();
+	const { modalOpen, setModalOpen, setModalType, user, setUser } =
+		useAppContext();
 
 	const router = useRouter();
 
-	console.log(emailVerified);
-
 	useEffect(() => {
-		if (user && !emailVerified) {
+		if (!user) return;
+
+		if (user && !user.email_verified) {
 			setModalOpen(true);
 			setModalType('verify-email');
 		}

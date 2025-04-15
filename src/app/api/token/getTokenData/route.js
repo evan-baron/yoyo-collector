@@ -2,25 +2,22 @@ import userService from '@/services/userService';
 const { getTokenData } = userService;
 import { NextResponse } from 'next/server';
 
-export async function PUT(req) {
+export async function GET(req) {
 	try {
-		const { token, id } = await req.json();
+		const { searchParams } = new URL(req.url);
+		const token = searchParams.get('token');
 
 		if (!token) {
 			return NextResponse.json(
-				{ message: 'Token is required.' },
+				{ message: 'Recovery token is required.' },
 				{ status: 400 }
 			);
 		}
 
-		// Update email_verified on user and token_used on token
-		await userService.updateVerified(id, token);
-
-		// Grab the user data and send back to frontend
-		const userData = await userService.getUserById(id);
+		const tokenData = await getTokenData(token);
 
 		return NextResponse.json({
-			userData,
+			tokenData,
 		});
 	} catch (err) {
 		console.error(
