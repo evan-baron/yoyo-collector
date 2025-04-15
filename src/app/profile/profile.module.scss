@@ -1,0 +1,27 @@
+.profile {
+	position: relative;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+	width: 100%;
+	padding: 2rem;
+
+	.profile-form {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		width: 60%;
+		border: 1px solid white;
+		color: var(--lightestGray);
+
+		.profile-field {
+			.picture {
+				width: 10rem;
+				aspect-ratio: 1;
+				border: 1px solid white;
+			}
+		}
+	}
+}
