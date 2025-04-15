@@ -123,87 +123,32 @@ export const ContextProvider = ({ children }) => {
 					setModalType('thank-you');
 				} else if (tokenData.token_name === 'email_recovery') {
 					console.log('email recovery token used');
+
+					try {
+						const response = await axiosInstance.get(
+							'/api/token/authenticateRecoveryToken',
+							{
+								params: { token: urlToken },
+							}
+						);
+						const { tokenValid, timeRemaining, email } = response.data;
+
+						setResendEmail(email);
+						setTokenValid(tokenValid);
+						setTimeRemaining(tokenValid ? timeRemaining : 0);
+						setModalType('reset-password');
+						setModalOpen(true);
+					} catch (error) {
+						console.error('Error authenticating token:', error);
+					}
 				} else {
 					console.error('unknown token');
 				}
 			}
 		};
 		fetchAndValidate();
-		// setToken(urlToken);
-		// const fetchAndValidate = async () => {
-		// 	try {
-		// 		const response = await axiosInstance.get('/api/token/getTokenData', {
-		// 			params: { token: urlToken },
-		// 		});
-		// 		const { tokenData } = response.data;
-		// 		console.log(tokenData);
-		// 		const { user_id, token_name } = tokenData;
-		// 		console.log(token_name);
-
-		// 		if (token_name === 'email_recovery') {
-		// 			console.log('email recovery token used');
-		// 		} else if (token_name === 'email_verification') {
-		// 			console.log('email verification token used');
-		// 			try {
-		// 				await axiosInstance.post('/api/token/updateVerified', {
-		// 					user_id: user_id,
-		// 					token: urlToken,
-		// 				});
-		// 				console.log('Email verified');
-		// 				setEmailVerified(user.email_verified);
-		// 			} catch (error) {
-		// 				console.log(
-		// 					'There was an error at app/context/AppContext.jsx at useEffect fetchTokenDataAndValidate'
-		// 				);
-		// 			}
-		// 		} else {
-		// 			console.log('unknown token');
-		// 			return;
-		// 		}
-		// 	} catch (error) {
-		// 		console.log(
-		// 			'There was an error fetching the token data',
-		// 			error.message
-		// 		);
-		// 	}
-		// };
-		// fetchAndValidate();
 	}, []);
 
-	// useEffect(() => {
-	// 	const validateUrlToken = async () => {
-	// 		if (!urlToken) {
-	// 			return;
-	// 		}
-
-	// 		setModalOpen(true);
-	// 		setModalType('reset-password');
-
-	// 		try {
-	// 			const response = await axiosInstance.get(
-	// 				'/api/token/authenticateRecoveryToken',
-	// 				{
-	// 					params: { token: urlToken },
-	// 				}
-	// 			);
-	// 			const { tokenValid, timeRemaining, email } = response.data;
-
-	// 			setResendEmail(email);
-	// 			setTokenValid(tokenValid);
-	// 			setTimeRemaining(tokenValid ? timeRemaining : 0);
-	// 		} catch (error) {
-	// 			console.error('Error authenticating token:', error);
-	// 		}
-	// 	};
-	// 	validateUrlToken();
-	// }, [urlToken]);
-
-	// useEffect(() => {
-
-	// 	fetchUserData();
-	// }, []);
-
-	// Returning the context provider with the values
 	return (
 		<AppContext.Provider
 			value={{
