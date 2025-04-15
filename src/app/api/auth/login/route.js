@@ -38,6 +38,8 @@ export async function POST(req) {
 			path: '/',
 		});
 
+		console.log(user);
+
 		const response = NextResponse.json({
 			message: 'User logged in successfully!',
 			user,

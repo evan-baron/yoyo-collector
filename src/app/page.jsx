@@ -1,5 +1,5 @@
 // Styles
-import styles from './page.module.scss';
+import styles from './home.module.scss';
 
 // Next.js Components
 import Image from 'next/image';

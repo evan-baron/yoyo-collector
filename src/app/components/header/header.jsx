@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 //Utilities
 import axiosInstance from '@/utils/axios';
@@ -23,10 +23,25 @@ import logo from '@/app/assets/uip5-yoyo-logo.png';
 import Modal from '@/app/components/modal/modal';
 
 const Header = () => {
-	const { modalOpen, setModalOpen, setModalType, user, setUser, loading } =
-		useAppContext();
+	const {
+		modalOpen,
+		setModalOpen,
+		setModalType,
+		user,
+		setUser,
+		emailVerified,
+	} = useAppContext();
 
 	const router = useRouter();
+
+	console.log(emailVerified);
+
+	useEffect(() => {
+		if (user && !emailVerified) {
+			setModalOpen(true);
+			setModalType('verify-email');
+		}
+	}, [user]);
 
 	const handleLogout = async () => {
 		try {
@@ -38,6 +53,8 @@ const Header = () => {
 		localStorage.removeItem('token');
 		localStorage.removeItem('user');
 		setUser(null);
+		setModalOpen(false);
+		setModalType(null);
 		router.push('/');
 	};
 
@@ -64,7 +81,16 @@ const Header = () => {
 				<ul className={styles.ul}>
 					{user ? (
 						<>
-							<li className={styles.li}>Profile</li>
+							<li className={styles.li}>
+								<Link href='/collections' className={styles.li}>
+									Collections
+								</Link>
+							</li>
+							<li className={styles.li}>
+								<Link href='/profile' className={styles.li}>
+									Profile
+								</Link>
+							</li>
 							<li className={styles.li}>
 								<Link href='/' onClick={handleLogout} className={styles.li}>
 									Logout

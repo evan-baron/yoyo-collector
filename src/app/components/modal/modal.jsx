@@ -6,6 +6,7 @@ import Login from './login/Login';
 import Register from './register/Register';
 import ForgotPassword from './forgotPassword/ForgotPassword';
 import ResetPassword from './resetPassword/ResetPassword';
+import VerifyEmail from './verifyEmail/VerifyEmail';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -26,6 +27,8 @@ function Modal() {
 				return <ForgotPassword />;
 			case 'reset-password':
 				return <ResetPassword />;
+			case 'verify-email':
+				return <VerifyEmail />;
 			default:
 				return <div>Modal</div>;
 		}
