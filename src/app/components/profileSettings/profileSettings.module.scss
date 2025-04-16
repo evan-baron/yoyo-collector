@@ -15,7 +15,6 @@
 		height: 100%;
 		border-radius: 0.5rem;
 		padding: 1rem;
-		outline: 1px solid white;
 
 		.back {
 			display: flex;
@@ -26,8 +25,6 @@
 
 		.nav {
 			position: relative;
-			// display: flex;
-			// justify-content: center;
 
 			.ul {
 				display: flex;
@@ -51,7 +48,5 @@
 		height: 100%;
 		padding: 1rem;
 		border-radius: 0.5rem;
-
-		outline: 1px solid white;
 	}
 }
