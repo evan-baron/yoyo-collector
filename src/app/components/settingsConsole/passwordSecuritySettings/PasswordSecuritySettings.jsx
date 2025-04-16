@@ -1,7 +1,7 @@
 import React from 'react';
 
 function PasswordSecuritySettings() {
-	return <div>PasswordSecuritySettings</div>;
+	return <div>Password & Security Settings</div>;
 }
 
 export default PasswordSecuritySettings;

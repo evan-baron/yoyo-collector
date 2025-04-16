@@ -18,26 +18,25 @@ import PasswordSecuritySettings from './passwordSecuritySettings/PasswordSecurit
 import ProfileSettings from './profileSettings/ProfileSettings';
 
 function SettingsConsole({ setViewSettings }) {
+	// State
 	const [selected, setSelected] = useState({
-		profile: {
+		Profile: {
 			selected: true,
 			component: ProfileSettings,
 		},
-		account: {
+		Account: {
 			selected: false,
 			component: AccountSettings,
 		},
-		collection: {
+		Collection: {
 			selected: false,
 			component: CollectionSettings,
 		},
-		password: {
+		Password: {
 			selected: false,
 			component: PasswordSecuritySettings,
 		},
 	});
-
-	const options = ['Profile', 'Account', 'Collection', 'Password'];
 
 	const handleChange = (e) => {
 		const name = e.target.dataset.name;
@@ -47,7 +46,7 @@ function SettingsConsole({ setViewSettings }) {
 			for (const key in prev) {
 				newSelected[key] = {
 					...prev[key],
-					selected: key === name,
+					selected: key.toLowerCase() === name,
 				};
 			}
 			return newSelected;
@@ -65,12 +64,12 @@ function SettingsConsole({ setViewSettings }) {
 				</div>
 				<nav className={styles.nav}>
 					<ul className={styles.ul}>
-						{options.map((element, index) => {
+						{Object.entries(selected).map(([key, value], index) => {
 							return (
 								<MenuItem
 									key={index}
-									name={element}
-									isSelected={selected[element.toLowerCase()].selected}
+									name={key}
+									isSelected={value.selected}
 									handleChange={handleChange}
 								/>
 							);
@@ -81,9 +80,9 @@ function SettingsConsole({ setViewSettings }) {
 			<VerticalDivider />
 			<div className={styles.right}>
 				{Object.entries(selected).map(([key, value]) => {
-					if (value.selected) {
-						const Component = value.component;
-						return <Component key={key} />;
+					if (value?.selected) {
+						const Component = value?.component;
+						return Component ? <Component key={key} /> : null;
 					} else {
 						return null;
 					}
