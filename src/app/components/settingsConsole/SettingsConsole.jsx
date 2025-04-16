@@ -1,7 +1,7 @@
 'use client';
 
 // Libraries
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 
 // Styles
 import styles from './settingsConsole.module.scss';
@@ -38,19 +38,24 @@ function SettingsConsole({ setViewSettings }) {
 		},
 	});
 
+	const SelectedComponent = useMemo(() => {
+		const selectedEntry = Object.values(selected).find(
+			(entry) => entry.selected
+		);
+		return selectedEntry?.component || null;
+	}, [selected]);
+
 	const handleChange = (e) => {
 		const name = e.target.dataset.name;
 
-		setSelected((prev) => {
-			const newSelected = {};
-			for (const key in prev) {
-				newSelected[key] = {
-					...prev[key],
-					selected: key.toLowerCase() === name,
-				};
-			}
-			return newSelected;
-		});
+		setSelected((prev) =>
+			Object.fromEntries(
+				Object.entries(prev).map(([key, val]) => [
+					key,
+					{ ...val, selected: key.toLowerCase() === name },
+				])
+			)
+		);
 	};
 
 	return (
@@ -67,7 +72,7 @@ function SettingsConsole({ setViewSettings }) {
 						{Object.entries(selected).map(([key, value], index) => {
 							return (
 								<MenuItem
-									key={index}
+									key={key}
 									name={key}
 									isSelected={value.selected}
 									handleChange={handleChange}
@@ -79,14 +84,7 @@ function SettingsConsole({ setViewSettings }) {
 			</div>
 			<VerticalDivider />
 			<div className={styles.right}>
-				{Object.entries(selected).map(([key, value]) => {
-					if (value?.selected) {
-						const Component = value?.component;
-						return Component ? <Component key={key} /> : null;
-					} else {
-						return null;
-					}
-				})}
+				{SelectedComponent && <SelectedComponent />}
 			</div>
 		</div>
 	);
