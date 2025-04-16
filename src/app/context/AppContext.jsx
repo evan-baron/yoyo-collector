@@ -20,6 +20,7 @@ export const ContextProvider = ({ children }) => {
 	const [timeRemaining, setTimeRemaining] = useState(null);
 	const [tokenValid, setTokenValid] = useState(null);
 	const [user, setUser] = useState(null);
+	const [authChecked, setAuthChecked] = useState(null);
 
 	const router = useRouter();
 
@@ -44,9 +45,9 @@ export const ContextProvider = ({ children }) => {
 
 			if (response.data?.id) {
 				return response.data;
+			} else {
+				setUser(null);
 			}
-
-			setUser(null);
 		} catch (error) {
 			console.error('Error authenticating: ', error);
 		} finally {
@@ -108,6 +109,7 @@ export const ContextProvider = ({ children }) => {
 				// There isn't a token in the url, so hydrate the page with the user data if there is any
 				const user = await fetchUserData();
 				setUser(user);
+				setAuthChecked(true);
 			} else {
 				// There is a token! Find the token data
 				const { tokenData } = await getTokenData(urlToken);
@@ -167,6 +169,7 @@ export const ContextProvider = ({ children }) => {
 	return (
 		<AppContext.Provider
 			value={{
+				authChecked,
 				emailVerified,
 				loading,
 				modalOpen,

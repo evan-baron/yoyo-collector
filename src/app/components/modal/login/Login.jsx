@@ -92,7 +92,7 @@ const Login = () => {
 		<section aria-labelledby='login-form' className={styles['login-content']}>
 			{!loadingScreen ? (
 				<>
-					<form className={styles['login-form']} role='form'>
+					<form className={styles['login-form']} role='form' autoComplete='on'>
 						<h1 className={styles.h1}>Login</h1>
 						<div className={styles['login-field']}>
 							<div className={styles['login-input']}>
@@ -121,6 +121,7 @@ const Login = () => {
 										type={passwordVisible ? 'text' : 'password'}
 										name='password'
 										onChange={handleChange}
+										autoComplete='current-password'
 										required
 										aria-label='Enter your password'
 										className={styles.input}
