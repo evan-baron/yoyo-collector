@@ -20,12 +20,12 @@ function ProfileSettings({ setViewSettings }) {
 	const handleChange = (e) => {
 		const name = e.target.dataset.name;
 
-		setSelected({
-			profile: false,
-			account: false,
-			collection: false,
-			password: false,
-			[name]: true,
+		setSelected((prev) => {
+			const newSelected = {};
+			for (const key in prev) {
+				newSelected[key] = key === name;
+			}
+			return newSelected;
 		});
 	};
 
