@@ -14,7 +14,7 @@ import { Settings } from '@mui/icons-material';
 import { useAppContext } from '../context/AppContext';
 
 // Components
-import ProfileSettings from '../components/profileSettings/ProfileSettings';
+import SettingsConsole from '../components/settingsConsole/SettingsConsole';
 
 function Profile() {
 	const { user } = useAppContext();
@@ -32,7 +32,7 @@ function Profile() {
 	return (
 		<div className={styles.profile}>
 			{viewSettings ? (
-				<ProfileSettings setViewSettings={setViewSettings} />
+				<SettingsConsole setViewSettings={setViewSettings} />
 			) : (
 				<div className={styles.overview}>
 					Profile Overview
