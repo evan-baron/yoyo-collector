@@ -16,13 +16,6 @@
 		border-radius: 0.5rem;
 		padding: 1rem;
 
-		.back {
-			display: flex;
-			align-items: center;
-			gap: 0.5rem;
-			cursor: pointer;
-		}
-
 		.nav {
 			position: relative;
 
@@ -44,6 +37,7 @@
 	}
 
 	.right {
+		position: relative;
 		width: 70%;
 		height: 100%;
 		padding: 1rem;

@@ -7,7 +7,7 @@ import React, { useState, useMemo } from 'react';
 import styles from './settingsConsole.module.scss';
 
 // MUI
-import { Menu, West } from '@mui/icons-material';
+import { East, West } from '@mui/icons-material';
 
 // Components
 import VerticalDivider from '../dividers/VerticalDivider';
@@ -61,12 +61,6 @@ function SettingsConsole({ setViewSettings }) {
 	return (
 		<div className={styles.settings}>
 			<div className={styles.left}>
-				<div
-					className={styles.back}
-					onClick={() => setViewSettings((prev) => !prev)}
-				>
-					<West className={styles.west} /> Back to Profile
-				</div>
 				<nav className={styles.nav}>
 					<ul className={styles.ul}>
 						{Object.entries(selected).map(([key, value], index) => {
@@ -84,7 +78,9 @@ function SettingsConsole({ setViewSettings }) {
 			</div>
 			<VerticalDivider />
 			<div className={styles.right}>
-				{SelectedComponent && <SelectedComponent />}
+				{SelectedComponent && (
+					<SelectedComponent setViewSettings={setViewSettings} />
+				)}
 			</div>
 		</div>
 	);

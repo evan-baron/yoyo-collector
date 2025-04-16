@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import styles from './profile.module.scss';
 
 // MUI
-import { Settings } from '@mui/icons-material';
+import { West, Settings } from '@mui/icons-material';
 
 // Context
 import { useAppContext } from '../context/AppContext';
@@ -38,12 +38,14 @@ function Profile() {
 			{viewSettings ? (
 				<SettingsConsole setViewSettings={setViewSettings} />
 			) : (
-				<div className={styles.overview}>
-					Profile Overview
-					<Settings
+				<div className={styles.preview}>
+					<div
+						className={styles.back}
 						onClick={() => setViewSettings((prev) => !prev)}
-						sx={{ cursor: 'pointer' }}
-					/>
+					>
+						<West className={styles.west} />
+						Settings
+					</div>
 				</div>
 			)}
 		</div>

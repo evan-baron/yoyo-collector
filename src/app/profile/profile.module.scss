@@ -9,13 +9,25 @@
 	padding: 2rem;
 	color: var(--lightestGray);
 
-	.overview {
+	.preview {
+		position: relative;
 		display: flex;
 		width: 60%;
 		height: 100%;
 		border-radius: 0.5rem;
 		background-color: var(--darkerGray);
 		box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
+
+		.back {
+			position: absolute;
+			top: 0.5rem;
+			left: 1rem;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			font-weight: bold;
+			cursor: pointer;
+		}
 	}
 
 	// .profile-form {

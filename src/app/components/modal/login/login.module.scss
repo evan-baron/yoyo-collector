@@ -144,6 +144,39 @@
 		.span {
 			text-align: center;
 			color: var(--lightestGray);
+
+			.link {
+				position: relative;
+				font-weight: bold;
+				text-decoration: underline;
+				color: var(--lightestGray);
+				cursor: pointer;
+
+				@supports (-webkit-background-clip: text) {
+					background: linear-gradient(
+						135deg,
+						rgb(255, 0, 255),
+						rgb(0, 200, 225)
+					);
+					-webkit-background-clip: text;
+					-webkit-text-fill-color: transparent;
+					cursor: pointer;
+
+					&::after {
+						content: '';
+						position: absolute;
+						left: 0;
+						bottom: 0px;
+						height: 2px;
+						width: 100%;
+						background: linear-gradient(
+							135deg,
+							rgb(255, 0, 255),
+							rgb(0, 200, 255)
+						);
+					}
+				}
+			}
 		}
 
 		.link {
