@@ -7,21 +7,31 @@
 	gap: 2rem;
 	width: 100%;
 	padding: 2rem;
+	color: var(--lightestGray);
 
-	.profile-form {
+	.overview {
 		display: flex;
-		flex-direction: column;
-		height: 100%;
 		width: 60%;
-		border: 1px solid white;
-		color: var(--lightestGray);
-
-		.profile-field {
-			.picture {
-				width: 10rem;
-				aspect-ratio: 1;
-				border: 1px solid white;
-			}
-		}
+		height: 100%;
+		border-radius: 0.5rem;
+		background-color: var(--darkerGray);
+		box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
 	}
+
+	// .profile-form {
+	// 	display: flex;
+	// 	flex-direction: column;
+	// 	height: 100%;
+	// 	width: 60%;
+	// 	border: 1px solid white;
+	// 	color: var(--lightestGray);
+
+	// 	.profile-field {
+	// 		.picture {
+	// 			width: 10rem;
+	// 			aspect-ratio: 1;
+	// 			border: 1px solid white;
+	// 		}
+	// 	}
+	// }
 }

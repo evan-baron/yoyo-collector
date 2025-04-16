@@ -1,20 +1,49 @@
 'use client';
 
 // Libraries
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 // Styles
 import styles from './profile.module.scss';
 
+// MUI
+import { Settings } from '@mui/icons-material';
+
 // Context
 import { useAppContext } from '../context/AppContext';
+
+// Components
+import ProfileSettings from '../components/profileSettings/ProfileSettings';
 
 function Profile() {
 	const { user } = useAppContext();
 
+	const [viewSettings, setViewSettings] = useState(true); // DONT FORGET TO CHANGE THIS BACK TO FALSE
+
+	const router = useRouter();
+
+	useEffect(() => {
+		if (!user) router.push('/');
+	}, [user]);
+
+	if (!user) return null;
+
 	return (
 		<div className={styles.profile}>
-			<form className={styles['profile-form']}>
+			{viewSettings ? (
+				<ProfileSettings setViewSettings={setViewSettings} />
+			) : (
+				<div className={styles.overview}>
+					Profile Overview
+					<Settings
+						onClick={() => setViewSettings((prev) => !prev)}
+						sx={{ cursor: 'pointer' }}
+					/>
+				</div>
+			)}
+
+			{/* <form className={styles['profile-form']}>
 				<div className={styles['profile-field']}>
 					<h2 className={styles.h2}>Privacy</h2>
 					<div className={styles['radio-container']}>
@@ -81,7 +110,6 @@ function Profile() {
 							<input className={styles['form-data']} type='text' />
 						</label>
 
-						{/* State will be dependent on Country */}
 						<label htmlFor='State'>
 							Country
 							<input className={styles['form-data']} type='text' />
@@ -99,7 +127,7 @@ function Profile() {
 					<button className={styles.upload}>Upload</button>
 					<button className={styles.change}>Change</button>
 				</div>
-			</form>
+			</form> */}
 		</div>
 	);
 }
