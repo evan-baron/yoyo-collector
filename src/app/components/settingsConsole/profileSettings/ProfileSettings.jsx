@@ -24,6 +24,7 @@ function ProfileSettings({ setViewSettings }) {
 		state,
 		city,
 		description,
+		privacy,
 	} = user;
 
 	const location = () => {
@@ -38,10 +39,12 @@ function ProfileSettings({ setViewSettings }) {
 		brand: favorite_brand,
 		location: location(),
 		description: description,
+		privacy: privacy,
 	});
 	const [maxLength, setMaxLength] = useState(300);
 
 	console.log(user);
+	console.log(formData);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -61,6 +64,56 @@ function ProfileSettings({ setViewSettings }) {
 			<h2 className={styles.h2}>Profile Settings</h2>
 			<form className={styles['profile-form']}>
 				<div className={styles.top}>
+					<fieldset className={styles.item}>
+						<h3 htmlFor='privacy' className={styles.h3}>
+							{`Privacy (How you want to appear to others)`}
+						</h3>
+						<div className={styles.options}>
+							<div className={styles['radio-item']}>
+								<input
+									className={styles.radio}
+									type='radio'
+									name='privacy'
+									value='public'
+									checked={formData.privacy === 'public'}
+									onChange={handleChange}
+								/>
+								<label htmlFor='public' className={styles['radio-label']}>
+									Public
+								</label>
+							</div>
+							<div className={styles['radio-item']}>
+								<input
+									className={styles.radio}
+									type='radio'
+									name='privacy'
+									value='anonymous'
+									checked={formData.privacy === 'anonymous'}
+									onChange={handleChange}
+								/>
+
+								<label htmlFor='anonymous' className={styles['radio-label']}>
+									Anonymous
+								</label>
+							</div>
+							<div className={styles['radio-item']}>
+								<input
+									className={styles.radio}
+									type='radio'
+									name='privacy'
+									value='private'
+									checked={formData.privacy === 'private'}
+									onChange={handleChange}
+								/>
+
+								<label htmlFor='private' className={styles['radio-label']}>
+									Private
+								</label>
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div className={styles.middle}>
 					<div className={`${styles['form-item']} ${styles['profile-data']}`}>
 						<div className={styles.names}>
 							<div className={styles.item}>
@@ -156,10 +209,11 @@ function ProfileSettings({ setViewSettings }) {
 								Tell us about yourself
 							</label>
 							<textarea
+								className={styles.textarea}
 								name='description'
 								id='description'
-								className={styles.textarea}
 								maxLength={300}
+								rows='3'
 								placeholder='I like long walks on the beach, throwing yoyos in the rain, and walking the dog with expensive yoyos.'
 								onChange={handleChange}
 								value={formData.description}
@@ -168,6 +222,9 @@ function ProfileSettings({ setViewSettings }) {
 						</div>
 					</div>
 				</div>
+				<button className={styles.button} type='button'>
+					Save Changes
+				</button>
 			</form>
 			<div
 				className={styles['view-profile']}
