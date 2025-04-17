@@ -46,12 +46,13 @@
 			.profile-data {
 				display: flex;
 				flex-direction: column;
-				gap: 0.5rem;
+				gap: 0.75rem;
 				width: 50%;
 
 				.names {
 					display: flex;
-					gap: 1rem;
+					flex-wrap: wrap;
+					gap: 0.75rem 1rem;
 				}
 			}
 

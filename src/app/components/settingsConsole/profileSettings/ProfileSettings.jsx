@@ -1,7 +1,7 @@
 'use client';
 
 // Libraries
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Styles
 import styles from './profileSettings.module.scss';
@@ -31,22 +31,53 @@ function ProfileSettings({ setViewSettings }) {
 	} = user;
 
 	const [formData, setFormData] = useState({
-		first: first_name,
-		last: last_name,
-		handle: handle,
-		yoyo: favorite_yoyo,
-		brand: favorite_brand,
-		city: city,
-		state: state,
-		country: country,
-		description: description,
-		privacy: privacy,
+		first: { editing: false, value: first_name || '' },
+		last: { editing: false, value: last_name || '' },
+		handle: { editing: false, value: handle || '' },
+		yoyo: { editing: false, value: favorite_yoyo || '' },
+		brand: { editing: false, value: favorite_brand || '' },
+		city: { editing: false, value: city || '' },
+		state: { editing: false, value: state || '' },
+		country: { editing: false, value: country || '' },
+		description: { editing: false, value: description || '' },
+		privacy: { editing: false, value: privacy || '' },
 	});
 
+	const [dirty, setDirty] = useState(false);
+
+	useEffect(() => {
+		setDirty(
+			formData.first !== first_name ||
+				formData.last !== last_name ||
+				formData.handle !== handle ||
+				formData.yoyo !== favorite_yoyo ||
+				formData.brand !== favorite_brand ||
+				formData.city !== city ||
+				formData.state !== state ||
+				formData.country !== country ||
+				formData.description !== description ||
+				formData.privacy !== privacy
+		);
+	}, [
+		formData,
+		first_name,
+		last_name,
+		handle,
+		favorite_yoyo,
+		favorite_brand,
+		city,
+		state,
+		country,
+		description,
+		privacy,
+	]);
+
 	const location = () => {
-		return [formData.city, formData.state, formData.country]
-			.filter(Boolean)
-			.join(', ');
+		return (
+			[formData.city.value, formData.state.value, formData.country.value]
+				.filter(Boolean)
+				.join(', ') || ''
+		);
 	};
 
 	console.log(user);
@@ -54,10 +85,10 @@ function ProfileSettings({ setViewSettings }) {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		console.log(name);
+		console.log(name, value);
 		setFormData((prev) => ({
 			...prev,
-			[name]: value,
+			[name]: { value: value },
 		}));
 	};
 
@@ -124,42 +155,42 @@ function ProfileSettings({ setViewSettings }) {
 							<FormInput
 								type='text'
 								name='first'
-								value={formData.first}
+								value={formData.first.value}
 								handleChange={handleChange}
 							/>
 
 							<FormInput
 								type='text'
 								name='last'
-								value={formData.last}
+								value={formData.last.value}
 								handleChange={handleChange}
 							/>
 						</div>
 						<FormInput
 							type='text'
 							name='handle'
-							value={formData.handle}
+							value={formData.handle.value}
 							handleChange={handleChange}
 						/>
 
 						<FormInput
 							type='text'
 							name='yoyo'
-							value={formData.yoyo}
+							value={formData.yoyo.value}
 							handleChange={handleChange}
 						/>
 
 						<FormInput
 							type='text'
 							name='brand'
-							value={formData.brand}
+							value={formData.brand.value}
 							handleChange={handleChange}
 						/>
 
 						<FormInput
 							type='text'
 							name='location'
-							value={formData.location}
+							value={location()}
 							handleChange={handleChange}
 						/>
 					</div>
@@ -183,7 +214,7 @@ function ProfileSettings({ setViewSettings }) {
 								rows='3'
 								placeholder='I like long walks on the beach, throwing yoyos in the rain, and walking the dog with expensive yoyos.'
 								onChange={handleChange}
-								value={formData.description || ''}
+								value={formData.description.value || ''}
 							></textarea>
 							<div className={styles['max-length']}>
 								{300 - (formData.description?.length || 0)}
@@ -191,9 +222,11 @@ function ProfileSettings({ setViewSettings }) {
 						</div>
 					</div>
 				</div>
-				<button className={styles.button} type='button'>
-					Save Changes
-				</button>
+				{dirty && (
+					<button className={styles.button} type='button'>
+						Save Changes
+					</button>
+				)}
 			</form>
 			<div
 				className={styles['view-profile']}

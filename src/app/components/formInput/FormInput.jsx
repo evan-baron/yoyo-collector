@@ -48,10 +48,29 @@ function FormInput({ type, name, value, handleChange }) {
 		}
 	};
 
+	const maxLength = (name) => {
+		switch (name) {
+			case 'first':
+				return '20';
+			case 'last':
+				return '20';
+			case 'handle':
+				return '16';
+			case 'yoyo':
+				return '30';
+			case 'brand':
+				return '30';
+			case 'location':
+				return '';
+			default:
+				return '12';
+		}
+	};
+
 	return (
 		<div className={styles.item}>
 			<label htmlFor={name} className={styles.label}>
-				{label(name)}
+				{label(name)}:
 			</label>
 			{editing ? (
 				<div className={styles['input-box']}>
@@ -63,6 +82,8 @@ function FormInput({ type, name, value, handleChange }) {
 						className={styles.input}
 						value={value || ''}
 						onChange={handleChange}
+						maxLength={maxLength(name)}
+						autoComplete='off'
 					/>
 					<Check
 						sx={{ fontSize: '1.75rem', cursor: 'pointer' }}
