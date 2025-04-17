@@ -6,9 +6,6 @@ import React, { useState, useMemo } from 'react';
 // Styles
 import styles from './settingsConsole.module.scss';
 
-// MUI
-import { East, West } from '@mui/icons-material';
-
 // Components
 import VerticalDivider from '../dividers/VerticalDivider';
 import MenuItem from './menuItem/MenuItem';
@@ -28,10 +25,10 @@ function SettingsConsole({ setViewSettings }) {
 			selected: false,
 			component: AccountSettings,
 		},
-		Collection: {
-			selected: false,
-			component: CollectionSettings,
-		},
+		// Collection: {
+		// 	selected: false,
+		// 	component: CollectionSettings,
+		// },
 		Password: {
 			selected: false,
 			component: PasswordSecuritySettings,

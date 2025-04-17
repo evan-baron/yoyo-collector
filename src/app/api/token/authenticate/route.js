@@ -22,6 +22,10 @@ export async function GET(req) {
 
 		const user = await getUserById(decoded.userId);
 
+		if (user?.password) {
+			delete user.password;
+		}
+
 		return NextResponse.json(user);
 	} catch (err) {
 		console.error(

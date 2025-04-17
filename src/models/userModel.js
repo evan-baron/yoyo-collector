@@ -21,19 +21,15 @@ const User = {
 
 	// Get a user by email
 	async findUserByEmail(email) {
-		const [rows] = await pool.execute(
-			'SELECT id, first_name, last_name, email, created_at, email_verified FROM users WHERE email = ?',
-			[email]
-		);
+		const [rows] = await pool.execute('SELECT * FROM users WHERE email = ?', [
+			email,
+		]);
 		return rows[0]; // Return the first matching user (or null if none)
 	},
 
 	// Get a user by ID
 	async findUserById(id) {
-		const [rows] = await pool.execute(
-			'SELECT id, first_name, last_name, email, created_at, email_verified FROM users WHERE id = ?',
-			[id]
-		);
+		const [rows] = await pool.execute('SELECT * FROM users WHERE id = ?', [id]);
 		return rows[0];
 	},
 

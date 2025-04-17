@@ -1,7 +1,70 @@
 .profile {
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
 	height: 100%;
 	width: 100%;
+
+	.h2 {
+		font-size: 2rem;
+	}
+
+	.profile-form {
+		flex-grow: 1;
+		position: relative;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 1fr 1fr 1fr;
+		grid-template-areas:
+			'data picture'
+			'data picture'
+			'summary summary';
+		gap: 1rem;
+		width: 100%;
+		margin-bottom: 1rem;
+
+		.form-item {
+			.label {
+				display: flex;
+				flex-direction: column;
+				gap: 0.25rem;
+
+				.input {
+					border: none;
+					height: 1.5rem;
+					font-size: 1.125rem;
+					background-color: #454545;
+					color: var(--lightestGray);
+					width: fit-content;
+
+					&:focus {
+						outline: none;
+						background-color: var(--mediumGray);
+					}
+				}
+			}
+		}
+
+		.profile-data {
+			grid-area: data;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			// outline: 1px solid white;
+		}
+
+		.profile-picture {
+			grid-area: picture;
+			outline: 1px solid white;
+		}
+
+		.profile-summary {
+			grid-area: summary;
+			outline: 1px solid red;
+		}
+	}
 
 	.view-profile {
 		position: absolute;

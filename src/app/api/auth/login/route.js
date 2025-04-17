@@ -30,6 +30,10 @@ export async function POST(req) {
 
 		const { user, token } = userInfo;
 
+		if (user?.password) {
+			delete user.password;
+		}
+
 		const cookie = serialize('session_token', token, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
@@ -37,8 +41,6 @@ export async function POST(req) {
 			maxAge: 60 * 60 * 1000, // 1 hour expiration
 			path: '/',
 		});
-
-		console.log(user);
 
 		const response = NextResponse.json({
 			message: 'User logged in successfully!',
