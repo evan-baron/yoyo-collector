@@ -70,16 +70,22 @@ function FormInput({ type, name, value, handleChange }) {
 					/>
 				</div>
 			) : (
-				<div className={styles['input-box']}>
+				<div
+					className={styles['input-box']}
+					onClick={() => {
+						if (name === 'location') {
+							console.log('location');
+						} else {
+							setEditing((prev) => !prev);
+						}
+					}}
+					style={{ cursor: 'pointer' }}
+				>
 					<p className={styles.p}>{value}</p>
 					<Edit
-						sx={{ fontSize: '1.5rem', cursor: 'pointer' }}
-						onClick={() => {
-							if (name === 'location') {
-								console.log('location');
-							} else {
-								setEditing((prev) => !prev);
-							}
+						sx={{
+							fontSize: value ? '1rem' : '1.5rem',
+							alignSelf: 'end',
 						}}
 					/>
 				</div>
