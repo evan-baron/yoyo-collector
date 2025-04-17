@@ -10,67 +10,60 @@ import { Edit, Check } from '@mui/icons-material';
 function FormInput({ type, name, value, handleChange }) {
 	const [editing, setEditing] = useState(false);
 
-	const placeholder = (name) => {
-		switch (name) {
-			case 'first':
-				return 'First';
-			case 'last':
-				return 'Last';
-			case 'handle':
-				return 'Nickname';
-			case 'yoyo':
-				return 'Duncan Imperial';
-			case 'brand':
-				return 'Duncan';
-			case 'Location':
-				return 'Earth';
-			default:
-				return '';
-		}
+	// setSelected((prev) =>
+	// 	Object.fromEntries(
+	// 		Object.entries(prev).map(([key, val]) => [
+	// 			key,
+	// 			{ ...val, selected: key.toLowerCase() === name },
+	// 		])
+	// 	)
+	// );
+
+	const fieldConfig = {
+		first: {
+			label: 'First Name',
+			placeholder: 'First',
+			maxLength: '20',
+		},
+		last: {
+			label: 'Last Name',
+			placeholder: 'Last',
+			maxLength: '20',
+		},
+		handle: {
+			label: 'Handle',
+			placeholder: 'Nickname',
+			maxLength: '16',
+		},
+		yoyo: {
+			label: 'Favorite Yoyo',
+			placeholder: 'Duncan Imperial',
+			maxLength: '30',
+		},
+		brand: {
+			label: 'Favorite Brand',
+			placeholder: 'Duncan',
+			maxLength: '30',
+		},
+		location: {
+			label: 'Location',
+			placeholder: 'Earth',
+			maxLength: '',
+		},
 	};
 
-	const label = (name) => {
-		switch (name) {
-			case 'first':
-				return 'First Name';
-			case 'last':
-				return 'Last Name';
-			case 'handle':
-				return 'Handle';
-			case 'yoyo':
-				return 'Favorite Yoyo';
-			case 'brand':
-				return 'Favorite Brand';
-			case 'location':
-				return 'Location';
-			default:
-				return '';
-		}
+	const defaultField = {
+		label: '',
+		placeholder: '',
+		maxLength: '12',
 	};
 
-	const maxLength = (name) => {
-		switch (name) {
-			case 'first':
-				return '20';
-			case 'last':
-				return '20';
-			case 'handle':
-				return '16';
-			case 'yoyo':
-				return '30';
-			case 'brand':
-				return '30';
-			case 'location':
-				return '';
-			default:
-				return '12';
-		}
-	};
+	const { label, placeholder, maxLength } = fieldConfig[name] || defaultField;
 
 	return (
 		<div className={styles.item}>
 			<label htmlFor={name} className={styles.label}>
-				{label(name)}:
+				{label}:
 			</label>
 			{editing ? (
 				<div className={styles['input-box']}>
@@ -78,11 +71,11 @@ function FormInput({ type, name, value, handleChange }) {
 						type={type}
 						id={name}
 						name={name}
-						placeholder={placeholder(name)}
+						placeholder={placeholder}
 						className={styles.input}
 						value={value || ''}
 						onChange={handleChange}
-						maxLength={maxLength(name)}
+						maxLength={maxLength}
 						autoComplete='off'
 					/>
 					<Check
