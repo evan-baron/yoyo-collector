@@ -1,10 +1,15 @@
 // Libraries
-import React from 'react';
+import React, { useState } from 'react';
 
 // Styles
 import styles from './formInput.module.scss';
 
+// MUI
+import { Edit, Check } from '@mui/icons-material';
+
 function FormInput({ type, name, value, handleChange }) {
+	const [editing, setEditing] = useState(false);
+
 	const placeholder = (name) => {
 		switch (name) {
 			case 'first':
@@ -48,15 +53,37 @@ function FormInput({ type, name, value, handleChange }) {
 			<label htmlFor={name} className={styles.label}>
 				{label(name)}
 			</label>
-			<input
-				type={type}
-				id={name}
-				name={name}
-				placeholder={placeholder(name)}
-				className={styles.input}
-				value={value || ''}
-				onChange={handleChange}
-			/>
+			{editing ? (
+				<div className={styles['input-box']}>
+					<input
+						type={type}
+						id={name}
+						name={name}
+						placeholder={placeholder(name)}
+						className={styles.input}
+						value={value || ''}
+						onChange={handleChange}
+					/>
+					<Check
+						sx={{ fontSize: '1.75rem', cursor: 'pointer' }}
+						onClick={() => setEditing((prev) => !prev)}
+					/>
+				</div>
+			) : (
+				<div className={styles['input-box']}>
+					<p className={styles.p}>{value}</p>
+					<Edit
+						sx={{ fontSize: '1.5rem', cursor: 'pointer' }}
+						onClick={() => {
+							if (name === 'location') {
+								console.log('location');
+							} else {
+								setEditing((prev) => !prev);
+							}
+						}}
+					/>
+				</div>
+			)}
 		</div>
 	);
 }
