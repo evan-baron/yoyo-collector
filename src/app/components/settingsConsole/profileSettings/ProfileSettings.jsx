@@ -9,6 +9,9 @@ import styles from './profileSettings.module.scss';
 // MUI
 import { East } from '@mui/icons-material';
 
+// Components
+import FormInput from '../../formInput/FormInput';
+
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
@@ -27,21 +30,24 @@ function ProfileSettings({ setViewSettings }) {
 		privacy,
 	} = user;
 
-	const location = () => {
-		return [city, state, country].filter(Boolean).join(', ');
-	};
-
 	const [formData, setFormData] = useState({
 		first: first_name,
 		last: last_name,
 		handle: handle,
 		yoyo: favorite_yoyo,
 		brand: favorite_brand,
-		location: location(),
+		city: city,
+		state: state,
+		country: country,
 		description: description,
 		privacy: privacy,
 	});
-	const [maxLength, setMaxLength] = useState(300);
+
+	const location = () => {
+		return [formData.city, formData.state, formData.country]
+			.filter(Boolean)
+			.join(', ');
+	};
 
 	console.log(user);
 	console.log(formData);
@@ -53,10 +59,6 @@ function ProfileSettings({ setViewSettings }) {
 			...prev,
 			[name]: value,
 		}));
-
-		if (name === 'description') {
-			setMaxLength(300 - e.target.value.length);
-		}
 	};
 
 	return (
@@ -73,6 +75,7 @@ function ProfileSettings({ setViewSettings }) {
 								<input
 									className={styles.radio}
 									type='radio'
+									id='public'
 									name='privacy'
 									value='public'
 									checked={formData.privacy === 'public'}
@@ -86,6 +89,7 @@ function ProfileSettings({ setViewSettings }) {
 								<input
 									className={styles.radio}
 									type='radio'
+									id='anonymous'
 									name='privacy'
 									value='anonymous'
 									checked={formData.privacy === 'anonymous'}
@@ -100,6 +104,7 @@ function ProfileSettings({ setViewSettings }) {
 								<input
 									className={styles.radio}
 									type='radio'
+									id='private'
 									name='privacy'
 									value='private'
 									checked={formData.privacy === 'private'}
@@ -116,85 +121,47 @@ function ProfileSettings({ setViewSettings }) {
 				<div className={styles.middle}>
 					<div className={`${styles['form-item']} ${styles['profile-data']}`}>
 						<div className={styles.names}>
-							<div className={styles.item}>
-								<label htmlFor='first' className={styles.label}>
-									First Name
-								</label>
-								<input
-									type='text'
-									name='first'
-									placeholder='First'
-									className={styles.input}
-									value={formData.first}
-									onChange={handleChange}
-								/>
-							</div>
-							<div className={styles.item}>
-								<label htmlFor='last' className={styles.label}>
-									Last Name
-								</label>
-								<input
-									type='text'
-									name='last'
-									placeholder='Last'
-									className={styles.input}
-									value={formData.last}
-									onChange={handleChange}
-								/>
-							</div>
-						</div>
-						<div className={styles.item}>
-							<label htmlFor='handle' className={styles.label}>
-								Handle
-							</label>
-							<input
+							<FormInput
 								type='text'
-								name='handle'
-								placeholder='Nickname'
-								className={styles.input}
-								value={formData.handle}
-								onChange={handleChange}
+								name='first'
+								value={formData.first}
+								handleChange={handleChange}
+							/>
+
+							<FormInput
+								type='text'
+								name='last'
+								value={formData.last}
+								handleChange={handleChange}
 							/>
 						</div>
-						<div className={styles.item}>
-							<label htmlFor='yoyo' className={styles.label}>
-								Favorite Yoyo
-							</label>
-							<input
-								type='text'
-								name='yoyo'
-								placeholder='Duncan Imperial'
-								className={styles.input}
-								value={formData.yoyo}
-								onChange={handleChange}
-							/>
-						</div>
-						<div className={styles.item}>
-							<label htmlFor='brand' className={styles.label}>
-								Favorite Brand
-							</label>
-							<input
-								type='text'
-								name='brand'
-								placeholder='Duncan'
-								className={styles.input}
-								value={formData.brand}
-								onChange={handleChange}
-							/>
-						</div>
-						<div className={styles.item}>
-							<label htmlFor='location' className={styles.label}>
-								Location
-							</label>
-							<input
-								type='text'
-								name='location'
-								placeholder='Earth'
-								className={styles.input}
-								value={formData.location}
-								onChange={handleChange}
-							/>
-						</div>
+						<FormInput
+							type='text'
+							name='handle'
+							value={formData.handle}
+							handleChange={handleChange}
+						/>
+
+						<FormInput
+							type='text'
+							name='yoyo'
+							value={formData.yoyo}
+							handleChange={handleChange}
+						/>
+
+						<FormInput
+							type='text'
+							name='brand'
+							value={formData.brand}
+							handleChange={handleChange}
+						/>
+
+						<FormInput
+							type='text'
+							name='location'
+							value={formData.location}
+							handleChange={handleChange}
+						/>
 					</div>
 					<div
 						className={`${styles['form-item']} ${styles['profile-picture']}`}
@@ -216,9 +183,11 @@ function ProfileSettings({ setViewSettings }) {
 								rows='3'
 								placeholder='I like long walks on the beach, throwing yoyos in the rain, and walking the dog with expensive yoyos.'
 								onChange={handleChange}
-								value={formData.description}
+								value={formData.description || ''}
 							></textarea>
-							<div className={styles['max-length']}>{maxLength}</div>
+							<div className={styles['max-length']}>
+								{300 - (formData.description?.length || 0)}
+							</div>
 						</div>
 					</div>
 				</div>

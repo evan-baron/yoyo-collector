@@ -2,9 +2,13 @@
 
 // Libraries
 import React, { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 
 // Styles
 import styles from './settingsConsole.module.scss';
+
+// MUI
+import { Close } from '@mui/icons-material';
 
 // Components
 import VerticalDivider from '../dividers/VerticalDivider';
@@ -34,6 +38,8 @@ function SettingsConsole({ setViewSettings }) {
 			component: PasswordSecuritySettings,
 		},
 	});
+
+	const router = useRouter();
 
 	const SelectedComponent = useMemo(() => {
 		const selectedEntry = Object.values(selected).find(
@@ -78,6 +84,9 @@ function SettingsConsole({ setViewSettings }) {
 				{SelectedComponent && (
 					<SelectedComponent setViewSettings={setViewSettings} />
 				)}
+			</div>
+			<div className={styles.close} onClick={() => router.push('/collections')}>
+				<Close sx={{ fontSize: '2rem' }} />
 			</div>
 		</div>
 	);

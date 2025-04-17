@@ -73,7 +73,7 @@ const Login = () => {
 				setUser(response.data.user);
 
 				// Redirects to home
-				router.push('/');
+				router.push('/collections');
 
 				// Closes modal
 				setModalOpen(false);

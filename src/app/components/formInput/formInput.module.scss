@@ -1,0 +1,24 @@
+.item {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+
+	.input {
+		border: none;
+		height: 1.5rem;
+		width: 100%;
+		font-size: 1.125rem;
+		background-color: var(--darkGray);
+		color: var(--lightestGray);
+		padding-left: 0.25rem;
+
+		&::placeholder {
+			color: var(--gray);
+		}
+
+		&:focus {
+			outline: none;
+			background-color: var(--mediumGray);
+		}
+	}
+}

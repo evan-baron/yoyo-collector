@@ -1,7 +1,9 @@
 .settings {
+	position: relative;
 	display: flex;
 	// width: 60%;
-	max-width: 50rem;
+	width: 48rem;
+	min-height: 30rem;
 	border-radius: 0.5rem;
 	background-color: var(--darkerGray);
 	box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
@@ -42,5 +44,19 @@
 		height: 100%;
 		padding: 1rem 2rem;
 		border-radius: 0.5rem;
+	}
+
+	.close {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 2.5rem;
+		width: 2.5rem;
+		right: 0;
+		top: 0;
+		color: var(--lightestGray);
+		opacity: 0.5;
+		cursor: pointer;
 	}
 }

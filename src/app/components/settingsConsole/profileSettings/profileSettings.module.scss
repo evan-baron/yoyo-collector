@@ -31,6 +31,10 @@
 				display: flex;
 				justify-content: center;
 				gap: 1rem;
+
+				.radio {
+					accent-color: rgb(0, 225, 255);
+				}
 			}
 		}
 
