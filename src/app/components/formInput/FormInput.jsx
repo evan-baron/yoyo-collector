@@ -73,6 +73,15 @@ function FormInput({
 
 	const { label, placeholder, maxLength } = fieldConfig[name] || defaultField;
 
+	const handleKeyDown = (e) => {
+		const { name, value } = e.target;
+
+		if (e.key === 'Tab' || e.key === 'Enter') {
+			e.preventDefault();
+			setCurrentlyEditing(null);
+		}
+	};
+
 	return (
 		<div className={styles.item}>
 			<label htmlFor={name} className={styles.label}>
@@ -91,6 +100,8 @@ function FormInput({
 						maxLength={maxLength}
 						autoComplete='off'
 						ref={inputRef}
+						onKeyDown={handleKeyDown}
+						spellCheck='off'
 					/>
 					<Check
 						sx={{ fontSize: '1.75rem', cursor: 'pointer' }}

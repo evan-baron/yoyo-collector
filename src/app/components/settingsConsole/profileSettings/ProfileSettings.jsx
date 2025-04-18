@@ -14,6 +14,7 @@ import FormInput from '../../formInput/FormInput';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
+import e from 'cors';
 
 function ProfileSettings({ setViewSettings }) {
 	const { user, profileSettingsFormData, setProfileSettingsFormData } =
@@ -89,17 +90,21 @@ function ProfileSettings({ setViewSettings }) {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		console.log(name, value);
 		setProfileSettingsFormData((prev) => ({
 			...prev,
 			[name]: value,
 		}));
 	};
 
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		console.log(profileSettingsFormData);
+	};
+
 	return (
 		<div className={styles.profile}>
 			<h2 className={styles.h2}>Profile Settings</h2>
-			<form className={styles['profile-form']}>
+			<form className={styles['profile-form']} onSubmit={handleSubmit}>
 				<div className={styles.top}>
 					<fieldset className={styles.item}>
 						<h3 htmlFor='privacy' className={styles.h3}>
@@ -238,7 +243,7 @@ function ProfileSettings({ setViewSettings }) {
 					</div>
 				</div>
 				{dirty && (
-					<button className={styles.button} type='button'>
+					<button className={styles.button} type='submit'>
 						Save Changes
 					</button>
 				)}
