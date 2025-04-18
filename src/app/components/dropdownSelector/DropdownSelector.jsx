@@ -70,11 +70,6 @@ function DropdownSelector({
 	const handleKeyDown = (e) => {
 		const { value } = e.target;
 
-		console.log(inputRef.current);
-		console.log(dropdownVisible);
-		console.log(highlightedIndex);
-		console.log(value.length);
-
 		if (!isFocused) setIsFocused(true);
 
 		setIsUsingKeyboard(true);
