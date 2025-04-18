@@ -4,7 +4,7 @@
 	flex-direction: column;
 	align-items: center;
 	gap: 1rem;
-	transform: translateY(-4rem);
+	transform: translateY(-2rem);
 	height: auto;
 	width: 30rem;
 	color: var(--lightestGray);
@@ -15,6 +15,7 @@
 
 	.h2 {
 		font-size: 2rem;
+		text-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
 	}
 
 	.item {
@@ -51,7 +52,6 @@
 			transition: all 0.3s ease;
 			z-index: 0;
 			isolation: isolate;
-			box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
 			margin-top: 0.25rem;
 		}
 	}
