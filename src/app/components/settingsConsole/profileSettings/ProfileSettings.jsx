@@ -16,7 +16,8 @@ import FormInput from '../../formInput/FormInput';
 import { useAppContext } from '@/app/context/AppContext';
 
 function ProfileSettings({ setViewSettings }) {
-	const { user } = useAppContext();
+	const { user, profileSettingsFormData, setProfileSettingsFormData } =
+		useAppContext();
 	const {
 		first_name,
 		last_name,
@@ -30,36 +31,38 @@ function ProfileSettings({ setViewSettings }) {
 		privacy,
 	} = user;
 
-	const [formData, setFormData] = useState({
-		first: { editing: false, value: first_name || '' },
-		last: { editing: false, value: last_name || '' },
-		handle: { editing: false, value: handle || '' },
-		yoyo: { editing: false, value: favorite_yoyo || '' },
-		brand: { editing: false, value: favorite_brand || '' },
-		city: { editing: false, value: city || '' },
-		state: { editing: false, value: state || '' },
-		country: { editing: false, value: country || '' },
-		description: { editing: false, value: description || '' },
-		privacy: { editing: false, value: privacy || '' },
-	});
+	const initialData = {
+		first: first_name || '',
+		last: last_name || '',
+		handle: handle || '',
+		yoyo: favorite_yoyo || '',
+		brand: favorite_brand || '',
+		city: city || '',
+		state: state || '',
+		country: country || '',
+		description: description || '',
+		privacy: privacy || '',
+	};
+
+	const [currentlyEditing, setCurrentlyEditing] = useState(null);
 
 	const [dirty, setDirty] = useState(false);
 
 	useEffect(() => {
 		setDirty(
-			formData.first !== first_name ||
-				formData.last !== last_name ||
-				formData.handle !== handle ||
-				formData.yoyo !== favorite_yoyo ||
-				formData.brand !== favorite_brand ||
-				formData.city !== city ||
-				formData.state !== state ||
-				formData.country !== country ||
-				formData.description !== description ||
-				formData.privacy !== privacy
+			profileSettingsFormData.first !== initialData.first ||
+				profileSettingsFormData.last !== initialData.last ||
+				profileSettingsFormData.handle !== initialData.handle ||
+				profileSettingsFormData.yoyo !== initialData.yoyo ||
+				profileSettingsFormData.brand !== initialData.brand ||
+				profileSettingsFormData.city !== initialData.city ||
+				profileSettingsFormData.state !== initialData.state ||
+				profileSettingsFormData.country !== initialData.country ||
+				profileSettingsFormData.description !== initialData.description ||
+				profileSettingsFormData.privacy !== initialData.privacy
 		);
 	}, [
-		formData,
+		profileSettingsFormData,
 		first_name,
 		last_name,
 		handle,
@@ -74,21 +77,22 @@ function ProfileSettings({ setViewSettings }) {
 
 	const location = () => {
 		return (
-			[formData.city.value, formData.state.value, formData.country.value]
+			[
+				profileSettingsFormData.city,
+				profileSettingsFormData.state,
+				profileSettingsFormData.country,
+			]
 				.filter(Boolean)
 				.join(', ') || ''
 		);
 	};
 
-	console.log(user);
-	console.log(formData);
-
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		console.log(name, value);
-		setFormData((prev) => ({
+		setProfileSettingsFormData((prev) => ({
 			...prev,
-			[name]: { value: value },
+			[name]: value,
 		}));
 	};
 
@@ -109,7 +113,7 @@ function ProfileSettings({ setViewSettings }) {
 									id='public'
 									name='privacy'
 									value='public'
-									checked={formData.privacy === 'public'}
+									checked={profileSettingsFormData.privacy === 'public'}
 									onChange={handleChange}
 								/>
 								<label htmlFor='public' className={styles['radio-label']}>
@@ -123,7 +127,7 @@ function ProfileSettings({ setViewSettings }) {
 									id='anonymous'
 									name='privacy'
 									value='anonymous'
-									checked={formData.privacy === 'anonymous'}
+									checked={profileSettingsFormData.privacy === 'anonymous'}
 									onChange={handleChange}
 								/>
 
@@ -138,7 +142,7 @@ function ProfileSettings({ setViewSettings }) {
 									id='private'
 									name='privacy'
 									value='private'
-									checked={formData.privacy === 'private'}
+									checked={profileSettingsFormData.privacy === 'private'}
 									onChange={handleChange}
 								/>
 
@@ -155,35 +159,45 @@ function ProfileSettings({ setViewSettings }) {
 							<FormInput
 								type='text'
 								name='first'
-								value={formData.first.value}
+								value={profileSettingsFormData.first}
+								currentlyEditing={currentlyEditing}
+								setCurrentlyEditing={setCurrentlyEditing}
 								handleChange={handleChange}
 							/>
 
 							<FormInput
 								type='text'
 								name='last'
-								value={formData.last.value}
+								value={profileSettingsFormData.last}
+								currentlyEditing={currentlyEditing}
+								setCurrentlyEditing={setCurrentlyEditing}
 								handleChange={handleChange}
 							/>
 						</div>
 						<FormInput
 							type='text'
 							name='handle'
-							value={formData.handle.value}
+							value={profileSettingsFormData.handle}
+							currentlyEditing={currentlyEditing}
+							setCurrentlyEditing={setCurrentlyEditing}
 							handleChange={handleChange}
 						/>
 
 						<FormInput
 							type='text'
 							name='yoyo'
-							value={formData.yoyo.value}
+							value={profileSettingsFormData.yoyo}
+							currentlyEditing={currentlyEditing}
+							setCurrentlyEditing={setCurrentlyEditing}
 							handleChange={handleChange}
 						/>
 
 						<FormInput
 							type='text'
 							name='brand'
-							value={formData.brand.value}
+							value={profileSettingsFormData.brand}
+							currentlyEditing={currentlyEditing}
+							setCurrentlyEditing={setCurrentlyEditing}
 							handleChange={handleChange}
 						/>
 
@@ -213,11 +227,12 @@ function ProfileSettings({ setViewSettings }) {
 								maxLength={300}
 								rows='3'
 								placeholder='I like long walks on the beach, throwing yoyos in the rain, and walking the dog with expensive yoyos.'
+								value={profileSettingsFormData.description}
+								onClick={() => setCurrentlyEditing(null)}
 								onChange={handleChange}
-								value={formData.description.value || ''}
 							></textarea>
 							<div className={styles['max-length']}>
-								{300 - (formData.description?.length || 0)}
+								{300 - (profileSettingsFormData.description?.length || 0)}
 							</div>
 						</div>
 					</div>

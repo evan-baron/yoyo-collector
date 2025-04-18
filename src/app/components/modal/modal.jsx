@@ -8,6 +8,7 @@ import ForgotPassword from './forgotPassword/ForgotPassword';
 import ResetPassword from './resetPassword/ResetPassword';
 import VerifyEmail from './verifyEmail/VerifyEmail';
 import ThankYou from './thankYou/ThankYou';
+import LocationPicker from './locationPicker/LocationPicker';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -32,6 +33,8 @@ function Modal() {
 				return <VerifyEmail />;
 			case 'thank-you':
 				return <ThankYou />;
+			case 'location-picker':
+				return <LocationPicker />;
 			default:
 				return <div>Modal</div>;
 		}
@@ -41,7 +44,11 @@ function Modal() {
 		<div className={styles.modal}>
 			<div
 				className={styles.background}
-				onClick={() => setModalOpen(false)}
+				onClick={() => {
+					if (modalType !== 'location-picker') {
+						setModalOpen(false);
+					}
+				}}
 			></div>
 			{modalContent()}
 		</div>

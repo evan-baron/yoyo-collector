@@ -1,0 +1,74 @@
+.location {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	transform: translateY(-4rem);
+	height: 20rem;
+	width: 30rem;
+	color: var(--lightestGray);
+	background-color: var(--darkerGray);
+	padding: 1rem 2rem;
+	border-radius: 0.5rem;
+	box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
+
+	.item {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+
+		.label {
+			position: relative;
+			display: flex;
+			align-items: center;
+			height: 1.25rem;
+		}
+
+		.input {
+			position: relative;
+			display: flex;
+			align-items: center;
+			height: 1.5rem;
+			width: 50%;
+			background-color: var(--darkGray);
+			color: var(--lightestGray);
+			margin: 0;
+			padding-left: 0.25rem;
+			font-size: 1.125rem;
+			border-radius: 0;
+			border: none;
+
+			&:focus {
+				outline: none;
+			}
+		}
+
+		.dropdown {
+			position: absolute;
+			top: 2.75rem;
+			max-height: 10rem;
+			width: 50%;
+			overflow-y: scroll;
+			background-color: var(--darkGray);
+
+			z-index: 5;
+
+			.highlighted {
+				background-color: var(--mediumGray);
+			}
+		}
+	}
+}
+.close {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 2.5rem;
+	width: 2.5rem;
+	right: 0;
+	top: 0;
+	color: var(--lightestGray);
+	opacity: 0.5;
+	cursor: pointer;
+}

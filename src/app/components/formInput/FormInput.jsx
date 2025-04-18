@@ -1,5 +1,7 @@
+'use client';
+
 // Libraries
-import React, { useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 // Styles
 import styles from './formInput.module.scss';
@@ -7,17 +9,28 @@ import styles from './formInput.module.scss';
 // MUI
 import { Edit, Check } from '@mui/icons-material';
 
-function FormInput({ type, name, value, handleChange }) {
-	const [editing, setEditing] = useState(false);
+// Context
+import { useAppContext } from '@/app/context/AppContext';
 
-	// setSelected((prev) =>
-	// 	Object.fromEntries(
-	// 		Object.entries(prev).map(([key, val]) => [
-	// 			key,
-	// 			{ ...val, selected: key.toLowerCase() === name },
-	// 		])
-	// 	)
-	// );
+function FormInput({
+	type,
+	name,
+	value,
+	currentlyEditing,
+	setCurrentlyEditing,
+	handleChange,
+}) {
+	const { setModalOpen, setModalType } = useAppContext();
+
+	const inputRef = useRef(null);
+
+	const editing = currentlyEditing === name;
+
+	useEffect(() => {
+		if (editing && inputRef.current) {
+			inputRef.current.focus();
+		}
+	}, [editing]);
 
 	const fieldConfig = {
 		first: {
@@ -77,10 +90,11 @@ function FormInput({ type, name, value, handleChange }) {
 						onChange={handleChange}
 						maxLength={maxLength}
 						autoComplete='off'
+						ref={inputRef}
 					/>
 					<Check
 						sx={{ fontSize: '1.75rem', cursor: 'pointer' }}
-						onClick={() => setEditing((prev) => !prev)}
+						onClick={() => setCurrentlyEditing(null)}
 					/>
 				</div>
 			) : (
@@ -88,9 +102,10 @@ function FormInput({ type, name, value, handleChange }) {
 					className={styles['input-box']}
 					onClick={() => {
 						if (name === 'location') {
-							console.log('location');
+							setModalOpen(true);
+							setModalType('location-picker');
 						} else {
-							setEditing((prev) => !prev);
+							setCurrentlyEditing(name);
 						}
 					}}
 					style={{ cursor: 'pointer' }}

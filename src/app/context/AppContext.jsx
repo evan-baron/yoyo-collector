@@ -21,6 +21,18 @@ export const ContextProvider = ({ children }) => {
 	const [tokenValid, setTokenValid] = useState(null);
 	const [user, setUser] = useState(null);
 	const [authChecked, setAuthChecked] = useState(null);
+	const [profileSettingsFormData, setProfileSettingsFormData] = useState({
+		first: '',
+		last: '',
+		handle: '',
+		yoyo: '',
+		brand: '',
+		city: '',
+		state: '',
+		country: '',
+		description: '',
+		privacy: '',
+	});
 
 	const router = useRouter();
 
@@ -109,6 +121,18 @@ export const ContextProvider = ({ children }) => {
 				// There isn't a token in the url, so hydrate the page with the user data if there is any
 				const user = await fetchUserData();
 				setUser(user);
+				setProfileSettingsFormData({
+					first: user.first_name || '',
+					last: user.last_name || '',
+					handle: user.handle || '',
+					yoyo: user.favorite_yoyo || '',
+					brand: user.favorite_brand || '',
+					city: user.city || '',
+					state: user.state || '',
+					country: user.country || '',
+					description: user.description || '',
+					privacy: user.privacy || '',
+				});
 				setAuthChecked(true);
 			} else {
 				// There is a token! Find the token data
@@ -171,6 +195,7 @@ export const ContextProvider = ({ children }) => {
 			value={{
 				authChecked,
 				emailVerified,
+				profileSettingsFormData,
 				loading,
 				modalOpen,
 				modalType,
@@ -179,6 +204,7 @@ export const ContextProvider = ({ children }) => {
 				tokenValid,
 				user,
 				setEmailVerified,
+				setProfileSettingsFormData,
 				setLoading,
 				setModalOpen,
 				setModalType,
