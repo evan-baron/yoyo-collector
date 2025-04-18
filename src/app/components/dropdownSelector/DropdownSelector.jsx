@@ -14,6 +14,7 @@ function DropdownSelector({
 	const [isFocused, setIsFocused] = useState(false);
 	const [highlightedIndex, setHighlightedIndex] = useState(-1);
 	const [isUsingKeyboard, setIsUsingKeyboard] = useState(false);
+	const [dropdownVisible, setDropdownVisible] = useState(false);
 
 	const inputRef = useRef();
 	const dropdownRef = useRef();
@@ -70,6 +71,9 @@ function DropdownSelector({
 		const { value } = e.target;
 
 		console.log(inputRef.current);
+		console.log(dropdownVisible);
+		console.log(highlightedIndex);
+		console.log(value.length);
 
 		if (!isFocused) setIsFocused(true);
 
@@ -94,12 +98,23 @@ function DropdownSelector({
 			}
 			setHighlightedIndex((prev) => Math.max(prev - 1, 0));
 		} else if (e.key === 'Tab') {
+			const shouldAutoComplete = list.length === 1;
 			if (value?.length !== 0) {
 				e.preventDefault();
 			}
-			if (list.length === 1) {
+
+			if (!list.length || shouldAutoComplete) {
 				setIsFocused(false);
-				inputRef.current.blur();
+				setHighlightedIndex(-1);
+				inputRef.current?.blur();
+
+				if (shouldAutoComplete) {
+					setLocationFormData({
+						...locationFormData,
+						[name.toLowerCase()]: list[0],
+					});
+				}
+				return;
 			}
 			setHighlightedIndex((prev) => Math.min(prev + 1, list?.length - 1));
 			if (highlightedIndex < 0 && !isFocused) {
@@ -126,6 +141,10 @@ function DropdownSelector({
 		}
 	};
 
+	useEffect(() => {
+		setDropdownVisible(!!value && isFocused);
+	}, [value, isFocused]);
+
 	return (
 		<form autoComplete='off'>
 			<label htmlFor={name} className={styles.label}>
@@ -144,7 +163,7 @@ function DropdownSelector({
 				onFocus={() => setIsFocused(true)}
 				onKeyDown={handleKeyDown}
 			/>
-			{value && isFocused && (
+			{dropdownVisible && (
 				<div className={styles.dropdown} ref={dropdownRef}>
 					{list?.map((item, index) => (
 						<div
