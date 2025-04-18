@@ -25,6 +25,7 @@ function DropdownSelector({
 		setIsFocused(false);
 	};
 
+	// Highlighted options in dropdown menu
 	useEffect(() => {
 		if (highlightedIndex >= 0 && optionRefs.current[highlightedIndex]) {
 			optionRefs.current[highlightedIndex].scrollIntoView({
@@ -34,6 +35,7 @@ function DropdownSelector({
 		}
 	}, [highlightedIndex]);
 
+	// Switches between keyboard and mouse for control of dropdown menu items
 	useEffect(() => {
 		const handleMouseMove = () => {
 			setIsUsingKeyboard(false);
@@ -42,6 +44,7 @@ function DropdownSelector({
 		return () => window.removeEventListener('mousemove', handleMouseMove);
 	}, []);
 
+	// If user clicks outside of dropdown, closes dropdown
 	useEffect(() => {
 		const handleClickOutside = (e) => {
 			if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -53,6 +56,7 @@ function DropdownSelector({
 		return () => document.removeEventListener('mousedown', handleClickOutside);
 	}, [onClickOutside]);
 
+	// Sets form data values
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setLocationFormData({
@@ -61,8 +65,11 @@ function DropdownSelector({
 		});
 	};
 
+	// Keyboard key properties
 	const handleKeyDown = (e) => {
 		const { value } = e.target;
+
+		console.log(inputRef.current);
 
 		if (!isFocused) setIsFocused(true);
 
@@ -87,8 +94,12 @@ function DropdownSelector({
 			}
 			setHighlightedIndex((prev) => Math.max(prev - 1, 0));
 		} else if (e.key === 'Tab') {
-			if (value?.length !== 0 && highlightedIndex >= 0) {
+			if (value?.length !== 0) {
 				e.preventDefault();
+			}
+			if (list.length === 1) {
+				setIsFocused(false);
+				inputRef.current.blur();
 			}
 			setHighlightedIndex((prev) => Math.min(prev + 1, list?.length - 1));
 			if (highlightedIndex < 0 && !isFocused) {

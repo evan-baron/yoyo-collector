@@ -1,11 +1,6 @@
 // Libraries
-import React, { useState, useEffect, useRef } from 'react';
-import {
-	getAll,
-	getCountries,
-	getStatesByShort,
-	getCities,
-} from 'countrycitystatejson';
+import React, { useState } from 'react';
+import { getAll, getCountries, getStatesByShort } from 'countrycitystatejson';
 
 // Styles
 import styles from './locationPicker.module.scss';
@@ -120,17 +115,14 @@ function LocationPicker() {
 	const handleLocationSubmit = () => {
 		const { country, state, city } = locationFormData;
 
-		const countryShorten = (country) => {
-			if (country === 'United States') {
-				return 'USA';
-			} else if (country === 'United Arab Emirates') {
-				return 'UAE';
-			} else if (country === 'United Kingdom') {
-				return 'UK';
-			} else {
-				return country;
-			}
+		const shortenedCountries = {
+			'United States': 'USA',
+			'United Arab Emirates': 'UAE',
+			'United Kingdom': 'UK',
+			// More to come as I think of them
 		};
+
+		const countryShorten = (country) => shortenedCountries[country] || country;
 
 		setProfileSettingsFormData({
 			...profileSettingsFormData,
