@@ -159,6 +159,42 @@ const updatePassword = async (password, token) => {
 	}
 };
 
+// Update userSettings
+const updateUserSettings = async (
+	brand,
+	city,
+	country,
+	description,
+	first,
+	handle,
+	last,
+	privacy,
+	state,
+	yoyo,
+	id
+) => {
+	try {
+		await userModel.updateUserSettings(
+			brand,
+			city,
+			country,
+			description,
+			first,
+			handle,
+			last,
+			privacy,
+			state,
+			yoyo,
+			id
+		);
+	} catch (err) {
+		console.log(
+			'There was an error at updateUserSettings in userService.js: ',
+			err.message
+		);
+	}
+};
+
 // Update verified
 const updateVerified = async (user_id, token) => {
 	try {
@@ -180,5 +216,6 @@ export default {
 	getUserById,
 	logUserAction,
 	updatePassword,
+	updateUserSettings,
 	updateVerified,
 };

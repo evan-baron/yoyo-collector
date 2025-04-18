@@ -91,6 +91,39 @@ const User = {
 		return result.affectedRows > 0;
 	},
 
+	// Update user settings
+	async updateUserSettings(
+		brand,
+		city,
+		country,
+		description,
+		first,
+		handle,
+		last,
+		privacy,
+		state,
+		yoyo,
+		id
+	) {
+		const [result] = await pool.execute(
+			'UPDATE users SET favorite_brand = ?, city = ?, country = ?, description = ?, first_name = ?, handle = ?, last_name = ?, privacy = ?, state = ?, favorite_yoyo = ?, updated_at = NOW() WHERE id = ?',
+			[
+				brand,
+				city,
+				country,
+				description,
+				first,
+				handle,
+				last,
+				privacy,
+				state,
+				yoyo,
+				id,
+			]
+		);
+		return result.affectedRows > 0;
+	},
+
 	// Update verified
 	async updateVerified(user_id) {
 		const [result] = await pool.execute(

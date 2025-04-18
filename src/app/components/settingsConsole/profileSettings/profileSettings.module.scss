@@ -97,17 +97,34 @@
 
 			.profile-summary {
 				position: relative;
-				.textarea {
-					background-color: var(--darkGray);
-					color: var(--lightestGray);
-					padding-left: 0.25rem;
 
-					&::placeholder {
-						color: var(--lightGray);
-					}
+				.p {
+					font-size: 1.125rem;
+					position: 'relative';
+					display: 'inline-flex';
+					align-items: 'flex-end';
+					flex-wrap: 'wrap';
+				}
 
-					&:focus {
-						background-color: var(--mediumGray);
+				.textarea-box {
+					display: flex;
+					align-items: center;
+					gap: 0.25rem;
+					width: 100%;
+
+					.textarea {
+						background-color: var(--darkGray);
+						color: var(--lightestGray);
+						padding-left: 0.25rem;
+						width: 100%;
+
+						&::placeholder {
+							color: var(--lightGray);
+						}
+
+						&:focus {
+							background-color: var(--mediumGray);
+						}
 					}
 				}
 

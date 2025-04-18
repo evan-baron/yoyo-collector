@@ -3,22 +3,29 @@
 // Libraries
 import React, { useState, useEffect } from 'react';
 
+// Utils
+import axiosInstance from '@/utils/axios';
+
 // Styles
 import styles from './profileSettings.module.scss';
 
 // MUI
-import { East } from '@mui/icons-material';
+import { Check, East, Edit } from '@mui/icons-material';
 
 // Components
 import FormInput from '../../formInput/FormInput';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
-import e from 'cors';
 
 function ProfileSettings({ setViewSettings }) {
-	const { user, profileSettingsFormData, setProfileSettingsFormData } =
-		useAppContext();
+	const {
+		user,
+		profileSettingsFormData,
+		setProfileSettingsFormData,
+		setLoading,
+	} = useAppContext();
+
 	const {
 		first_name,
 		last_name,
@@ -30,6 +37,7 @@ function ProfileSettings({ setViewSettings }) {
 		city,
 		description,
 		privacy,
+		id,
 	} = user;
 
 	const initialData = {
@@ -46,7 +54,6 @@ function ProfileSettings({ setViewSettings }) {
 	};
 
 	const [currentlyEditing, setCurrentlyEditing] = useState(null);
-
 	const [dirty, setDirty] = useState(false);
 
 	useEffect(() => {
@@ -96,9 +103,31 @@ function ProfileSettings({ setViewSettings }) {
 		}));
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(profileSettingsFormData);
+		const submitData = Object.fromEntries(
+			Object.entries(profileSettingsFormData).map(([key, value]) => [
+				key,
+				value === '' ? null : value,
+			])
+		);
+		console.log(submitData);
+		submitData.id = id;
+
+		try {
+			setLoading(true);
+			await axiosInstance.post('api/user/updateSettings', submitData);
+			setCurrentlyEditing(null);
+			setDirty((prev) => !prev);
+			setLoading(false);
+		} catch (error) {
+			setLoading(false);
+			console.log(
+				'There was an error submitting profileSettings in components/settingsConsole/profileSettings.jsx: ',
+				error.message
+			);
+			return;
+		}
 	};
 
 	return (
@@ -223,22 +252,56 @@ function ProfileSettings({ setViewSettings }) {
 					>
 						<div className={styles.item}>
 							<label htmlFor='description' className={styles.label}>
-								Tell us about yourself
+								Short description:
 							</label>
-							<textarea
-								className={styles.textarea}
-								name='description'
-								id='description'
-								maxLength={300}
-								rows='3'
-								placeholder='I like long walks on the beach, throwing yoyos in the rain, and walking the dog with expensive yoyos.'
-								value={profileSettingsFormData.description}
-								onClick={() => setCurrentlyEditing(null)}
-								onChange={handleChange}
-							></textarea>
-							<div className={styles['max-length']}>
-								{300 - (profileSettingsFormData.description?.length || 0)}
-							</div>
+							{currentlyEditing === 'description' ? (
+								<div className={styles['textarea-box']}>
+									<textarea
+										className={styles.textarea}
+										name='description'
+										id='description'
+										maxLength={300}
+										rows='3'
+										placeholder='I like long walks on the beach, throwing yoyos in the rain, and walking the dog with expensive yoyos.'
+										value={profileSettingsFormData.description}
+										onChange={handleChange}
+										onKeyDown={(e) => {
+											if (e.key === 'Enter') {
+												!profileSettingsFormData.description.length &&
+													setCurrentlyEditing(null);
+											}
+										}}
+									></textarea>
+									<Check
+										sx={{ fontSize: '1.75rem', cursor: 'pointer' }}
+										onClick={() => setCurrentlyEditing(null)}
+									/>
+									<div className={styles['max-length']}>
+										{300 - (profileSettingsFormData.description?.length || 0)}
+									</div>
+								</div>
+							) : (
+								<>
+									<p className={styles.p}>
+										<span style={{ whiteSpace: 'pre-wrap' }}>
+											{profileSettingsFormData.description}
+										</span>
+										<Edit
+											sx={{
+												position: 'relative',
+												top: profileSettingsFormData.description.length
+													? '.125rem'
+													: '',
+												fontSize: profileSettingsFormData.description.length
+													? '1rem'
+													: '1.5rem',
+												cursor: 'pointer',
+											}}
+											onClick={() => setCurrentlyEditing('description')}
+										/>
+									</p>
+								</>
+							)}
 						</div>
 					</div>
 				</div>

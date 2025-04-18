@@ -17,8 +17,14 @@ import AccountSettings from './accountSettings/AccountSettings';
 import CollectionSettings from './collectionSettings/CollectionSettings';
 import PasswordSecuritySettings from './passwordSecuritySettings/PasswordSecuritySettings';
 import ProfileSettings from './profileSettings/ProfileSettings';
+import LoadingSpinner from '../loading/LoadingSpinner';
+
+// Context
+import { useAppContext } from '@/app/context/AppContext';
 
 function SettingsConsole({ setViewSettings }) {
+	const { loading } = useAppContext();
+
 	// State
 	const [selected, setSelected] = useState({
 		Profile: {
@@ -88,6 +94,7 @@ function SettingsConsole({ setViewSettings }) {
 			<div className={styles.close} onClick={() => router.push('/collections')}>
 				<Close sx={{ fontSize: '2rem' }} />
 			</div>
+			{loading && <LoadingSpinner message='Saving' />}
 		</div>
 	);
 }
