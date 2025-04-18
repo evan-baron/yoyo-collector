@@ -31,19 +31,17 @@ function LocationPicker() {
 		city: city,
 	});
 
+	// Location Data
 	const locationData = Object.entries(getAll()).map((obj) => obj[1]);
-
 	const countries = locationData.map((obj) => obj.name);
 	const countriesShort = getCountries().map((country) => {
 		return { name: country.name, short: country.shortName };
 	});
-
 	const filteredCountries = countries
 		.filter((item) =>
 			item.toLowerCase().startsWith(locationFormData.country?.toLowerCase())
 		)
 		.sort((a, b) => a.localeCompare(b));
-
 	const filteredStates = (() => {
 		const country = locationFormData.country;
 
@@ -70,34 +68,31 @@ function LocationPicker() {
 			)
 			.sort((a, b) => a.localeCompare(b));
 	})();
-
-	const allCitiesInCountry = (country) => {
-		const countryObj = locationData.find((c) => c.name === country);
-
-		if (!countryObj || !countryObj.states) return [];
-
-		return Object.values(countryObj.states)
-			.flatMap((stateCities) => stateCities.map((city) => city.name))
-			.sort((a, b) => a.localeCompare(b));
-	};
-
 	const filteredCities = (() => {
 		const country = locationFormData.country;
 
 		if (!country) return [];
 
+		const countries = locationData.find((param) => param.name === country);
+
+		if (!countries || !countries.states) return [];
+
+		const allCities = Object.values(countries.states)
+			.flatMap((stateCities) => stateCities.map((city) => city.name))
+			.sort((a, b) => a.localeCompare(b));
+
 		const short = countriesShort.find((obj) => obj.name === country)?.short;
 
-		if (!short) return;
+		if (!short) return [];
 
 		const state = locationFormData.state;
 
 		if (!state) {
-			const allCities = allCitiesInCountry(country);
-
 			return allCities
 				.filter((city) =>
-					city.toLowerCase().startsWith(locationFormData.city?.toLowerCase())
+					city
+						.toLowerCase()
+						.startsWith(locationFormData.city?.toLowerCase() || '')
 				)
 				.reduce((finalAllCities, city) => {
 					if (!finalAllCities.includes(city)) {
@@ -106,22 +101,51 @@ function LocationPicker() {
 					return finalAllCities;
 				}, []);
 		} else if (state) {
-			const cities =
-				getAll()[short].states[state]?.map((city) => city.name) || [];
-			return cities;
+			const cities = getAll()[short]?.states?.[state];
+
+			if (!cities) return [];
+
+			return cities
+				.map((city) => city?.name)
+				.filter((city) =>
+					city
+						.toLowerCase()
+						.startsWith(locationFormData.city?.toLowerCase() || '')
+				)
+				.sort((a, b) => a.localeCompare(b));
 		}
 	})();
 
+	// Handle Submits
+	const handleLocationSubmit = () => {
+		const { country, state, city } = locationFormData;
+
+		const countryShorten = (country) => {
+			if (country === 'United States') {
+				return 'USA';
+			} else if (country === 'United Arab Emirates') {
+				return 'UAE';
+			} else if (country === 'United Kingdom') {
+				return 'UK';
+			} else {
+				return country;
+			}
+		};
+
+		setProfileSettingsFormData({
+			...profileSettingsFormData,
+			country: countryShorten(country),
+			state: state,
+			city: city,
+		});
+
+		setModalOpen(false);
+	};
+
 	return (
 		<>
-			<div
-				className={styles.location}
-				onClick={() => {
-					console.log(
-						locationData.filter((country) => country.name === 'Cambodia')
-					);
-				}}
-			>
+			<div className={styles.location}>
+				<h2 className={styles.h2}>Location Settings</h2>
 				<div className={styles.item}>
 					<DropdownSelector
 						name='Country'
@@ -131,23 +155,33 @@ function LocationPicker() {
 						setLocationFormData={setLocationFormData}
 					/>
 				</div>
-				<div className={styles.item}>
-					<DropdownSelector
-						name='State'
-						value={locationFormData.state}
-						list={filteredStates}
-						locationFormData={locationFormData}
-						setLocationFormData={setLocationFormData}
-					/>
+				<div className={styles['city-state']}>
+					<div className={styles.item}>
+						<DropdownSelector
+							name='State'
+							value={locationFormData.state}
+							list={filteredStates}
+							locationFormData={locationFormData}
+							setLocationFormData={setLocationFormData}
+						/>
+					</div>
+					<div className={styles.item}>
+						<DropdownSelector
+							name='City'
+							value={locationFormData.city}
+							list={filteredCities}
+							locationFormData={locationFormData}
+							setLocationFormData={setLocationFormData}
+						/>
+					</div>
 				</div>
-				<div className={styles.item}>
-					<DropdownSelector
-						name='City'
-						value={locationFormData.city}
-						list={filteredCities}
-						locationFormData={locationFormData}
-						setLocationFormData={setLocationFormData}
-					/>
+				<div className={styles.buttons}>
+					<button className={styles.button} onClick={() => setModalOpen(false)}>
+						Cancel
+					</button>
+					<button className={styles.button} onClick={handleLocationSubmit}>
+						Save
+					</button>
 				</div>
 				<div className={styles.close} onClick={() => setModalOpen(false)}>
 					<Close sx={{ fontSize: '2rem' }} />

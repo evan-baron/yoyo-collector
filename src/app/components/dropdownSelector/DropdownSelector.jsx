@@ -61,6 +61,60 @@ function DropdownSelector({
 		});
 	};
 
+	const handleKeyDown = (e) => {
+		const { value } = e.target;
+
+		if (!isFocused) setIsFocused(true);
+
+		setIsUsingKeyboard(true);
+
+		// Down Arrow
+		if (e.key === 'ArrowDown') {
+			e.preventDefault();
+			setHighlightedIndex((prev) => Math.min(prev + 1, list?.length - 1));
+		}
+
+		// Up Arrow
+		if (e.key === 'ArrowUp') {
+			e.preventDefault();
+			setHighlightedIndex((prev) => Math.max(prev - 1, 0));
+		}
+
+		// Shift + Tab and Tab (solo)
+		if (e.key === 'Tab' && e.shiftKey) {
+			if (value?.length !== 0) {
+				e.preventDefault();
+			}
+			setHighlightedIndex((prev) => Math.max(prev - 1, 0));
+		} else if (e.key === 'Tab') {
+			if (value?.length !== 0 && highlightedIndex >= 0) {
+				e.preventDefault();
+			}
+			setHighlightedIndex((prev) => Math.min(prev + 1, list?.length - 1));
+			if (highlightedIndex < 0 && !isFocused) {
+				inputRef.current?.blur();
+			}
+		}
+
+		// Enter
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			if (highlightedIndex >= 0 && highlightedIndex < list?.length) {
+				setLocationFormData({
+					...locationFormData,
+					[name.toLowerCase()]: list[highlightedIndex],
+				});
+				setIsFocused(false);
+				setHighlightedIndex(-1);
+				inputRef.current?.blur();
+			}
+			setIsFocused(false);
+			if (highlightedIndex < 0) {
+				inputRef.current?.blur();
+			}
+		}
+	};
+
 	return (
 		<form autoComplete='off'>
 			<label htmlFor={name} className={styles.label}>
@@ -77,43 +131,11 @@ function DropdownSelector({
 				ref={inputRef}
 				onChange={handleChange}
 				onFocus={() => setIsFocused(true)}
-				onKeyDown={(e) => {
-					if (!isFocused) setIsFocused(true);
-
-					setIsUsingKeyboard(true);
-
-					if (e.key === 'ArrowDown') {
-						e.preventDefault();
-						setHighlightedIndex((prev) => Math.min(prev + 1, list.length - 1));
-					} else if (e.key === 'ArrowUp') {
-						e.preventDefault();
-						setHighlightedIndex((prev) => Math.max(prev - 1, 0));
-					} else if (e.key === 'Tab') {
-						e.preventDefault();
-						setHighlightedIndex((prev) => Math.min(prev + 1, list.length - 1));
-						if (highlightedIndex < 0 && !isFocused) {
-							inputRef.current?.blur();
-						}
-					} else if (e.key === 'Enter') {
-						e.preventDefault();
-						if (highlightedIndex >= 0 && highlightedIndex < list.length) {
-							setLocationFormData({
-								...locationFormData,
-								[name.toLowerCase()]: list[highlightedIndex],
-							});
-							setIsFocused(false);
-							setHighlightedIndex(-1);
-							inputRef.current?.blur();
-						}
-						if (highlightedIndex < 0) {
-							inputRef.current?.blur();
-						}
-					}
-				}}
+				onKeyDown={handleKeyDown}
 			/>
 			{value && isFocused && (
 				<div className={styles.dropdown} ref={dropdownRef}>
-					{list.map((item, index) => (
+					{list?.map((item, index) => (
 						<div
 							key={index}
 							ref={(option) => (optionRefs.current[index] = option)}

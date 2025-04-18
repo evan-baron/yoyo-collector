@@ -2,9 +2,10 @@
 	position: fixed;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	gap: 1rem;
 	transform: translateY(-4rem);
-	height: 20rem;
+	height: auto;
 	width: 30rem;
 	color: var(--lightestGray);
 	background-color: var(--darkerGray);
@@ -12,53 +13,50 @@
 	border-radius: 0.5rem;
 	box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
 
+	.h2 {
+		font-size: 2rem;
+	}
+
 	.item {
 		position: relative;
 		display: flex;
 		flex-direction: column;
+		width: 100%;
+	}
 
-		.label {
-			position: relative;
-			display: flex;
-			align-items: center;
-			height: 1.25rem;
-		}
+	.city-state {
+		display: flex;
+		gap: 1rem;
+		width: 100%;
 
-		.input {
-			position: relative;
-			display: flex;
-			align-items: center;
-			height: 1.5rem;
+		.item {
 			width: 50%;
-			background-color: var(--darkGray);
+		}
+	}
+
+	.buttons {
+		display: flex;
+		gap: 1rem;
+
+		.button {
+			align-self: center;
+			position: relative;
+			font-size: 1.5rem;
+			padding: 0.25rem 1rem;
+			border: 2px solid var(--lightestGray);
+			border-radius: 0.5rem;
 			color: var(--lightestGray);
-			margin: 0;
-			padding-left: 0.25rem;
-			font-size: 1.125rem;
-			border-radius: 0;
-			border: none;
-
-			&:focus {
-				outline: none;
-			}
-		}
-
-		.dropdown {
-			position: absolute;
-			top: 2.75rem;
-			max-height: 10rem;
-			width: 50%;
-			overflow-y: scroll;
-			background-color: var(--darkGray);
-
-			z-index: 5;
-
-			.highlighted {
-				background-color: var(--mediumGray);
-			}
+			background-color: transparent;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			z-index: 0;
+			isolation: isolate;
+			box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
+			margin-top: 0.25rem;
 		}
 	}
 }
+
 .close {
 	position: absolute;
 	display: flex;
