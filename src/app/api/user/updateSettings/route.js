@@ -91,7 +91,7 @@ export async function POST(req) {
 			id,
 		} = newProfileSettings;
 
-		await updateUserSettings(
+		const updatedUser = await updateUserSettings(
 			brand,
 			city,
 			country,
@@ -106,7 +106,10 @@ export async function POST(req) {
 		);
 
 		return NextResponse.json(
-			{ message: 'User profile settings updated successfully' },
+			{
+				user: updatedUser,
+				message: 'User profile settings updated successfully',
+			},
 			{ status: 200 }
 		);
 	} catch (err) {

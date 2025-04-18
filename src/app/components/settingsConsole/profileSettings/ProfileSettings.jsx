@@ -24,6 +24,7 @@ function ProfileSettings({ setViewSettings }) {
 		profileSettingsFormData,
 		setProfileSettingsFormData,
 		setLoading,
+		setUser,
 	} = useAppContext();
 
 	const {
@@ -40,34 +41,38 @@ function ProfileSettings({ setViewSettings }) {
 		id,
 	} = user;
 
-	const initialData = {
-		first: first_name || '',
-		last: last_name || '',
-		handle: handle || '',
-		yoyo: favorite_yoyo || '',
-		brand: favorite_brand || '',
-		city: city || '',
-		state: state || '',
-		country: country || '',
-		description: description || '',
-		privacy: privacy || '',
-	};
+	// const [initialData, setInitialData] = useState({
+	// 	first: first_name || '',
+	// 	last: last_name || '',
+	// 	handle: handle || '',
+	// 	yoyo: favorite_yoyo || '',
+	// 	brand: favorite_brand || '',
+	// 	city: city || '',
+	// 	state: state || '',
+	// 	country: country || '',
+	// 	description: description || '',
+	// 	privacy: privacy || '',
+	// });
+
+	// console.log('initial data: ', initialData);
+	console.log('user data: ', profileSettingsFormData);
+	console.log('user: ', user);
 
 	const [currentlyEditing, setCurrentlyEditing] = useState(null);
 	const [dirty, setDirty] = useState(false);
 
 	useEffect(() => {
 		setDirty(
-			profileSettingsFormData.first !== initialData.first ||
-				profileSettingsFormData.last !== initialData.last ||
-				profileSettingsFormData.handle !== initialData.handle ||
-				profileSettingsFormData.yoyo !== initialData.yoyo ||
-				profileSettingsFormData.brand !== initialData.brand ||
-				profileSettingsFormData.city !== initialData.city ||
-				profileSettingsFormData.state !== initialData.state ||
-				profileSettingsFormData.country !== initialData.country ||
-				profileSettingsFormData.description !== initialData.description ||
-				profileSettingsFormData.privacy !== initialData.privacy
+			profileSettingsFormData.first !== first_name ||
+				profileSettingsFormData.last !== last_name ||
+				profileSettingsFormData.handle !== handle ||
+				profileSettingsFormData.yoyo !== favorite_yoyo ||
+				profileSettingsFormData.brand !== favorite_brand ||
+				profileSettingsFormData.city !== city ||
+				profileSettingsFormData.state !== state ||
+				profileSettingsFormData.country !== country ||
+				profileSettingsFormData.description !== description ||
+				profileSettingsFormData.privacy !== privacy
 		);
 	}, [
 		profileSettingsFormData,
@@ -116,7 +121,12 @@ function ProfileSettings({ setViewSettings }) {
 
 		try {
 			setLoading(true);
-			await axiosInstance.post('api/user/updateSettings', submitData);
+			const response = await axiosInstance.post(
+				'api/user/updateSettings',
+				submitData
+			);
+			const user = response.data.user;
+			setUser(user);
 			setCurrentlyEditing(null);
 			setDirty((prev) => !prev);
 			setLoading(false);

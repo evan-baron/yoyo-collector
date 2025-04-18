@@ -187,6 +187,8 @@ const updateUserSettings = async (
 			yoyo,
 			id
 		);
+		const updatedUser = await getUserById(id);
+		return updatedUser;
 	} catch (err) {
 		console.log(
 			'There was an error at updateUserSettings in userService.js: ',
