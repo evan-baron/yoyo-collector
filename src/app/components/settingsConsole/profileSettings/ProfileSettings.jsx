@@ -148,7 +148,7 @@ function ProfileSettings({ setViewSettings }) {
 				privacy: user.privacy || '',
 			});
 			setCurrentlyEditing(null);
-			setDirty((prev) => !prev);
+			setDirty(false);
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);

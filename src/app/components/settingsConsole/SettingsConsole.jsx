@@ -94,10 +94,13 @@ function SettingsConsole({ setViewSettings }) {
 			<div
 				className={styles.close}
 				onClick={() => {
-					!dirty && router.push('/collections');
-
-					setModalOpen(true);
-					setModalType('dirty');
+					console.log(dirty);
+					if (!dirty) {
+						router.push('/collections');
+					} else {
+						setModalOpen(true);
+						setModalType('dirty');
+					}
 				}}
 			>
 				<Close sx={{ fontSize: '2rem' }} />
