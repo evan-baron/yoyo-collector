@@ -23,8 +23,17 @@ import logo from '@/app/assets/uip5-yoyo-logo.png';
 import Modal from '@/app/components/modal/modal';
 
 const Header = () => {
-	const { modalOpen, setModalOpen, setModalType, user, setUser } =
-		useAppContext();
+	const {
+		modalOpen,
+		setModalOpen,
+		setModalType,
+		user,
+		setUser,
+		setProfileSettingsFormData,
+		setCurrentlyEditing,
+		setDirty,
+		setLoading,
+	} = useAppContext();
 
 	const router = useRouter();
 
@@ -47,6 +56,10 @@ const Header = () => {
 		localStorage.removeItem('token');
 		localStorage.removeItem('user');
 		setUser(null);
+		setProfileSettingsFormData(null);
+		setCurrentlyEditing(null);
+		setDirty(false);
+		setLoading(false);
 		setModalOpen(false);
 		setModalType(null);
 		router.push('/');

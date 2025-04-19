@@ -168,7 +168,6 @@ function ProfileSettings({ setViewSettings }) {
 					<fieldset className={styles.item}>
 						<h3 htmlFor='privacy' className={styles.h3}>
 							Profile Visibility:
-							{/* {`Privacy (How you want to appear to others)`} */}
 						</h3>
 						<div className={styles.options}>
 							<div className={styles['radio-item']}>

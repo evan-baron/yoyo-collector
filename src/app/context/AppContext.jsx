@@ -67,40 +67,6 @@ export const ContextProvider = ({ children }) => {
 		} finally {
 			setLoading(false);
 		}
-
-		// ORIGINAL CODE BELOW
-
-		// if (token) {
-		// 	try {
-		// 		const response = await axiosInstance.get('/api/token/authenticate', {
-		// 			headers: { Authorization: `Bearer ${token}` },
-		// 		});
-		// 		if (response.data && response.data.id) {
-		// 			return response.data;
-		// 		} else {
-		// 			// If the response does not contain user data, reset the user
-		// 			setUser(null);
-		// 		}
-		// 	} catch (error) {
-		// 		console.error('Error authenticating: ', error);
-		// 	}
-		// } else {
-		// 	try {
-		// 		const response = await axiosInstance.get('/api/token/authenticate', {
-		// 			withCredentials: true,
-		// 		});
-
-		// 		if (response.data && response.data.id) {
-		// 			return response.data;
-		// 		} else {
-		// 			// If the response does not contain user data, reset the user
-		// 			setUser(null);
-		// 		}
-		// 	} catch (error) {
-		// 		console.error('Error authenticating: ', error);
-		// 	}
-		// setLoading(false)
-		// }
 	};
 
 	// Helper function to fetch token data
@@ -122,19 +88,8 @@ export const ContextProvider = ({ children }) => {
 			if (!urlToken) {
 				// There isn't a token in the url, so hydrate the page with the user data if there is any
 				const user = await fetchUserData();
+				if (!user) return;
 				setUser(user);
-				setProfileSettingsFormData({
-					first: user.first_name || '',
-					last: user.last_name || '',
-					handle: user.handle || '',
-					yoyo: user.favorite_yoyo || '',
-					brand: user.favorite_brand || '',
-					city: user.city || '',
-					state: user.state || '',
-					country: user.country || '',
-					description: user.description || '',
-					privacy: user.privacy || '',
-				});
 				setAuthChecked(true);
 			} else {
 				// There is a token! Find the token data
@@ -158,6 +113,7 @@ export const ContextProvider = ({ children }) => {
 					);
 
 					const { userData } = response.data;
+					if (!userData) return;
 					setUser(userData);
 					router.push(window.location.pathname);
 					setModalOpen(true);
@@ -191,6 +147,23 @@ export const ContextProvider = ({ children }) => {
 		};
 		fetchAndValidate();
 	}, []);
+
+	useEffect(() => {
+		if (!user) return;
+
+		setProfileSettingsFormData({
+			first: user.first_name || '',
+			last: user.last_name || '',
+			handle: user.handle || '',
+			yoyo: user.favorite_yoyo || '',
+			brand: user.favorite_brand || '',
+			city: user.city || '',
+			state: user.state || '',
+			country: user.country || '',
+			description: user.description || '',
+			privacy: user.privacy || '',
+		});
+	}, [user]);
 
 	return (
 		<AppContext.Provider
