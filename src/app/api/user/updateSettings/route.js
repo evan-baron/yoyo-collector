@@ -13,8 +13,6 @@ export async function POST(req) {
 
 		const newProfileSettings = await req.json();
 
-		console.log(newProfileSettings);
-
 		const values = Object.entries(newProfileSettings); // Should return array of values like ['city', 'Denver']
 
 		// Rule Checks Setup
@@ -73,8 +71,10 @@ export async function POST(req) {
 			return lettersNumbersCharacters(value);
 		};
 
+		// If item fails, puts into this array
 		const failed = values.filter(([key, val]) => !validation(key, val));
 
+		// If array length > 0, reject
 		if (failed.length) {
 			return NextResponse.json(
 				{
@@ -86,6 +86,7 @@ export async function POST(req) {
 			);
 		}
 
+		// All items passed, destructure object and send to services/backend
 		const {
 			brand,
 			city,

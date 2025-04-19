@@ -122,6 +122,12 @@ function ProfileSettings({ setViewSettings }) {
 		}));
 	};
 
+	//////////////////////////////////////
+	//                                  //
+	//   ADD FRONT END VALIDATION NOW   //
+	//                                  //
+	//////////////////////////////////////
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const submitData = profileSettingsFormData;
