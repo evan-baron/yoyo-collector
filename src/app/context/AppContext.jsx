@@ -33,6 +33,8 @@ export const ContextProvider = ({ children }) => {
 		description: '',
 		privacy: '',
 	});
+	const [dirty, setDirty] = useState(false);
+	const [currentlyEditing, setCurrentlyEditing] = useState(null);
 
 	const router = useRouter();
 
@@ -194,6 +196,8 @@ export const ContextProvider = ({ children }) => {
 		<AppContext.Provider
 			value={{
 				authChecked,
+				currentlyEditing,
+				dirty,
 				emailVerified,
 				profileSettingsFormData,
 				loading,
@@ -203,6 +207,8 @@ export const ContextProvider = ({ children }) => {
 				timeRemaining,
 				tokenValid,
 				user,
+				setCurrentlyEditing,
+				setDirty,
 				setEmailVerified,
 				setProfileSettingsFormData,
 				setLoading,

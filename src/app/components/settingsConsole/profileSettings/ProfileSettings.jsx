@@ -10,7 +10,7 @@ import axiosInstance from '@/utils/axios';
 import styles from './profileSettings.module.scss';
 
 // MUI
-import { Check, East, Edit } from '@mui/icons-material';
+import { Check, Close, East, Edit, Undo } from '@mui/icons-material';
 
 // Components
 import FormInput from '../../formInput/FormInput';
@@ -20,8 +20,12 @@ import { useAppContext } from '@/app/context/AppContext';
 
 function ProfileSettings({ setViewSettings }) {
 	const {
+		currentlyEditing,
+		dirty,
 		user,
 		profileSettingsFormData,
+		setCurrentlyEditing,
+		setDirty,
 		setProfileSettingsFormData,
 		setLoading,
 		setUser,
@@ -41,26 +45,6 @@ function ProfileSettings({ setViewSettings }) {
 		id,
 	} = user;
 
-	// const [initialData, setInitialData] = useState({
-	// 	first: first_name || '',
-	// 	last: last_name || '',
-	// 	handle: handle || '',
-	// 	yoyo: favorite_yoyo || '',
-	// 	brand: favorite_brand || '',
-	// 	city: city || '',
-	// 	state: state || '',
-	// 	country: country || '',
-	// 	description: description || '',
-	// 	privacy: privacy || '',
-	// });
-
-	// console.log('initial data: ', initialData);
-	console.log('user data: ', profileSettingsFormData);
-	console.log('user: ', user);
-
-	const [currentlyEditing, setCurrentlyEditing] = useState(null);
-	const [dirty, setDirty] = useState(false);
-
 	useEffect(() => {
 		setDirty(
 			profileSettingsFormData.first !== first_name ||
@@ -74,19 +58,7 @@ function ProfileSettings({ setViewSettings }) {
 				profileSettingsFormData.description !== description ||
 				profileSettingsFormData.privacy !== privacy
 		);
-	}, [
-		profileSettingsFormData,
-		first_name,
-		last_name,
-		handle,
-		favorite_yoyo,
-		favorite_brand,
-		city,
-		state,
-		country,
-		description,
-		privacy,
-	]);
+	}, [profileSettingsFormData, user]);
 
 	const location = () => {
 		return (
@@ -100,23 +72,59 @@ function ProfileSettings({ setViewSettings }) {
 		);
 	};
 
+	const originalLocation = () => {
+		return [city, state, country].filter(Boolean).join(', ') || '';
+	};
+
 	const handleChange = (e) => {
+		const key = e.currentTarget.dataset.value;
+		if (key && e.currentTarget.dataset.name === 'undo') {
+			setCurrentlyEditing(null);
+			if (key === 'first') {
+				setProfileSettingsFormData((prev) => ({
+					...prev,
+					[key]: user.first_name,
+				}));
+			} else if (key === 'last') {
+				setProfileSettingsFormData((prev) => ({
+					...prev,
+					[key]: user.last_name,
+				}));
+			} else if (key === 'yoyo') {
+				setProfileSettingsFormData((prev) => ({
+					...prev,
+					[key]: user.favorite_yoyo,
+				}));
+			} else if (key === 'brand') {
+				setProfileSettingsFormData((prev) => ({
+					...prev,
+					[key]: user.favorite_brand,
+				}));
+			} else if (key === 'location') {
+				setProfileSettingsFormData((prev) => ({
+					...prev,
+					city: user.city,
+					state: user.state,
+					country: user.country,
+				}));
+			} else {
+				setProfileSettingsFormData((prev) => ({
+					...prev,
+					[key]: user[key],
+				}));
+			}
+			return;
+		}
 		const { name, value } = e.target;
 		setProfileSettingsFormData((prev) => ({
 			...prev,
-			[name]: value,
+			[name]: value.trim(),
 		}));
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const submitData = Object.fromEntries(
-			Object.entries(profileSettingsFormData).map(([key, value]) => [
-				key,
-				value === '' ? null : value,
-			])
-		);
-		console.log(submitData);
+		const submitData = profileSettingsFormData;
 		submitData.id = id;
 
 		try {
@@ -127,6 +135,18 @@ function ProfileSettings({ setViewSettings }) {
 			);
 			const user = response.data.user;
 			setUser(user);
+			setProfileSettingsFormData({
+				first: user.first_name || '',
+				last: user.last_name || '',
+				handle: user.handle || '',
+				yoyo: user.favorite_yoyo || '',
+				brand: user.favorite_brand || '',
+				city: user.city || '',
+				state: user.state || '',
+				country: user.country || '',
+				description: user.description || '',
+				privacy: user.privacy || '',
+			});
 			setCurrentlyEditing(null);
 			setDirty((prev) => !prev);
 			setLoading(false);
@@ -147,7 +167,8 @@ function ProfileSettings({ setViewSettings }) {
 				<div className={styles.top}>
 					<fieldset className={styles.item}>
 						<h3 htmlFor='privacy' className={styles.h3}>
-							{`Privacy (How you want to appear to others)`}
+							Profile Visibility:
+							{/* {`Privacy (How you want to appear to others)`} */}
 						</h3>
 						<div className={styles.options}>
 							<div className={styles['radio-item']}>
@@ -250,6 +271,7 @@ function ProfileSettings({ setViewSettings }) {
 							name='location'
 							value={location()}
 							handleChange={handleChange}
+							originalLocation={originalLocation()}
 						/>
 					</div>
 					<div
@@ -293,7 +315,7 @@ function ProfileSettings({ setViewSettings }) {
 							) : (
 								<>
 									<p className={styles.p}>
-										<span style={{ whiteSpace: 'pre-wrap' }}>
+										<span onClick={() => setCurrentlyEditing('description')}>
 											{profileSettingsFormData.description}
 										</span>
 										<Edit
@@ -306,9 +328,34 @@ function ProfileSettings({ setViewSettings }) {
 													? '1rem'
 													: '1.5rem',
 												cursor: 'pointer',
+												marginLeft: '.25rem',
 											}}
 											onClick={() => setCurrentlyEditing('description')}
 										/>
+										{profileSettingsFormData.description !== description && (
+											<Undo
+												className={styles.undo}
+												sx={{
+													position: 'relative',
+													top: profileSettingsFormData.description.length
+														? '.25rem'
+														: '',
+													fontSize: profileSettingsFormData.description.length
+														? '1.25rem'
+														: '1.75rem',
+													cursor: 'pointer',
+													height: '1rem',
+													marginLeft: '.25rem',
+												}}
+												viewBox='2 4 18 18'
+												onClick={() =>
+													setProfileSettingsFormData({
+														...profileSettingsFormData,
+														description: description,
+													})
+												}
+											/>
+										)}
 									</p>
 								</>
 							)}
@@ -325,7 +372,7 @@ function ProfileSettings({ setViewSettings }) {
 				className={styles['view-profile']}
 				onClick={() => setViewSettings((prev) => !prev)}
 			>
-				<p className={styles.p}>How others see my profile</p>
+				<p className={styles.p}>Preview Profile</p>
 				<East className={styles.east} sx={{ color: 'rgb(0, 200, 225)' }} />
 			</div>
 		</div>

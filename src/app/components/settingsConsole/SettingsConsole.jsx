@@ -23,7 +23,7 @@ import LoadingSpinner from '../loading/LoadingSpinner';
 import { useAppContext } from '@/app/context/AppContext';
 
 function SettingsConsole({ setViewSettings }) {
-	const { loading } = useAppContext();
+	const { loading, dirty, setModalOpen, setModalType } = useAppContext();
 
 	// State
 	const [selected, setSelected] = useState({
@@ -75,7 +75,7 @@ function SettingsConsole({ setViewSettings }) {
 						{Object.entries(selected).map(([key, value], index) => {
 							return (
 								<MenuItem
-									key={key}
+									key={index}
 									name={key}
 									isSelected={value.selected}
 									handleChange={handleChange}
@@ -91,7 +91,15 @@ function SettingsConsole({ setViewSettings }) {
 					<SelectedComponent setViewSettings={setViewSettings} />
 				)}
 			</div>
-			<div className={styles.close} onClick={() => router.push('/collections')}>
+			<div
+				className={styles.close}
+				onClick={() => {
+					!dirty && router.push('/collections');
+
+					setModalOpen(true);
+					setModalType('dirty');
+				}}
+			>
 				<Close sx={{ fontSize: '2rem' }} />
 			</div>
 			{loading && <LoadingSpinner message='Saving' />}

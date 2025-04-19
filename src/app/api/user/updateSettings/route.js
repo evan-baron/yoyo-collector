@@ -1,34 +1,34 @@
 import userService from '@/services/userService';
 const { updateUserSettings } = userService;
 import { NextResponse } from 'next/server';
-import { checkRateLimit } from '@/utils/rateLimiter';
+// import { checkRateLimit } from '@/utils/rateLimiter';
 
 export async function POST(req) {
 	try {
-		const ip =
-			req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-			req.ip ||
-			'anonymous';
-		await checkRateLimit(ip);
+		// const ip =
+		// 	req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+		// 	req.ip ||
+		// 	'anonymous';
+		// await checkRateLimit(ip);
 
 		const newProfileSettings = await req.json();
 
+		console.log(newProfileSettings);
+
 		const values = Object.entries(newProfileSettings); // Should return array of values like ['city', 'Denver']
 
-		const lettersNumbersAllowed = [
+		// Rule Checks Setup
+		const namesHandleYoyoBrandKeys = [
 			'first',
 			'last',
 			'handle',
 			'yoyo',
 			'brand',
-			'city',
-			'state',
-			'country',
 		];
 
-		const lettersNumbers = (param) => /^[a-zA-Z0-9 -']+$/.test(param);
-		const lettersNumbersCharacters = (param) =>
-			/^[a-zA-Z0-9,./?~@&()*%\$!#-'":;\s]+$/.test(param);
+		const locationKeys = ['country', 'state', 'city'];
+
+		const privacyValues = ['public', 'anonymous', 'private'];
 
 		const nullAllowed = [
 			'handle',
@@ -40,38 +40,47 @@ export async function POST(req) {
 			'description',
 		];
 
+		// Regex Rule Checks
+		const onlyLetters = (param) => /^\p{L}+$/u.test(param);
+		const lettersNumbers = (param) => /^[a-zA-Z0-9 -']+$/.test(param);
+		const lettersNumbersCharacters = (param) =>
+			/^[a-zA-Z0-9,./?~@&()*%\$!#-'":;\s]+$/.test(param);
+
 		const validation = (name, value) => {
 			if (
 				nullAllowed.includes(name) &&
-				(value === null || value === undefined)
+				(value === null || value === undefined || value === '')
 			) {
 				return true;
 			}
 
-			if (typeof value !== 'string') return true;
-
-			if (lettersNumbersAllowed.includes(name)) {
-				return lettersNumbers(value);
-			} else if (!lettersNumbersAllowed.includes(name)) {
-				return lettersNumbersCharacters(value);
+			if (name === 'id' && typeof value !== 'number') {
+				return false;
 			}
 
-			return false;
+			if (namesHandleYoyoBrandKeys.includes(name)) {
+				return lettersNumbers(value);
+			}
+
+			if (locationKeys.includes(name)) {
+				return onlyLetters(value);
+			}
+
+			if (name === 'privacy') {
+				return privacyValues.includes(value);
+			}
+
+			return lettersNumbersCharacters(value);
 		};
 
-		const isPrivacyValid = (param) =>
-			['public', 'anonymous', 'private'].includes(param);
-
-		const failed = values.filter(([key, val]) =>
-			key === 'privacy' ? !isPrivacyValid(val) : !validation(key, val)
-		);
+		const failed = values.filter(([key, val]) => !validation(key, val));
 
 		if (failed.length) {
 			return NextResponse.json(
 				{
 					message: `Validation failed for: ${failed
 						.map(([key]) => key)
-						.join(', ')}`,
+						.join(', ')} inside api/user/updateSettings/route.js`,
 				},
 				{ status: 400 }
 			);

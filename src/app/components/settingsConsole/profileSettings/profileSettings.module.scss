@@ -24,11 +24,16 @@
 		.top {
 			align-self: center;
 
+			.item {
+				position: relative;
+			}
+
 			.h3 {
 				align-self: center;
 				font-size: 1.125rem;
 			}
 			.options {
+				position: relative;
 				display: flex;
 				justify-content: center;
 				gap: 1rem;
@@ -61,10 +66,6 @@
 				width: 50%;
 				outline: 1px solid white;
 			}
-		}
-
-		.label {
-			// font-size: 1.125rem;
 		}
 
 		.input {
@@ -104,6 +105,8 @@
 					display: 'inline-flex';
 					align-items: 'flex-end';
 					flex-wrap: 'wrap';
+					cursor: pointer;
+					line-height: normal;
 				}
 
 				.textarea-box {
@@ -111,6 +114,7 @@
 					align-items: center;
 					gap: 0.25rem;
 					width: 100%;
+					cursor: pointer;
 
 					.textarea {
 						background-color: var(--darkGray);
@@ -152,6 +156,7 @@
 			color: var(--lightestGray);
 			background-color: transparent;
 			border: 2px solid var(--lightestGray);
+			cursor: pointer;
 
 			@media (max-height: 380px) and (orientation: landscape) {
 				font-size: 1rem;

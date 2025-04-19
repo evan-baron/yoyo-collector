@@ -188,6 +188,9 @@ const updateUserSettings = async (
 			id
 		);
 		const updatedUser = await getUserById(id);
+		if (updatedUser?.password) {
+			delete updatedUser.password;
+		}
 		return updatedUser;
 	} catch (err) {
 		console.log(

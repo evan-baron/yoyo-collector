@@ -9,6 +9,7 @@ import ResetPassword from './resetPassword/ResetPassword';
 import VerifyEmail from './verifyEmail/VerifyEmail';
 import ThankYou from './thankYou/ThankYou';
 import LocationPicker from './locationPicker/LocationPicker';
+import Dirty from './dirty/Dirty';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -35,6 +36,8 @@ function Modal() {
 				return <ThankYou />;
 			case 'location-picker':
 				return <LocationPicker />;
+			case 'dirty':
+				return <Dirty />;
 			default:
 				return <div>Modal</div>;
 		}
