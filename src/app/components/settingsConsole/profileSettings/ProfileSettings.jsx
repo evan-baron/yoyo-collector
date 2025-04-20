@@ -208,14 +208,11 @@ function ProfileSettings({ setViewSettings }) {
 			])
 		);
 		submitData.id = id;
-		console.log(submitData);
 
 		const values = Object.entries(submitData);
 
-		// If item fails, puts into this array
 		const failed = values.filter(([key, val]) => !validation(key, val));
 
-		// If array length > 0, reject
 		if (failed.length) {
 			setErrMessage(
 				failed.map(([name, value]) => [name, warningMessage[name]])

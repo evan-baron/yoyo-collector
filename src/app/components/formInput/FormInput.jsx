@@ -211,13 +211,23 @@ function FormInput({
 					</p>
 					{warning && (
 						<div className={styles.warning}>
-							<p>Your must have a {name} name</p>
-							<button
-								className={styles.button}
+							<p
 								onClick={() => setWarning(false)}
+								style={{ cursor: 'pointer' }}
 							>
-								OK
-							</button>
+								Your must have a {name} name.{' '}
+								<span
+									style={{
+										color: 'var(--lightestGray)',
+										border: '1px solid var(--lightestGray)',
+										padding: '0 .25rem',
+										borderRadius: '.25rem',
+										fontSize: '.5rem',
+									}}
+								>
+									OK
+								</span>
+							</p>
 						</div>
 					)}
 				</>
