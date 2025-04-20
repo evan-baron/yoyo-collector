@@ -19,6 +19,7 @@ import FormInput from '../../formInput/FormInput';
 import { useAppContext } from '@/app/context/AppContext';
 
 function ProfileSettings({ setViewSettings }) {
+	// Definitions
 	const {
 		currentlyEditing,
 		dirty,
@@ -45,20 +46,7 @@ function ProfileSettings({ setViewSettings }) {
 		id,
 	} = user;
 
-	useEffect(() => {
-		setDirty(
-			profileSettingsFormData.first !== first_name ||
-				profileSettingsFormData.last !== last_name ||
-				profileSettingsFormData.handle !== handle ||
-				profileSettingsFormData.yoyo !== favorite_yoyo ||
-				profileSettingsFormData.brand !== favorite_brand ||
-				profileSettingsFormData.city !== city ||
-				profileSettingsFormData.state !== state ||
-				profileSettingsFormData.country !== country ||
-				profileSettingsFormData.description !== description ||
-				profileSettingsFormData.privacy !== privacy
-		);
-	}, [profileSettingsFormData, user]);
+	const inputsArr = ['first', 'last', 'handle', 'yoyo', 'brand'];
 
 	const location = () => {
 		return (
@@ -76,6 +64,23 @@ function ProfileSettings({ setViewSettings }) {
 		return [city, state, country].filter(Boolean).join(', ') || '';
 	};
 
+	// Setters
+	useEffect(() => {
+		setDirty(
+			profileSettingsFormData.first !== first_name ||
+				profileSettingsFormData.last !== last_name ||
+				profileSettingsFormData.handle !== handle ||
+				profileSettingsFormData.yoyo !== favorite_yoyo ||
+				profileSettingsFormData.brand !== favorite_brand ||
+				profileSettingsFormData.city !== city ||
+				profileSettingsFormData.state !== state ||
+				profileSettingsFormData.country !== country ||
+				profileSettingsFormData.description !== description ||
+				profileSettingsFormData.privacy !== privacy
+		);
+	}, [profileSettingsFormData, user]);
+
+	// Functions
 	const handleChange = (e) => {
 		const key = e.currentTarget.dataset.value;
 		if (key && e.currentTarget.dataset.name === 'undo') {
@@ -225,51 +230,19 @@ function ProfileSettings({ setViewSettings }) {
 				</div>
 				<div className={styles.middle}>
 					<div className={`${styles['form-item']} ${styles['profile-data']}`}>
-						{/* <div className={styles.names}> */}
-						<FormInput
-							type='text'
-							name='first'
-							value={profileSettingsFormData.first}
-							currentlyEditing={currentlyEditing}
-							setCurrentlyEditing={setCurrentlyEditing}
-							handleChange={handleChange}
-						/>
-
-						<FormInput
-							type='text'
-							name='last'
-							value={profileSettingsFormData.last}
-							currentlyEditing={currentlyEditing}
-							setCurrentlyEditing={setCurrentlyEditing}
-							handleChange={handleChange}
-						/>
-						{/* </div> */}
-						<FormInput
-							type='text'
-							name='handle'
-							value={profileSettingsFormData.handle}
-							currentlyEditing={currentlyEditing}
-							setCurrentlyEditing={setCurrentlyEditing}
-							handleChange={handleChange}
-						/>
-
-						<FormInput
-							type='text'
-							name='yoyo'
-							value={profileSettingsFormData.yoyo}
-							currentlyEditing={currentlyEditing}
-							setCurrentlyEditing={setCurrentlyEditing}
-							handleChange={handleChange}
-						/>
-
-						<FormInput
-							type='text'
-							name='brand'
-							value={profileSettingsFormData.brand}
-							currentlyEditing={currentlyEditing}
-							setCurrentlyEditing={setCurrentlyEditing}
-							handleChange={handleChange}
-						/>
+						{inputsArr.map((input, index) => {
+							return (
+								<FormInput
+									key={index}
+									type='text'
+									name={input}
+									value={profileSettingsFormData[input]}
+									currentlyEditing={currentlyEditing}
+									setCurrentlyEditing={setCurrentlyEditing}
+									handleChange={handleChange}
+								/>
+							);
+						})}
 
 						<FormInput
 							type='text'
