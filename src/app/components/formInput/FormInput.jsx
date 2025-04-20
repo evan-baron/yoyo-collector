@@ -1,7 +1,7 @@
 'use client';
 
 // Libraries
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 // Styles
 import styles from './formInput.module.scss';
@@ -21,7 +21,15 @@ function FormInput({
 	handleChange,
 	originalLocation,
 }) {
-	const { setModalOpen, setModalType, user } = useAppContext();
+	const [warning, setWarning] = useState(false);
+
+	const {
+		profileSettingsFormData,
+		setProfileSettingsFormData,
+		setModalOpen,
+		setModalType,
+		user,
+	} = useAppContext();
 
 	const inputRef = useRef(null);
 
@@ -84,6 +92,13 @@ function FormInput({
 	const handleKeyDown = (e) => {
 		if (e.key === 'Tab' || e.key === 'Enter') {
 			e.preventDefault();
+			if (!value.length && (name === 'first' || name === 'last')) {
+				setProfileSettingsFormData({
+					...profileSettingsFormData,
+					[name]: user[`${name}_name`],
+				});
+				setWarning(true);
+			}
 			setCurrentlyEditing(null);
 		}
 	};
@@ -112,7 +127,16 @@ function FormInput({
 					<div className={styles.icons}>
 						<Check
 							sx={{ fontSize: '1.25rem', cursor: 'pointer' }}
-							onClick={() => setCurrentlyEditing(null)}
+							onClick={() => {
+								if (!value.length && (name === 'first' || name === 'last')) {
+									setProfileSettingsFormData({
+										...profileSettingsFormData,
+										[name]: user[`${name}_name`],
+									});
+									setWarning(true);
+								}
+								setCurrentlyEditing(null);
+							}}
 						/>
 						<Close
 							sx={{ fontSize: '1.25rem', cursor: 'pointer' }}
@@ -123,51 +147,66 @@ function FormInput({
 					</div>
 				</div>
 			) : (
-				<div className={styles['input-box']} style={{ cursor: 'pointer' }}>
-					<p
-						className={styles.p}
-						onClick={() => {
-							if (name === 'location') {
-								setModalOpen(true);
-								setModalType('location-picker');
-							} else {
-								setCurrentlyEditing(name);
-							}
-						}}
-					>
-						{value}
-					</p>
-					<Edit
-						sx={{
-							fontSize: value ? '1rem' : '1.5rem',
-							alignSelf: undo ? 'center' : 'end',
-						}}
-						onClick={() => {
-							if (name === 'location') {
-								setModalOpen(true);
-								setModalType('location-picker');
-							} else {
-								setCurrentlyEditing(name);
-							}
-						}}
-					/>
-					{undo && (
-						<Undo
-							sx={{
-								position: 'relative',
-								top: value.length ? '.25rem' : '',
-								fontSize: value.length ? '1.25rem' : '1.75rem',
-								cursor: 'pointer',
-								height: '1rem',
-								alignSelf: 'center',
+				<>
+					<div className={styles['input-box']} style={{ cursor: 'pointer' }}>
+						<p
+							className={styles.p}
+							onClick={() => {
+								(name === 'first' || name === 'last') && setWarning(false);
+								if (name === 'location') {
+									setModalOpen(true);
+									setModalType('location-picker');
+								} else {
+									setCurrentlyEditing(name);
+								}
 							}}
-							viewBox='2 6 18 18'
-							onClick={handleChange}
-							data-name='undo'
-							data-value={name}
+						>
+							{value}
+						</p>
+						<Edit
+							sx={{
+								fontSize: value ? '1rem' : '1.5rem',
+								alignSelf: undo ? 'center' : 'end',
+							}}
+							onClick={() => {
+								(name === 'first' || name === 'last') && setWarning(false);
+								if (name === 'location') {
+									setModalOpen(true);
+									setModalType('location-picker');
+								} else {
+									setCurrentlyEditing(name);
+								}
+							}}
 						/>
+						{undo && (
+							<Undo
+								sx={{
+									position: 'relative',
+									top: value.length ? '.25rem' : '.25rem',
+									fontSize: value.length ? '1.25rem' : '1.75rem',
+									cursor: 'pointer',
+									height: value.length ? '1rem' : '1.25rem',
+									alignSelf: 'center',
+								}}
+								viewBox='2 6 18 18'
+								onClick={handleChange}
+								data-name='undo'
+								data-value={name}
+							/>
+						)}
+					</div>
+					{warning && (
+						<div className={styles.warning}>
+							<p>Your must have a {name} name</p>
+							<button
+								className={styles.button}
+								onClick={() => setWarning(false)}
+							>
+								OK
+							</button>
+						</div>
 					)}
-				</div>
+				</>
 			)}
 		</div>
 	);
