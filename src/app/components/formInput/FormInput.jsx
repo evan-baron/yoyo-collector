@@ -20,6 +20,8 @@ function FormInput({
 	setCurrentlyEditing,
 	handleChange,
 	originalLocation,
+	errMessage,
+	setErrMessage,
 }) {
 	const [warning, setWarning] = useState(false);
 
@@ -152,6 +154,11 @@ function FormInput({
 						<p
 							className={styles.p}
 							onClick={() => {
+								errMessage.length &&
+									setErrMessage((prev) =>
+										prev?.filter(([attribute]) => attribute !== name)
+									);
+
 								(name === 'first' || name === 'last') && setWarning(false);
 								if (name === 'location') {
 									setModalOpen(true);
@@ -169,6 +176,10 @@ function FormInput({
 								alignSelf: undo ? 'center' : 'end',
 							}}
 							onClick={() => {
+								setErrMessage((prev) =>
+									prev?.filter(([attribute]) => attribute !== name)
+								);
+
 								(name === 'first' || name === 'last') && setWarning(false);
 								if (name === 'location') {
 									setModalOpen(true);
@@ -195,6 +206,9 @@ function FormInput({
 							/>
 						)}
 					</div>
+					<p className={styles.warning}>
+						{errMessage?.find(([attr]) => attr === name)?.[1]}
+					</p>
 					{warning && (
 						<div className={styles.warning}>
 							<p>Your must have a {name} name</p>

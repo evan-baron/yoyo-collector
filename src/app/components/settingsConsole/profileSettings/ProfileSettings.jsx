@@ -65,6 +65,7 @@ function ProfileSettings({ setViewSettings }) {
 	};
 
 	// Setters
+	const [errMessage, setErrMessage] = useState(null);
 	useEffect(() => {
 		setDirty(
 			profileSettingsFormData.first !== first_name ||
@@ -79,11 +80,15 @@ function ProfileSettings({ setViewSettings }) {
 				profileSettingsFormData.privacy !== privacy
 		);
 	}, [profileSettingsFormData, user]);
+	useEffect(() => {}, [errMessage]);
 
 	// Functions
 	const handleChange = (e) => {
 		const key = e.currentTarget.dataset.value;
 		if (key && e.currentTarget.dataset.name === 'undo') {
+			console.log(key);
+			console.log(errMessage);
+			setErrMessage((prev) => prev.filter(([attribute]) => attribute !== key));
 			setCurrentlyEditing(null);
 			if (key === 'first') {
 				setProfileSettingsFormData((prev) => ({
@@ -127,14 +132,75 @@ function ProfileSettings({ setViewSettings }) {
 		}));
 	};
 
-	//////////////////////////////////////
-	//                                  //
-	//   ADD FRONT END VALIDATION NOW   //
-	//                                  //
-	//////////////////////////////////////
+	// Validation
+
+	// Rule Checks Setup
+	const names = ['first', 'last'];
+
+	const handleYoyoBrandKeys = ['handle', 'yoyo', 'brand'];
+
+	const locationKeys = ['country', 'state', 'city'];
+
+	const privacyValues = ['public', 'anonymous', 'private'];
+
+	const nullAllowed = [
+		'handle',
+		'yoyo',
+		'brand',
+		'city',
+		'state',
+		'country',
+		'description',
+	];
+
+	// Regex Rule Checks
+	const onlyLetters = (param) => /^\p{L}+$/u.test(param);
+	const namesTest = (param) => /^[a-zA-Z \-']+$/.test(param);
+	const lettersNumbers = (param) => /^[a-zA-Z0-9 \-']+$/.test(param);
+
+	const validation = (name, value) => {
+		if (
+			nullAllowed.includes(name) &&
+			(value === null || value === undefined || value === '')
+		) {
+			return true;
+		}
+
+		if (name === 'id' && typeof value !== 'number') {
+			return false;
+		}
+
+		if (names.includes(name)) {
+			return namesTest(value);
+		}
+
+		if (handleYoyoBrandKeys.includes(name)) {
+			return lettersNumbers(value);
+		}
+
+		if (locationKeys.includes(name)) {
+			return onlyLetters(value);
+		}
+
+		if (name === 'privacy') {
+			return privacyValues.includes(value);
+		}
+
+		return true;
+	};
+
+	// Warning Message
+	const warningMessage = {
+		first: 'No special characters or numbers allowed',
+		last: 'No special characters or numbers allowed',
+		handle: 'No special characters allowed',
+		yoyo: 'No special characters allowed',
+		brand: 'No special characters allowed',
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setCurrentlyEditing(false);
 		const submitData = Object.fromEntries(
 			Object.entries(profileSettingsFormData).map(([key, value]) => [
 				key,
@@ -144,37 +210,50 @@ function ProfileSettings({ setViewSettings }) {
 		submitData.id = id;
 		console.log(submitData);
 
-		try {
-			setLoading(true);
-			const response = await axiosInstance.post(
-				'api/user/updateSettings',
-				submitData
-			);
-			const user = response.data.user;
-			setUser(user);
-			setProfileSettingsFormData({
-				first: user.first_name || '',
-				last: user.last_name || '',
-				handle: user.handle || '',
-				yoyo: user.favorite_yoyo || '',
-				brand: user.favorite_brand || '',
-				city: user.city || '',
-				state: user.state || '',
-				country: user.country || '',
-				description: user.description || '',
-				privacy: user.privacy || '',
-			});
-			setCurrentlyEditing(null);
-			setDirty(false);
-			setLoading(false);
-		} catch (error) {
-			setLoading(false);
-			console.log(
-				'There was an error submitting profileSettings in components/settingsConsole/profileSettings.jsx: ',
-				error.message
+		const values = Object.entries(submitData);
+
+		// If item fails, puts into this array
+		const failed = values.filter(([key, val]) => !validation(key, val));
+
+		// If array length > 0, reject
+		if (failed.length) {
+			setErrMessage(
+				failed.map(([name, value]) => [name, warningMessage[name]])
 			);
 			return;
 		}
+
+		// try {
+		// 	setLoading(true);
+		// 	const response = await axiosInstance.post(
+		// 		'api/user/updateSettings',
+		// 		submitData
+		// 	);
+		// 	const user = response.data.user;
+		// 	setUser(user);
+		// 	setProfileSettingsFormData({
+		// 		first: user.first_name || '',
+		// 		last: user.last_name || '',
+		// 		handle: user.handle || '',
+		// 		yoyo: user.favorite_yoyo || '',
+		// 		brand: user.favorite_brand || '',
+		// 		city: user.city || '',
+		// 		state: user.state || '',
+		// 		country: user.country || '',
+		// 		description: user.description || '',
+		// 		privacy: user.privacy || '',
+		// 	});
+		// 	setCurrentlyEditing(null);
+		// 	setDirty(false);
+		// 	setLoading(false);
+		// } catch (error) {
+		// 	setLoading(false);
+		// 	console.log(
+		// 		'There was an error submitting profileSettings in components/settingsConsole/profileSettings.jsx: ',
+		// 		error.message
+		// 	);
+		// 	return;
+		// }
 	};
 
 	return (
@@ -246,6 +325,8 @@ function ProfileSettings({ setViewSettings }) {
 									currentlyEditing={currentlyEditing}
 									setCurrentlyEditing={setCurrentlyEditing}
 									handleChange={handleChange}
+									errMessage={errMessage}
+									setErrMessage={setErrMessage}
 								/>
 							);
 						})}

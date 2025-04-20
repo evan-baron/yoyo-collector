@@ -16,13 +16,9 @@ export async function POST(req) {
 		const values = Object.entries(newProfileSettings); // Should return array of values like ['city', 'Denver']
 
 		// Rule Checks Setup
-		const namesHandleYoyoBrandKeys = [
-			'first',
-			'last',
-			'handle',
-			'yoyo',
-			'brand',
-		];
+		const names = ['first', 'last'];
+
+		const handleYoyoBrandKeys = ['handle', 'yoyo', 'brand'];
 
 		const locationKeys = ['country', 'state', 'city'];
 
@@ -40,6 +36,7 @@ export async function POST(req) {
 
 		// Regex Rule Checks
 		const onlyLetters = (param) => /^\p{L}+$/u.test(param);
+		const namesTest = (param) => /^[a-zA-Z \-']+$/.test(param);
 		const lettersNumbers = (param) => /^[a-zA-Z0-9 \-']+$/.test(param);
 		const lettersNumbersCharacters = (param) =>
 			/^[a-zA-Z0-9,./?~@&()*%\$!#-'":;\s]+$/.test(param);
@@ -56,7 +53,11 @@ export async function POST(req) {
 				return false;
 			}
 
-			if (namesHandleYoyoBrandKeys.includes(name)) {
+			if (names.includes(name)) {
+				return namesTest(value);
+			}
+
+			if (handleYoyoBrandKeys.includes(name)) {
 				return lettersNumbers(value);
 			}
 
@@ -68,7 +69,7 @@ export async function POST(req) {
 				return privacyValues.includes(value);
 			}
 
-			return lettersNumbersCharacters(value);
+			return true;
 		};
 
 		// If item fails, puts into this array
