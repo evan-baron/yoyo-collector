@@ -223,37 +223,38 @@ function ProfileSettings({ setViewSettings }) {
 			return;
 		}
 
-		// try {
-		// 	setLoading(true);
-		// 	const response = await axiosInstance.post(
-		// 		'api/user/updateSettings',
-		// 		submitData
-		// 	);
-		// 	const user = response.data.user;
-		// 	setUser(user);
-		// 	setProfileSettingsFormData({
-		// 		first: user.first_name || '',
-		// 		last: user.last_name || '',
-		// 		handle: user.handle || '',
-		// 		yoyo: user.favorite_yoyo || '',
-		// 		brand: user.favorite_brand || '',
-		// 		city: user.city || '',
-		// 		state: user.state || '',
-		// 		country: user.country || '',
-		// 		description: user.description || '',
-		// 		privacy: user.privacy || '',
-		// 	});
-		// 	setCurrentlyEditing(null);
-		// 	setDirty(false);
-		// 	setLoading(false);
-		// } catch (error) {
-		// 	setLoading(false);
-		// 	console.log(
-		// 		'There was an error submitting profileSettings in components/settingsConsole/profileSettings.jsx: ',
-		// 		error.message
-		// 	);
-		// 	return;
-		// }
+		try {
+			setLoading(true);
+			const response = await axiosInstance.post(
+				'api/user/updateSettings',
+				submitData
+			);
+			const user = response.data.user;
+			setUser(user);
+			setProfileSettingsFormData({
+				first: user.first_name || '',
+				last: user.last_name || '',
+				handle: user.handle || '',
+				yoyo: user.favorite_yoyo || '',
+				brand: user.favorite_brand || '',
+				city: user.city || '',
+				state: user.state || '',
+				country: user.country || '',
+				description: user.description || '',
+				privacy: user.privacy || '',
+			});
+			setCurrentlyEditing(null);
+			setDirty(false);
+			setLoading(false);
+		} catch (error) {
+			console.log(
+				'There was an error submitting profileSettings in components/settingsConsole/profileSettings.jsx: ',
+				error.message
+			);
+			return;
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
