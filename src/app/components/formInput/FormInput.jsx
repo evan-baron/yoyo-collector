@@ -111,11 +111,11 @@ function FormInput({
 					/>
 					<div className={styles.icons}>
 						<Check
-							sx={{ fontSize: '1.75rem', cursor: 'pointer' }}
+							sx={{ fontSize: '1.25rem', cursor: 'pointer' }}
 							onClick={() => setCurrentlyEditing(null)}
 						/>
 						<Close
-							sx={{ fontSize: '1.75rem', cursor: 'pointer' }}
+							sx={{ fontSize: '1.25rem', cursor: 'pointer' }}
 							onClick={handleChange}
 							data-name='undo'
 							data-value={name}

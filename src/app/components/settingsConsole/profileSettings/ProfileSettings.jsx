@@ -225,25 +225,25 @@ function ProfileSettings({ setViewSettings }) {
 				</div>
 				<div className={styles.middle}>
 					<div className={`${styles['form-item']} ${styles['profile-data']}`}>
-						<div className={styles.names}>
-							<FormInput
-								type='text'
-								name='first'
-								value={profileSettingsFormData.first}
-								currentlyEditing={currentlyEditing}
-								setCurrentlyEditing={setCurrentlyEditing}
-								handleChange={handleChange}
-							/>
+						{/* <div className={styles.names}> */}
+						<FormInput
+							type='text'
+							name='first'
+							value={profileSettingsFormData.first}
+							currentlyEditing={currentlyEditing}
+							setCurrentlyEditing={setCurrentlyEditing}
+							handleChange={handleChange}
+						/>
 
-							<FormInput
-								type='text'
-								name='last'
-								value={profileSettingsFormData.last}
-								currentlyEditing={currentlyEditing}
-								setCurrentlyEditing={setCurrentlyEditing}
-								handleChange={handleChange}
-							/>
-						</div>
+						<FormInput
+							type='text'
+							name='last'
+							value={profileSettingsFormData.last}
+							currentlyEditing={currentlyEditing}
+							setCurrentlyEditing={setCurrentlyEditing}
+							handleChange={handleChange}
+						/>
+						{/* </div> */}
 						<FormInput
 							type='text'
 							name='handle'
