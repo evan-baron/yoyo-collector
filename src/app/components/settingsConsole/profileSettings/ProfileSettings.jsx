@@ -123,7 +123,7 @@ function ProfileSettings({ setViewSettings }) {
 		const { name, value } = e.target;
 		setProfileSettingsFormData((prev) => ({
 			...prev,
-			[name]: value.trim(),
+			[name]: value,
 		}));
 	};
 
@@ -135,8 +135,14 @@ function ProfileSettings({ setViewSettings }) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const submitData = profileSettingsFormData;
+		const submitData = Object.fromEntries(
+			Object.entries(profileSettingsFormData).map(([key, value]) => [
+				key,
+				value.trim(),
+			])
+		);
 		submitData.id = id;
+		console.log(submitData);
 
 		try {
 			setLoading(true);

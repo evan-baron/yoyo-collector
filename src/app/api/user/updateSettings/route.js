@@ -40,7 +40,7 @@ export async function POST(req) {
 
 		// Regex Rule Checks
 		const onlyLetters = (param) => /^\p{L}+$/u.test(param);
-		const lettersNumbers = (param) => /^[a-zA-Z0-9 -']+$/.test(param);
+		const lettersNumbers = (param) => /^[a-zA-Z0-9 \-']+$/.test(param);
 		const lettersNumbersCharacters = (param) =>
 			/^[a-zA-Z0-9,./?~@&()*%\$!#-'":;\s]+$/.test(param);
 
