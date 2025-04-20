@@ -38,8 +38,6 @@ export async function POST(req) {
 		const onlyLetters = (param) => /^\p{L}+$/u.test(param);
 		const namesTest = (param) => /^[a-zA-Z \-']+$/.test(param);
 		const lettersNumbers = (param) => /^[a-zA-Z0-9 \-']+$/.test(param);
-		const lettersNumbersCharacters = (param) =>
-			/^[a-zA-Z0-9,./?~@&()*%\$!#-'":;\s]+$/.test(param);
 
 		const validation = (name, value) => {
 			if (
