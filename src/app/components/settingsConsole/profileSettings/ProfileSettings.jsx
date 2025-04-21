@@ -10,10 +10,11 @@ import axiosInstance from '@/utils/axios';
 import styles from './profileSettings.module.scss';
 
 // MUI
-import { Check, Close, East, Edit, Undo } from '@mui/icons-material';
+import { Check, East, Edit, Undo } from '@mui/icons-material';
 
 // Components
 import FormInput from '../../formInput/FormInput';
+import PictureUploader from '../../pictureUploader/PictureUploader';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -339,7 +340,9 @@ function ProfileSettings({ setViewSettings }) {
 					</div>
 					<div
 						className={`${styles['form-item']} ${styles['profile-picture']}`}
-					></div>
+					>
+						<PictureUploader />
+					</div>
 				</div>
 				<div className={styles.bottom}>
 					<div
