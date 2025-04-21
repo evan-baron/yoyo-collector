@@ -33,6 +33,14 @@ const User = {
 		return rows[0];
 	},
 
+	// Get a user by Handle
+	async findUserByHandle(handle) {
+		const [rows] = await pool.execute('SELECT * FROM users WHERE handle = ?', [
+			handle,
+		]);
+		return rows[0];
+	},
+
 	// Get password by email
 	async getPasswordByEmail(email) {
 		const [rows] = await pool.execute(

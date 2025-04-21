@@ -99,6 +99,11 @@ const getUserByEmail = async (email) => {
 	return await userModel.findUserByEmail(email);
 };
 
+// Get a user by handle
+const getUserByHandle = async (handle) => {
+	return await userModel.findUserByHandle(handle);
+};
+
 // Get user by ID
 const getUserById = async (id) => {
 	return await userModel.findUserById(id);
@@ -218,6 +223,7 @@ export default {
 	generateToken,
 	getTokenData,
 	getUserByEmail,
+	getUserByHandle,
 	getUserById,
 	logUserAction,
 	updatePassword,

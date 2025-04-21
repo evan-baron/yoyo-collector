@@ -2,7 +2,7 @@
 
 // Libraries
 import React, { useState } from 'react';
-import { CldImage as CldImageDefault } from 'next-cloudinary';
+import Image from 'next/image';
 
 // Utils
 import axiosInstance from '@/utils/axios';
@@ -10,49 +10,35 @@ import axiosInstance from '@/utils/axios';
 // Components
 import LoadingSpinner from '../loading/LoadingSpinner';
 
-// Context
-import { useAppContext } from '@/app/context/AppContext';
-
-function PictureUploader(props) {
-	const { user } = useAppContext();
-	const { id } = user;
-
+function PictureUploader() {
 	// State to hold the uploaded image URL
-	const [imageUrl, setImageUrl] = useState(null);
+	const [previewUrl, setPreviewUrl] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 
-	// Handle file upload
-	const handleImageUpload = async (event) => {
-		const file = event.target.files[0];
+	const handleUploadPreview = async (e) => {
+		console.log(e);
 
-		if (!file) return;
-
-		// Set loading state
-		setLoading(true);
-		setError(null);
-
+		const file = e.target.files[0];
 		const formData = new FormData();
 		formData.append('file', file);
 
+		for (let [key, value] of formData.entries()) {
+			console.log(`${key}:`, value);
+		}
+
 		try {
 			const response = await axiosInstance.post(
-				'/api/user/uploadFiles/profilePictures',
-				formData,
-				{
-					headers: {
-						'Content-Type': 'multipart/form-data',
-						'x-user-id': id,
-					},
-				}
+				'api/user/profilePictures',
+				formData
 			);
 
-			setImageUrl(response.data.url);
-		} catch (err) {
-			setError(err.message?.data?.error || 'Failed to upload image');
-		} finally {
-			setLoading(false);
+			console.log(response.data);
+		} catch (error) {
+			console.log('Error uploading files:', error.message);
 		}
+
+		return;
 	};
 
 	return (
@@ -61,7 +47,7 @@ function PictureUploader(props) {
 			<input
 				type='file'
 				accept='image/*'
-				onChange={handleImageUpload}
+				onChange={handleUploadPreview}
 				disabled={loading}
 			/>
 
@@ -69,11 +55,11 @@ function PictureUploader(props) {
 			{loading && <LoadingSpinner />}
 
 			{/* Display image if uploaded successfully */}
-			{imageUrl && (
+			{previewUrl && (
 				<div>
 					<p>Image uploaded successfully:</p>
-					<CldImageDefault
-						src={imageUrl}
+					<Image
+						src={previewUrl}
 						width={200} // Adjust width as needed
 						height={200} // Adjust height as needed
 						alt='Uploaded image'
