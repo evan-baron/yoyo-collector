@@ -1,8 +1,11 @@
 'use client';
 
 // Libraries
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+
+// Styles
+import styles from './pictureUploader.module.scss';
 
 // Utils
 import axios from 'axios';
@@ -11,22 +14,40 @@ import axiosInstance from '@/utils/axios';
 // Components
 import LoadingSpinner from '../loading/LoadingSpinner';
 
-function PictureUploader() {
+// Context
+import { useAppContext } from '@/app/context/AppContext';
+import { BorderRight } from '@mui/icons-material';
+
+function PictureUploader({ uploadType }) {
+	// Context
+	const { user, loading, setLoading } = useAppContext();
+
 	// State to hold the uploaded image URL
+	const [profilePicture, setProfilePicture] = useState(null);
 	const [imageToUpload, setImageToUpload] = useState(null);
 	const [previewUrl, setPreviewUrl] = useState(null);
-	const [profilePicture, setProfilePicture] = useState(null);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState(null);
-	const [uploadedImageData, setUploadedImageData] = useState(null);
 
 	const handleUploadImage = (e) => {
 		setImageToUpload(e.target.files[0]);
 		setPreviewUrl(URL.createObjectURL(e.target.files[0]));
 	};
 
+	useEffect(() => {
+		console.log('useEffect triggered');
+		const getProfilePicture = async () => {
+			const response = await axiosInstance.get(
+				`/api/user/profilePictures?type=${uploadType}`
+			);
+			const { secure_url } = response.data;
+			setProfilePicture(secure_url);
+		};
+		getProfilePicture();
+	}, [user]);
+
+	useEffect(() => {}, [profilePicture]);
+
 	// Handle file upload
-	const handleUploadPhoto = async (e) => {
+	const handleUploadPhoto = async () => {
 		const file = imageToUpload;
 
 		if (!file) return;
@@ -41,13 +62,10 @@ function PictureUploader() {
 
 		try {
 			setLoading(true);
-			setError(null);
 			const response = await axios.post(
 				'https://api.cloudinary.com/v1_1/ddbotvjio/image/upload',
 				formData
 			);
-
-			console.log(response.data);
 
 			const {
 				public_id,
@@ -67,7 +85,7 @@ function PictureUploader() {
 				bytes,
 				height,
 				width,
-				category: 'profile',
+				category: uploadType,
 			};
 
 			try {
@@ -75,7 +93,9 @@ function PictureUploader() {
 					'/api/user/profilePictures',
 					uploadData
 				);
-				console.log(response.data);
+				const { profilePicture } = response.data;
+				setProfilePicture(profilePicture.secure_url);
+				setPreviewUrl(null);
 			} catch (error) {
 				console.log('There was an error saving the photo:', error);
 			}
@@ -89,53 +109,62 @@ function PictureUploader() {
 		}
 	};
 
-	const handleSaveProfilePicture = async () => {
-		const response = await axios.post(
-			'/api/user/profilePictures',
-			{ imageUrl: previewUrl },
-			{
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			}
-		);
-
-		if (response.status === 201) {
-			alert('Profile picture saved!');
-		} else {
-			alert('Failed to save profile picture.');
-		}
-	};
-
-	const handleChangePhoto = () => {
-		setPreviewUrl(null);
-	};
-
 	return (
-		<div>
-			<input
-				type='file'
-				accept='image/*'
-				onChange={handleUploadImage}
-				disabled={loading}
-			/>
-
-			<button type='button' onClick={handleUploadPhoto}>
-				Save
-			</button>
-
-			{loading && <LoadingSpinner />}
-
-			{previewUrl && (
-				<div>
-					<Image
-						src={previewUrl}
-						width={200} // Adjust width as needed
-						height={200} // Adjust height as needed
-						alt='Uploaded image'
+		<div className={styles.container}>
+			<div className={styles['profile-picture']}>
+				<label htmlFor='fileInput' className={styles.placeholder}>
+					<input
+						name='fileInput'
+						id='fileInput'
+						type='file'
+						accept='image/*'
+						onChange={handleUploadImage}
+						disabled={loading}
+						className={styles.input}
 					/>
-				</div>
-			)}
+					<div
+						className={styles.options}
+						style={{
+							transform: (profilePicture || previewUrl) && 'rotate(45deg)',
+						}}
+					>
+						<div className={styles.vertical}></div>
+						<div className={styles.horizontal}></div>
+					</div>
+					{profilePicture ? (
+						<Image
+							src={profilePicture}
+							alt='Current profile picture'
+							fill
+							className={styles.image}
+						/>
+					) : previewUrl ? (
+						<Image
+							src={previewUrl}
+							alt='Preview profile picture'
+							fill
+							className={styles.image}
+						></Image>
+					) : (
+						<>
+							<div className={styles.head}></div>
+							<div className={styles.body}></div>
+						</>
+					)}
+				</label>
+			</div>
+			<div className={styles.buttons}>
+				<label className={styles.button} htmlFor='fileInput'>
+					Upload Photo
+				</label>
+				<button
+					className={styles.button}
+					type='button'
+					onClick={handleUploadPhoto}
+				>
+					Save
+				</button>
+			</div>
 		</div>
 	);
 }

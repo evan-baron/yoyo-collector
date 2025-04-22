@@ -13,11 +13,11 @@ import { West, Close } from '@mui/icons-material';
 
 // Components
 import VerticalDivider from '@/app/components/dividers/VerticalDivider';
-import MenuItem from '@/app/components/settingsConsole/menuItem/MenuItem';
-import AccountSettings from '@/app/components/settingsConsole/accountSettings/AccountSettings';
-import CollectionSettings from '@/app/components/settingsConsole/collectionSettings/CollectionSettings';
-import PasswordSecuritySettings from '@/app/components/settingsConsole/passwordSecuritySettings/PasswordSecuritySettings';
-import ProfileSettings from '@/app/components/settingsConsole/profileSettings/ProfileSettings';
+import MenuItem from '@/app/components/settingsComponents/menuItem/MenuItem';
+import AccountSettings from '@/app/components/settingsComponents/accountSettings/AccountSettings';
+import CollectionSettings from '@/app/components/settingsComponents/collectionSettings/CollectionSettings';
+import PasswordSecuritySettings from '@/app/components/settingsComponents/passwordSecuritySettings/PasswordSecuritySettings';
+import ProfileSettings from '@/app/components/settingsComponents/profileSettings/ProfileSettings';
 import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
 
 // Context

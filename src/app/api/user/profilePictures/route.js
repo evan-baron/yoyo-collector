@@ -65,7 +65,37 @@ export async function POST(req, res) {
 
 		return NextResponse.json(uploadResponse, { status: 201 });
 	} catch (error) {
-		return NextResponse.json({ error: error.message }, { status: 500 });
+		return NextResponse.json(
+			{ 'There was an error at /api/user/profilePictures POST': error.message },
+			{ status: 500 }
+		);
+	}
+}
+
+// Getting Current User Profile Picture
+export async function GET(req) {
+	console.log('GET is activated');
+	try {
+		const userId = await getUserIdFromToken();
+
+		if (!userId) {
+			throw new Error('User ID is missing');
+		}
+
+		const type = req.nextUrl.searchParams.get('type');
+
+		const response = await getPhotoByUserIdAndCategory(userId, type);
+
+		if (!response) {
+			return NextResponse.json({ secure_url: null }, { status: 200 });
+		}
+
+		return NextResponse.json(response, { status: 201 });
+	} catch (error) {
+		return NextResponse.json(
+			{ 'There was an error at /api/user/profilePictures GET': error.message },
+			{ status: 500 }
+		);
 	}
 }
 
@@ -81,81 +111,6 @@ export async function POST(req, res) {
 
 // 		return NextResponse.json({ message: 'Profile picture deleted' });
 // 	} catch (error) {
-// 		return NextResponse.json({ error: error.message }, { status: 500 });
-// 	}
-// }
-
-// export async function GET(req) {
-// 	try {
-// 		const userId = getUserIdFromToken();
-
-// 		if (!userId) {
-// 			throw new Error('User ID is required');
-// 		}
-
-// 		const profilePhoto = await getPhotoByUserIdAndCategory(userId, 'profile');
-
-// 		if (!profilePhoto) {
-// 			return NextResponse.json(
-// 				{ error: 'Profile picture not found' },
-// 				{ status: 404 }
-// 			);
-// 		}
-
-// 		return NextResponse.json(profilePhoto);
-// 	} catch (error) {
-// 		return NextResponse.json({ error: error.message }, { status: 500 });
-// 	}
-// }
-
-// export async function PATCH(req) {
-// 	try {
-// 		const userId = getUserIdFromToken(); // Decoded from JWT in cookie
-// 		if (!userId) {
-// 			throw new Error('User ID is missing');
-// 		}
-
-// 		// Get the image buffer from the request
-// 		const buffers = [];
-// 		const readable = Readable.from(req.body);
-// 		for await (const chunk of readable) {
-// 			buffers.push(chunk);
-// 		}
-// 		const buffer = Buffer.concat(buffers);
-
-// 		// Upload the image to Cloudinary
-// 		const result = await new Promise((resolve, reject) => {
-// 			const stream = cloudinary.uploader.upload_stream(
-// 				{
-// 					folder: 'assets/profile_uploads',
-// 					upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET_PROFILE,
-// 				},
-// 				(error, result) => {
-// 					if (error) return reject(error);
-// 					resolve(result);
-// 				}
-// 			);
-// 			stream.end(buffer);
-// 		});
-
-// 		// Update the profile picture info in the DB
-// 		await updateProfilePicture(
-// 			userId,
-// 			result.public_id,
-// 			result.secure_url,
-// 			result.format,
-// 			result.resource_type,
-// 			result.bytes,
-// 			result.height,
-// 			result.width
-// 		);
-
-// 		return NextResponse.json(
-// 			{ message: 'Profile picture updated successfully' },
-// 			{ status: 200 }
-// 		);
-// 	} catch (error) {
-// 		console.error('PATCH error:', error);
 // 		return NextResponse.json({ error: error.message }, { status: 500 });
 // 	}
 // }

@@ -351,7 +351,7 @@ function ProfileSettings() {
 					<div
 						className={`${styles['form-item']} ${styles['profile-picture']}`}
 					>
-						<PictureUploader />
+						<PictureUploader uploadType='profile' />
 					</div>
 				</div>
 				<div className={styles.bottom}>
