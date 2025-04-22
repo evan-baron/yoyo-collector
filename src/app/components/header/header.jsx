@@ -17,7 +17,7 @@ import styles from './header.module.scss';
 import { useAppContext } from '@/app/context/AppContext';
 
 // Assets
-import logo from '@/app/assets/uip5-yoyo-logo.png';
+import logo from '@/app/assets/site/logo/uip5-yoyo-logo.png';
 
 // Components
 import Modal from '@/app/components/modal/modal';
