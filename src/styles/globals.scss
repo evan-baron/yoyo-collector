@@ -71,6 +71,7 @@ html {
 			position: relative;
 			flex-grow: 1;
 			display: flex;
+			justify-content: center;
 			width: 100%;
 			margin-top: 4rem; // IMPORTANT!! - pushes the home page below the header navbar
 		}

@@ -3,27 +3,29 @@
 // Libraries
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 // Styles
-import styles from './settingsConsole.module.scss';
+import styles from './settings.module.scss';
 
 // MUI
-import { Close } from '@mui/icons-material';
+import { West, Close } from '@mui/icons-material';
 
 // Components
-import VerticalDivider from '../dividers/VerticalDivider';
-import MenuItem from './menuItem/MenuItem';
-import AccountSettings from './accountSettings/AccountSettings';
-import CollectionSettings from './collectionSettings/CollectionSettings';
-import PasswordSecuritySettings from './passwordSecuritySettings/PasswordSecuritySettings';
-import ProfileSettings from './profileSettings/ProfileSettings';
-import LoadingSpinner from '../loading/LoadingSpinner';
+import VerticalDivider from '@/app/components/dividers/VerticalDivider';
+import MenuItem from '@/app/components/settingsConsole/menuItem/MenuItem';
+import AccountSettings from '@/app/components/settingsConsole/accountSettings/AccountSettings';
+import CollectionSettings from '@/app/components/settingsConsole/collectionSettings/CollectionSettings';
+import PasswordSecuritySettings from '@/app/components/settingsConsole/passwordSecuritySettings/PasswordSecuritySettings';
+import ProfileSettings from '@/app/components/settingsConsole/profileSettings/ProfileSettings';
+import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function SettingsConsole({ setViewSettings }) {
-	const { loading, dirty, setModalOpen, setModalType } = useAppContext();
+function Settings() {
+	const { loading, dirty, setModalOpen, setModalType, setViewSettings } =
+		useAppContext();
 
 	// State
 	const [selected, setSelected] = useState({
@@ -94,7 +96,6 @@ function SettingsConsole({ setViewSettings }) {
 			<div
 				className={styles.close}
 				onClick={() => {
-					console.log(dirty);
 					if (!dirty) {
 						router.push('/collections');
 					} else {
@@ -106,8 +107,12 @@ function SettingsConsole({ setViewSettings }) {
 				<Close sx={{ fontSize: '2rem' }} />
 			</div>
 			{loading && <LoadingSpinner message='Saving' />}
+			<Link className={styles['view-profile']} href='/profile'>
+				<West className={styles.east} sx={{ color: 'rgb(255, 0, 225)' }} />
+				<p className={styles.p}>Back to Profile</p>
+			</Link>
 		</div>
 	);
 }
 
-export default SettingsConsole;
+export default Settings;

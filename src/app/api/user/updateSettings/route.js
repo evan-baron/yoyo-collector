@@ -1,16 +1,9 @@
 import userService from '@/services/userService';
 const { updateUserSettings } = userService;
 import { NextResponse } from 'next/server';
-// import { checkRateLimit } from '@/utils/rateLimiter';
 
 export async function POST(req) {
 	try {
-		// const ip =
-		// 	req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-		// 	req.ip ||
-		// 	'anonymous';
-		// await checkRateLimit(ip);
-
 		const newProfileSettings = await req.json();
 
 		const values = Object.entries(newProfileSettings); // Should return array of values like ['city', 'Denver']

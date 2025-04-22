@@ -163,6 +163,8 @@ export const ContextProvider = ({ children }) => {
 			description: user.description || '',
 			privacy: user.privacy || '',
 		});
+
+		console.log('profileSettingsFormData has been updated');
 	}, [user]);
 
 	return (

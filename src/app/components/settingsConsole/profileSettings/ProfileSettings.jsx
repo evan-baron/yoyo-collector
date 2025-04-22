@@ -19,12 +19,13 @@ import PictureUploader from '../../pictureUploader/PictureUploader';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function ProfileSettings({ setViewSettings }) {
+function ProfileSettings() {
 	// Definitions
 	const {
 		currentlyEditing,
 		dirty,
 		user,
+		authChecked,
 		profileSettingsFormData,
 		setCurrentlyEditing,
 		setDirty,
@@ -32,6 +33,31 @@ function ProfileSettings({ setViewSettings }) {
 		setLoading,
 		setUser,
 	} = useAppContext();
+
+	// States
+	const [errMessage, setErrMessage] = useState(null);
+
+	// Effects
+	useEffect(() => {}, [errMessage]);
+	useEffect(() => {
+		if (!authChecked || !user) return;
+
+		setDirty(
+			profileSettingsFormData.first !== first_name ||
+				profileSettingsFormData.last !== last_name ||
+				profileSettingsFormData.handle !== handle ||
+				profileSettingsFormData.yoyo !== favorite_yoyo ||
+				profileSettingsFormData.brand !== favorite_brand ||
+				profileSettingsFormData.city !== city ||
+				profileSettingsFormData.state !== state ||
+				profileSettingsFormData.country !== country ||
+				profileSettingsFormData.description !== description ||
+				profileSettingsFormData.privacy !== privacy
+		);
+	}, [profileSettingsFormData, user, authChecked]);
+
+	// Auth Checked
+	if (!authChecked || !user || !profileSettingsFormData) return null;
 
 	const {
 		first_name,
@@ -65,31 +91,14 @@ function ProfileSettings({ setViewSettings }) {
 		return [city, state, country].filter(Boolean).join(', ') || '';
 	};
 
-	// Setters
-	const [errMessage, setErrMessage] = useState(null);
-	useEffect(() => {
-		setDirty(
-			profileSettingsFormData.first !== first_name ||
-				profileSettingsFormData.last !== last_name ||
-				profileSettingsFormData.handle !== handle ||
-				profileSettingsFormData.yoyo !== favorite_yoyo ||
-				profileSettingsFormData.brand !== favorite_brand ||
-				profileSettingsFormData.city !== city ||
-				profileSettingsFormData.state !== state ||
-				profileSettingsFormData.country !== country ||
-				profileSettingsFormData.description !== description ||
-				profileSettingsFormData.privacy !== privacy
-		);
-	}, [profileSettingsFormData, user]);
-	useEffect(() => {}, [errMessage]);
-
 	// Functions
 	const handleChange = (e) => {
+		// console.log(e);
 		const key = e.currentTarget.dataset.value;
 		if (key && e.currentTarget.dataset.name === 'undo') {
 			console.log(key);
 			console.log(errMessage);
-			setErrMessage((prev) => prev.filter(([attribute]) => attribute !== key));
+			setErrMessage((prev) => prev?.filter(([attribute]) => attribute !== key));
 			setCurrentlyEditing(null);
 			if (key === 'first') {
 				setProfileSettingsFormData((prev) => ({
@@ -127,6 +136,7 @@ function ProfileSettings({ setViewSettings }) {
 			return;
 		}
 		const { name, value } = e.target;
+		// console.log('Setting:', name, 'with value:', value);
 		setProfileSettingsFormData((prev) => ({
 			...prev,
 			[name]: value,
@@ -224,7 +234,7 @@ function ProfileSettings({ setViewSettings }) {
 		try {
 			setLoading(true);
 			const response = await axiosInstance.post(
-				'api/user/updateSettings',
+				'/api/user/updateSettings',
 				submitData
 			);
 			const user = response.data.user;
@@ -434,13 +444,6 @@ function ProfileSettings({ setViewSettings }) {
 					</button>
 				)}
 			</form>
-			<div
-				className={styles['view-profile']}
-				onClick={() => setViewSettings((prev) => !prev)}
-			>
-				<p className={styles.p}>Preview Profile</p>
-				<East className={styles.east} sx={{ color: 'rgb(0, 200, 225)' }} />
-			</div>
 		</div>
 	);
 }
