@@ -197,7 +197,7 @@ function ProfilePictureUploader({ uploadType }) {
 				{remove && (
 					<div className={styles['remove-container']}>
 						<div className={styles.remove}>
-							<p className={styles.delete}>Remove Photo?</p>
+							<p className={styles.delete}>Delete Photo?</p>
 							<div className={styles.buttons}>
 								<button
 									className={styles['delete-button']}
@@ -218,7 +218,7 @@ function ProfilePictureUploader({ uploadType }) {
 				)}
 			</div>
 			<div className={styles.buttons}>
-				{profilePicture && updatingPicture && (
+				{updatingPicture && (
 					<Undo
 						className={styles.undo}
 						onClick={() => {
