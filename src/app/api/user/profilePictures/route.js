@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { v2 as cloudinary } from 'cloudinary';
 import uploadsService from '@/services/uploadsService';
 const {
 	deletePhoto,
@@ -38,32 +39,51 @@ export async function POST(req, res) {
 			height,
 			width,
 			category,
+			uploadAction,
 		} = await req.json();
 
-		console.log(
-			public_id,
-			secure_url,
-			format,
-			resource_type,
-			bytes,
-			height,
-			width,
-			category
-		);
+		if (category === 'profile' && uploadAction === 'new') {
+			const uploadResponse = await uploadPhoto(
+				userId,
+				public_id,
+				secure_url,
+				format,
+				resource_type,
+				bytes,
+				height,
+				width,
+				category
+			);
 
-		const uploadResponse = await uploadPhoto(
-			userId,
-			public_id,
-			secure_url,
-			format,
-			resource_type,
-			bytes,
-			height,
-			width,
-			category
-		);
+			return NextResponse.json(uploadResponse, { status: 201 });
+		} else if (category === 'profile' && uploadAction === 'update') {
+			const uploadResponse = await updateProfilePicture(
+				userId,
+				public_id,
+				secure_url,
+				format,
+				resource_type,
+				bytes,
+				height,
+				width
+			);
 
-		return NextResponse.json(uploadResponse, { status: 201 });
+			return NextResponse.json(uploadResponse, { status: 201 });
+		} else {
+			const uploadResponse = await uploadPhoto(
+				userId,
+				public_id,
+				secure_url,
+				format,
+				resource_type,
+				bytes,
+				height,
+				width,
+				category
+			);
+
+			return NextResponse.json(uploadResponse, { status: 201 });
+		}
 	} catch (error) {
 		return NextResponse.json(
 			{ 'There was an error at /api/user/profilePictures POST': error.message },
@@ -99,18 +119,34 @@ export async function GET(req) {
 	}
 }
 
-// export async function DELETE(req) {
-// 	try {
-// 		const userId = getUserIdFromToken();
+cloudinary.config({
+	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-// 		if (!userId) {
-// 			throw new Error('User ID is required');
-// 		}
+export async function DELETE(req) {
+	try {
+		const userId = await getUserIdFromToken();
 
-// 		await deletePhoto(userId, null, 'profile');
+		if (!userId) {
+			throw new Error('User ID is required');
+		}
 
-// 		return NextResponse.json({ message: 'Profile picture deleted' });
-// 	} catch (error) {
-// 		return NextResponse.json({ error: error.message }, { status: 500 });
-// 	}
-// }
+		const category = req.nextUrl.searchParams.get('category');
+
+		const response = await getPhotoByUserIdAndCategory(userId, category);
+
+		const { public_id } = response;
+
+		if (public_id) {
+			await cloudinary.uploader.destroy(public_id);
+		}
+
+		await deletePhoto(userId, null, category);
+
+		return NextResponse.json({ message: `${category} picture deleted` });
+	} catch (error) {
+		return NextResponse.json({ error: error.message }, { status: 500 });
+	}
+}

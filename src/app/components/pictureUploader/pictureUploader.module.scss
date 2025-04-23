@@ -1,13 +1,15 @@
 .container {
+	position: relative;
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
+	// gap: 1rem;
 	height: 100%;
 	width: 100%;
+	align-items: center;
 
 	.profile-picture {
-		position: relative;
 		width: 100%;
+		position: relative;
 		aspect-ratio: 1;
 		padding: 1rem;
 
@@ -19,7 +21,7 @@
 			width: 100%;
 			height: 100%;
 			border-radius: 50%;
-			background: var(--darkestGray);
+			background: rgba(20, 20, 20, 0.5);
 			overflow: hidden;
 			cursor: pointer;
 
@@ -31,7 +33,7 @@
 				width: 100%;
 				height: 100%;
 				border-radius: 50%;
-				background-color: var(--gray);
+				background-color: var(--darkerGray);
 				opacity: 0;
 				transition: 0.3s;
 				z-index: 1;
@@ -40,21 +42,26 @@
 					opacity: 0.4;
 				}
 
-				.vertical {
-					position: absolute;
-					height: 66%;
-					width: 0.6rem;
-					border-radius: 0.3rem;
-					background-color: var(--lightestGray);
-				}
+				.update {
+					position: relative;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					width: 100%;
+					height: 100%;
+					border-radius: 50%;
+					font-size: 2rem;
+					opacity: 0;
+					transform: translateY(-0.5rem);
 
-				.horizontal {
-					position: absolute;
-					height: 0.6rem;
-					border-radius: 0.3rem;
+					&:hover {
+						opacity: 1;
+					}
 
-					width: 66%;
-					background-color: var(--lightestGray);
+					.upload {
+						font-size: 2.5rem;
+					}
 				}
 			}
 
@@ -106,7 +113,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-size: 1.25rem;
+			font-size: 1.125rem;
 			padding: 0.25rem 0.5rem;
 			line-height: 1;
 			margin: 0;
@@ -115,6 +122,31 @@
 			color: var(--lightestGray);
 			background-color: transparent;
 			cursor: pointer;
+
+			transition: 0.2s;
+			opacity: 0.5;
+
+			&:hover {
+				opacity: 1;
+			}
 		}
+
+		.delete {
+			font-size: 1.5rem;
+			height: 2.5rem;
+			width: 2.5rem;
+			z-index: 10;
+			border-radius: 0.5rem;
+
+			cursor: pointer;
+		}
+	}
+
+	.error {
+		position: absolute;
+		bottom: 0;
+		font-size: 1rem;
+		color: red;
+		transform: translateY(100%);
 	}
 }

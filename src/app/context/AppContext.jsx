@@ -16,6 +16,7 @@ export const ContextProvider = ({ children }) => {
 	const [loading, setLoading] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalType, setModalType] = useState(null);
+	const [deleteIsOk, setDeleteIsOk] = useState(false);
 	const [resendEmail, setResendEmail] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState(null);
 	const [tokenValid, setTokenValid] = useState(null);
