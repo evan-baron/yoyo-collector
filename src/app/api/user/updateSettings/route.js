@@ -1,9 +1,24 @@
 import userService from '@/services/userService';
 const { updateUserSettings } = userService;
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import jwt from 'jsonwebtoken';
+
+async function getUserIdFromToken() {
+	const cookieStore = await cookies();
+	const token = cookieStore.get('session_token')?.value;
+
+	if (!token) throw new Error('Unauthorized');
+	const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+	return userId;
+}
 
 export async function POST(req) {
 	try {
+		const userId = await getUserIdFromToken();
+
+		if (!userId) return;
+
 		const newProfileSettings = await req.json();
 
 		const values = Object.entries(newProfileSettings); // Should return array of values like ['city', 'Denver']
@@ -38,10 +53,6 @@ export async function POST(req) {
 				(value === null || value === undefined || value === '')
 			) {
 				return true;
-			}
-
-			if (name === 'id' && typeof value !== 'number') {
-				return false;
 			}
 
 			if (names.includes(name)) {
@@ -90,7 +101,6 @@ export async function POST(req) {
 			privacy,
 			state,
 			yoyo,
-			id,
 		} = newProfileSettings;
 
 		const updatedUser = await updateUserSettings(
@@ -104,7 +114,7 @@ export async function POST(req) {
 			privacy,
 			state,
 			yoyo,
-			id
+			userId
 		);
 
 		return NextResponse.json(

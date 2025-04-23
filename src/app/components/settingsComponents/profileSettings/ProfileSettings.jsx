@@ -69,7 +69,6 @@ function ProfileSettings() {
 		city,
 		description,
 		privacy,
-		id,
 	} = user;
 
 	const inputsArr = ['first', 'last', 'handle', 'yoyo', 'brand'];
@@ -217,7 +216,6 @@ function ProfileSettings() {
 				value.trim(),
 			])
 		);
-		submitData.id = id;
 
 		const values = Object.entries(submitData);
 
