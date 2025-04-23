@@ -1,6 +1,6 @@
 import authService from '@/services/authService';
 const { login } = authService;
-import { serialize } from 'cookie';
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { checkRateLimit } from '@/utils/rateLimiter';
 import validator from 'validator';
@@ -34,11 +34,12 @@ export async function POST(req) {
 			delete user.password;
 		}
 
-		const cookie = serialize('session_token', token, {
+		const cookieStore = await cookies();
+		cookieStore.set('session_token', token, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
 			sameSite: 'Strict',
-			maxAge: 60 * 60 * 1000, // 1 hour expiration
+			maxAge: 60 * 60, // seconds not milliseconds
 			path: '/',
 		});
 
@@ -47,8 +48,6 @@ export async function POST(req) {
 			user,
 			token,
 		});
-
-		response.headers.set('Set-Cookie', cookie);
 
 		return response;
 	} catch (err) {

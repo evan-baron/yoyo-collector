@@ -57,6 +57,12 @@ export async function POST(req, res) {
 
 			return NextResponse.json(uploadResponse, { status: 201 });
 		} else if (category === 'profile' && uploadAction === 'update') {
+			const response = await getPhotoByUserIdAndCategory(userId, 'profile');
+
+			if (response.public_id) {
+				await cloudinary.uploader.destroy(response.public_id);
+			}
+
 			const uploadResponse = await updateProfilePicture(
 				userId,
 				public_id,

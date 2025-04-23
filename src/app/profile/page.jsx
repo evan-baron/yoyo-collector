@@ -9,7 +9,7 @@ import Link from 'next/link';
 import styles from './profile.module.scss';
 
 // MUI
-import { West, Settings } from '@mui/icons-material';
+import { East } from '@mui/icons-material';
 
 async function Profile() {
 	const cookieStore = await cookies();
@@ -19,6 +19,8 @@ async function Profile() {
 	if (!token) {
 		redirect('/');
 	}
+
+	let profile = {};
 
 	try {
 		const user = await axiosInstance.get(`${baseUrl}/api/token/authenticate/`, {
@@ -38,8 +40,22 @@ async function Profile() {
 			favorite_yoyo,
 			favorite_brand,
 			description,
+			secure_url,
 		} = user.data;
 
+		profile = {
+			first: first_name,
+			last: last_name,
+			handle: handle,
+			city: city,
+			state: state,
+			country: country,
+			privacy: privacy,
+			yoyo: favorite_yoyo,
+			brand: favorite_brand,
+			description: description,
+			profilePicture: secure_url,
+		};
 		console.log(user.data);
 	} catch (error) {
 		console.error('Error fetching user data:', error);
@@ -49,9 +65,9 @@ async function Profile() {
 	return (
 		<div className={styles.profile}>
 			<div className={styles.preview}>
-				<Link href='/profile/settings' className={styles.back}>
-					<West className={styles.west} />
-					Settings
+				<Link href='/profile/settings' className={styles.settings}>
+					Profile Settings
+					<East className={styles.west} />
 				</Link>
 			</div>
 		</div>

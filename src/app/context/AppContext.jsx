@@ -88,7 +88,6 @@ export const ContextProvider = ({ children }) => {
 				// There isn't a token in the url, so hydrate the page with the user data if there is any
 				const user = await fetchUserData();
 				if (!user) return;
-				console.log('app context fetchandvalidate: ', user);
 				setUser(user);
 			} else {
 				// There is a token! Find the token data
