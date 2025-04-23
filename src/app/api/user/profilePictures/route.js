@@ -94,7 +94,6 @@ export async function POST(req, res) {
 
 // Getting Current User Profile Picture
 export async function GET(req) {
-	console.log('GET is activated');
 	try {
 		const userId = await getUserIdFromToken();
 

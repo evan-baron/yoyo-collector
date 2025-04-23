@@ -14,7 +14,7 @@ import { Check, East, Edit, Undo } from '@mui/icons-material';
 
 // Components
 import FormInput from '../../formInput/FormInput';
-import PictureUploader from '../../pictureUploader/PictureUploader';
+import ProfilePictureUploader from '../../ProfilePictureUploader/ProfilePictureUploader';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -25,7 +25,6 @@ function ProfileSettings() {
 		currentlyEditing,
 		dirty,
 		user,
-		authChecked,
 		profileSettingsFormData,
 		setCurrentlyEditing,
 		setDirty,
@@ -40,7 +39,7 @@ function ProfileSettings() {
 	// Effects
 	useEffect(() => {}, [errMessage]);
 	useEffect(() => {
-		if (!authChecked || !user) return;
+		if (!user) return;
 
 		setDirty(
 			profileSettingsFormData.first !== first_name ||
@@ -54,10 +53,10 @@ function ProfileSettings() {
 				profileSettingsFormData.description !== description ||
 				profileSettingsFormData.privacy !== privacy
 		);
-	}, [profileSettingsFormData, user, authChecked]);
+	}, [profileSettingsFormData, user]);
 
-	// Auth Checked
-	if (!authChecked || !user || !profileSettingsFormData) return null;
+	// User Checked
+	if (!user || !profileSettingsFormData) return null;
 
 	const {
 		first_name,
@@ -351,7 +350,7 @@ function ProfileSettings() {
 					<div
 						className={`${styles['form-item']} ${styles['profile-picture']}`}
 					>
-						<PictureUploader uploadType='profile' />
+						<ProfilePictureUploader uploadType='profile' />
 					</div>
 				</div>
 				<div className={styles.bottom}>

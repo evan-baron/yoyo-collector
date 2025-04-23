@@ -16,12 +16,10 @@ export const ContextProvider = ({ children }) => {
 	const [loading, setLoading] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalType, setModalType] = useState(null);
-	const [deleteIsOk, setDeleteIsOk] = useState(false);
 	const [resendEmail, setResendEmail] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState(null);
 	const [tokenValid, setTokenValid] = useState(null);
 	const [user, setUser] = useState(null);
-	const [authChecked, setAuthChecked] = useState(null);
 	const [profileSettingsFormData, setProfileSettingsFormData] = useState({
 		first: '',
 		last: '',
@@ -36,6 +34,7 @@ export const ContextProvider = ({ children }) => {
 	});
 	const [dirty, setDirty] = useState(false);
 	const [currentlyEditing, setCurrentlyEditing] = useState(null);
+	const [profilePicture, setProfilePicture] = useState(null);
 
 	const router = useRouter();
 
@@ -91,7 +90,6 @@ export const ContextProvider = ({ children }) => {
 				const user = await fetchUserData();
 				if (!user) return;
 				setUser(user);
-				setAuthChecked(true);
 			} else {
 				// There is a token! Find the token data
 				const { tokenData } = await getTokenData(urlToken);
@@ -166,10 +164,23 @@ export const ContextProvider = ({ children }) => {
 		});
 	}, [user]);
 
+	// Gets current profile picture if exists
+	useEffect(() => {
+		if (!user) return;
+
+		const getProfilePicture = async () => {
+			const response = await axiosInstance.get(
+				`/api/user/profilePictures?type=profile`
+			);
+			const { secure_url } = response.data;
+			setProfilePicture(secure_url);
+		};
+		getProfilePicture();
+	}, [user]);
+
 	return (
 		<AppContext.Provider
 			value={{
-				authChecked,
 				currentlyEditing,
 				dirty,
 				emailVerified,
@@ -177,6 +188,7 @@ export const ContextProvider = ({ children }) => {
 				loading,
 				modalOpen,
 				modalType,
+				profilePicture,
 				resendEmail,
 				timeRemaining,
 				tokenValid,
@@ -188,6 +200,7 @@ export const ContextProvider = ({ children }) => {
 				setLoading,
 				setModalOpen,
 				setModalType,
+				setProfilePicture,
 				setResendEmail,
 				setTimeRemaining,
 				setTokenValid,

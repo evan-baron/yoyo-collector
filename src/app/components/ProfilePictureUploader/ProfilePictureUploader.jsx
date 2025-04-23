@@ -9,7 +9,7 @@ import axios from 'axios';
 import axiosInstance from '@/utils/axios';
 
 // Styles
-import styles from './pictureUploader.module.scss';
+import styles from './profilePictureUploader.module.scss';
 
 // MUI
 import { FileUpload } from '@mui/icons-material';
@@ -17,32 +17,24 @@ import { FileUpload } from '@mui/icons-material';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function PictureUploader({ uploadType }) {
+function ProfilePictureUploader({ uploadType }) {
 	// Context
-	const { user, loading, setLoading } = useAppContext();
+	const {
+		user,
+		loading,
+		setLoading,
+		profilePicture,
+		setProfilePicture,
+		publicId,
+		setPublicId,
+	} = useAppContext();
 
 	// State to hold the uploaded image URL
-	const [profilePicture, setProfilePicture] = useState(null);
-	const [publicId, setPublicId] = useState(null);
 	const [imageToUpload, setImageToUpload] = useState(null);
 	const [previewUrl, setPreviewUrl] = useState(null);
 	const [uploadAction, setUploadAction] = useState(null);
 	const [error, setError] = useState(null);
 	const [remove, setRemove] = useState(false);
-
-	// Gets current profile picture if exists
-	useEffect(() => {
-		console.log('useEffect triggered');
-		const getProfilePicture = async () => {
-			const response = await axiosInstance.get(
-				`/api/user/profilePictures?type=${uploadType}`
-			);
-			const { secure_url, public_id } = response.data;
-			setProfilePicture(secure_url);
-			setPublicId(public_id);
-		};
-		getProfilePicture();
-	}, [user]);
 
 	const fileInputRef = useRef(null);
 
@@ -244,4 +236,4 @@ function PictureUploader({ uploadType }) {
 	);
 }
 
-export default PictureUploader;
+export default ProfilePictureUploader;
