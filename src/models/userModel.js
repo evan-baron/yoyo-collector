@@ -21,15 +21,30 @@ const User = {
 
 	// Get a user by email
 	async findUserByEmail(email) {
-		const [rows] = await pool.execute('SELECT * FROM users WHERE email = ?', [
-			email,
-		]);
+		const [rows] = await pool.execute(
+			`WITH user_id_cte AS (
+				SELECT id FROM users WHERE email = ?
+			) 
+			SELECT users.*, user_uploads.secure_url FROM users 
+			LEFT JOIN user_uploads 
+				ON users.id = user_uploads.user_id 
+				AND user_uploads.upload_category = 'profile' 
+			WHERE users.id = (SELECT id FROM user_id_cte)`,
+			[email]
+		);
 		return rows[0]; // Return the first matching user (or null if none)
 	},
 
 	// Get a user by ID
 	async findUserById(id) {
-		const [rows] = await pool.execute('SELECT * FROM users WHERE id = ?', [id]);
+		const [rows] = await pool.execute(
+			`SELECT users.*, user_uploads.secure_url FROM users 
+			LEFT JOIN user_uploads 
+				ON users.id = user_uploads.user_id 
+				AND user_uploads.upload_category = 'profile' 
+			WHERE users.id = ?`,
+			[id]
+		);
 		return rows[0];
 	},
 

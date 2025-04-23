@@ -34,7 +34,6 @@ export const ContextProvider = ({ children }) => {
 	});
 	const [dirty, setDirty] = useState(false);
 	const [currentlyEditing, setCurrentlyEditing] = useState(null);
-	const [profilePicture, setProfilePicture] = useState(null);
 
 	const router = useRouter();
 
@@ -89,6 +88,7 @@ export const ContextProvider = ({ children }) => {
 				// There isn't a token in the url, so hydrate the page with the user data if there is any
 				const user = await fetchUserData();
 				if (!user) return;
+				console.log('app context fetchandvalidate: ', user);
 				setUser(user);
 			} else {
 				// There is a token! Find the token data
@@ -164,20 +164,6 @@ export const ContextProvider = ({ children }) => {
 		});
 	}, [user]);
 
-	// Gets current profile picture if exists
-	useEffect(() => {
-		if (!user) return;
-
-		const getProfilePicture = async () => {
-			const response = await axiosInstance.get(
-				`/api/user/profilePictures?type=profile`
-			);
-			const { secure_url } = response.data;
-			setProfilePicture(secure_url);
-		};
-		getProfilePicture();
-	}, [user]);
-
 	return (
 		<AppContext.Provider
 			value={{
@@ -188,7 +174,6 @@ export const ContextProvider = ({ children }) => {
 				loading,
 				modalOpen,
 				modalType,
-				profilePicture,
 				resendEmail,
 				timeRemaining,
 				tokenValid,
@@ -200,7 +185,6 @@ export const ContextProvider = ({ children }) => {
 				setLoading,
 				setModalOpen,
 				setModalType,
-				setProfilePicture,
 				setResendEmail,
 				setTimeRemaining,
 				setTokenValid,

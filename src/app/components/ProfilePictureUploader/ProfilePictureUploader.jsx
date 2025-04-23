@@ -2,7 +2,6 @@
 
 // Libraries
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
 
 // Utils
 import axios from 'axios';
@@ -19,15 +18,7 @@ import { useAppContext } from '@/app/context/AppContext';
 
 function ProfilePictureUploader({ uploadType }) {
 	// Context
-	const {
-		user,
-		loading,
-		setLoading,
-		profilePicture,
-		setProfilePicture,
-		publicId,
-		setPublicId,
-	} = useAppContext();
+	const { loading, setLoading, user, setUser } = useAppContext();
 
 	// State to hold the uploaded image URL
 	const [imageToUpload, setImageToUpload] = useState(null);
@@ -35,6 +26,12 @@ function ProfilePictureUploader({ uploadType }) {
 	const [uploadAction, setUploadAction] = useState(null);
 	const [error, setError] = useState(null);
 	const [remove, setRemove] = useState(false);
+	const [profilePicture, setProfilePicture] = useState(null);
+
+	useEffect(() => {
+		const { secure_url } = user;
+		setProfilePicture(secure_url);
+	}, [user]);
 
 	const fileInputRef = useRef(null);
 
@@ -112,7 +109,10 @@ function ProfilePictureUploader({ uploadType }) {
 						uploadData
 					);
 					const { profilePicture } = response.data;
-					setProfilePicture(profilePicture.secure_url);
+					setUser((prev) => ({
+						...prev,
+						secure_url: profilePicture.secure_url,
+					}));
 					setPreviewUrl(null);
 					setImageToUpload(null);
 				} catch (error) {
@@ -136,7 +136,10 @@ function ProfilePictureUploader({ uploadType }) {
 				`/api/user/profilePictures?category=${uploadType}`
 			);
 			setPreviewUrl(null);
-			setProfilePicture(null);
+			setUser((prev) => ({
+				...prev,
+				secure_url: null,
+			}));
 			if (fileInputRef.current) {
 				fileInputRef.current.value = '';
 			}
@@ -167,21 +170,17 @@ function ProfilePictureUploader({ uploadType }) {
 						</div>
 					</div>
 					{profilePicture ? (
-						<Image
+						<img
 							src={profilePicture}
 							alt='Current profile picture'
-							fill
-							sizes='100vw'
 							className={styles.image}
 						/>
 					) : previewUrl ? (
-						<Image
+						<img
 							src={previewUrl}
 							alt='Preview profile picture'
-							fill
-							sizes='100vw'
 							className={styles.image}
-						></Image>
+						/>
 					) : (
 						<>
 							<div className={styles.head}></div>
