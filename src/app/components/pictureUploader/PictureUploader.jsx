@@ -28,6 +28,7 @@ function PictureUploader({ uploadType }) {
 	const [previewUrl, setPreviewUrl] = useState(null);
 	const [uploadAction, setUploadAction] = useState(null);
 	const [error, setError] = useState(null);
+	const [remove, setRemove] = useState(false);
 
 	// Gets current profile picture if exists
 	useEffect(() => {
@@ -136,12 +137,8 @@ function PictureUploader({ uploadType }) {
 		}
 	};
 
-	// Handle remove
-	const handleRemove = () => {};
-
 	// Handle delete
 	const handleDelete = async () => {
-		setModalOpen(true);
 		try {
 			await axiosInstance.delete(
 				`/api/user/profilePictures?category=${uploadType}`
@@ -151,6 +148,7 @@ function PictureUploader({ uploadType }) {
 			if (fileInputRef.current) {
 				fileInputRef.current.value = '';
 			}
+			setRemove(false);
 		} catch (error) {
 			console.error('There was an error deleting the photo:', error.message);
 		}
@@ -199,6 +197,28 @@ function PictureUploader({ uploadType }) {
 						</>
 					)}
 				</label>
+				{remove && (
+					<div className={styles['remove-container']}>
+						<div className={styles.remove}>
+							<p className={styles.delete}>Delete Photo?</p>
+							<div className={styles.buttons}>
+								<button
+									className={styles['delete-button']}
+									onClick={handleDelete}
+								>
+									Yes
+								</button>
+								<button
+									className={styles['delete-button']}
+									onClick={() => setRemove(false)}
+								>
+									Cancel
+								</button>
+							</div>
+							<div className={styles.background}></div>
+						</div>
+					</div>
+				)}
 			</div>
 			<div className={styles.buttons}>
 				<label className={styles.button} htmlFor='fileInput'>
@@ -213,7 +233,7 @@ function PictureUploader({ uploadType }) {
 					<button
 						className={styles.button}
 						type='button'
-						onClick={handleRemove}
+						onClick={() => setRemove(true)}
 					>
 						Remove
 					</button>
