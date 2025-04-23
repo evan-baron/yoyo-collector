@@ -80,7 +80,7 @@ const updateProfilePicture = async (
 	width
 ) => {
 	try {
-		return await uploadsModel.updateProfilePicture(
+		await uploadsModel.updateProfilePicture(
 			userId,
 			publicId,
 			secureUrl,
@@ -90,6 +90,12 @@ const updateProfilePicture = async (
 			height,
 			width
 		);
+
+		const profilePicture = await uploadsModel.getPhotoByIdAndCategory(
+			userId,
+			'profile'
+		);
+		return { profilePicture };
 	} catch (error) {
 		console.error('Error updating photo:', error.message);
 	}

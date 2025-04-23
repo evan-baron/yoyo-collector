@@ -176,6 +176,22 @@
 		gap: 1rem;
 		height: 100%;
 
+		.undo {
+			color: var(--lightestGray);
+			width: 1.75rem;
+			height: 1.75rem;
+			margin: 0;
+			padding: 0;
+			cursor: pointer;
+
+			opacity: 0.5;
+			transition: 0.2s;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+
 		.button {
 			display: flex;
 			align-items: center;
