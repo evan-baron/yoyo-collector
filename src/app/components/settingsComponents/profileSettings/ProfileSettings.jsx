@@ -128,7 +128,7 @@ function ProfileSettings() {
 			} else {
 				setProfileSettingsFormData((prev) => ({
 					...prev,
-					[key]: user[key],
+					[key]: user[key]?.toString(),
 				}));
 			}
 			return;
