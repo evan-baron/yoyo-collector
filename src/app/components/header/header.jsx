@@ -44,12 +44,11 @@ const Header = () => {
 			setModalOpen(true);
 			setModalType('verify-email');
 		}
-	}, [user]);
+	}, [user?.email_verified]);
 
 	const handleLogout = async () => {
 		try {
 			await axiosInstance.post('/api/auth/logout', user);
-			setUser(null);
 		} catch (error) {
 			console.error('Logout failed: ', error.response?.data || error.message);
 		}

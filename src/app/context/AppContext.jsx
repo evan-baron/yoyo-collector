@@ -11,7 +11,8 @@ import axiosInstance from '@/utils/axios';
 const AppContext = createContext(null);
 
 // Create the context provider component
-export const ContextProvider = ({ children }) => {
+export const ContextProvider = ({ children, initialUser = null }) => {
+	const [user, setUser] = useState(initialUser);
 	const [emailVerified, setEmailVerified] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
@@ -19,7 +20,6 @@ export const ContextProvider = ({ children }) => {
 	const [resendEmail, setResendEmail] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState(null);
 	const [tokenValid, setTokenValid] = useState(null);
-	const [user, setUser] = useState(null);
 	const [profileSettingsFormData, setProfileSettingsFormData] = useState({
 		first: '',
 		last: '',

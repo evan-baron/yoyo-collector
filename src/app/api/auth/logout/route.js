@@ -1,4 +1,3 @@
-import { authenticateUser } from '@/middlewares/authMiddleware';
 import { cookies } from 'next/headers';
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
@@ -8,32 +7,19 @@ export async function POST(req) {
 		const cookieStore = await cookies();
 		const sessionToken = cookieStore.get('session_token')?.value;
 
-		if (!sessionToken) {
-			const expiredCookie = serialize('session_token', '', {
-				httpOnly: true,
-				secure: process.env.NODE_ENV === 'production',
-				sameSite: 'Strict',
-				maxAge: -1,
-				path: '/',
-			});
-
-			const response = NextResponse.json({
-				message: 'Logged out successfully',
-			});
-
-			response.headers.set('Set-Cookie', expiredCookie);
-		}
-
-		const authResult = authenticateUser({
-			cookies: { session_token: sessionToken },
+		const expiredCookie = serialize('session_token', '', {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'Strict',
+			maxAge: -1,
+			path: '/',
 		});
 
-		if (authResult) {
-			return NextResponse.json(
-				{ message: authResult.message },
-				{ status: authResult.status }
-			);
-		}
+		const response = NextResponse.json({
+			message: 'Logged out successfully',
+		});
+
+		response.headers.set('Set-Cookie', expiredCookie);
 
 		return response;
 	} catch (err) {

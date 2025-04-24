@@ -11,7 +11,8 @@ export async function POST(req) {
 		const ip =
 			req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
 			req.ip ||
-			'anonymous';
+			'anonymized';
+
 		await checkRateLimit(ip);
 
 		if (!validator.isEmail(email)) {
@@ -46,7 +47,7 @@ export async function POST(req) {
 		const response = NextResponse.json({
 			message: 'User logged in successfully!',
 			user,
-			token,
+			// token,
 		});
 
 		return response;
