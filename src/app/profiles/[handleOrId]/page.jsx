@@ -1,38 +1,28 @@
-// Libraries
-import React from 'react';
-import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
+// Utils
 import axiosInstance from '@/utils/axios';
-import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 // Styles
-import styles from './profile.module.scss';
+import styles from '../../profile/profile.module.scss';
 
 // MUI
 import { East, Place, AlternateEmail, FormatQuote } from '@mui/icons-material';
 
 // Components
-import VerticalDivider from '../components/dividers/VerticalDivider';
-import CollectionCarousel from '../components/collectionCarousel/CollectionCarousel';
+import VerticalDivider from '@/app/components/dividers/VerticalDivider';
+import CollectionCarousel from '@/app/components/collectionCarousel/CollectionCarousel';
 
-async function Profile() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get('session_token')?.value;
+async function ProfilePage({ params }) {
+	const { handleOrId } = await params;
+
 	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-	if (!token) {
-		redirect('/');
-	}
-
-	let profile = {};
+	let profile;
 
 	try {
-		const user = await axiosInstance.get(`${baseUrl}/api/token/authenticate/`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-
+		const user = await axiosInstance.get(
+			`${baseUrl}/api/user/getUser?handleOrId=${handleOrId}`
+		);
 		const {
 			first_name,
 			last_name,
@@ -64,8 +54,14 @@ async function Profile() {
 			profilePicture: secure_url,
 			memberSince: created_at,
 		};
+
+		console.log(profile);
 	} catch (error) {
-		console.error('Error fetching user data:', error);
+		console.error('Error fetching profile data:', error);
+		redirect('/');
+	}
+
+	if (profile.privacy === 'anonymous' || profile.privacy === 'private') {
 		redirect('/');
 	}
 
@@ -115,12 +111,8 @@ async function Profile() {
 					</div>
 				</section>
 			</div>
-			<Link href='/profile/settings' className={styles['settings-box']}>
-				<p className={styles.settings}>Profile Settings</p>
-				<East className={styles.east} />
-			</Link>
 		</div>
 	);
 }
 
-export default Profile;
+export default ProfilePage;

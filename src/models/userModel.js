@@ -50,9 +50,13 @@ const User = {
 
 	// Get a user by Handle
 	async findUserByHandle(handle) {
-		const [rows] = await pool.execute('SELECT * FROM users WHERE handle = ?', [
-			handle,
-		]);
+		const [rows] = await pool.execute(
+			`SELECT users.*, user_uploads.secure_url FROM users 
+			LEFT JOIN user_uploads 
+				ON users.id = user_uploads.user_id 
+				AND user_uploads.upload_category = 'profile'  WHERE handle = ?`,
+			[handle]
+		);
 		return rows[0];
 	},
 

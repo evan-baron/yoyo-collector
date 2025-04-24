@@ -56,13 +56,15 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				config
 			);
 
-			if (response.data?.id) {
-				return response.data;
-			} else {
+			if (response?.data?.message) {
 				setUser(null);
+				return null;
 			}
+			return response.data || null;
 		} catch (error) {
 			console.error('Error authenticating: ', error);
+			setUser(null);
+			return null;
 		} finally {
 			setLoading(false);
 		}
@@ -87,8 +89,11 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 			if (!urlToken) {
 				// There isn't a token in the url, so hydrate the page with the user data if there is any
 				const user = await fetchUserData();
-				if (!user) return;
-				setUser(user);
+				if (!user) {
+					setUser(null);
+				} else {
+					setUser(user);
+				}
 			} else {
 				// There is a token! Find the token data
 				const { tokenData } = await getTokenData(urlToken);

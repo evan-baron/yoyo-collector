@@ -26,6 +26,10 @@ export async function GET(req) {
 			delete user.password;
 		}
 
+		if (user?.id) {
+			delete user.id;
+		}
+
 		return NextResponse.json(user);
 	} catch (err) {
 		console.error(

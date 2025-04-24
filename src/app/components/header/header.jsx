@@ -48,20 +48,21 @@ const Header = () => {
 
 	const handleLogout = async () => {
 		try {
+			localStorage.removeItem('token');
+			localStorage.removeItem('user');
+			setUser(null);
 			await axiosInstance.post('/api/auth/logout', user);
 		} catch (error) {
 			console.error('Logout failed: ', error.response?.data || error.message);
+		} finally {
+			setProfileSettingsFormData(null);
+			setCurrentlyEditing(null);
+			setDirty(false);
+			setLoading(false);
+			setModalOpen(false);
+			setModalType(null);
+			router.push('/');
 		}
-		localStorage.removeItem('token');
-		localStorage.removeItem('user');
-		setUser(null);
-		setProfileSettingsFormData(null);
-		setCurrentlyEditing(null);
-		setDirty(false);
-		setLoading(false);
-		setModalOpen(false);
-		setModalType(null);
-		router.push('/');
 	};
 
 	return (

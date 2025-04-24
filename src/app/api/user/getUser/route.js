@@ -2,35 +2,58 @@ import { NextResponse } from 'next/server';
 import userService from '@/services/userService';
 const { getUserByHandle, getUserById } = userService;
 
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-
-async function getUserIdFromToken() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get('session_token')?.value;
-
-	if (!token) throw new Error('Unauthorized');
-	const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-	return userId;
-}
-
 export async function GET(req) {
 	try {
-		const userId = await getUserIdFromToken();
-		const category = req.nextUrl.searchParams.get('category');
+		const url = new URL(req.url);
+		const handleOrId = url.searchParams.get('handleOrId');
 
-		const response = await getPhotoByUserIdAndCategory(userId, category);
+		console.log('backend handleOrId:', handleOrId);
 
+		let response = await getUserByHandle(handleOrId);
+
+		// Fallback to ID if not found by handle
 		if (!response) {
-			return NextResponse.json({ secure_url: null }, { status: 200 });
+			response = await getUserById(handleOrId);
 		}
 
-		return NextResponse.json(response, { status: 201 });
+		if (!response) {
+			return NextResponse.json({ error: 'User not found' }, { status: 404 });
+		}
+		const {
+			first_name,
+			last_name,
+			handle,
+			created_at,
+			city,
+			state,
+			country,
+			privacy,
+			favorite_yoyo,
+			favorite_brand,
+			description,
+			secure_url,
+		} = response;
+
+		const user = {
+			first_name,
+			last_name,
+			handle,
+			created_at,
+			city,
+			state,
+			country,
+			privacy,
+			favorite_yoyo,
+			favorite_brand,
+			description,
+			secure_url,
+		};
+
+		return NextResponse.json(user, { status: 200 });
 	} catch (error) {
 		return NextResponse.json(
 			{
-				'There was an error at /api/user/profilePictures/byHandleOrId GET':
-					error.message,
+				'There was an error at /api/user/getUser GET': error.message,
 			},
 			{ status: 500 }
 		);
