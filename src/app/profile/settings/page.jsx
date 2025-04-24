@@ -74,6 +74,13 @@ function Settings() {
 			<div className={styles.left}>
 				<nav className={styles.nav}>
 					<ul className={styles.ul}>
+						<Link className={styles['view-profile']} href='/profile'>
+							<West
+								className={styles.west}
+								sx={{ color: 'rgb(255, 0, 225)' }}
+							/>
+							<p className={styles.p}>Back to Profile</p>
+						</Link>
 						{Object.entries(selected).map(([key, value], index) => {
 							return (
 								<MenuItem
@@ -107,10 +114,6 @@ function Settings() {
 				<Close sx={{ fontSize: '2rem' }} />
 			</div> */}
 			{loading && <LoadingSpinner message='Saving' />}
-			<Link className={styles['view-profile']} href='/profile'>
-				<West className={styles.east} sx={{ color: 'rgb(255, 0, 225)' }} />
-				<p className={styles.p}>Back to Profile</p>
-			</Link>
 		</div>
 	);
 }

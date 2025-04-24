@@ -161,21 +161,37 @@
 		}
 	}
 
-	.settings {
+	.settings-box {
 		position: fixed;
 		top: 5.5rem;
 		right: 1.5rem;
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		padding: 1rem 2rem;
-		font-size: 1.25rem;
-		font-weight: bold;
+		padding: 0 1.5rem;
 		cursor: pointer;
 		color: var(--lightestGray);
 		background-color: var(--darkerGray);
 		border-radius: 0.5rem;
 		box-shadow: 0.25rem 0.25rem 0.5rem black;
 		z-index: 10;
+
+		.settings {
+			font-size: 1.125rem;
+			padding: 0.75rem 0;
+
+			@supports (-webkit-background-clip: text) {
+				background: linear-gradient(135deg, rgb(255, 0, 255), rgb(0, 200, 225));
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				cursor: pointer;
+			}
+		}
+
+		.east {
+			@supports (-webkit-background-clip: text) {
+				color: rgb(0, 200, 225);
+			}
+		}
 	}
 }

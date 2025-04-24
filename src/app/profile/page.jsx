@@ -114,9 +114,9 @@ async function Profile() {
 					</div>
 				</section>
 			</div>
-			<Link href='/profile/settings' className={styles.settings}>
-				Profile Settings
-				<East className={styles.west} sx={{ fontSize: '1.75rem' }} />
+			<Link href='/profile/settings' className={styles['settings-box']}>
+				<p className={styles.settings}>Profile Settings</p>
+				<East className={styles.east} />
 			</Link>
 		</div>
 	);
