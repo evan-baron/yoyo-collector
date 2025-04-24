@@ -9,7 +9,10 @@ import Link from 'next/link';
 import styles from './profile.module.scss';
 
 // MUI
-import { East } from '@mui/icons-material';
+import { East, Place, AlternateEmail, FormatQuote } from '@mui/icons-material';
+
+// Components
+import VerticalDivider from '../components/dividers/VerticalDivider';
 
 async function Profile() {
 	const cookieStore = await cookies();
@@ -43,13 +46,15 @@ async function Profile() {
 			secure_url,
 		} = user.data;
 
+		const location = () => {
+			return [city, state, country].filter(Boolean).join(', ') || '';
+		};
+
 		profile = {
 			first: first_name,
 			last: last_name,
 			handle: handle,
-			city: city,
-			state: state,
-			country: country,
+			location: location(),
 			privacy: privacy,
 			yoyo: favorite_yoyo,
 			brand: favorite_brand,
@@ -63,12 +68,43 @@ async function Profile() {
 	}
 
 	return (
-		<div className={styles.profile}>
-			<div className={styles.preview}>
-				<Link href='/profile/settings' className={styles.settings}>
+		<div className={styles['profile-container']}>
+			<div className={styles.profile}>
+				<section className={styles.left}>
+					<div className={styles['profile-picture']}>
+						<img src={profile.profilePicture} className={styles.picture} />
+					</div>
+					<div className={styles['name-info-box']}>
+						<h1 className={styles.name}>
+							{profile.first} {profile.last}
+						</h1>
+						<div className={styles.details}>
+							<h2 className={styles.handle}>
+								<AlternateEmail className={styles.icon} />
+								{profile.handle}
+							</h2>
+							<h2 className={styles.location}>
+								<Place className={styles.icon} />
+								{profile.location}
+							</h2>
+						</div>
+					</div>
+					<p className={styles.about}>About {profile.first}:</p>
+					<div className={styles['description-box']}>
+						<FormatQuote className={styles.quote} />
+						<p className={styles.description}>{profile.description}</p>
+					</div>
+					<p className={styles.label}>Favorite yoyo:</p>
+					<p className={styles.yoyo}>{profile.yoyo}</p>
+					<p className={styles.label}>Favorite brand:</p>
+					<p className={styles.brand}>{profile.brand}</p>
+				</section>
+				<VerticalDivider />
+				<section className={styles.right}></section>
+				{/* <Link href='/profile/settings' className={styles.settings}>
 					Profile Settings
 					<East className={styles.west} />
-				</Link>
+				</Link> */}
 			</div>
 		</div>
 	);
