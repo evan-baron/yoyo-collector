@@ -9,7 +9,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding-right: 1rem;
+		// padding-right: 1rem;
 		height: 4rem;
 		color: var(--lightestGray);
 		box-shadow: 5px 5px 0.5rem rgba(0, 0, 0, 0.5);
@@ -35,7 +35,16 @@
 		.ul {
 			display: flex;
 			gap: 1rem;
-			padding: 1rem;
+			padding: 0 1rem;
+
+			.profile-image {
+				align-self: center;
+				justify-self: center;
+				width: 3rem;
+				aspect-ratio: 1;
+				border-radius: 50%;
+				cursor: pointer;
+			}
 		}
 
 		.yoyo {

@@ -9,7 +9,13 @@ import Link from 'next/link';
 import styles from './profile.module.scss';
 
 // MUI
-import { East, Place, AlternateEmail, FormatQuote } from '@mui/icons-material';
+import {
+	East,
+	Place,
+	AlternateEmail,
+	FormatQuote,
+	Settings,
+} from '@mui/icons-material';
 
 // Components
 import VerticalDivider from '../components/dividers/VerticalDivider';
@@ -116,8 +122,8 @@ async function Profile() {
 				</section>
 			</div>
 			<Link href='/profile/settings' className={styles['settings-box']}>
-				<p className={styles.settings}>Profile Settings</p>
-				<East className={styles.east} />
+				<Settings className={styles['settings-icon']} />
+				<p className={styles.settings}>Edit Your Profile</p>
 			</Link>
 		</div>
 	);

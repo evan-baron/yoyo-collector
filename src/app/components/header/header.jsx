@@ -93,16 +93,25 @@ const Header = () => {
 									Collections
 								</Link>
 							</li>
-							<li className={styles.li}>
-								<Link href='/profile' className={styles.li}>
-									Profile
-								</Link>
-							</li>
-							<li className={styles.li}>
-								<Link href='/' onClick={handleLogout} className={styles.li}>
-									Logout
-								</Link>
-							</li>
+							{user.secure_url ? (
+								<img
+									className={styles['profile-image']}
+									src={user.secure_url}
+								/>
+							) : (
+								<>
+									<li className={styles.li}>
+										<Link href='/profile' className={styles.li}>
+											Profile
+										</Link>
+									</li>
+									<li className={styles.li}>
+										<Link href='/' onClick={handleLogout} className={styles.li}>
+											Logout
+										</Link>
+									</li>
+								</>
+							)}
 						</>
 					) : (
 						<>
