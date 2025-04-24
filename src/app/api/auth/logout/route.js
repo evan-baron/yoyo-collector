@@ -8,6 +8,22 @@ export async function POST(req) {
 		const cookieStore = await cookies();
 		const sessionToken = cookieStore.get('session_token')?.value;
 
+		if (!sessionToken) {
+			const expiredCookie = serialize('session_token', '', {
+				httpOnly: true,
+				secure: process.env.NODE_ENV === 'production',
+				sameSite: 'Strict',
+				maxAge: -1,
+				path: '/',
+			});
+
+			const response = NextResponse.json({
+				message: 'Logged out successfully',
+			});
+
+			response.headers.set('Set-Cookie', expiredCookie);
+		}
+
 		const authResult = authenticateUser({
 			cookies: { session_token: sessionToken },
 		});
@@ -18,20 +34,6 @@ export async function POST(req) {
 				{ status: authResult.status }
 			);
 		}
-
-		const expiredCookie = serialize('session_token', '', {
-			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'Strict',
-			maxAge: -1,
-			path: '/',
-		});
-
-		const response = NextResponse.json({
-			message: 'Logged out successfully',
-		});
-
-		response.headers.set('Set-Cookie', expiredCookie);
 
 		return response;
 	} catch (err) {

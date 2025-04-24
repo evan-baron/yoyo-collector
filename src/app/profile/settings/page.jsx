@@ -93,7 +93,7 @@ function Settings() {
 					<SelectedComponent setViewSettings={setViewSettings} />
 				)}
 			</div>
-			<div
+			{/* <div
 				className={styles.close}
 				onClick={() => {
 					if (!dirty) {
@@ -105,7 +105,7 @@ function Settings() {
 				}}
 			>
 				<Close sx={{ fontSize: '2rem' }} />
-			</div>
+			</div> */}
 			{loading && <LoadingSpinner message='Saving' />}
 			<Link className={styles['view-profile']} href='/profile'>
 				<West className={styles.east} sx={{ color: 'rgb(255, 0, 225)' }} />
