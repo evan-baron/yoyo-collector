@@ -76,7 +76,7 @@ async function Profile() {
 						<img src={profile.profilePicture} className={styles.picture} />
 					</div>
 					<div className={styles['name-info-box']}>
-						<h1 className={styles.name}>
+						<h1 className={styles.h1}>
 							{profile.first} {profile.last}
 						</h1>
 						<div className={styles.details}>
@@ -103,18 +103,21 @@ async function Profile() {
 				<VerticalDivider />
 				<section className={styles.right}>
 					<div className={styles['collections-container']}>
-						<h2>Collections</h2>
+						{/* MAKE THE PLURAL CONDITIONAL ON COLLECTIONS.LENGTH */}
+						<h2 className={styles.h2}>{profile.first}'s Collection(s):</h2>
+						<CollectionCarousel />
 					</div>
 					<div className={styles['favorites-container']}>
-						<h2>Favorites</h2>
-						<CollectionCarousel type='favorites' />
+						<h2 className={styles.h2}>Favorites:</h2>
+						<CollectionCarousel type='Favorite Collections:' />
+						<CollectionCarousel type='Favorite Yoyos:' />
 					</div>
 				</section>
-				{/* <Link href='/profile/settings' className={styles.settings}>
-					Profile Settings
-					<East className={styles.west} />
-				</Link> */}
 			</div>
+			<Link href='/profile/settings' className={styles.settings}>
+				Profile Settings
+				<East className={styles.west} sx={{ fontSize: '1.75rem' }} />
+			</Link>
 		</div>
 	);
 }
