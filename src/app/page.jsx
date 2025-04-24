@@ -8,6 +8,7 @@ import Link from 'next/link';
 // Components
 import RegisterButton from './components/registerButton/RegisterButton';
 import RegisterCTA from './components/registerCTA/RegisterCTA';
+import CollectionCarousel from './components/collectionCarousel/CollectionCarousel';
 
 export default function Home() {
 	return (
@@ -32,37 +33,8 @@ export default function Home() {
 			</section>
 			<section className={styles['preview-container']}>
 				<div className={styles.preview}>
-					<div className={styles.collection}>
-						<h2 className={styles.h2}>Top Collections</h2>
-						<div className={styles['scroll-wrapper']}>
-							<div className={styles.carousel}>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-							</div>
-						</div>
-					</div>
-
-					<div className={styles.collection}>
-						<h2 className={styles.h2}>Newest Collections</h2>
-						<div className={styles['scroll-wrapper']}>
-							<div className={styles.carousel}>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-								<div className={styles.tile}></div>
-							</div>
-						</div>
-					</div>
+					<CollectionCarousel type='Top' />
+					<CollectionCarousel type='Newest' />
 				</div>
 				<Link href='/collections' className={styles.link}>
 					View All

@@ -1,6 +1,6 @@
 import authService from '@/services/authService';
 const { login } = authService;
-import { cookies } from 'next/headers';
+import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
 import { checkRateLimit } from '@/utils/rateLimiter';
 import validator from 'validator';
@@ -11,8 +11,7 @@ export async function POST(req) {
 		const ip =
 			req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
 			req.ip ||
-			'anonymized';
-
+			'anonymous';
 		await checkRateLimit(ip);
 
 		if (!validator.isEmail(email)) {
@@ -35,20 +34,21 @@ export async function POST(req) {
 			delete user.password;
 		}
 
-		const cookieStore = await cookies();
-		cookieStore.set('session_token', token, {
+		const cookie = serialize('session_token', token, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
 			sameSite: 'Strict',
-			maxAge: checked ? 60 * 60 * 24 * 365 : 60 * 60, // seconds not milliseconds
+			maxAge: 60 * 60 * 1000, // 1 hour expiration
 			path: '/',
 		});
 
 		const response = NextResponse.json({
 			message: 'User logged in successfully!',
 			user,
-			// token,
+			token,
 		});
+
+		response.headers.set('Set-Cookie', cookie);
 
 		return response;
 	} catch (err) {

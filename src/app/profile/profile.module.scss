@@ -17,11 +17,11 @@
 		position: relative;
 		display: flex;
 		gap: 1rem;
-		padding: 1rem 2rem;
+		padding: 0 2rem;
 		// border-radius: 0.5rem;
 		// background-color: var(--darkerGray);
 		// box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
-		border: 1px solid red;
+		outline: 1px solid red;
 
 		.left {
 			width: 40%;
@@ -30,7 +30,8 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			// border: 1px solid white;
+			padding: 1rem 0;
+			// outline: 1px solid white;
 
 			.icon {
 				width: 1rem;
@@ -44,14 +45,14 @@
 			.profile-picture {
 				width: 80%;
 				aspect-ratio: 1;
-				padding: 1rem;
-				// border: 1px solid white;
+				// padding: 1rem;
+				// outline: 1px solid white;
 
 				.picture {
 					width: 100%;
 					aspect-ratio: 1;
 					border-radius: 50%;
-					// border: 1px solid white;
+					// outline: 1px solid white;
 				}
 			}
 
@@ -60,7 +61,8 @@
 
 				text-align: center;
 				font-size: 3rem;
-				// border: 1px solid white;
+				margin-top: 1rem;
+				// outline: 1px solid white;
 			}
 
 			.details {
@@ -74,17 +76,9 @@
 					font-size: 1rem;
 					opacity: 0.5;
 				}
-
-				// .location {
-				// 	width: 100%;
-
-				// 	display: flex;
-				// 	font-size: 1.125rem;
-				// 	opacity: 0.5;
-				// }
 			}
 
-			.about {
+			.label {
 				width: 100%;
 				font-size: 1.5rem;
 				margin-top: 1rem;
@@ -94,8 +88,6 @@
 				width: 100%;
 
 				position: relative;
-				// display: flex;
-				// flex-direction: column;
 				font-size: 1.25rem;
 
 				.quote {
@@ -109,28 +101,48 @@
 
 				.description {
 					position: relative;
-					padding-top: 1.5rem;
+					padding-top: 1.75rem;
 					padding-left: 2.25rem;
+					padding-right: 1rem;
 				}
 			}
 
 			.yoyo {
 				width: 100%;
-				font-size: 1.125rem;
+				font-size: 1.25rem;
+				margin-top: 0.25rem;
 			}
 
 			.brand {
 				width: 100%;
-				font-size: 1.125rem;
+				font-size: 1.25rem;
+				margin-top: 0.25rem;
 			}
 		}
 
 		.right {
 			width: 60%;
 			flex-grow: 1;
-			// border: 1px solid white;
+			// outline: 1px solid white;
 			display: flex;
 			flex-direction: column;
+			align-items: center;
+			padding: 1rem 0;
+
+			.collections-container,
+			.favorites-container {
+				width: 100%;
+
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				outline: 1px solid white;
+			}
+
+			.collections-container {
+			}
+			.favorites-container {
+			}
 		}
 
 		.settings {

@@ -13,6 +13,7 @@ import { East, Place, AlternateEmail, FormatQuote } from '@mui/icons-material';
 
 // Components
 import VerticalDivider from '../components/dividers/VerticalDivider';
+import CollectionCarousel from '../components/collectionCarousel/CollectionCarousel';
 
 async function Profile() {
 	const cookieStore = await cookies();
@@ -79,17 +80,17 @@ async function Profile() {
 							{profile.first} {profile.last}
 						</h1>
 						<div className={styles.details}>
-							<h2 className={styles.handle}>
+							<h3 className={styles.handle}>
 								<AlternateEmail className={styles.icon} />
 								{profile.handle}
-							</h2>
-							<h2 className={styles.location}>
+							</h3>
+							<h3 className={styles.location}>
 								<Place className={styles.icon} />
 								{profile.location}
-							</h2>
+							</h3>
 						</div>
 					</div>
-					<p className={styles.about}>About {profile.first}:</p>
+					<p className={styles.label}>About {profile.first}:</p>
 					<div className={styles['description-box']}>
 						<FormatQuote className={styles.quote} />
 						<p className={styles.description}>{profile.description}</p>
@@ -100,7 +101,15 @@ async function Profile() {
 					<p className={styles.brand}>{profile.brand}</p>
 				</section>
 				<VerticalDivider />
-				<section className={styles.right}></section>
+				<section className={styles.right}>
+					<div className={styles['collections-container']}>
+						<h2>Collections</h2>
+					</div>
+					<div className={styles['favorites-container']}>
+						<h2>Favorites</h2>
+						<CollectionCarousel type='favorites' />
+					</div>
+				</section>
 				{/* <Link href='/profile/settings' className={styles.settings}>
 					Profile Settings
 					<East className={styles.west} />
