@@ -54,6 +54,7 @@
 					width: 100%;
 					aspect-ratio: 1;
 					border-radius: 50%;
+					box-shadow: 0 0 1.5rem black;
 					// outline: 1px solid white;
 				}
 			}
@@ -71,6 +72,7 @@
 			.details {
 				display: flex;
 				gap: 0.5rem;
+				text-shadow: 2px 2px 0.5rem black;
 
 				.handle,
 				.location {
@@ -85,6 +87,7 @@
 				width: 100%;
 				font-size: 1.5rem;
 				margin-top: 1rem;
+				text-shadow: 2px 2px 0.5rem black;
 			}
 
 			.description-box {
@@ -107,6 +110,7 @@
 					padding-top: 1.75rem;
 					padding-left: 2.25rem;
 					padding-right: 1rem;
+					text-shadow: 2px 2px 0.5rem black;
 				}
 			}
 
@@ -114,12 +118,14 @@
 				width: 100%;
 				font-size: 1.25rem;
 				margin-top: 0.25rem;
+				text-shadow: 2px 2px 0.5rem black;
 			}
 
 			.brand {
 				width: 100%;
 				font-size: 1.25rem;
 				margin-top: 0.25rem;
+				text-shadow: 2px 2px 0.5rem black;
 			}
 		}
 
