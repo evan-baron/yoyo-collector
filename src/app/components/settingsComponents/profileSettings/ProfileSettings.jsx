@@ -41,6 +41,13 @@ function ProfileSettings() {
 	useEffect(() => {
 		if (!user) return;
 
+		console.log(
+			'useEffect triggered:',
+			user,
+			'profilesettingsformdata:',
+			profileSettingsFormData
+		);
+
 		setDirty(
 			profileSettingsFormData.first !== first_name ||
 				profileSettingsFormData.last !== last_name ||

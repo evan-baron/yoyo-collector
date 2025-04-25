@@ -30,7 +30,6 @@ function ProfilePictureUploader({ uploadType, defaultUrl }) {
 	const [updatingPicture, setUpdatingPicture] = useState(false);
 
 	useEffect(() => {
-		console.log('useEffect triggered', defaultUrl);
 		setPicture(defaultUrl);
 		setPreviewUrl(null);
 	}, [user, defaultUrl]);

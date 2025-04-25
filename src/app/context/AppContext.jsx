@@ -89,10 +89,17 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 			// First we're going to check if there's NOT a token in the url
 			if (!urlToken) {
 				// There isn't a token in the url, so hydrate the page with the user data if there is any
-				const user = await fetchUserData();
+				const response = await fetchUserData();
+				const user = Object.fromEntries(
+					Object.entries(response).map(([key, value]) => [
+						key,
+						value === null ? '' : value,
+					])
+				);
 				if (!user) {
 					setUser(null);
 				} else {
+					console.log('appcontext user:', user);
 					setUser(user);
 				}
 			} else {
