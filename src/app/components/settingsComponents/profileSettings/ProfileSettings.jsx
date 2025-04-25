@@ -53,8 +53,6 @@ function ProfileSettings() {
 				profileSettingsFormData.description !== description ||
 				profileSettingsFormData.privacy !== privacy
 		);
-
-		console.log('profileSettings.jsx:', user, profileSettingsFormData);
 	}, [profileSettingsFormData, user]);
 
 	// User Checked
