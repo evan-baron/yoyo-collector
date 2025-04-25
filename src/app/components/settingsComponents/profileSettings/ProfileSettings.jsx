@@ -41,13 +41,6 @@ function ProfileSettings() {
 	useEffect(() => {
 		if (!user) return;
 
-		console.log(
-			'useEffect triggered:',
-			user,
-			'profilesettingsformdata:',
-			profileSettingsFormData
-		);
-
 		setDirty(
 			profileSettingsFormData.first !== first_name ||
 				profileSettingsFormData.last !== last_name ||
@@ -250,7 +243,6 @@ function ProfileSettings() {
 					value === null ? '' : value,
 				])
 			);
-			console.log('logging user from profileSettings.jsx line 243:', user);
 			setUser(user);
 			setProfileSettingsFormData({
 				first: user.first_name || '',

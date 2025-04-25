@@ -16,7 +16,10 @@ import { FileUpload, Undo } from '@mui/icons-material';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function ProfilePictureUploader({ uploadType, defaultUrl }) {
+// Components
+import BlankProfilePhoto from '../blankProfilePhoto/BlankProfilePhoto';
+
+function PictureUploader({ uploadType, defaultUrl }) {
 	// Context
 	const { loading, setLoading, user, setUser } = useAppContext();
 
@@ -165,7 +168,12 @@ function ProfilePictureUploader({ uploadType, defaultUrl }) {
 	return (
 		<div className={styles.container}>
 			<div className={styles['picture-container']}>
-				<label htmlFor='fileInput' className={styles.placeholder}>
+				<label
+					htmlFor='fileInput'
+					className={`${styles.placeholder} ${
+						uploadType === 'profile' ? styles.circle : styles.square
+					}`}
+				>
 					<input
 						name='fileInput'
 						id='fileInput'
@@ -174,10 +182,20 @@ function ProfilePictureUploader({ uploadType, defaultUrl }) {
 						accept='image/*'
 						onChange={handleUpload}
 						disabled={loading}
-						className={styles.input}
+						className={`${styles.input} ${
+							uploadType === 'profile' ? styles.circle : styles.square
+						}`}
 					/>
-					<div className={styles.options}>
-						<div className={styles.update}>
+					<div
+						className={`${styles.options} ${
+							uploadType === 'profile' ? styles.circle : styles.square
+						}`}
+					>
+						<div
+							className={`${styles.update} ${
+								uploadType === 'profile' ? styles.circle : styles.square
+							}`}
+						>
 							<FileUpload className={styles.upload} />
 							{picture || previewUrl ? 'Change' : 'Upload'} Photo
 						</div>
@@ -186,23 +204,28 @@ function ProfilePictureUploader({ uploadType, defaultUrl }) {
 						<img
 							src={previewUrl}
 							alt='Preview profile picture'
-							className={styles.image}
+							className={`${styles.image} ${
+								uploadType === 'profile' ? styles.circle : styles.square
+							}`}
 						/>
 					) : picture && !updatingPicture ? (
 						<img
 							src={picture}
 							alt='Current profile picture'
-							className={styles.image}
+							className={`${styles.image} ${
+								uploadType === 'profile' ? styles.circle : styles.square
+							}`}
 						/>
 					) : (
-						<>
-							<div className={styles.head}></div>
-							<div className={styles.body}></div>
-						</>
+						<BlankProfilePhoto />
 					)}
 				</label>
 				{remove && (
-					<div className={styles['remove-container']}>
+					<div
+						className={`${styles['remove-container']} ${
+							uploadType === 'profile' ? styles.circle : styles.square
+						}`}
+					>
 						<div className={styles.remove}>
 							<p className={styles.delete}>Delete Photo?</p>
 							<div className={styles.buttons}>
@@ -261,4 +284,4 @@ function ProfilePictureUploader({ uploadType, defaultUrl }) {
 	);
 }
 
-export default ProfilePictureUploader;
+export default PictureUploader;

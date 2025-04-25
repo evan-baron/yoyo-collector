@@ -9,7 +9,7 @@ import styles from './collectionTemplate.module.scss';
 import { Edit } from '@mui/icons-material';
 
 // Components
-import BlankCoverPhoto from '../blankCoverPhoto/BlankCoverPhoto';
+import PictureUploader from '../pictureUploader/PictureUploader';
 
 function CollectionTemplate({ collection }) {
 	const {
@@ -28,7 +28,7 @@ function CollectionTemplate({ collection }) {
 		<div className={styles['collection-container']}>
 			<div className={styles.collection}>
 				<div className={styles.cover}>
-					<BlankCoverPhoto />
+					<PictureUploader uploadType='cover' />
 				</div>
 			</div>
 			<Link href={settingsLink} className={styles['settings-box']}>

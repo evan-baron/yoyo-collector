@@ -155,7 +155,7 @@ function FormInput({
 							className={styles.p}
 							onClick={() => {
 								if (name !== 'location') {
-									errMessage.length &&
+									errMessage?.length &&
 										setErrMessage((prev) =>
 											prev?.filter(([attribute]) => attribute !== name)
 										);
@@ -179,9 +179,10 @@ function FormInput({
 							}}
 							onClick={() => {
 								if (name !== 'location') {
-									setErrMessage((prev) =>
-										prev?.filter(([attribute]) => attribute !== name)
-									);
+									errMessage?.length &&
+										setErrMessage((prev) =>
+											prev?.filter(([attribute]) => attribute !== name)
+										);
 								}
 
 								(name === 'first' || name === 'last') && setWarning(false);
