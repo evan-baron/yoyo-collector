@@ -1,0 +1,57 @@
+.container {
+	width: 100%;
+	aspect-ratio: 1;
+	padding: 1rem;
+	border-radius: 0.5rem;
+	background-color: var(--darkGray);
+
+	.frame {
+		width: 100%;
+		aspect-ratio: 1;
+		padding: 1rem;
+		border-radius: 0.25rem;
+		background-color: var(--mediumGray);
+
+		.landscape {
+			position: relative;
+			width: 100%;
+			aspect-ratio: 1;
+			border-radius: 0.25rem;
+			background-color: var(--mediumGray);
+			overflow: hidden;
+
+			.circle {
+				width: 30%;
+				aspect-ratio: 1;
+
+				position: absolute;
+				top: 1rem;
+				left: 1rem;
+				border-radius: 50%;
+				background-color: var(--darkGray);
+			}
+
+			.square1 {
+				width: 100%;
+				aspect-ratio: 1;
+
+				position: absolute;
+				top: 70%;
+				left: -30%;
+				background-color: var(--darkGray);
+				transform: rotate(45deg);
+			}
+
+			.square2 {
+				width: 100%;
+				aspect-ratio: 1;
+
+				position: absolute;
+				top: 50%;
+				left: 20%;
+				background-color: var(--darkGray);
+				transform: rotate(45deg);
+			}
+		}
+	}
+}
