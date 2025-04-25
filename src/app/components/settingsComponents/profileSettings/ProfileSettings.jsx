@@ -53,6 +53,8 @@ function ProfileSettings() {
 				profileSettingsFormData.description !== description ||
 				profileSettingsFormData.privacy !== privacy
 		);
+
+		console.log('profileSettings.jsx:', user, profileSettingsFormData);
 	}, [profileSettingsFormData, user]);
 
 	// User Checked
@@ -128,7 +130,7 @@ function ProfileSettings() {
 			} else {
 				setProfileSettingsFormData((prev) => ({
 					...prev,
-					[key]: user[key]?.toString(),
+					[key]: user[key],
 				}));
 			}
 			return;
@@ -210,14 +212,14 @@ function ProfileSettings() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setCurrentlyEditing(false);
-		const submitData = Object.fromEntries(
+		const trimmedData = Object.fromEntries(
 			Object.entries(profileSettingsFormData).map(([key, value]) => [
 				key,
-				value?.trim(),
+				value?.trim() === '' ? null : value?.trim(),
 			])
 		);
 
-		const values = Object.entries(submitData);
+		const values = Object.entries(trimmedData);
 
 		const failed = values.filter(([key, val]) => !validation(key, val));
 
@@ -228,13 +230,22 @@ function ProfileSettings() {
 			return;
 		}
 
+		const submitData = trimmedData;
+
 		try {
 			setLoading(true);
+
 			const response = await axiosInstance.post(
 				'/api/user/updateSettings',
 				submitData
 			);
-			const user = response.data.user;
+			const user = Object.fromEntries(
+				Object.entries(response.data.user).map(([key, value]) => [
+					key,
+					value === null ? '' : value,
+				])
+			);
+			console.log('logging user from profileSettings.jsx line 243:', user);
 			setUser(user);
 			setProfileSettingsFormData({
 				first: user.first_name || '',
@@ -412,12 +423,14 @@ function ProfileSettings() {
 													position: 'relative',
 													top: profileSettingsFormData.description.length
 														? '.25rem'
-														: '',
+														: '.25rem',
 													fontSize: profileSettingsFormData.description.length
 														? '1.25rem'
 														: '1.75rem',
 													cursor: 'pointer',
-													height: '1rem',
+													height: profileSettingsFormData.description.length
+														? '1rem'
+														: '1.25rem',
 													marginLeft: '.25rem',
 												}}
 												viewBox='2 4 18 18'

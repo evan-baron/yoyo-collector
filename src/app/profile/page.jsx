@@ -23,6 +23,8 @@ import {
 // Components
 import VerticalDivider from '../components/dividers/VerticalDivider';
 import CollectionCarousel from '../components/collectionCarousel/CollectionCarousel';
+import NewCollectionButton from '../components/newCollectionButton/NewCollectionButton';
+import BlankProfilePhoto from '../components/blankProfilePhoto/BlankProfilePhoto';
 
 async function Profile() {
 	const cookieStore = await cookies();
@@ -83,54 +85,76 @@ async function Profile() {
 			<div className={styles.profile}>
 				<section className={styles.left}>
 					<div className={styles['profile-picture']}>
-						<img src={profile.profilePicture} className={styles.picture} />
+						{profile.profilePicture ? (
+							<img src={profile.profilePicture} className={styles.picture} />
+						) : (
+							<BlankProfilePhoto />
+						)}
 					</div>
 					<div className={styles['name-info-box']}>
 						<h1 className={styles.h1}>
 							{profile.first} {profile.last}
 						</h1>
-						<div className={styles.details}>
-							<h3 className={styles.handle}>
-								<AlternateEmail className={styles.icon} />
-								{profile.handle}
-							</h3>
-							<h3 className={styles.location}>
-								<Place className={styles.icon} />
-								{profile.location}
-							</h3>
-						</div>
+						{(profile.handle || profile.location) && (
+							<div className={styles.details}>
+								{profile.handle && (
+									<h3 className={styles.handle}>
+										<AlternateEmail className={styles.icon} />
+										{profile.handle}
+									</h3>
+								)}
+								{profile.location && (
+									<h3 className={styles.location}>
+										<Place className={styles.icon} />
+										{profile.location}
+									</h3>
+								)}
+							</div>
+						)}
 						<div className={styles.details}>
 							<h3 className={styles.handle}>
 								Member since: {profile.memberSince}
 							</h3>
 						</div>
 					</div>
-					<p className={styles.label}>About {profile.first}:</p>
-					<div className={styles['description-box']}>
-						<svg viewBox='0 0 24 24' className={styles.quote}>
-							<defs>
-								<linearGradient
-									id='quoteGradient'
-									x1='0%'
-									y1='0%'
-									x2='100%'
-									y2='100%'
-								>
-									<stop offset='0%' stopColor='#00e1ff' />
-									<stop offset='85%' stopColor='#ff00ff' />
-								</linearGradient>
-							</defs>
-							<path
-								d='M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z'
-								fill='url(#quoteGradient)'
-							/>
-						</svg>
-						<p className={styles.description}>{profile.description}</p>
-					</div>
-					<p className={styles.label}>Favorite yoyo:</p>
-					<p className={styles.yoyo}>{profile.yoyo}</p>
-					<p className={styles.label}>Favorite brand:</p>
-					<p className={styles.brand}>{profile.brand}</p>
+					{profile.description && (
+						<>
+							<p className={styles.label}>About {profile.first}:</p>
+							<div className={styles['description-box']}>
+								<svg viewBox='0 0 24 24' className={styles.quote}>
+									<defs>
+										<linearGradient
+											id='quoteGradient'
+											x1='0%'
+											y1='0%'
+											x2='100%'
+											y2='100%'
+										>
+											<stop offset='0%' stopColor='#00e1ff' />
+											<stop offset='85%' stopColor='#ff00ff' />
+										</linearGradient>
+									</defs>
+									<path
+										d='M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z'
+										fill='url(#quoteGradient)'
+									/>
+								</svg>
+								<p className={styles.description}>{profile.description}</p>
+							</div>
+						</>
+					)}
+					{profile.yoyo && (
+						<>
+							<p className={styles.label}>Favorite yoyo:</p>
+							<p className={styles.yoyo}>{profile.yoyo}</p>
+						</>
+					)}
+					{profile.brand && (
+						<>
+							<p className={styles.label}>Favorite brand:</p>
+							<p className={styles.brand}>{profile.brand}</p>
+						</>
+					)}
 				</section>
 				<VerticalDivider />
 				<section className={styles.right}>
@@ -138,13 +162,7 @@ async function Profile() {
 						{/* MAKE THE PLURAL CONDITIONAL ON COLLECTIONS.LENGTH */}
 						<h2 className={styles.h2}>Your Collection(s):</h2>
 						<div className={styles['collections-buttons']}>
-							<button className={styles['new-collection-btn']}>
-								<Add
-									className={styles['settings-icon']}
-									style={{ fontSize: '1.5rem' }}
-								/>
-								<p className={styles.settings}>New Collection</p>
-							</button>
+							<NewCollectionButton />
 							<button className={styles['new-collection-btn']}>
 								<Edit
 									className={styles['settings-icon']}

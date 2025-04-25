@@ -60,7 +60,7 @@ function FormInput({
 			label: 'Handle',
 			placeholder: 'Nickname',
 			maxLength: '16',
-			undo: user[name] !== value,
+			undo: user.handle !== value,
 		},
 		yoyo: {
 			label: 'Favorite Yoyo',
@@ -154,10 +154,12 @@ function FormInput({
 						<p
 							className={styles.p}
 							onClick={() => {
-								errMessage.length &&
-									setErrMessage((prev) =>
-										prev?.filter(([attribute]) => attribute !== name)
-									);
+								if (name !== 'location') {
+									errMessage.length &&
+										setErrMessage((prev) =>
+											prev?.filter(([attribute]) => attribute !== name)
+										);
+								}
 
 								(name === 'first' || name === 'last') && setWarning(false);
 								if (name === 'location') {
@@ -176,9 +178,11 @@ function FormInput({
 								alignSelf: undo ? 'center' : 'end',
 							}}
 							onClick={() => {
-								setErrMessage((prev) =>
-									prev?.filter(([attribute]) => attribute !== name)
-								);
+								if (name !== 'location') {
+									setErrMessage((prev) =>
+										prev?.filter(([attribute]) => attribute !== name)
+									);
+								}
 
 								(name === 'first' || name === 'last') && setWarning(false);
 								if (name === 'location') {
