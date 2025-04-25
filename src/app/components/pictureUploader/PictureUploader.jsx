@@ -18,6 +18,7 @@ import { useAppContext } from '@/app/context/AppContext';
 
 // Components
 import BlankProfilePhoto from '../blankProfilePhoto/BlankProfilePhoto';
+import BlankCoverPhoto from '../blankCoverPhoto/BlankCoverPhoto';
 
 function PictureUploader({ uploadType, defaultUrl }) {
 	// Context
@@ -216,8 +217,10 @@ function PictureUploader({ uploadType, defaultUrl }) {
 								uploadType === 'profile' ? styles.circle : styles.square
 							}`}
 						/>
-					) : (
+					) : uploadType === 'profile' ? (
 						<BlankProfilePhoto />
+					) : (
+						<BlankCoverPhoto />
 					)}
 				</label>
 				{remove && (
