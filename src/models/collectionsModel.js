@@ -10,6 +10,30 @@ const Uploads = {
 		return result;
 	},
 
+	// Get all collections by userId
+	async getAllCollectionsById(userId) {
+		const [rows] = await pool.execute(
+			`SELECT user_collections.*, users.privacy FROM user_collections 
+			LEFT JOIN users
+				ON users.id = user_collections.user_id
+			WHERE user_collections.user_id = ?`,
+			[userId]
+		);
+		return rows[0];
+	},
+
+	// Get collection by collectionId
+	async getCollectionById(collectionId) {
+		const [rows] = await pool.execute(
+			`SELECT user_collections.*, users.handle, users.first_name, users.privacy FROM user_collections 
+			LEFT JOIN users 
+				ON users.id = user_collections.user_id  
+			WHERE user_collections.id = ?`,
+			[collectionId]
+		);
+		return rows[0];
+	},
+
 	// Get collection by name
 	async getCollectionByName(userId, name) {
 		const [rows] = await pool.execute(

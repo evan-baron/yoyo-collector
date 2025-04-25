@@ -248,6 +248,32 @@ const Header = () => {
 							Profile
 						</Link>
 						<Link
+							href={dirty ? '' : '/mycollections'}
+							className={styles.li}
+							onClick={() => {
+								if (dirty) {
+									setPendingRoute('/mycollections');
+									setModalOpen(true);
+									setModalType('dirty');
+									if (active) {
+										setAnimate(false);
+									} else {
+										setActive(true);
+										setAnimate(true);
+									}
+									return;
+								}
+								if (active) {
+									setAnimate(false);
+								} else {
+									setActive(true);
+									setAnimate(true);
+								}
+							}}
+						>
+							Collection
+						</Link>
+						<Link
 							href={dirty ? '' : '/profile/settings'}
 							className={styles.li}
 							onClick={() => {

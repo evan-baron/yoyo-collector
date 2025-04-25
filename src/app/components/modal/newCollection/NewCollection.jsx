@@ -92,6 +92,7 @@ function NewCollection() {
 						<input
 							id='collection'
 							name='collection'
+							placeholder='My Collection'
 							value={formData.collection}
 							onChange={handleChange}
 							required

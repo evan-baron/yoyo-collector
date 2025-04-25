@@ -5,6 +5,7 @@ const {
 	createCollection,
 	deleteCollection,
 	getCollectionByName,
+	getCollectionById,
 	updateCollection,
 } = collectionsService;
 
@@ -48,6 +49,34 @@ export async function POST(req, res) {
 	} catch (error) {
 		return NextResponse.json(
 			{ 'There was an error at /api/user/collections POST': error.message },
+			{ status: 500 }
+		);
+	}
+}
+
+// Get collection by collectionId
+export async function GET(req, res) {
+	try {
+		const url = new URL(req.url);
+		const collectionId = url.searchParams.get('collectionId');
+
+		const response = await getCollectionById(collectionId);
+
+		if (!response) {
+			return NextResponse.json(
+				{ error: 'Collection not found' },
+				{ status: 404 }
+			);
+		}
+
+		if (response.user_id) {
+			delete response.user_id;
+		}
+
+		return NextResponse.json(response, { status: 201 });
+	} catch (error) {
+		return NextResponse.json(
+			{ 'There was an error at /api/user/collections GET': error.message },
 			{ status: 500 }
 		);
 	}
