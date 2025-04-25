@@ -8,6 +8,9 @@ import styles from './collectionTemplate.module.scss';
 // MUI
 import { Edit } from '@mui/icons-material';
 
+// Components
+import BlankCoverPhoto from '../blankCoverPhoto/BlankCoverPhoto';
+
 function CollectionTemplate({ collection }) {
 	const {
 		id,
@@ -23,7 +26,11 @@ function CollectionTemplate({ collection }) {
 
 	return (
 		<div className={styles['collection-container']}>
-			<div className={styles.collection}></div>
+			<div className={styles.collection}>
+				<div className={styles.cover}>
+					<BlankCoverPhoto />
+				</div>
+			</div>
 			<Link href={settingsLink} className={styles['settings-box']}>
 				<Edit className={styles['settings-icon']} />
 				<p className={styles.settings}>Edit Collection</p>

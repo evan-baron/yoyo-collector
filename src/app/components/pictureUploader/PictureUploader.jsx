@@ -8,7 +8,7 @@ import axios from 'axios';
 import axiosInstance from '@/utils/axios';
 
 // Styles
-import styles from './profilePictureUploader.module.scss';
+import styles from './pictureUploader.module.scss';
 
 // MUI
 import { FileUpload, Undo } from '@mui/icons-material';
@@ -16,7 +16,7 @@ import { FileUpload, Undo } from '@mui/icons-material';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function ProfilePictureUploader({ uploadType }) {
+function ProfilePictureUploader({ uploadType, defaultUrl }) {
 	// Context
 	const { loading, setLoading, user, setUser } = useAppContext();
 
@@ -26,14 +26,14 @@ function ProfilePictureUploader({ uploadType }) {
 	const [uploadAction, setUploadAction] = useState(null);
 	const [error, setError] = useState(null);
 	const [remove, setRemove] = useState(false);
-	const [profilePicture, setProfilePicture] = useState(null);
+	const [picture, setPicture] = useState(defaultUrl);
 	const [updatingPicture, setUpdatingPicture] = useState(false);
 
 	useEffect(() => {
-		const { secure_url } = user;
-		setProfilePicture(secure_url);
+		console.log('useEffect triggered', defaultUrl);
+		setPicture(defaultUrl);
 		setPreviewUrl(null);
-	}, [user]);
+	}, [user, defaultUrl]);
 
 	const fileInputRef = useRef(null);
 
@@ -43,11 +43,11 @@ function ProfilePictureUploader({ uploadType }) {
 
 		const size = e.target.files[0]?.size;
 
-		if (size > 5242880) {
-			setError('File must not exceed 5mb');
+		if (size > 4194304) {
+			setError('File must not exceed 4mb');
 			return;
 		} else {
-			if (!profilePicture) {
+			if (!picture) {
 				setUploadAction('new');
 			} else {
 				setUploadAction('update');
@@ -107,16 +107,21 @@ function ProfilePictureUploader({ uploadType }) {
 				};
 
 				try {
-					const response = await axiosInstance.post(
-						'/api/user/profilePictures',
-						uploadData
-					);
-					const { profilePicture } = response.data;
+					if (uploadType === 'profile') {
+						const response = await axiosInstance.post(
+							'/api/user/profilePictures',
+							uploadData
+						);
+						const { profilePicture } = response.data;
 
-					setUser((prev) => ({
-						...prev,
-						secure_url: profilePicture.secure_url,
-					}));
+						setUser((prev) => ({
+							...prev,
+							secure_url: profilePicture.secure_url,
+						}));
+					} else {
+						console.log('do nothing');
+						return;
+					}
 				} catch (error) {
 					console.log('There was an error saving the photo:', error);
 				} finally {
@@ -137,14 +142,18 @@ function ProfilePictureUploader({ uploadType }) {
 	// Handle delete
 	const handleDelete = async () => {
 		try {
-			await axiosInstance.delete(
-				`/api/user/profilePictures?category=${uploadType}`
-			);
+			if (uploadType === 'profile') {
+				await axiosInstance.delete(
+					`/api/user/profilePictures?category=${uploadType}`
+				);
+				setUser((prev) => ({
+					...prev,
+					secure_url: null,
+				}));
+			} else {
+				console.log('do nothing');
+			}
 			setPreviewUrl(null);
-			setUser((prev) => ({
-				...prev,
-				secure_url: null,
-			}));
 			if (fileInputRef.current) {
 				fileInputRef.current.value = '';
 			}
@@ -156,7 +165,7 @@ function ProfilePictureUploader({ uploadType }) {
 
 	return (
 		<div className={styles.container}>
-			<div className={styles['profile-picture']}>
+			<div className={styles['picture-container']}>
 				<label htmlFor='fileInput' className={styles.placeholder}>
 					<input
 						name='fileInput'
@@ -171,7 +180,7 @@ function ProfilePictureUploader({ uploadType }) {
 					<div className={styles.options}>
 						<div className={styles.update}>
 							<FileUpload className={styles.upload} />
-							{profilePicture || previewUrl ? 'Change' : 'Upload'} Photo
+							{picture || previewUrl ? 'Change' : 'Upload'} Photo
 						</div>
 					</div>
 					{previewUrl ? (
@@ -180,9 +189,9 @@ function ProfilePictureUploader({ uploadType }) {
 							alt='Preview profile picture'
 							className={styles.image}
 						/>
-					) : profilePicture && !updatingPicture ? (
+					) : picture && !updatingPicture ? (
 						<img
-							src={profilePicture}
+							src={picture}
 							alt='Current profile picture'
 							className={styles.image}
 						/>
@@ -231,14 +240,14 @@ function ProfilePictureUploader({ uploadType }) {
 					/>
 				)}
 				<label className={styles.button} htmlFor='fileInput'>
-					{profilePicture || previewUrl ? 'Change' : 'Upload'} Photo
+					{picture || previewUrl ? 'Change' : 'Upload'} Photo
 				</label>
 				{previewUrl && (
 					<button className={styles.button} type='button' onClick={handleSave}>
 						Save
 					</button>
 				)}
-				{profilePicture && !updatingPicture && (
+				{picture && !updatingPicture && (
 					<button
 						className={styles.button}
 						type='button'

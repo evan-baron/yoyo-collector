@@ -14,7 +14,7 @@ import { Check, East, Edit, Undo } from '@mui/icons-material';
 
 // Components
 import FormInput from '../../formInput/FormInput';
-import ProfilePictureUploader from '../../ProfilePictureUploader/ProfilePictureUploader';
+import PictureUploader from '../../pictureUploader/PictureUploader';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -357,7 +357,10 @@ function ProfileSettings() {
 					<div
 						className={`${styles['form-item']} ${styles['profile-picture']}`}
 					>
-						<ProfilePictureUploader uploadType='profile' />
+						<PictureUploader
+							uploadType='profile'
+							defaultUrl={user.secure_url}
+						/>
 					</div>
 				</div>
 				<div className={styles.bottom}>
