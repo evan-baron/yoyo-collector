@@ -100,7 +100,24 @@ async function Profile() {
 					</div>
 					<p className={styles.label}>About {profile.first}:</p>
 					<div className={styles['description-box']}>
-						<FormatQuote className={styles.quote} />
+						<svg viewBox='0 0 24 24' className={styles.quote}>
+							<defs>
+								<linearGradient
+									id='quoteGradient'
+									x1='0%'
+									y1='0%'
+									x2='100%'
+									y2='100%'
+								>
+									<stop offset='0%' stopColor='#00e1ff' />
+									<stop offset='85%' stopColor='#ff00ff' />
+								</linearGradient>
+							</defs>
+							<path
+								d='M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z'
+								fill='url(#quoteGradient)'
+							/>
+						</svg>
 						<p className={styles.description}>{profile.description}</p>
 					</div>
 					<p className={styles.label}>Favorite yoyo:</p>
