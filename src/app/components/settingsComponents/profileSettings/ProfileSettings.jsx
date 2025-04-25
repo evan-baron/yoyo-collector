@@ -213,7 +213,7 @@ function ProfileSettings() {
 		const submitData = Object.fromEntries(
 			Object.entries(profileSettingsFormData).map(([key, value]) => [
 				key,
-				value.trim(),
+				value?.trim(),
 			])
 		);
 

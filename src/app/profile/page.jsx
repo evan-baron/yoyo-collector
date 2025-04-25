@@ -11,6 +11,7 @@ import styles from './profile.module.scss';
 
 // MUI
 import {
+	Add,
 	East,
 	Place,
 	AlternateEmail,
@@ -135,7 +136,23 @@ async function Profile() {
 				<section className={styles.right}>
 					<div className={styles['collections-container']}>
 						{/* MAKE THE PLURAL CONDITIONAL ON COLLECTIONS.LENGTH */}
-						<h2 className={styles.h2}>{profile.first}'s Collection(s):</h2>
+						<h2 className={styles.h2}>Your Collection(s):</h2>
+						<div className={styles['collections-buttons']}>
+							<button className={styles['new-collection-btn']}>
+								<Add
+									className={styles['settings-icon']}
+									style={{ fontSize: '1.5rem' }}
+								/>
+								<p className={styles.settings}>New Collection</p>
+							</button>
+							<button className={styles['new-collection-btn']}>
+								<Edit
+									className={styles['settings-icon']}
+									style={{ fontSize: '1.25rem' }}
+								/>
+								<p className={styles.settings}>Edit Collections</p>
+							</button>
+						</div>
 						<CollectionCarousel />
 					</div>
 					<div className={styles['favorites-container']}>

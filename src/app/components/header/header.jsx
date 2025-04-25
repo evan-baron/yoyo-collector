@@ -24,9 +24,11 @@ import Modal from '@/app/components/modal/modal';
 
 const Header = () => {
 	const {
+		dirty,
 		modalOpen,
 		setModalOpen,
 		setModalType,
+		setPendingRoute,
 		user,
 		setUser,
 		setProfileSettingsFormData,
@@ -85,9 +87,15 @@ const Header = () => {
 			<nav className={styles.nav}>
 				<div className={styles.menu}>
 					<Link
-						href='/'
+						href={dirty ? '' : '/'}
 						className={styles.logo}
 						onClick={() => {
+							if (dirty) {
+								setPendingRoute('/');
+								setModalOpen(true);
+								setModalType('dirty');
+								return;
+							}
 							router.push(window.location.pathname);
 							setModalOpen(false);
 						}}
@@ -104,7 +112,18 @@ const Header = () => {
 					{user ? (
 						<>
 							<li className={styles.li}>
-								<Link href='/collections' className={styles.li}>
+								<Link
+									href={dirty ? '' : '/collections'}
+									className={styles.li}
+									onClick={() => {
+										if (dirty) {
+											setPendingRoute('/collections');
+											setModalOpen(true);
+											setModalType('dirty');
+											return;
+										}
+									}}
+								>
 									Collections
 								</Link>
 							</li>
@@ -114,11 +133,17 @@ const Header = () => {
 										className={styles['profile-image']}
 										src={user.secure_url}
 										onClick={() => {
-											if (active) {
-												setAnimate(false);
+											if (dirty) {
+												setModalOpen(true);
+												setModalType('dirty');
+												return;
 											} else {
-												setActive(true);
-												setAnimate(true);
+												if (active) {
+													setAnimate(false);
+												} else {
+													setActive(true);
+													setAnimate(true);
+												}
 											}
 										}}
 									/>
@@ -126,12 +151,36 @@ const Header = () => {
 							) : (
 								<>
 									<li className={styles.li}>
-										<Link href='/profile' className={styles.li}>
+										<Link
+											href='/profile'
+											className={styles.li}
+											onClick={() => {
+												if (dirty) {
+													setPendingRoute('/profile');
+													setModalOpen(true);
+													setModalType('dirty');
+													return;
+												}
+											}}
+										>
 											Profile
 										</Link>
 									</li>
 									<li className={styles.li}>
-										<Link href='/' onClick={handleLogout} className={styles.li}>
+										<Link
+											href='/'
+											onClick={() => {
+												if (dirty) {
+													setPendingRoute('logout');
+													setModalOpen(true);
+													setModalType('dirty');
+													return;
+												} else {
+													handleLogout();
+												}
+											}}
+											className={styles.li}
+										>
 											Logout
 										</Link>
 									</li>
@@ -173,27 +222,84 @@ const Header = () => {
 				>
 					<ul>
 						<Link
-							href='/profile'
+							href={dirty ? '' : '/profile'}
 							className={styles.li}
 							onClick={() => {
-								setActive((prev) => !prev);
-								setAnimate((prev) => !prev);
+								if (dirty) {
+									setPendingRoute('/profile');
+									setModalOpen(true);
+									setModalType('dirty');
+									if (active) {
+										setAnimate(false);
+									} else {
+										setActive(true);
+										setAnimate(true);
+									}
+									return;
+								}
+								if (active) {
+									setAnimate(false);
+								} else {
+									setActive(true);
+									setAnimate(true);
+								}
 							}}
 						>
 							Profile
 						</Link>
 						<Link
-							href='/profile/settings'
+							href={dirty ? '' : '/profile/settings'}
 							className={styles.li}
 							onClick={() => {
-								setActive((prev) => !prev);
-								setAnimate((prev) => !prev);
+								if (dirty) {
+									setPendingRoute('/profile/settings');
+									setModalOpen(true);
+									setModalType('dirty');
+									if (active) {
+										setAnimate(false);
+									} else {
+										setActive(true);
+										setAnimate(true);
+									}
+									return;
+								}
+								if (active) {
+									setAnimate(false);
+								} else {
+									setActive(true);
+									setAnimate(true);
+								}
 							}}
 						>
 							Settings
 						</Link>
 						<li className={styles.li}>Search</li>
-						<Link href='/' onClick={handleLogout} className={styles.li}>
+						<Link
+							href={dirty ? '' : '/'}
+							onClick={() => {
+								if (dirty) {
+									setPendingRoute('logout');
+									setModalOpen(true);
+									setModalType('dirty');
+									if (active) {
+										setAnimate(false);
+									} else {
+										setActive(true);
+										setAnimate(true);
+									}
+									return;
+								} else {
+									handleLogout();
+									if (active) {
+										setAnimate(false);
+									} else {
+										setActive(true);
+										setAnimate(true);
+									}
+								}
+							}}
+							className={styles.li}
+						>
 							Logout
 						</Link>
 					</ul>

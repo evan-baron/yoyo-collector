@@ -2,6 +2,7 @@
 
 // Libraries
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 // Utils
 import axiosInstance from '@/utils/axios';
@@ -14,28 +15,49 @@ import { useAppContext } from '@/app/context/AppContext';
 
 function Dirty() {
 	const {
+		pendingRoute,
 		profileSettingsFormData,
+		user,
 		setProfileSettingsFormData,
 		setLoading,
+		setPendingRoute,
 		setUser,
 		setCurrentlyEditing,
 		setDirty,
 		setModalOpen,
-		user,
+		setModalType,
 	} = useAppContext();
 
-	const { id } = user;
+	const router = useRouter();
+
+	const handleLogout = async () => {
+		try {
+			localStorage.removeItem('token');
+			localStorage.removeItem('user');
+			setUser(null);
+			await axiosInstance.post('/api/auth/logout', user);
+		} catch (error) {
+			console.error('Logout failed: ', error.response?.data || error.message);
+		} finally {
+			setProfileSettingsFormData(null);
+			setCurrentlyEditing(null);
+			setDirty(false);
+			setLoading(false);
+			setModalOpen(false);
+			setModalType(null);
+			router.push('/');
+		}
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const submitData = profileSettingsFormData;
-		submitData.id = id;
 
 		try {
 			setLoading(true);
 			setModalOpen(false);
 			const response = await axiosInstance.post(
-				'api/user/updateSettings',
+				'/api/user/updateSettings',
 				submitData
 			);
 			const user = response.data.user;
@@ -52,16 +74,25 @@ function Dirty() {
 				description: user.description || '',
 				privacy: user.privacy || '',
 			});
-			setCurrentlyEditing(null);
-			setDirty(false);
-			setLoading(false);
 		} catch (error) {
 			setLoading(false);
 			console.log(
-				'There was an error submitting profileSettings in components/settingsConsole/profileSettings.jsx: ',
+				'There was an error submitting profileSettings in components/modal/dirty/Dirty.jsx: ',
 				error.message
 			);
 			return;
+		} finally {
+			if (pendingRoute) {
+				if (pendingRoute === 'logout') {
+					handleLogout();
+				} else {
+					router.push(pendingRoute);
+				}
+				setPendingRoute(null);
+			}
+			setCurrentlyEditing(null);
+			setDirty(false);
+			setLoading(false);
 		}
 	};
 
@@ -69,7 +100,13 @@ function Dirty() {
 		<div className={styles.container}>
 			<h2 className={styles.h2}>Save Changes</h2>
 			<div className={styles.buttons}>
-				<button className={styles.button} onClick={() => setModalOpen(false)}>
+				<button
+					className={styles.button}
+					onClick={() => {
+						setModalOpen(false);
+						setPendingRoute(null);
+					}}
+				>
 					Cancel
 				</button>
 				<button className={styles.button} onClick={handleSubmit}>

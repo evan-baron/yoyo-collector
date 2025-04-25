@@ -34,6 +34,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	});
 	const [dirty, setDirty] = useState(false);
 	const [currentlyEditing, setCurrentlyEditing] = useState(null);
+	const [pendingRoute, setPendingRoute] = useState(null);
 
 	const router = useRouter();
 
@@ -178,6 +179,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				loading,
 				modalOpen,
 				modalType,
+				pendingRoute,
 				resendEmail,
 				timeRemaining,
 				tokenValid,
@@ -189,6 +191,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setLoading,
 				setModalOpen,
 				setModalType,
+				setPendingRoute,
 				setResendEmail,
 				setTimeRemaining,
 				setTokenValid,
