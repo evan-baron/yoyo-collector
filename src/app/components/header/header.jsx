@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Utilities
 import axiosInstance from '@/utils/axios';
@@ -35,6 +35,19 @@ const Header = () => {
 		setLoading,
 	} = useAppContext();
 
+	const [active, setActive] = useState(false);
+	const [animate, setAnimate] = useState(false);
+
+	useEffect(() => {
+		let timeout;
+		if (!animate && active) {
+			timeout = setTimeout(() => {
+				setActive(false);
+			}, 500);
+		}
+		return () => clearTimeout(timeout);
+	}, [animate]);
+
 	const router = useRouter();
 
 	useEffect(() => {
@@ -47,6 +60,8 @@ const Header = () => {
 	}, [user?.email_verified]);
 
 	const handleLogout = async () => {
+		setActive((prev) => !prev);
+		setAnimate((prev) => !prev);
 		try {
 			localStorage.removeItem('token');
 			localStorage.removeItem('user');
@@ -94,10 +109,20 @@ const Header = () => {
 								</Link>
 							</li>
 							{user.secure_url ? (
-								<img
-									className={styles['profile-image']}
-									src={user.secure_url}
-								/>
+								<>
+									<img
+										className={styles['profile-image']}
+										src={user.secure_url}
+										onClick={() => {
+											if (active) {
+												setAnimate(false);
+											} else {
+												setActive(true);
+												setAnimate(true);
+											}
+										}}
+									/>
+								</>
 							) : (
 								<>
 									<li className={styles.li}>
@@ -140,6 +165,53 @@ const Header = () => {
 				</ul>
 			</nav>
 			{modalOpen && <Modal />}
+			{active && (
+				<div
+					className={`${styles.hamburger} ${
+						animate ? styles.active : styles.inactive
+					}`}
+				>
+					<ul>
+						<Link
+							href='/profile'
+							className={styles.li}
+							onClick={() => {
+								setActive((prev) => !prev);
+								setAnimate((prev) => !prev);
+							}}
+						>
+							Profile
+						</Link>
+						<Link
+							href='/profile/settings'
+							className={styles.li}
+							onClick={() => {
+								setActive((prev) => !prev);
+								setAnimate((prev) => !prev);
+							}}
+						>
+							Settings
+						</Link>
+						<li className={styles.li}>Search</li>
+						<Link href='/' onClick={handleLogout} className={styles.li}>
+							Logout
+						</Link>
+					</ul>
+					<div
+						className={styles['arrow-box']}
+						onClick={() => {
+							if (active) {
+								setAnimate(false);
+							} else {
+								setActive(true);
+								setAnimate(true);
+							}
+						}}
+					>
+						<div className={styles.arrow}></div>
+					</div>
+				</div>
+			)}
 		</header>
 	);
 };

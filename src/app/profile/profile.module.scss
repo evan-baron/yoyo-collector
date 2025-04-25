@@ -170,7 +170,7 @@
 	.settings-box {
 		position: fixed;
 		top: 5.5rem;
-		right: 1.5rem;
+		left: 1.5rem;
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
@@ -188,7 +188,7 @@
 			padding: 0.75rem 0;
 
 			@supports (-webkit-background-clip: text) {
-				background: linear-gradient(135deg, rgb(255, 0, 255), rgb(0, 200, 225));
+				background: linear-gradient(135deg, rgb(255, 0, 255), rgb(0, 225, 255));
 				-webkit-background-clip: text;
 				-webkit-text-fill-color: transparent;
 				cursor: pointer;

@@ -15,6 +15,7 @@ import {
 	AlternateEmail,
 	FormatQuote,
 	Settings,
+	Edit,
 } from '@mui/icons-material';
 
 // Components
@@ -122,9 +123,13 @@ async function Profile() {
 				</section>
 			</div>
 			<Link href='/profile/settings' className={styles['settings-box']}>
-				<Settings className={styles['settings-icon']} />
+				<Edit className={styles['settings-icon']} />
 				<p className={styles.settings}>Edit Your Profile</p>
 			</Link>
+			{/* <Link href='/profile/settings' className={styles['settings-box']}>
+				<Settings className={styles['settings-icon']} />
+				<p className={styles.settings}>Profile Settings</p>
+			</Link> */}
 		</div>
 	);
 }

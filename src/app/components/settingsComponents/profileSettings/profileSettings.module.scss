@@ -39,7 +39,7 @@
 				gap: 1rem;
 
 				.radio {
-					accent-color: rgb(0, 225, 255);
+					accent-color: rgb(0, 200, 225);
 				}
 			}
 		}
@@ -237,7 +237,7 @@
 		.p {
 			font-weight: bold;
 			@supports (-webkit-background-clip: text) {
-				background: linear-gradient(135deg, rgb(255, 0, 255), rgb(0, 200, 225));
+				background: linear-gradient(135deg, rgb(255, 0, 255), rgb(0, 225, 255));
 				-webkit-background-clip: text;
 				-webkit-text-fill-color: transparent;
 				cursor: pointer;
@@ -252,7 +252,7 @@
 					background: linear-gradient(
 						135deg,
 						rgb(255, 0, 255),
-						rgb(0, 200, 255)
+						rgb(0, 225, 255)
 					);
 				}
 			}

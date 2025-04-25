@@ -8,10 +8,9 @@ import Link from 'next/link';
 import styles from './settingsConsole.module.scss';
 
 // MUI
-import { West, Close } from '@mui/icons-material';
+import { West } from '@mui/icons-material';
 
 // Components
-import VerticalDivider from '@/app/components/dividers/VerticalDivider';
 import MenuItem from '@/app/components/settingsComponents/menuItem/MenuItem';
 import AccountSettings from '@/app/components/settingsComponents/accountSettings/AccountSettings';
 import CollectionSettings from '@/app/components/settingsComponents/collectionSettings/CollectionSettings';
@@ -91,25 +90,11 @@ function SettingsConsole() {
 					</ul>
 				</nav>
 			</div>
-			<VerticalDivider />
 			<div className={styles.right}>
 				{SelectedComponent && (
 					<SelectedComponent setViewSettings={setViewSettings} />
 				)}
 			</div>
-			{/* <div
-				className={styles.close}
-				onClick={() => {
-					if (!dirty) {
-						router.push('/collections');
-					} else {
-						setModalOpen(true);
-						setModalType('dirty');
-					}
-				}}
-			>
-				<Close sx={{ fontSize: '2rem' }} />
-			</div> */}
 			{loading && <LoadingSpinner message='Saving' />}
 		</div>
 	);
