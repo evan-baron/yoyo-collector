@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import axiosInstance from '@/utils/axios';
 import Link from 'next/link';
+import dayjs from 'dayjs';
 
 // Styles
 import styles from './profile.module.scss';
@@ -69,7 +70,7 @@ async function Profile() {
 			brand: favorite_brand,
 			description: description,
 			profilePicture: secure_url,
-			memberSince: created_at,
+			memberSince: dayjs(created_at).format('MMMM, D, YYYY'),
 		};
 	} catch (error) {
 		console.error('Error fetching user data:', error);
@@ -95,6 +96,11 @@ async function Profile() {
 							<h3 className={styles.location}>
 								<Place className={styles.icon} />
 								{profile.location}
+							</h3>
+						</div>
+						<div className={styles.details}>
+							<h3 className={styles.handle}>
+								Member since: {profile.memberSince}
 							</h3>
 						</div>
 					</div>

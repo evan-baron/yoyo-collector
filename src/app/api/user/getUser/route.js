@@ -7,8 +7,6 @@ export async function GET(req) {
 		const url = new URL(req.url);
 		const handleOrId = url.searchParams.get('handleOrId');
 
-		console.log('backend handleOrId:', handleOrId);
-
 		let response = await getUserByHandle(handleOrId);
 
 		// Fallback to ID if not found by handle

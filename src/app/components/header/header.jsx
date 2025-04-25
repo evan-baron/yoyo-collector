@@ -43,7 +43,7 @@ const Header = () => {
 		if (!animate && active) {
 			timeout = setTimeout(() => {
 				setActive(false);
-			}, 500);
+			}, 300);
 		}
 		return () => clearTimeout(timeout);
 	}, [animate]);
