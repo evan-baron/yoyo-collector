@@ -29,7 +29,7 @@
 	.settings-box {
 		position: fixed;
 		top: 5.5rem;
-		left: 1.5rem;
+		right: 1.5rem;
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
@@ -39,6 +39,7 @@
 		background-color: var(--darkerGray);
 		border-radius: 0.5rem;
 		box-shadow: 0.125rem 0.125rem 0.5rem black;
+		transition: 0.3s;
 
 		.settings {
 			font-size: 1.125rem;
@@ -54,9 +55,14 @@
 		}
 
 		.settings-icon {
+			transform: translateY(-5%); // ALIGN ITEMS CENTER NOT WORK GOOD
 			@supports (-webkit-background-clip: text) {
 				color: rgb(255, 0, 225);
 			}
+		}
+
+		&:hover {
+			transform: scale(1.1) translate(-5%, 5%);
 		}
 	}
 }
