@@ -24,6 +24,35 @@
 			font-size: 3rem;
 		}
 
+		.details {
+			position: relative;
+			display: flex;
+			align-items: center;
+
+			.h3 {
+				height: 1.5rem;
+				display: flex;
+				align-items: center;
+				border-right: 1px solid var(--lightestGray);
+				padding-right: 1rem;
+			}
+
+			.likes {
+				position: relative;
+				display: flex;
+				align-items: center;
+				gap: 0.25rem;
+				border-left: 1px solid var(--lightestGray);
+				padding-left: 1rem;
+
+				.heart {
+					position: relative;
+					height: 1.5rem;
+					width: 1.5rem;
+				}
+			}
+		}
+
 		.description {
 			font-size: 1.125rem;
 		}
@@ -47,6 +76,8 @@
 			width: 100%;
 
 			display: flex;
+			padding: 1rem;
+			gap: 2rem;
 
 			.left {
 				width: 40%;
@@ -77,7 +108,6 @@
 					display: flex;
 					flex-direction: column;
 					align-items: center;
-					padding: 1rem;
 
 					// border: 1px solid white;
 
