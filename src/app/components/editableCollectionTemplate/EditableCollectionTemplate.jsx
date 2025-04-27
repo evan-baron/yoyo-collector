@@ -18,7 +18,6 @@ import PictureUploader from '../pictureUploader/PictureUploader';
 function EditableCollectionTemplate({ collection }) {
 	const { id, collection_name, collection_description, likes, created_at } =
 		collection;
-	const settingsLink = `/mycollections/${id}/settings`;
 	const created = dayjs(created_at).format('MMMM, D, YYYY');
 
 	const [editing, setEditing] = useState(false);
