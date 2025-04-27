@@ -6,12 +6,13 @@
 	height: 100%;
 	width: 100%;
 	align-items: center;
+	gap: 1rem; // REMOVE THIS IF YOU WANT THE FONT SIZE ON THE BUTTONS BACK TO 1.125REM
 
 	.picture-container {
 		position: relative;
 		width: 100%;
 		aspect-ratio: 1;
-		padding: 1rem;
+		// padding: 1rem; // ENABLE THIS IF YOU WANT THE FONT SIZE ON THE BUTTONS BACK TO 1.125REM
 
 		.circle {
 			border-radius: 50%;
@@ -199,7 +200,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-size: 1.125rem;
+			font-size: 1rem; // ORIGINAL SIZE 1.125REM
 			padding: 0.25rem 0.5rem;
 			line-height: 1;
 			margin: 0;

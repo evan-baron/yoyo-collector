@@ -1,36 +1,51 @@
+'use client';
+
 // Libraries
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 
 // Styles
-import styles from './collectionTemplate.module.scss';
+import styles from './editableCollectionTemplate.module.scss';
 
 // MUI
-import { Edit } from '@mui/icons-material';
+import { Edit, Save } from '@mui/icons-material';
 
 // Components
 import BlankCoverPhoto from '../blankCoverPhoto/BlankCoverPhoto';
+import PictureUploader from '../pictureUploader/PictureUploader';
 
-function CollectionTemplate({ collection }) {
-	const {
-		id,
-		collection_name,
-		collection_description,
-		likes,
-		created_at,
-		handle,
-		first_name,
-		privacy,
-	} = collection;
-
+function EditableCollectionTemplate({ collection }) {
+	const { id, collection_name, collection_description, likes, created_at } =
+		collection;
 	const settingsLink = `/mycollections/${id}/settings`;
 	const created = dayjs(created_at).format('MMMM, D, YYYY');
+
+	const [editing, setEditing] = useState(false);
+	const [currentlyEditing, setCurrentlyEditing] = useState({
+		collectionName: false,
+		description: false,
+		coverPhoto: false,
+	});
 
 	return (
 		<div className={styles['collection-container']}>
 			<div className={styles.title}>
-				<h1 className={styles.h1}>{collection_name}</h1>
+				<div className={styles['collection-name-box']}>
+					{currentlyEditing.collectionName ? (
+						''
+					) : (
+						<>
+							<h1
+								className={styles.h1}
+								style={{ cursor: editing ? 'pointer' : '' }}
+							>
+								{collection_name}
+							</h1>
+							{editing && <Edit className={styles['name-edit-icon']} />}
+						</>
+					)}
+				</div>
 				<div className={styles.details}>
 					<h3 className={styles.h3}>Created {created}</h3>
 					<p className={styles.likes}>
@@ -55,25 +70,49 @@ function CollectionTemplate({ collection }) {
 						{likes ? likes : '69'} likes
 					</p>
 				</div>
-				<p className={styles.description}>
-					{collection_description
-						? collection_description
-						: 'This is a sample description. This collection only contains solid gold and platinum yoyos. All of which are worth millions.'}
-				</p>
+				{currentlyEditing.description ? (
+					''
+				) : (
+					<p
+						className={styles.description}
+						style={{ cursor: editing ? 'pointer' : '' }}
+					>
+						<span>
+							{collection_description
+								? collection_description
+								: 'This is a sample description. This collection only contains solid gold and platinum yoyos. All of which are worth millions.'}
+						</span>
+						{editing ? (
+							<Edit
+								sx={{
+									position: 'relative',
+									top: !collection_description?.length ? '.125rem' : '', // DON'T FORGET TO REMOVE THE ! FROM THE START WHEN READY
+									fontSize: !collection_description?.length ? '1rem' : '1.5rem', // DON'T FORGET TO REMOVE THE ! FROM THE START WHEN READY
+									cursor: 'pointer',
+									marginLeft: '.25rem',
+								}}
+							/>
+						) : (
+							''
+						)}
+					</p>
+				)}
 			</div>
 			<div className={styles.collection}>
 				<section className={styles['photos-container']}>
 					<div className={styles.left}>
 						<h2 className={styles.h2}>Cover Photo</h2>
 						<div className={styles.cover}>
-							{/* Collection photo or default photo */}
-							<BlankCoverPhoto />
+							{editing ? (
+								<PictureUploader uploadType='cover' />
+							) : (
+								<BlankCoverPhoto />
+							)}
 						</div>
 					</div>
 					<div className={styles.right}>
 						<h2 className={styles.h2}>Collection Photos</h2>
 						<div className={styles.photos}>
-							(If more than 4 photos, carousel)
 							<div className={styles.grid}>
 								<div className={styles.photo}></div>
 								<div className={styles.photo}></div>
@@ -106,8 +145,21 @@ function CollectionTemplate({ collection }) {
 					</div>
 				</section>
 			</div>
+			<button
+				className={styles['settings-box']}
+				onClick={() => setEditing((prev) => !prev)}
+			>
+				{editing ? (
+					<Save className={styles['settings-icon']} />
+				) : (
+					<Edit className={styles['settings-icon']} />
+				)}
+				<p className={styles.settings}>
+					{editing ? 'Save Changes' : 'Edit Collection'}
+				</p>
+			</button>
 		</div>
 	);
 }
 
-export default CollectionTemplate;
+export default EditableCollectionTemplate;

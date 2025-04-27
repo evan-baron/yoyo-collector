@@ -1,0 +1,233 @@
+.collection-container {
+	width: 100%;
+	flex-grow: 1;
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+	color: var(--lightestGray);
+	margin: 1rem 0;
+	// border: 1px solid red;
+
+	.title {
+		width: 50%;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		// border: 1px solid white;
+
+		.collection-name-box {
+			display: flex;
+			align-items: end;
+
+			.name-edit-icon {
+				height: 2.5rem;
+				font-size: 2rem;
+			}
+
+			.h1 {
+				font-size: 3rem;
+			}
+		}
+
+		.details {
+			position: relative;
+			display: flex;
+			align-items: center;
+
+			.h3 {
+				height: 1.5rem;
+				display: flex;
+				align-items: center;
+				border-right: 1px solid var(--lightestGray);
+				padding-right: 1rem;
+			}
+
+			.likes {
+				position: relative;
+				display: flex;
+				align-items: center;
+				gap: 0.25rem;
+				border-left: 1px solid var(--lightestGray);
+				padding-left: 1rem;
+
+				.heart {
+					position: relative;
+					height: 1.5rem;
+					width: 1.5rem;
+				}
+			}
+		}
+
+		.description {
+			font-size: 1.125rem;
+			position: 'relative';
+			display: 'inline-flex';
+			align-items: 'flex-end';
+			flex-wrap: 'wrap';
+			line-height: normal;
+		}
+	}
+
+	.collection {
+		width: 70%;
+		max-width: 60rem;
+
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		// border: 1px solid white;
+
+		.h2 {
+			font-size: 2rem;
+		}
+
+		.photos-container {
+			width: 100%;
+
+			display: flex;
+			padding: 1rem;
+			gap: 2rem;
+
+			.left {
+				width: 40%;
+
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 1rem;
+
+				.cover {
+					width: 100%;
+					// border: 1px solid white;
+				}
+			}
+
+			.right {
+				width: 60%;
+
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 1rem;
+
+				.photos {
+					width: 100%;
+					flex-grow: 1;
+
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+
+					// border: 1px solid white;
+
+					.grid {
+						width: 100%;
+						flex-grow: 1;
+
+						display: grid;
+						grid-template-rows: repeat(2, 1fr);
+						grid-template-columns: repeat(2, 1fr);
+						gap: 1rem;
+
+						.photo {
+							width: 100%;
+							aspect-ratio: 1;
+
+							border-radius: 0.5rem;
+							border: 1px solid white;
+						}
+					}
+				}
+				// border: 1px solid white;
+			}
+		}
+
+		.yoyos-container {
+			width: 100%;
+
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1rem;
+
+			.sort {
+				width: 100%;
+
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 1rem;
+
+				.style {
+					padding: 0.25rem 0.5rem;
+					border-radius: 0.5rem;
+					border: 1px solid white;
+				}
+			}
+
+			.yoyos {
+				width: 70%;
+
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+
+				.tile {
+					width: 100%;
+					height: 15rem;
+
+					text-align: center;
+					border-radius: 0.5rem;
+					border: 1px solid white;
+				}
+			}
+		}
+	}
+
+	.settings-box {
+		position: fixed;
+		top: 5.5rem;
+		right: 1.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0 1rem;
+		cursor: pointer;
+		color: var(--lightestGray);
+		background-color: var(--darkerGray);
+		border: none;
+		border-radius: 0.5rem;
+		box-shadow: 0.125rem 0.125rem 0.5rem black;
+		transition: 0.3s;
+
+		.settings {
+			font-size: 1.125rem;
+			font-weight: bold;
+			padding: 0.75rem 0;
+
+			@supports (-webkit-background-clip: text) {
+				background: linear-gradient(135deg, rgb(255, 0, 255), #00e1ff);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				cursor: pointer;
+			}
+		}
+
+		.settings-icon {
+			transform: translateY(-5%); // ALIGN ITEMS CENTER NOT WORK GOOD
+			@supports (-webkit-background-clip: text) {
+				color: rgb(255, 0, 225);
+			}
+		}
+
+		&:hover {
+			transform: scale(1.1) translate(-5%, 5%);
+		}
+	}
+}

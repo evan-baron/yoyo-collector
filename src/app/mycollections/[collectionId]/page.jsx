@@ -7,6 +7,7 @@ import styles from './collectionPage.module.scss';
 
 // Components
 import CollectionTemplate from '@/app/components/collectionTemplate/CollectionTemplate';
+import EditableCollectionTemplate from '@/app/components/editableCollectionTemplate/EditableCollectionTemplate';
 
 async function Collection({ params }) {
 	const { collectionId } = await params;
@@ -26,7 +27,7 @@ async function Collection({ params }) {
 		redirect('/');
 	}
 
-	return <CollectionTemplate collection={collection} />;
+	return <EditableCollectionTemplate collection={collection} />;
 }
 
 export default Collection;
