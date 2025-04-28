@@ -81,3 +81,19 @@ export async function GET(req, res) {
 		);
 	}
 }
+
+// Update collection by collectionId
+export async function PATCH(req, res) {
+	try {
+		const { collectionName, description, id } = await req.json();
+
+		const response = await updateCollection(collectionName, id, description);
+
+		return NextResponse.json(response, { status: 201 });
+	} catch (error) {
+		return NextResponse.json(
+			{ 'There was an error at /api/user/collections PATCH': error.message },
+			{ status: 500 }
+		);
+	}
+}

@@ -15,6 +15,9 @@ import { useAppContext } from '@/app/context/AppContext';
 
 function Dirty() {
 	const {
+		collectionSettingsFormData,
+		setCollectionSettingsFormData,
+		dirtyType,
 		pendingRoute,
 		profileSettingsFormData,
 		user,
@@ -24,6 +27,7 @@ function Dirty() {
 		setUser,
 		setCurrentlyEditing,
 		setDirty,
+		setDirtyType,
 		setModalOpen,
 		setModalType,
 	} = useAppContext();
@@ -42,6 +46,7 @@ function Dirty() {
 			setProfileSettingsFormData(null);
 			setCurrentlyEditing(null);
 			setDirty(false);
+			setDirtyType(null);
 			setLoading(false);
 			setModalOpen(false);
 			setModalType(null);
@@ -51,48 +56,53 @@ function Dirty() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const submitData = profileSettingsFormData;
+		if (dirtyType === 'profile') {
+			const submitData = profileSettingsFormData;
 
-		try {
-			setLoading(true);
-			setModalOpen(false);
-			const response = await axiosInstance.post(
-				'/api/user/updateSettings',
-				submitData
-			);
-			const user = response.data.user;
-			setUser(user);
-			setProfileSettingsFormData({
-				first: user.first_name || '',
-				last: user.last_name || '',
-				handle: user.handle || '',
-				yoyo: user.favorite_yoyo || '',
-				brand: user.favorite_brand || '',
-				city: user.city || '',
-				state: user.state || '',
-				country: user.country || '',
-				description: user.description || '',
-				privacy: user.privacy || '',
-			});
-		} catch (error) {
-			setLoading(false);
-			console.log(
-				'There was an error submitting profileSettings in components/modal/dirty/Dirty.jsx: ',
-				error.message
-			);
-			return;
-		} finally {
-			if (pendingRoute) {
-				if (pendingRoute === 'logout') {
-					handleLogout();
-				} else {
-					router.push(pendingRoute);
+			try {
+				setLoading(true);
+				setModalOpen(false);
+				const response = await axiosInstance.post(
+					'/api/user/updateSettings',
+					submitData
+				);
+				const user = response.data.user;
+				setUser(user);
+				setProfileSettingsFormData({
+					first: user.first_name || '',
+					last: user.last_name || '',
+					handle: user.handle || '',
+					yoyo: user.favorite_yoyo || '',
+					brand: user.favorite_brand || '',
+					city: user.city || '',
+					state: user.state || '',
+					country: user.country || '',
+					description: user.description || '',
+					privacy: user.privacy || '',
+				});
+			} catch (error) {
+				setLoading(false);
+				console.log(
+					'There was an error submitting profileSettings in components/modal/dirty/Dirty.jsx: ',
+					error.message
+				);
+				return;
+			} finally {
+				if (pendingRoute) {
+					if (pendingRoute === 'logout') {
+						handleLogout();
+					} else {
+						router.push(pendingRoute);
+					}
+					setPendingRoute(null);
 				}
-				setPendingRoute(null);
+				setCurrentlyEditing(null);
+				setDirty(false);
+				setLoading(false);
 			}
-			setCurrentlyEditing(null);
-			setDirty(false);
-			setLoading(false);
+		} else if (dirtyType === 'collection') {
+			console.log('lol');
+			console.log(collectionSettingsFormData);
 		}
 	};
 

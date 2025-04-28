@@ -32,7 +32,12 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 		description: '',
 		privacy: '',
 	});
+	const [collectionSettingsFormData, setCollectionSettingsFormData] = useState({
+		collectionName: '',
+		description: '',
+	});
 	const [dirty, setDirty] = useState(false);
+	const [dirtyType, setDirtyType] = useState(null);
 	const [currentlyEditing, setCurrentlyEditing] = useState(null);
 	const [pendingRoute, setPendingRoute] = useState(null);
 
@@ -99,7 +104,6 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				if (!user) {
 					setUser(null);
 				} else {
-					console.log('appcontext user:', user);
 					setUser(user);
 				}
 			} else {
@@ -179,8 +183,10 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	return (
 		<AppContext.Provider
 			value={{
+				collectionSettingsFormData,
 				currentlyEditing,
 				dirty,
+				dirtyType,
 				emailVerified,
 				profileSettingsFormData,
 				loading,
@@ -191,8 +197,10 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				timeRemaining,
 				tokenValid,
 				user,
+				setCollectionSettingsFormData,
 				setCurrentlyEditing,
 				setDirty,
+				setDirtyType,
 				setEmailVerified,
 				setProfileSettingsFormData,
 				setLoading,

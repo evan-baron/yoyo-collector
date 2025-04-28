@@ -28,6 +28,7 @@ function ProfileSettings() {
 		profileSettingsFormData,
 		setCurrentlyEditing,
 		setDirty,
+		setDirtyType,
 		setProfileSettingsFormData,
 		setLoading,
 		setUser,
@@ -53,6 +54,8 @@ function ProfileSettings() {
 				profileSettingsFormData.description !== description ||
 				profileSettingsFormData.privacy !== privacy
 		);
+
+		setDirtyType('profile');
 	}, [profileSettingsFormData, user]);
 
 	// User Checked

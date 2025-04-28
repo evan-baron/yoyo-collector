@@ -27,6 +27,8 @@ async function Collection({ params }) {
 		redirect('/');
 	}
 
+	// console.log(collection);
+
 	return <EditableCollectionTemplate collection={collection} />;
 }
 

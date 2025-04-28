@@ -36,14 +36,14 @@ const getCollectionByName = async (userId, name) => {
 };
 
 // Update a collection
-const updateCollection = async (name, collectionId) => {
+const updateCollection = async (name, collectionId, description) => {
 	try {
-		await collectionsModel.updateCollection(name, collectionId);
+		await collectionsModel.updateCollection(name, collectionId, description);
 
-		const collection = await collectionsModel.getCollectionByName(userId, name);
+		const collection = await collectionsModel.getCollectionById(collectionId);
 		return { collection };
 	} catch (error) {
-		console.error('Error updating photo:', error.message);
+		console.error('Error updating collection:', error.message);
 	}
 };
 

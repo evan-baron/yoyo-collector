@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import userModel from '@/models/userModel';
 import tokenModel from '@/models/tokenModel';
+import collectionsModel from '@/models/collectionsModel';
 
 // ALL FUNCTIONS LISTED BELOW ALPHABETICALLY
 
@@ -50,6 +51,9 @@ const createUser = async (first, last, email, password) => {
 		}
 
 		const newUser = await userModel.findUserById(result.insertId);
+
+		// CREATE FIRST BASE COLLECTION FOR USER
+		await collectionsModel.createCollection(newUser.id, 'My Collection');
 
 		return {
 			id: newUser.id,

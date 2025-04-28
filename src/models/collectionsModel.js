@@ -53,13 +53,14 @@ const Uploads = {
 	},
 
 	// Update collection
-	async updateCollection(name, collectionId) {
+	async updateCollection(name, collectionId, description) {
 		const [result] = await pool.execute(
 			`UPDATE user_collections 
 				SET collection_name = ?, 
+				collection_description = ?,
 				updated_at = NOW()
 				WHERE id = ?`,
-			[name, collectionId]
+			[name, description, collectionId]
 		);
 		return result;
 	},
