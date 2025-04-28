@@ -27,43 +27,58 @@ function EditableCollectionTemplate({ collection }) {
 
 	const {
 		dirty,
+		error,
+		setError,
 		setDirty,
 		setDirtyType,
-		setCollectionSettingsFormData,
-		setLoading,
+		originalCollectionData,
+		setOriginalCollectionData,
+		setNewCollectionData,
 	} = useAppContext();
 
 	// States
-	const [originalData, setOriginalData] = useState({
+
+	const [formData, setFormData] = useState({
 		collectionName: collection_name,
-		description: collection_description || '',
+		description: collection_description,
 	});
-	const [formData, setFormData] = useState({ ...originalData });
 	const [pendingData, setPendingData] = useState({ ...formData });
 	const [editing, setEditing] = useState(false);
 	const [currentlyEditing, setCurrentlyEditing] = useState({
 		collectionName: false,
 		description: false,
 	});
-	const [error, setError] = useState(null);
 
 	// Semi-states
-	const hasUndo = {
-		collectionName: formData.collectionName !== originalData.collectionName,
-		description: formData.description !== originalData.description,
+	const undo = {
+		collectionName:
+			formData.collectionName !== originalCollectionData.collectionName,
+		description: formData.description !== originalCollectionData.description,
 	};
+
+	useEffect(() => {
+		setOriginalCollectionData((prev) => ({
+			collectionName: collection_name,
+			description: collection_description,
+		}));
+		setNewCollectionData((prev) => ({
+			collectionName: collection_name,
+			description: collection_description,
+			id: id,
+		}));
+	}, []);
 
 	// Set Dirty
 	useEffect(() => {
 		setDirty(
-			formData.collectionName !== originalData.collectionName ||
+			formData.collectionName !== originalCollectionData.collectionName ||
 				formData.collectionName !== pendingData.collectionName ||
-				formData.description !== originalData.description ||
+				formData.description !== originalCollectionData.description ||
 				(formData.description || '') !== (pendingData.description || '')
 		);
 
 		setDirtyType('collection');
-	}, [originalData, formData, pendingData]);
+	}, [originalCollectionData, formData, pendingData]);
 
 	// Helper functions
 	const toggleEditing = (field) => {
@@ -73,36 +88,58 @@ function EditableCollectionTemplate({ collection }) {
 		}));
 	};
 
-	const handleFieldSave = (field) => {
-		if (field === 'collectionName' && !pendingData.collectionName.trim()) {
+	const handleSave = (field) => {
+		if (field === 'collectionName' && !pendingData[field].trim().length) {
 			setError('Your collection must have a name');
 			return;
 		}
-		setCurrentlyEditing((prev) => ({ ...prev, [field]: false }));
-		setFormData((prev) => ({ ...prev, [field]: pendingData[field].trim() }));
-		setCollectionSettingsFormData((prev) => ({
+
+		if (field === 'collectionName' && error) {
+			return;
+		}
+
+		setCurrentlyEditing((prev) => ({
 			...prev,
-			[field]: pendingData[field].trim(),
+			[field]: false,
 		}));
-		setError(null);
+		setFormData((prev) => ({
+			...prev,
+			[field]: pendingData[field],
+		}));
+		setNewCollectionData((prev) => ({
+			...prev,
+			[field]: pendingData[field],
+		}));
 	};
 
-	const handleFieldCancel = (field) => {
-		setCurrentlyEditing((prev) => ({ ...prev, [field]: false }));
-		setPendingData((prev) => ({ ...prev, [field]: formData[field] }));
-		setCollectionSettingsFormData((prev) => ({
+	const handleCancel = (field) => {
+		setCurrentlyEditing((prev) => ({
 			...prev,
-			[field]: formData[field],
+			[field]: false,
+		}));
+		setPendingData((prev) => ({
+			...prev,
+			[field]: formData[field].trim(),
+		}));
+		setNewCollectionData((prev) => ({
+			...prev,
+			[field]: formData[field].trim(),
 		}));
 		setError(null);
 	};
 
 	const handleUndo = (field) => {
-		setFormData((prev) => ({ ...prev, [field]: originalData[field] }));
-		setPendingData((prev) => ({ ...prev, [field]: originalData[field] }));
-		setCollectionSettingsFormData((prev) => ({
+		setFormData((prev) => ({
 			...prev,
-			[field]: originalData[field],
+			[field]: originalCollectionData[field],
+		}));
+		setPendingData((prev) => ({
+			...prev,
+			[field]: originalCollectionData[field],
+		}));
+		setNewCollectionData((prev) => ({
+			...prev,
+			[field]: originalCollectionData[field],
 		}));
 	};
 
@@ -115,7 +152,6 @@ function EditableCollectionTemplate({ collection }) {
 	// Handles
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-
 		if (name === 'collectionName') {
 			error && setError(null);
 			const invalidChars = getInvalidChars(value);
@@ -130,15 +166,13 @@ function EditableCollectionTemplate({ collection }) {
 			...pendingData,
 			[name]: value,
 		}));
-		setCollectionSettingsFormData((prev) => ({
+		setNewCollectionData((prev) => ({
 			...prev,
 			[name]: value,
 		}));
 	};
 
-	const handleSave = async () => {
-		console.log('master data', originalData);
-		console.log('form data', formData);
+	const handleSubmit = async () => {
 		if (!dirty) {
 			setEditing((prev) => !prev);
 			return;
@@ -169,14 +203,18 @@ function EditableCollectionTemplate({ collection }) {
 				error.message
 			);
 		} finally {
-			setCollectionSettingsFormData((prev) => ({
-				collectionName: formData.collectionName,
-				description: formData.description,
-			}));
+			setOriginalCollectionData({
+				collectionName: '',
+				description: '',
+			});
 			setEditing((prev) => !prev);
 			setCurrentlyEditing({
 				collectionName: false,
 				description: false,
+			});
+			setOriginalCollectionData({
+				collectionName: formData.collectionName,
+				description: formData.description,
 			});
 		}
 	};
@@ -190,31 +228,33 @@ function EditableCollectionTemplate({ collection }) {
 							type='text'
 							name='collectionName'
 							placeholder='My Collection'
+							autoComplete='off'
 							className={styles.input}
 							value={pendingData.collectionName || ''}
 							onChange={handleChange}
-							onKeyDown={(e) =>
-								['Enter', 'Tab'].includes(e.key) &&
-								handleFieldSave('collectionName')
-							}
+							onKeyDown={(e) => {
+								if (['Enter', 'Tab'].includes(e.key)) {
+									handleSave('collectionName');
+								}
+							}}
 							maxLength='30'
 							spellCheck='off'
 						/>
 						<div className={styles.icons}>
 							<Check
 								sx={{ fontSize: '2rem' }}
-								onClick={() => handleFieldSave('collectionName')}
+								onClick={() => handleSave('collectionName')}
 							/>
 							<Close
 								sx={{ fontSize: '2rem' }}
-								onClick={() => handleFieldCancel('collectionName')}
+								onClick={() => handleCancel('collectionName')}
 							/>
 						</div>
 					</div>
 				) : (
 					<div
 						className={styles['collection-name-box']}
-						style={{ cursor: editing ? 'pointer' : 'default' }}
+						style={{ cursor: editing ? 'pointer' : '' }}
 						onClick={() => editing && toggleEditing('collectionName')}
 					>
 						<h1 className={styles.h1}>{pendingData.collectionName}</h1>
@@ -228,7 +268,7 @@ function EditableCollectionTemplate({ collection }) {
 										toggleEditing('collectionName');
 									}}
 								/>
-								{hasUndo.collectionName && (
+								{undo.collectionName && (
 									<Undo
 										sx={{
 											position: 'relative',
@@ -297,24 +337,18 @@ function EditableCollectionTemplate({ collection }) {
 								onKeyDown={(e) => {
 									if (e.key === 'Enter') {
 										e.preventDefault();
-										setCurrentlyEditing((prev) => ({
-											...prev,
-											description: false,
-										}));
-										setFormData((prev) => ({
-											...prev,
-											description: pendingData.description,
-										}));
+										toggleEditing('description');
+										handleSave('description');
 									}
 								}}
 							/>
 							<Check
 								sx={{ fontSize: '1.75rem', cursor: 'pointer' }}
-								onClick={saveDescription}
+								onClick={() => handleSave('description')}
 							/>
 							<Close
 								sx={{ fontSize: '1.75rem', cursor: 'pointer' }}
-								onClick={cancelDescription}
+								onClick={() => handleCancel('description')}
 							/>
 
 							<div className={styles['max-length']}>
@@ -327,10 +361,7 @@ function EditableCollectionTemplate({ collection }) {
 							className={styles.description}
 							style={{ cursor: 'pointer' }}
 							onClick={() => {
-								setCurrentlyEditing((prev) => ({
-									...prev,
-									description: true,
-								}));
+								toggleEditing('description');
 							}}
 						>
 							{pendingData.description}
@@ -344,7 +375,7 @@ function EditableCollectionTemplate({ collection }) {
 									height: '1rem',
 								}}
 							/>
-							{hasUndo.description && (
+							{undo.description && (
 								<Undo
 									sx={{
 										position: 'relative',
@@ -370,17 +401,14 @@ function EditableCollectionTemplate({ collection }) {
 						<div
 							className={styles['textarea-box']}
 							onClick={() => {
-								setCurrentlyEditing((prev) => ({
-									...prev,
-									description: true,
-								}));
+								toggleEditing('description');
 							}}
 							style={{ cursor: 'pointer' }}
 						>
 							<p className={styles.placeholder}>
 								Click here to add a description...
 							</p>
-							{hasUndo.description && (
+							{undo.description && (
 								<Undo
 									sx={{
 										position: 'relative',
@@ -459,7 +487,7 @@ function EditableCollectionTemplate({ collection }) {
 				className={`${styles['settings-box']} ${error && styles.disabled}`}
 				onClick={() => {
 					if (editing) {
-						handleSave();
+						handleSubmit();
 					} else {
 						setEditing((prev) => !prev);
 					}

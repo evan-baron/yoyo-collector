@@ -15,8 +15,9 @@ import { useAppContext } from '@/app/context/AppContext';
 
 function Dirty() {
 	const {
-		collectionSettingsFormData,
-		setCollectionSettingsFormData,
+		originalCollectionData,
+		newCollectionData,
+		setOriginalCollectionData,
 		dirtyType,
 		pendingRoute,
 		profileSettingsFormData,
@@ -28,6 +29,7 @@ function Dirty() {
 		setCurrentlyEditing,
 		setDirty,
 		setDirtyType,
+		setError,
 		setModalOpen,
 		setModalType,
 	} = useAppContext();
@@ -101,8 +103,44 @@ function Dirty() {
 				setLoading(false);
 			}
 		} else if (dirtyType === 'collection') {
-			console.log('lol');
-			console.log(collectionSettingsFormData);
+			const { collectionName } = originalCollectionData;
+
+			const trimmed = collectionName.trim();
+
+			const valid = (param) => /^[A-Za-z0-9\-_.~()"' ]+$/.test(param);
+
+			if (!trimmed) {
+				setError(`Collection name can't be empty.`);
+				return;
+			}
+
+			if (!valid(trimmed)) {
+				setError('Only letters, numbers, spaces, -, _, ., and ~ are allowed.');
+				return;
+			}
+
+			try {
+				const submitData = {
+					...newCollectionData,
+				};
+				await axiosInstance.patch('/api/user/collections', submitData);
+			} catch (error) {
+				console.error(
+					'There was an error updating the collection',
+					error.message
+				);
+			} finally {
+				if (pendingRoute) {
+					if (pendingRoute === 'logout') {
+						handleLogout();
+					} else {
+						router.push(pendingRoute);
+					}
+					setPendingRoute(null);
+				}
+				setModalOpen(false);
+				setDirty(false);
+			}
 		}
 	};
 

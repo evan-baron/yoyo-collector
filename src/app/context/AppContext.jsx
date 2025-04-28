@@ -32,7 +32,11 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 		description: '',
 		privacy: '',
 	});
-	const [collectionSettingsFormData, setCollectionSettingsFormData] = useState({
+	const [originalCollectionData, setOriginalCollectionData] = useState({
+		collectionName: '',
+		description: '',
+	});
+	const [newCollectionData, setNewCollectionData] = useState({
 		collectionName: '',
 		description: '',
 	});
@@ -40,6 +44,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [dirtyType, setDirtyType] = useState(null);
 	const [currentlyEditing, setCurrentlyEditing] = useState(null);
 	const [pendingRoute, setPendingRoute] = useState(null);
+	const [error, setError] = useState(null);
 
 	const router = useRouter();
 
@@ -183,25 +188,29 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	return (
 		<AppContext.Provider
 			value={{
-				collectionSettingsFormData,
 				currentlyEditing,
 				dirty,
 				dirtyType,
 				emailVerified,
+				error,
 				profileSettingsFormData,
 				loading,
 				modalOpen,
 				modalType,
+				newCollectionData,
+				originalCollectionData,
 				pendingRoute,
 				resendEmail,
 				timeRemaining,
 				tokenValid,
 				user,
-				setCollectionSettingsFormData,
 				setCurrentlyEditing,
 				setDirty,
 				setDirtyType,
 				setEmailVerified,
+				setError,
+				setNewCollectionData,
+				setOriginalCollectionData,
 				setProfileSettingsFormData,
 				setLoading,
 				setModalOpen,
