@@ -22,6 +22,7 @@ function Dirty() {
 		pendingRoute,
 		profileSettingsFormData,
 		user,
+		error,
 		setProfileSettingsFormData,
 		setLoading,
 		setPendingRoute,
@@ -59,6 +60,11 @@ function Dirty() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (dirtyType === 'profile') {
+			if (error) {
+				setModalType('error');
+				return;
+			}
+
 			const submitData = profileSettingsFormData;
 
 			try {
@@ -103,6 +109,11 @@ function Dirty() {
 				setLoading(false);
 			}
 		} else if (dirtyType === 'collection') {
+			if (error) {
+				setModalType('error');
+				return;
+			}
+
 			const { collectionName } = originalCollectionData;
 
 			const trimmed = collectionName.trim();
@@ -140,6 +151,7 @@ function Dirty() {
 				}
 				setModalOpen(false);
 				setDirty(false);
+				setError(null);
 			}
 		}
 	};

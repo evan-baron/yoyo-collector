@@ -11,6 +11,7 @@ import ThankYou from './thankYou/ThankYou';
 import LocationPicker from './locationPicker/LocationPicker';
 import Dirty from './dirty/Dirty';
 import NewCollection from './newCollection/NewCollection';
+import ErrorModal from './error/ErrorModal';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -41,6 +42,8 @@ function Modal() {
 				return <Dirty />;
 			case 'new-collection':
 				return <NewCollection />;
+			case 'error':
+				return <ErrorModal />;
 			default:
 				return <div>Modal</div>;
 		}
