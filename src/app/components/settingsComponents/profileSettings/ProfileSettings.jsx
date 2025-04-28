@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 
 // Utils
 import axiosInstance from '@/utils/axios';
+import { trimAndValidate, warningMessage } from '@/helpers/validation';
 
 // Styles
 import styles from './profileSettings.module.scss';
@@ -24,21 +25,20 @@ function ProfileSettings() {
 	const {
 		currentlyEditing,
 		dirty,
+		error,
 		user,
 		profileSettingsFormData,
 		setCurrentlyEditing,
 		setDirty,
 		setDirtyType,
+		setError,
 		setProfileSettingsFormData,
 		setLoading,
 		setUser,
 	} = useAppContext();
 
-	// States
-	const [errMessage, setErrMessage] = useState(null);
-
 	// Effects
-	useEffect(() => {}, [errMessage]);
+	useEffect(() => {}, [error]);
 	useEffect(() => {
 		if (!user) return;
 
@@ -97,9 +97,7 @@ function ProfileSettings() {
 		// console.log(e);
 		const key = e.currentTarget.dataset.value;
 		if (key && e.currentTarget.dataset.name === 'undo') {
-			console.log(key);
-			console.log(errMessage);
-			setErrMessage((prev) => prev?.filter(([attribute]) => attribute !== key));
+			setError((prev) => prev?.filter(([attribute]) => attribute !== key));
 			setCurrentlyEditing(null);
 			if (key === 'first') {
 				setProfileSettingsFormData((prev) => ({
@@ -144,90 +142,14 @@ function ProfileSettings() {
 		}));
 	};
 
-	// Validation
-
-	// Rule Checks Setup
-	const names = ['first', 'last'];
-
-	const handleYoyoBrandKeys = ['handle', 'yoyo', 'brand'];
-
-	const locationKeys = ['country', 'state', 'city'];
-
-	const privacyValues = ['public', 'anonymous', 'private'];
-
-	const nullAllowed = [
-		'handle',
-		'yoyo',
-		'brand',
-		'city',
-		'state',
-		'country',
-		'description',
-	];
-
-	// Regex Rule Checks
-	const onlyLetters = (param) => /^\p{L}+$/u.test(param);
-	const namesTest = (param) => /^[a-zA-Z \-']+$/.test(param);
-	const lettersNumbers = (param) => /^[a-zA-Z0-9 \-']+$/.test(param);
-
-	const validation = (name, value) => {
-		if (
-			nullAllowed.includes(name) &&
-			(value === null || value === undefined || value === '')
-		) {
-			return true;
-		}
-
-		if (name === 'id' && typeof value !== 'number') {
-			return false;
-		}
-
-		if (names.includes(name)) {
-			return namesTest(value);
-		}
-
-		if (handleYoyoBrandKeys.includes(name)) {
-			return lettersNumbers(value);
-		}
-
-		if (locationKeys.includes(name)) {
-			return onlyLetters(value);
-		}
-
-		if (name === 'privacy') {
-			return privacyValues.includes(value);
-		}
-
-		return true;
-	};
-
-	// Warning Message
-	const warningMessage = {
-		first: 'No special characters or numbers allowed',
-		last: 'No special characters or numbers allowed',
-		handle: 'No special characters allowed',
-		yoyo: 'No special characters allowed',
-		brand: 'No special characters allowed',
-	};
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setCurrentlyEditing(false);
-		const trimmedData = Object.fromEntries(
-			Object.entries(profileSettingsFormData).map(([key, value]) => [
-				key,
-				value?.trim() === '' ? null : value?.trim(),
-			])
-		);
 
-		const values = Object.entries(trimmedData);
-
-		const failed = values.filter(([key, val]) => !validation(key, val));
+		const { trimmedData, failed } = trimAndValidate(profileSettingsFormData);
 
 		if (failed.length) {
-			setErrMessage(
-				failed.map(([name, value]) => [name, warningMessage[name]])
-			);
+			setError(failed.map(([name]) => [name, warningMessage[name]]));
 			return;
 		}
 
@@ -342,8 +264,8 @@ function ProfileSettings() {
 									currentlyEditing={currentlyEditing}
 									setCurrentlyEditing={setCurrentlyEditing}
 									handleChange={handleChange}
-									errMessage={errMessage}
-									setErrMessage={setErrMessage}
+									error={error}
+									setError={setError}
 								/>
 							);
 						})}

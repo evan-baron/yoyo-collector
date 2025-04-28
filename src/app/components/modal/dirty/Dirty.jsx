@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 // Utils
 import axiosInstance from '@/utils/axios';
+import { trimAndValidate, warningMessage } from '@/helpers/validation';
 
 // Styles
 import styles from './dirty.module.scss';
@@ -65,7 +66,14 @@ function Dirty() {
 				return;
 			}
 
-			const submitData = profileSettingsFormData;
+			const { trimmedData, failed } = trimAndValidate(profileSettingsFormData);
+
+			if (failed.length) {
+				setError(failed.map(([name]) => [name, warningMessage[name]]));
+				return;
+			}
+
+			const submitData = trimmedData;
 
 			try {
 				setLoading(true);

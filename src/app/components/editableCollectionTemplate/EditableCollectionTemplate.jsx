@@ -294,7 +294,6 @@ function EditableCollectionTemplate({ collection }) {
 				)}
 
 				{error && <p style={{ color: 'red' }}>{error}</p>}
-				{dirty && <p style={{ color: 'red' }}>Dirty</p>}
 
 				<div className={styles.details}>
 					<h3 className={styles.h3}>Created {created}</h3>

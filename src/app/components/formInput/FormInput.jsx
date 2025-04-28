@@ -20,8 +20,8 @@ function FormInput({
 	setCurrentlyEditing,
 	handleChange,
 	originalLocation,
-	errMessage,
-	setErrMessage,
+	error,
+	setError,
 }) {
 	const [warning, setWarning] = useState(false);
 
@@ -155,8 +155,8 @@ function FormInput({
 							className={styles.p}
 							onClick={() => {
 								if (name !== 'location') {
-									errMessage?.length &&
-										setErrMessage((prev) =>
+									error?.length &&
+										setError((prev) =>
 											prev?.filter(([attribute]) => attribute !== name)
 										);
 								}
@@ -179,8 +179,8 @@ function FormInput({
 							}}
 							onClick={() => {
 								if (name !== 'location') {
-									errMessage?.length &&
-										setErrMessage((prev) =>
+									error?.length &&
+										setError((prev) =>
 											prev?.filter(([attribute]) => attribute !== name)
 										);
 								}
@@ -212,7 +212,7 @@ function FormInput({
 						)}
 					</div>
 					<p className={styles.warning}>
-						{errMessage?.find(([attr]) => attr === name)?.[1]}
+						{error?.find(([attr]) => attr === name)?.[1]}
 					</p>
 					{warning && (
 						<div className={styles.warning}>
