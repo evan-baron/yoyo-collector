@@ -198,7 +198,7 @@ function PictureUploader({ uploadType, defaultUrl }) {
 							}`}
 						>
 							<FileUpload className={styles.upload} />
-							{picture || previewUrl ? 'Change' : 'Upload'} Photo
+							{picture || previewUrl ? 'Change' : 'Upload Photo'}
 						</div>
 					</div>
 					{previewUrl ? (
@@ -265,7 +265,7 @@ function PictureUploader({ uploadType, defaultUrl }) {
 					/>
 				)}
 				<label className={styles.button} htmlFor='fileInput'>
-					{picture || previewUrl ? 'Change' : 'Upload'} Photo
+					{picture || previewUrl ? 'Change' : 'Upload Photo'}
 				</label>
 				{previewUrl && (
 					<button className={styles.button} type='button' onClick={handleSave}>
