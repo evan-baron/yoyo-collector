@@ -71,17 +71,17 @@ const Login = () => {
 
 				// Sets current user
 				setUser(response.data.user);
-
-				// Redirects to home
-				router.push('/collections');
-
-				// Closes modal
-				setModalOpen(false);
 			} catch (error) {
 				console.error('Login error: ', error.response?.message);
 				setLoginError(
 					error.response ? error.response.data.message : 'An error occurred'
 				);
+			} finally {
+				// Redirects to home
+				router.push('/collections');
+
+				// Closes modal
+				setModalOpen(false);
 				setLoadingScreen(false);
 				setFormComplete(false);
 			}
@@ -89,143 +89,140 @@ const Login = () => {
 	};
 
 	return (
-		<section aria-labelledby='login-form' className={styles['login-content']}>
-			{!loadingScreen ? (
-				<>
-					<form className={styles['login-form']} role='form' autoComplete='on'>
-						<h1 className={styles.h1}>Login</h1>
-						<div className={styles['login-field']}>
-							<div className={styles['login-input']}>
-								<label htmlFor='email' className={styles.label}>
-									Email:
-								</label>
-								<div className={styles['input-container']}>
-									<input
-										id='email'
-										type='email'
-										name='email'
-										onChange={handleChange}
-										required
-										aria-label='Enter your email address'
-										className={styles.input}
-									/>
-								</div>
-							</div>
-							<div className={styles['login-input']}>
-								<label htmlFor='password' className={styles.label}>
-									Password:
-								</label>
-								<div className={styles['input-container']}>
-									<input
-										id='password'
-										type={passwordVisible ? 'text' : 'password'}
-										name='password'
-										onChange={handleChange}
-										autoComplete='current-password'
-										required
-										aria-label='Enter your password'
-										className={styles.input}
-									/>
-									{formData.password ? (
-										passwordVisible ? (
-											<Visibility
-												className={styles.visible}
-												role='button'
-												tabIndex='0'
-												aria-label='Toggle password visibility'
-												onClick={() => {
-													setPasswordVisible((prev) => !prev);
-												}}
-												sx={{
-													fontSize: '1.75rem',
-													color: '#777777',
-													outline: 'none',
-												}}
-											/>
-										) : (
-											<VisibilityOff
-												className={styles.visible}
-												role='button'
-												tabIndex='0'
-												aria-label='Toggle password visibility'
-												onClick={() => {
-													setPasswordVisible((prev) => !prev);
-												}}
-												sx={{
-													fontSize: '1.75rem',
-													color: '#777777',
-													outline: 'none',
-												}}
-											/>
-										)
-									) : null}
-								</div>
-								<div className={styles['remember-me']}>
-									{checked ? (
-										<CheckBox
-											onClick={() => setChecked((prev) => !prev)}
-											sx={{ color: 'var(--lightestGray)' }}
-										/>
-									) : (
-										<CheckBoxOutlineBlank
-											sx={{ color: 'var(--lightestGray)' }}
-											onClick={() => setChecked((prev) => !prev)}
-										/>
-									)}
-									<span className={styles.span}>Remember me</span>
-									<a
-										role='link'
-										aria-label='Go to recover password page'
-										className={styles.link}
-										onClick={() => setModalType('forgot-password')}
-									>
-										Forgot password?
-									</a>
-								</div>
+		<>
+			<section aria-labelledby='login-form' className={styles['login-content']}>
+				<form className={styles['login-form']} role='form' autoComplete='on'>
+					<h1 className={styles.h1}>Login</h1>
+					<div className={styles['login-field']}>
+						<div className={styles['login-input']}>
+							<label htmlFor='email' className={styles.label}>
+								Email:
+							</label>
+							<div className={styles['input-container']}>
+								<input
+									id='email'
+									type='email'
+									name='email'
+									onChange={handleChange}
+									required
+									aria-label='Enter your email address'
+									className={styles.input}
+								/>
 							</div>
 						</div>
-						{!loginError && (
-							<button
-								className={styles.button}
-								type='button'
-								role='button'
-								aria-label='Submit registration form'
-								onClick={handleSubmit}
-								disabled={!formComplete}
-								style={{
-									opacity: formComplete ? null : '.5',
-									cursor: formComplete ? 'pointer' : null,
-								}}
-							>
-								Login
-							</button>
-						)}
-						{loginError && (
-							<p aria-live='polite' role='alert' className={styles.alert}>
-								{loginError}
-							</p>
-						)}
-						<span className={styles.span}>
-							Don't have an account?
-							<br />
-							<a
-								className={styles.link}
-								role='link'
-								aria-label='Go to sign up page'
-								onClick={() => setModalType('register')}
-							>
-								Register
-							</a>
-						</span>
-					</form>
-					<div className={styles.close} onClick={() => setModalOpen(false)}>
-						<Close sx={{ fontSize: '2rem' }} />
+						<div className={styles['login-input']}>
+							<label htmlFor='password' className={styles.label}>
+								Password:
+							</label>
+							<div className={styles['input-container']}>
+								<input
+									id='password'
+									type={passwordVisible ? 'text' : 'password'}
+									name='password'
+									onChange={handleChange}
+									autoComplete='current-password'
+									required
+									aria-label='Enter your password'
+									className={styles.input}
+								/>
+								{formData.password ? (
+									passwordVisible ? (
+										<Visibility
+											className={styles.visible}
+											role='button'
+											tabIndex='0'
+											aria-label='Toggle password visibility'
+											onClick={() => {
+												setPasswordVisible((prev) => !prev);
+											}}
+											sx={{
+												fontSize: '1.75rem',
+												color: '#777777',
+												outline: 'none',
+											}}
+										/>
+									) : (
+										<VisibilityOff
+											className={styles.visible}
+											role='button'
+											tabIndex='0'
+											aria-label='Toggle password visibility'
+											onClick={() => {
+												setPasswordVisible((prev) => !prev);
+											}}
+											sx={{
+												fontSize: '1.75rem',
+												color: '#777777',
+												outline: 'none',
+											}}
+										/>
+									)
+								) : null}
+							</div>
+							<div className={styles['remember-me']}>
+								{checked ? (
+									<CheckBox
+										onClick={() => setChecked((prev) => !prev)}
+										sx={{ color: 'var(--lightestGray)' }}
+									/>
+								) : (
+									<CheckBoxOutlineBlank
+										sx={{ color: 'var(--lightestGray)' }}
+										onClick={() => setChecked((prev) => !prev)}
+									/>
+								)}
+								<span className={styles.span}>Remember me</span>
+								<a
+									role='link'
+									aria-label='Go to recover password page'
+									className={styles.link}
+									onClick={() => setModalType('forgot-password')}
+								>
+									Forgot password?
+								</a>
+							</div>
+						</div>
 					</div>
-				</>
-			) : (
-				<LoadingSpinner message='Logging in' />
-			)}
-		</section>
+					{!loginError && (
+						<button
+							className={styles.button}
+							type='button'
+							role='button'
+							aria-label='Submit registration form'
+							onClick={handleSubmit}
+							disabled={!formComplete}
+							style={{
+								opacity: formComplete ? null : '.5',
+								cursor: formComplete ? 'pointer' : null,
+							}}
+						>
+							Login
+						</button>
+					)}
+					{loginError && (
+						<p aria-live='polite' role='alert' className={styles.alert}>
+							{loginError}
+						</p>
+					)}
+					<span className={styles.span}>
+						Don't have an account?
+						<br />
+						<a
+							className={styles.link}
+							role='link'
+							aria-label='Go to sign up page'
+							onClick={() => setModalType('register')}
+						>
+							Register
+						</a>
+					</span>
+				</form>
+				<div className={styles.close} onClick={() => setModalOpen(false)}>
+					<Close sx={{ fontSize: '2rem' }} />
+				</div>
+			</section>
+			{loadingScreen && <LoadingSpinner message='Logging in' />}
+		</>
 	);
 };
 

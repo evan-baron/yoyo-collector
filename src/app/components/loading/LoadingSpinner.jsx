@@ -19,13 +19,15 @@ function LoadingSpinner({ message }) {
 	}, []);
 
 	return (
-		<div className={styles.container}>
-			<h2 className={styles.h2}>
-				{message}
-				<div className={styles.elipses}>{loadingText}</div>
-			</h2>
-			<div className={styles.spinner}>
-				<div className={styles['loading-spinner']}></div>
+		<div className={styles.loadingcontainer}>
+			<div className={styles.container}>
+				<h2 className={styles.h2}>
+					{message}
+					<div className={styles.elipses}>{loadingText}</div>
+				</h2>
+				<div className={styles.spinner}>
+					<div className={styles['loading-spinner']}></div>
+				</div>
 			</div>
 		</div>
 	);

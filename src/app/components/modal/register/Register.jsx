@@ -201,12 +201,12 @@ const Register = () => {
 	};
 
 	return (
-		<section
-			aria-labelledby='sign-up-form'
-			className={styles['signup-content']}
-		>
-			{!loadingScreen ? (
-				!registrationComplete ? (
+		<>
+			<section
+				aria-labelledby='sign-up-form'
+				className={styles['signup-content']}
+			>
+				{!registrationComplete ? (
 					<>
 						<form className={styles['signup-form']}>
 							<h3 className={styles['signup-title']}>Register</h3>
@@ -467,11 +467,10 @@ const Register = () => {
 							<Close sx={{ fontSize: '2rem' }} />
 						</div>
 					</>
-				)
-			) : (
-				<LoadingSpinner message='Loading' />
-			)}
-		</section>
+				)}
+			</section>
+			{loadingScreen && <LoadingSpinner message='Loading' />}
+		</>
 	);
 };
 

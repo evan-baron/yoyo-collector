@@ -19,6 +19,7 @@ import PictureUploader from '../pictureUploader/PictureUploader';
 import EditableDescription from './editableDescription/EditableDescription';
 import EditableTitle from './editableTitle/EditableTitle';
 import Heart from '../icons/heart/Heart';
+import LoadingSpinner from '../loading/LoadingSpinner';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -28,12 +29,13 @@ function EditableCollectionTemplate({ collection, photos }) {
 		collection;
 	const originalCoverPhoto = photos.find(
 		(photo) => photo.upload_category === 'cover'
-	).secure_url;
+	)?.secure_url;
 	const created = dayjs(created_at).format('MMMM, D, YYYY');
 
 	const {
 		dirty,
 		error,
+		loading,
 		setError,
 		setDirty,
 		setDirtyType,
@@ -146,129 +148,132 @@ function EditableCollectionTemplate({ collection, photos }) {
 	};
 
 	return (
-		<div className={styles['collection-container']}>
-			<div className={styles.title}>
-				{editing ? (
-					<EditableTitle
-						value={pendingData.title}
-						setPendingData={setPendingData}
-						formData={formData}
-						setFormData={setFormData}
-						handleChange={handleChange}
-					/>
-				) : (
-					<div className={styles['collection-name-box']}>
-						<h1 className={styles.h1}>{pendingData.title}</h1>
-					</div>
-				)}
-
-				{error && <p style={{ color: 'red' }}>{error}</p>}
-
-				<div className={styles.details}>
-					<h3 className={styles.h3}>Created {created}</h3>
-					<p className={styles.likes}>
-						<Heart />
-						{likes ? likes : '69'} likes
-					</p>
-				</div>
-
-				{editing ? (
-					<EditableDescription
-						value={pendingData.description}
-						formData={formData}
-						setFormData={setFormData}
-						setPendingData={setPendingData}
-						handleChange={handleChange}
-					/>
-				) : pendingData.description ? (
-					<div className={styles.description}>{pendingData.description}</div>
-				) : (
-					''
-				)}
-			</div>
-			<div className={styles.collection}>
-				<section className={styles['photos-container']}>
-					<div className={styles.left}>
-						<h2 className={styles.h2}>Cover Photo</h2>
-						<div className={styles.cover}>
-							{editing ? (
-								<PictureUploader
-									uploadType='cover'
-									defaultUrl={coverPhoto}
-									collection={id}
-									setCoverPhoto={setCoverPhoto}
-									editing={editing}
-								/>
-							) : coverPhoto ? (
-								<img
-									src={coverPhoto}
-									alt='Collection cover photo'
-									className={styles.image}
-								/>
-							) : (
-								<BlankCoverPhoto />
-							)}
+		<>
+			<div className={styles['collection-container']}>
+				<div className={styles.title}>
+					{editing ? (
+						<EditableTitle
+							value={pendingData.title}
+							setPendingData={setPendingData}
+							formData={formData}
+							setFormData={setFormData}
+							handleChange={handleChange}
+						/>
+					) : (
+						<div className={styles['collection-name-box']}>
+							<h1 className={styles.h1}>{pendingData.title}</h1>
 						</div>
+					)}
+
+					{error && <p style={{ color: 'red' }}>{error}</p>}
+
+					<div className={styles.details}>
+						<h3 className={styles.h3}>Created {created}</h3>
+						<p className={styles.likes}>
+							<Heart />
+							{likes ? likes : '69'} likes
+						</p>
 					</div>
-					<div className={styles.right}>
-						<h2 className={styles.h2}>Collection Photos</h2>
-						<div className={styles.photos}>
-							<div className={styles.grid}>
-								<div className={styles.photo}></div>
-								<div className={styles.photo}></div>
-								<div className={styles.photo}></div>
-								<div className={styles.photo}></div>
+
+					{editing ? (
+						<EditableDescription
+							value={pendingData.description}
+							formData={formData}
+							setFormData={setFormData}
+							setPendingData={setPendingData}
+							handleChange={handleChange}
+						/>
+					) : pendingData.description ? (
+						<div className={styles.description}>{pendingData.description}</div>
+					) : (
+						''
+					)}
+				</div>
+				<div className={styles.collection}>
+					<section className={styles['photos-container']}>
+						<div className={styles.left}>
+							<h2 className={styles.h2}>Cover Photo</h2>
+							<div className={styles.cover}>
+								{editing ? (
+									<PictureUploader
+										uploadType='cover'
+										defaultUrl={coverPhoto}
+										collection={id}
+										setCoverPhoto={setCoverPhoto}
+										editing={editing}
+									/>
+								) : coverPhoto ? (
+									<img
+										src={coverPhoto}
+										alt='Collection cover photo'
+										className={styles.image}
+									/>
+								) : (
+									<BlankCoverPhoto />
+								)}
 							</div>
 						</div>
-					</div>
-				</section>
-				<section className={styles['yoyos-container']}>
-					<h2 className={styles.h2}>Yoyos</h2>
-					<div className={styles.sort}>
-						<div className={styles.style}>Photos Only</div>
-						<div className={styles.style}>Details Only</div>
-						<div className={styles.style}>Photos and Details</div>
-					</div>
-					<div className={styles.yoyos}>
-						<div className={styles.tile}>
-							(This will be its own component called YoyoTile)
+						<div className={styles.right}>
+							<h2 className={styles.h2}>Collection Photos</h2>
+							<div className={styles.photos}>
+								<div className={styles.grid}>
+									<div className={styles.photo}></div>
+									<div className={styles.photo}></div>
+									<div className={styles.photo}></div>
+									<div className={styles.photo}></div>
+								</div>
+							</div>
 						</div>
-						<div className={styles.tile}>
-							(This will be its own component called YoyoTile)
+					</section>
+					<section className={styles['yoyos-container']}>
+						<h2 className={styles.h2}>Yoyos</h2>
+						<div className={styles.sort}>
+							<div className={styles.style}>Photos Only</div>
+							<div className={styles.style}>Details Only</div>
+							<div className={styles.style}>Photos and Details</div>
 						</div>
-						<div className={styles.tile}>
-							(This will be its own component called YoyoTile)
+						<div className={styles.yoyos}>
+							<div className={styles.tile}>
+								(This will be its own component called YoyoTile)
+							</div>
+							<div className={styles.tile}>
+								(This will be its own component called YoyoTile)
+							</div>
+							<div className={styles.tile}>
+								(This will be its own component called YoyoTile)
+							</div>
+							<div className={styles.tile}>
+								(This will be its own component called YoyoTile)
+							</div>
 						</div>
-						<div className={styles.tile}>
-							(This will be its own component called YoyoTile)
-						</div>
-					</div>
-				</section>
+					</section>
+				</div>
+				<button
+					className={`${styles['settings-box']} ${error && styles.disabled}`}
+					onClick={() => {
+						if (editing) {
+							handleSubmit();
+						} else {
+							setEditing((prev) => !prev);
+						}
+					}}
+					disabled={error}
+					style={{
+						cursor: error ? '' : 'pointer',
+					}}
+				>
+					{editing ? (
+						<Save className={styles['settings-icon']} />
+					) : (
+						<Edit className={styles['settings-icon']} />
+					)}
+					<p className={styles.settings}>
+						{editing ? 'Save Changes' : 'Edit Collection'}
+					</p>
+				</button>
 			</div>
-			<button
-				className={`${styles['settings-box']} ${error && styles.disabled}`}
-				onClick={() => {
-					if (editing) {
-						handleSubmit();
-					} else {
-						setEditing((prev) => !prev);
-					}
-				}}
-				disabled={error}
-				style={{
-					cursor: error ? '' : 'pointer',
-				}}
-			>
-				{editing ? (
-					<Save className={styles['settings-icon']} />
-				) : (
-					<Edit className={styles['settings-icon']} />
-				)}
-				<p className={styles.settings}>
-					{editing ? 'Save Changes' : 'Edit Collection'}
-				</p>
-			</button>
-		</div>
+			{loading && <LoadingSpinner message='Saving' />}
+		</>
 	);
 }
 

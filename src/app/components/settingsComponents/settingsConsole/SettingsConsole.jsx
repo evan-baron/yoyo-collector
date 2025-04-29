@@ -66,37 +66,39 @@ function SettingsConsole() {
 	};
 
 	return (
-		<div className={styles.settings}>
-			<div className={styles.left}>
-				<nav className={styles.nav}>
-					<ul className={styles.ul}>
-						<Link className={styles['view-profile']} href='/profile'>
-							<West
-								className={styles.west}
-								sx={{ color: 'rgb(255, 0, 225)' }}
-							/>
-							<p className={styles.p}>Back to Profile</p>
-						</Link>
-						{Object.entries(selected).map(([key, value], index) => {
-							return (
-								<MenuItem
-									key={index}
-									name={key}
-									isSelected={value.selected}
-									handleChange={handleChange}
+		<>
+			<div className={styles.settings}>
+				<div className={styles.left}>
+					<nav className={styles.nav}>
+						<ul className={styles.ul}>
+							<Link className={styles['view-profile']} href='/profile'>
+								<West
+									className={styles.west}
+									sx={{ color: 'rgb(255, 0, 225)' }}
 								/>
-							);
-						})}
-					</ul>
-				</nav>
-			</div>
-			<div className={styles.right}>
-				{SelectedComponent && (
-					<SelectedComponent setViewSettings={setViewSettings} />
-				)}
+								<p className={styles.p}>Back to Profile</p>
+							</Link>
+							{Object.entries(selected).map(([key, value], index) => {
+								return (
+									<MenuItem
+										key={index}
+										name={key}
+										isSelected={value.selected}
+										handleChange={handleChange}
+									/>
+								);
+							})}
+						</ul>
+					</nav>
+				</div>
+				<div className={styles.right}>
+					{SelectedComponent && (
+						<SelectedComponent setViewSettings={setViewSettings} />
+					)}
+				</div>
 			</div>
 			{loading && <LoadingSpinner message='Saving' />}
-		</div>
+		</>
 	);
 }
 

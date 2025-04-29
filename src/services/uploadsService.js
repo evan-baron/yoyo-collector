@@ -5,10 +5,10 @@ import uploadsModel from '@/models/uploadsModel';
 // Delete a photo
 const deletePhoto = async (userId, photoId, category) => {
 	try {
-		if (category === 'profile') {
-			return await uploadsModel.deleteProfilePicture(userId);
-		} else {
+		if (!category) {
 			return await uploadsModel.deletePhotoById(userId, photoId);
+		} else if (category === 'profile') {
+			return await uploadsModel.deleteProfilePicture(userId);
 		}
 	} catch (error) {
 		console.error('Error deleting photo:', error.message);
@@ -16,7 +16,12 @@ const deletePhoto = async (userId, photoId, category) => {
 	}
 };
 
-// Get photo by ID
+// Get photo by UserID and Category
+const getAllCollectionPhotos = async (collectionId) => {
+	return await uploadsModel.getAllCollectionPhotos(collectionId);
+};
+
+// Get photo by UserID and Category
 const getPhotosByUserIdAndCategory = async (userId, category) => {
 	return await uploadsModel.getPhotosByIdAndCategory(userId, category);
 };
@@ -79,6 +84,49 @@ const uploadPhoto = async (
 	}
 };
 
+// Update cover photo
+const updateCoverPhoto = async (
+	userId,
+	publicId,
+	secureUrl,
+	format,
+	resourceType,
+	bytes,
+	height,
+	width,
+	collectionId
+) => {
+	try {
+		await uploadsModel.updateCoverPhoto(
+			userId,
+			publicId,
+			secureUrl,
+			format,
+			resourceType,
+			bytes,
+			height,
+			width,
+			collectionId
+		);
+
+		const coverPhoto = await uploadsModel.getPhotosByIdAndCategory(
+			userId,
+			'cover'
+		);
+
+		return {
+			coverPhoto: coverPhoto.find(
+				(photo) => photo.collection_id === collectionId
+			),
+		};
+	} catch (error) {
+		console.error(
+			'Error updating cover photo at uploadsService:',
+			error.message
+		);
+	}
+};
+
 // Update profilePicture
 const updateProfilePicture = async (
 	userId,
@@ -114,8 +162,10 @@ const updateProfilePicture = async (
 
 export default {
 	deletePhoto,
+	getAllCollectionPhotos,
 	getPhotoById,
 	getPhotosByUserIdAndCategory,
+	updateCoverPhoto,
 	updateProfilePicture,
 	uploadPhoto,
 };

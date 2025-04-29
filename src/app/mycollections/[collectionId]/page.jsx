@@ -24,14 +24,10 @@ async function Collection({ params }) {
 
 		collection = response.data.collectionData;
 		photos = response.data.collectionPhotos;
-
-		console.log(collection);
 	} catch (error) {
 		console.error('Error fetching collection data:', error);
 		redirect('/');
 	}
-
-	// console.log(collection);
 
 	return <EditableCollectionTemplate collection={collection} photos={photos} />;
 }

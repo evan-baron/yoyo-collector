@@ -10,8 +10,6 @@ const {
 	updateCollection,
 } = collectionsService;
 
-const { getPhotosByUserIdAndCategory } = uploadsService;
-
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 
@@ -89,6 +87,8 @@ export async function GET(req, res) {
 				...rest
 			}) => rest
 		);
+
+		console.log('response', response);
 
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {

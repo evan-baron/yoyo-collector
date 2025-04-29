@@ -174,6 +174,15 @@ function PictureUploader({
 					...prev,
 					secure_url: null,
 				}));
+			} else if (uploadType === 'cover') {
+				await axiosInstance.delete('/api/user/collectionPictures', {
+					data: {
+						collection,
+						uploadType,
+					},
+				});
+				setPicture(null);
+				setCoverPhoto(null);
 			} else {
 				console.log('do nothing');
 			}

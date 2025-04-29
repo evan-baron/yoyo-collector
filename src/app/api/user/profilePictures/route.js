@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import uploadsService from '@/services/uploadsService';
-const {
-	deletePhoto,
-	getPhotoById,
-	getPhotoByUserIdAndCategory,
-	updateProfilePicture,
-	uploadPhoto,
-} = uploadsService;
+const { deletePhoto, getPhotoById, updateProfilePicture, uploadPhoto } =
+	uploadsService;
+
+cloudinary.config({
+	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
@@ -123,12 +124,6 @@ export async function GET(req) {
 		);
 	}
 }
-
-cloudinary.config({
-	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-	api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-	api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 export async function DELETE(req) {
 	try {

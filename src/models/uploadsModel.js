@@ -47,6 +47,7 @@ const Uploads = {
 			`SELECT * FROM user_uploads WHERE collection_id = ?`,
 			[collectionId]
 		);
+		console.log('rows', rows);
 		return rows;
 	},
 
@@ -57,6 +58,44 @@ const Uploads = {
 			[userId, category]
 		);
 		return rows;
+	},
+
+	// Update cover photo in db
+	async updateCoverPhoto(
+		userId,
+		publicId,
+		secureUrl,
+		format,
+		resourceType,
+		bytes,
+		height,
+		width,
+		collectionId
+	) {
+		const [result] = await pool.execute(
+			`UPDATE user_uploads 
+				SET public_id = ?, 
+				secure_url = ?, 
+				format = ?, 
+				resource_type = ?, 
+				bytes = ?, 
+				height = ?, 
+				width = ?, 
+				updated_at = NOW()
+				WHERE user_id = ? AND collection_id = ? AND upload_category = 'cover'`,
+			[
+				publicId,
+				secureUrl,
+				format,
+				resourceType,
+				bytes,
+				height,
+				width,
+				userId,
+				collectionId,
+			]
+		);
+		return result;
 	},
 
 	// Update profile photo in db
@@ -88,6 +127,8 @@ const Uploads = {
 
 	// Delete photo by Id
 	async deletePhotoById(userId, photoId) {
+		console.log(userId, photoId);
+
 		const [result] = await pool.execute(
 			`DELETE FROM user_uploads
 			WHERE user_id = ? AND id = ?`,
