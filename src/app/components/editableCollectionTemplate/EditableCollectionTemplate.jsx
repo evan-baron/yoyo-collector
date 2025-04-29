@@ -58,15 +58,15 @@ function EditableCollectionTemplate({ collection }) {
 	};
 
 	useEffect(() => {
-		setOriginalCollectionData((prev) => ({
+		setOriginalCollectionData({
 			collectionName: collection_name,
 			description: collection_description,
-		}));
-		setNewCollectionData((prev) => ({
+		});
+		setNewCollectionData({
 			collectionName: collection_name,
 			description: collection_description,
 			id: id,
-		}));
+		});
 	}, []);
 
 	// Set Dirty
