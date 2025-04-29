@@ -1,7 +1,7 @@
 'use client';
 
 // Libraries
-import React from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 
 // Styles
@@ -23,9 +23,16 @@ function CollectionTile({ collectionData }) {
 		secure_url: cover,
 	} = collectionData;
 	const created = dayjs(created_at).format('MMMM, D, YYYY');
+
+	const [hover, setHover] = useState(false);
+
 	return (
-		<div className={styles.tile}>
-			<div className={styles['cover-photo']}>
+		<div className={`${styles.tile} ${hover && styles.hover}`}>
+			<div
+				className={styles['cover-photo']}
+				onMouseEnter={() => setHover(true)}
+				onMouseLeave={() => setHover(false)}
+			>
 				{cover ? (
 					<img className={styles.image} src={cover} />
 				) : (
