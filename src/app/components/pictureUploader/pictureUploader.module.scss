@@ -64,7 +64,7 @@
 				z-index: 1;
 
 				&:hover {
-					opacity: 0.4;
+					opacity: 0.6;
 				}
 
 				.update {
@@ -75,7 +75,7 @@
 					justify-content: center;
 					width: 100%;
 					height: 100%;
-					font-size: 2rem;
+					font-size: 2.5rem;
 					opacity: 0;
 					transform: translateY(-0.5rem);
 
@@ -84,7 +84,7 @@
 					}
 
 					.upload {
-						font-size: 2.5rem;
+						font-size: 3rem;
 					}
 				}
 			}

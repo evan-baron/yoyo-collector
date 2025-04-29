@@ -135,6 +135,7 @@ function PictureUploader({
 						}));
 					} else if (uploadType === 'cover') {
 						uploadData.collectionId = collection;
+
 						const response = await axiosInstance.post(
 							'/api/user/collectionPictures',
 							uploadData

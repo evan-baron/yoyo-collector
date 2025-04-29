@@ -47,7 +47,6 @@ const Uploads = {
 			`SELECT * FROM user_uploads WHERE collection_id = ?`,
 			[collectionId]
 		);
-		console.log('rows', rows);
 		return rows;
 	},
 

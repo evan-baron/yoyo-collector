@@ -77,7 +77,6 @@ export async function GET(req, res) {
 		response.collectionPhotos = response.collectionPhotos.map(
 			({
 				user_id,
-				public_id,
 				bytes,
 				format,
 				height,

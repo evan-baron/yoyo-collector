@@ -22,8 +22,12 @@ async function getUserIdFromToken() {
 	const token = cookieStore.get('session_token')?.value;
 
 	if (!token) throw new Error('Unauthorized');
-	const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-	return userId;
+	try {
+		const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+		return userId;
+	} catch (err) {
+		throw new Error('Invalid or expired token');
+	}
 }
 
 // Uploading Collection Pictures
@@ -53,8 +57,8 @@ export async function POST(req, res) {
 		if (userId !== response.collectionData.user_id)
 			return NextResponse.json(
 				{
-					'UserId and table.userId dont match at api/user/collectionPictures':
-						error.message,
+					message:
+						'UserId and table.userId dont match at api/user/collectionPictures',
 				},
 				{ status: 500 }
 			);
@@ -77,23 +81,23 @@ export async function POST(req, res) {
 		} else if (category === 'cover' && uploadAction === 'update') {
 			const allPhotos = await getAllCollectionPhotos(collectionId);
 
-			const public_id = allPhotos.find(
+			const existingCover = allPhotos.find(
 				(photo) => photo.upload_category === 'cover'
-			).public_id;
+			);
 
-			if (!public_id) {
+			if (!existingCover) {
 				return NextResponse.json(
 					{
-						'Unable to find public_id for cover photo at api/user/collectionPictures':
-							error.message,
+						message: 'No existing cover photo found for this collection',
 					},
-					{ status: 500 }
+					{ status: 404 }
 				);
 			}
 
-			await cloudinary.uploader.destroy(public_id);
+			// Destroy the old cover photo
+			await cloudinary.uploader.destroy(existingCover.public_id);
 
-			// NEED TO ADD UPDATE COVER PHOTO LOGIC
+			// // NEED TO ADD UPDATE COVER PHOTO LOGIC
 			const uploadResponse = await updateCoverPhoto(
 				userId,
 				public_id,
