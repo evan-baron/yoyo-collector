@@ -80,7 +80,7 @@ function EditableCollectionTemplate({ collection }) {
 		setDirtyType('collection');
 	}, [originalCollectionData, formData, pendingData]);
 
-	// Helper functions
+	// Toggle Edit
 	const toggleEditing = (field) => {
 		setCurrentlyEditing((prev) => ({
 			...prev,
@@ -88,6 +88,7 @@ function EditableCollectionTemplate({ collection }) {
 		}));
 	};
 
+	// Handle Save
 	const handleSave = (field) => {
 		if (field === 'collectionName' && !pendingData[field].trim().length) {
 			setError('Your collection must have a name');
@@ -112,6 +113,7 @@ function EditableCollectionTemplate({ collection }) {
 		}));
 	};
 
+	// Handle Cancel
 	const handleCancel = (field) => {
 		setCurrentlyEditing((prev) => ({
 			...prev,
@@ -128,6 +130,7 @@ function EditableCollectionTemplate({ collection }) {
 		setError(null);
 	};
 
+	// Handle Undo
 	const handleUndo = (field) => {
 		setFormData((prev) => ({
 			...prev,
@@ -143,15 +146,16 @@ function EditableCollectionTemplate({ collection }) {
 		}));
 	};
 
-	const getInvalidChars = (input) => {
-		const regex = /[^A-Za-z0-9\-_\.~()"' ]/g;
-		const matches = input.match(regex);
-		return matches ? matches.join('') : '';
-	};
-
 	// Handles
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+
+		const getInvalidChars = (input) => {
+			const regex = /[^A-Za-z0-9\-_\.~()"' ]/g;
+			const matches = input.match(regex);
+			return matches ? matches.join('') : '';
+		};
+
 		if (name === 'collectionName') {
 			error && setError(null);
 			const invalidChars = getInvalidChars(value);
