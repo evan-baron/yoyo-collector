@@ -1,14 +1,7 @@
 import { NextResponse } from 'next/server';
 import collectionsService from '@/services/collectionsService';
-import uploadsService from '@/services/uploadsService';
 
-const {
-	createCollection,
-	deleteCollection,
-	getCollectionByName,
-	getCollectionById,
-	updateCollection,
-} = collectionsService;
+const { createCollection, getAllCollectionsById } = collectionsService;
 
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
@@ -18,8 +11,14 @@ async function getUserIdFromToken() {
 	const token = cookieStore.get('session_token')?.value;
 
 	if (!token) throw new Error('Unauthorized');
-	const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-	return userId;
+
+	try {
+		const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+		return userId;
+	} catch (err) {
+		console.error('JWT verification failed:', err);
+		throw new Error('Invalid or expired token');
+	}
 }
 
 // Creat new collection
@@ -55,60 +54,25 @@ export async function POST(req, res) {
 	}
 }
 
-// Get collection by collectionId
+// GET all collections
 export async function GET(req, res) {
 	try {
-		const url = new URL(req.url);
-		const collectionId = url.searchParams.get('collectionId');
+		const userId = await getUserIdFromToken();
 
-		const response = await getCollectionById(collectionId);
-
-		if (!response) {
-			return NextResponse.json(
-				{ error: 'Collection not found' },
-				{ status: 404 }
-			);
+		if (!userId) {
+			throw new Error('User ID is missing');
 		}
 
-		if (response.collectionData.user_id) {
-			delete response.collectionData.user_id;
-		}
+		const response = await getAllCollectionsById(userId);
 
-		response.collectionPhotos = response.collectionPhotos.map(
-			({
-				user_id,
-				bytes,
-				format,
-				height,
-				resource_type,
-				updated_at,
-				width,
-				...rest
-			}) => rest
+		const collections = response.map(
+			({ user_id, ...collection }) => collection
 		);
 
-		console.log('response', response);
-
-		return NextResponse.json(response, { status: 201 });
+		return NextResponse.json(collections, { status: 201 });
 	} catch (error) {
 		return NextResponse.json(
-			{ 'There was an error at /api/user/collections GET': error.message },
-			{ status: 500 }
-		);
-	}
-}
-
-// Update collection by collectionId
-export async function PATCH(req, res) {
-	try {
-		const { title, description, id } = await req.json();
-
-		const response = await updateCollection(title, id, description);
-
-		return NextResponse.json(response, { status: 201 });
-	} catch (error) {
-		return NextResponse.json(
-			{ 'There was an error at /api/user/collections PATCH': error.message },
+			{ 'There was an error at /api/user/collections POST': error.message },
 			{ status: 500 }
 		);
 	}

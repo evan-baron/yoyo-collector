@@ -142,7 +142,10 @@ function Dirty() {
 				const submitData = {
 					...newCollectionData,
 				};
-				await axiosInstance.patch('/api/user/collections', submitData);
+				await axiosInstance.patch(
+					'/api/user/collections/byCollectionId',
+					submitData
+				);
 			} catch (error) {
 				console.error(
 					'There was an error updating the collection',

@@ -13,13 +13,15 @@ const Uploads = {
 	// Get all collections by userId
 	async getAllCollectionsById(userId) {
 		const [rows] = await pool.execute(
-			`SELECT user_collections.*, users.privacy FROM user_collections 
-			LEFT JOIN users
-				ON users.id = user_collections.user_id
-			WHERE user_collections.user_id = ?`,
+			`SELECT user_collections.*, user_uploads.secure_url 
+			 FROM user_collections 
+			 LEFT JOIN user_uploads
+				ON user_collections.user_id = user_uploads.user_id
+			 WHERE user_collections.user_id = ? 
+			 AND user_uploads.upload_category = 'cover'`,
 			[userId]
 		);
-		return rows[0];
+		return rows;
 	},
 
 	// Get collection by collectionId

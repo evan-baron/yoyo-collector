@@ -19,7 +19,7 @@ async function Collection({ params }) {
 
 	try {
 		const response = await axiosInstance.get(
-			`${baseUrl}/api/user/collections?collectionId=${collectionId}`
+			`${baseUrl}/api/user/collections/byCollectionId?collectionId=${collectionId}`
 		);
 
 		collection = response.data.collectionData;

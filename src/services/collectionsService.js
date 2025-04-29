@@ -26,6 +26,12 @@ const deleteCollection = async (userId, name) => {
 	}
 };
 
+// Get all collections by userId
+const getAllCollectionsById = async (userId) => {
+	const collectionsData = await collectionsModel.getAllCollectionsById(userId);
+	return collectionsData;
+};
+
 // Get collection by collectionId
 const getCollectionById = async (collectionId) => {
 	const collectionData = await collectionsModel.getCollectionById(collectionId);
@@ -53,6 +59,7 @@ const updateCollection = async (name, collectionId, description) => {
 export default {
 	createCollection,
 	deleteCollection,
+	getAllCollectionsById,
 	getCollectionById,
 	getCollectionByName,
 	updateCollection,
