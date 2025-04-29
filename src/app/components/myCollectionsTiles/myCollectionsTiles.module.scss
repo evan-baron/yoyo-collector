@@ -3,13 +3,11 @@
 
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	gap: 2rem;
+	gap: 4rem;
 	// border: 1px solid white;
 
 	.tile {
 		grid-column: span 1;
-
-		aspect-ratio: 1;
 
 		border: 1px solid white;
 	}
