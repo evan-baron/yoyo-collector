@@ -11,11 +11,13 @@ import axiosInstance from '@/utils/axios';
 import styles from './editableCollectionTemplate.module.scss';
 
 // MUI
-import { Edit, Check, Close, Save, Undo } from '@mui/icons-material';
+import { Edit, Save } from '@mui/icons-material';
 
 // Components
 import BlankCoverPhoto from '../blankCoverPhoto/BlankCoverPhoto';
 import PictureUploader from '../pictureUploader/PictureUploader';
+import EditableDescription from './editableDescription/EditableDescription';
+import EditableTitle from './editableTitle/EditableTitle';
 import Heart from '../icons/heart/Heart';
 
 // Context
@@ -33,37 +35,26 @@ function EditableCollectionTemplate({ collection }) {
 		setDirty,
 		setDirtyType,
 		originalCollectionData,
+		newCollectionData,
 		setOriginalCollectionData,
 		setNewCollectionData,
 	} = useAppContext();
 
 	// States
-
 	const [formData, setFormData] = useState({
-		collectionName: collection_name,
+		title: collection_name,
 		description: collection_description,
 	});
 	const [pendingData, setPendingData] = useState({ ...formData });
 	const [editing, setEditing] = useState(false);
-	const [currentlyEditing, setCurrentlyEditing] = useState({
-		collectionName: false,
-		description: false,
-	});
-
-	// Semi-states
-	const undo = {
-		collectionName:
-			formData.collectionName !== originalCollectionData.collectionName,
-		description: formData.description !== originalCollectionData.description,
-	};
 
 	useEffect(() => {
 		setOriginalCollectionData({
-			collectionName: collection_name,
+			title: collection_name,
 			description: collection_description,
 		});
 		setNewCollectionData({
-			collectionName: collection_name,
+			title: collection_name,
 			description: collection_description,
 			id: id,
 		});
@@ -72,80 +63,14 @@ function EditableCollectionTemplate({ collection }) {
 	// Set Dirty
 	useEffect(() => {
 		setDirty(
-			formData.collectionName !== originalCollectionData.collectionName ||
-				formData.collectionName !== pendingData.collectionName ||
+			formData.title !== originalCollectionData.title ||
+				formData.title !== pendingData.title ||
 				formData.description !== originalCollectionData.description ||
 				(formData.description || '') !== (pendingData.description || '')
 		);
 
 		setDirtyType('collection');
 	}, [originalCollectionData, formData, pendingData]);
-
-	// Toggle Edit
-	const toggleEditing = (field) => {
-		setCurrentlyEditing((prev) => ({
-			...prev,
-			[field]: !prev[field],
-		}));
-	};
-
-	// Handle Save
-	const handleSave = (field) => {
-		if (field === 'collectionName' && !pendingData[field].trim().length) {
-			setError('Your collection must have a name');
-			return;
-		}
-
-		if (field === 'collectionName' && error) {
-			return;
-		}
-
-		setCurrentlyEditing((prev) => ({
-			...prev,
-			[field]: false,
-		}));
-		setFormData((prev) => ({
-			...prev,
-			[field]: pendingData[field],
-		}));
-		setNewCollectionData((prev) => ({
-			...prev,
-			[field]: pendingData[field],
-		}));
-	};
-
-	// Handle Cancel
-	const handleCancel = (field) => {
-		setCurrentlyEditing((prev) => ({
-			...prev,
-			[field]: false,
-		}));
-		setPendingData((prev) => ({
-			...prev,
-			[field]: formData[field].trim(),
-		}));
-		setNewCollectionData((prev) => ({
-			...prev,
-			[field]: formData[field].trim(),
-		}));
-		setError(null);
-	};
-
-	// Handle Undo
-	const handleUndo = (field) => {
-		setFormData((prev) => ({
-			...prev,
-			[field]: originalCollectionData[field],
-		}));
-		setPendingData((prev) => ({
-			...prev,
-			[field]: originalCollectionData[field],
-		}));
-		setNewCollectionData((prev) => ({
-			...prev,
-			[field]: originalCollectionData[field],
-		}));
-	};
 
 	// Handles
 	const handleChange = (e) => {
@@ -157,7 +82,7 @@ function EditableCollectionTemplate({ collection }) {
 			return matches ? matches.join('') : '';
 		};
 
-		if (name === 'collectionName') {
+		if (name === 'title') {
 			error && setError(null);
 			const invalidChars = getInvalidChars(value);
 
@@ -182,10 +107,9 @@ function EditableCollectionTemplate({ collection }) {
 			setEditing((prev) => !prev);
 			return;
 		}
+		const { title } = newCollectionData;
 
-		const { collectionName } = formData;
-
-		const trimmed = collectionName.trim();
+		const trimmed = title.trim();
 
 		const valid = (param) => /^[A-Za-z0-9\-_.~()"' ]+$/.test(param);
 
@@ -200,7 +124,8 @@ function EditableCollectionTemplate({ collection }) {
 		}
 
 		try {
-			const submitData = { ...formData, id: id };
+			const submitData = { ...newCollectionData };
+
 			await axiosInstance.patch('/api/user/collections', submitData);
 		} catch (error) {
 			console.error(
@@ -208,18 +133,10 @@ function EditableCollectionTemplate({ collection }) {
 				error.message
 			);
 		} finally {
-			setOriginalCollectionData({
-				collectionName: '',
-				description: '',
-			});
 			setEditing((prev) => !prev);
-			setCurrentlyEditing({
-				collectionName: false,
-				description: false,
-			});
 			setOriginalCollectionData({
-				collectionName: formData.collectionName,
-				description: formData.description,
+				title: newCollectionData.title,
+				description: newCollectionData.description,
 			});
 		}
 	};
@@ -227,74 +144,17 @@ function EditableCollectionTemplate({ collection }) {
 	return (
 		<div className={styles['collection-container']}>
 			<div className={styles.title}>
-				{currentlyEditing.collectionName ? (
-					<div className={styles['input-box']}>
-						<input
-							type='text'
-							name='collectionName'
-							placeholder='My Collection'
-							autoComplete='off'
-							className={styles.input}
-							value={pendingData.collectionName || ''}
-							onChange={handleChange}
-							onKeyDown={(e) => {
-								if (['Enter', 'Tab'].includes(e.key)) {
-									handleSave('collectionName');
-								}
-							}}
-							maxLength='30'
-							spellCheck='off'
-						/>
-						<div className={styles.icons}>
-							<Check
-								sx={{ fontSize: '2rem' }}
-								onClick={() => handleSave('collectionName')}
-							/>
-							<Close
-								sx={{ fontSize: '2rem' }}
-								onClick={() => handleCancel('collectionName')}
-							/>
-						</div>
-					</div>
+				{editing ? (
+					<EditableTitle
+						value={pendingData.title}
+						setPendingData={setPendingData}
+						formData={formData}
+						setFormData={setFormData}
+						handleChange={handleChange}
+					/>
 				) : (
-					<div
-						className={styles['collection-name-box']}
-						style={{ cursor: editing ? 'pointer' : '' }}
-						onClick={() => editing && toggleEditing('collectionName')}
-					>
-						<h1 className={styles.h1}>{pendingData.collectionName}</h1>
-
-						{editing && (
-							<>
-								<Edit
-									className={styles['name-edit-icon']}
-									onClick={(e) => {
-										e.stopPropagation(); // prevent h1 click from also firing
-										toggleEditing('collectionName');
-									}}
-								/>
-								{undo.collectionName && (
-									<Undo
-										sx={{
-											position: 'relative',
-											top: '.25rem',
-											fontSize: formData.collectionName.length
-												? '2.25rem'
-												: '2.75rem',
-											cursor: 'pointer',
-											height: formData.collectionName.length
-												? '2.25rem'
-												: '2.75rem',
-											alignSelf: 'end',
-										}}
-										onClick={(e) => {
-											e.stopPropagation();
-											handleUndo('collectionName');
-										}}
-									/>
-								)}
-							</>
-						)}
+					<div className={styles['collection-name-box']}>
+						<h1 className={styles.h1}>{pendingData.title}</h1>
 					</div>
 				)}
 
@@ -309,117 +169,16 @@ function EditableCollectionTemplate({ collection }) {
 				</div>
 
 				{editing ? (
-					currentlyEditing.description ? (
-						// Case 1: Editing mode ON and actively editing the description
-						<div className={styles['textarea-box']}>
-							<textarea
-								className={styles.textarea}
-								name='description'
-								id='description'
-								maxLength={300}
-								rows='3'
-								placeholder='A totally reasonable assortment of precision string spinners — definitely not an absurd retirement plan disguised as shiny toys...'
-								value={pendingData.description || ''}
-								onChange={handleChange}
-								onKeyDown={(e) => {
-									if (e.key === 'Enter') {
-										e.preventDefault();
-										toggleEditing('description');
-										handleSave('description');
-									}
-								}}
-							/>
-							<Check
-								sx={{ fontSize: '1.75rem', cursor: 'pointer' }}
-								onClick={() => handleSave('description')}
-							/>
-							<Close
-								sx={{ fontSize: '1.75rem', cursor: 'pointer' }}
-								onClick={() => handleCancel('description')}
-							/>
-
-							<div className={styles['max-length']}>
-								{300 - (pendingData.description?.length || 0)}
-							</div>
-						</div>
-					) : formData.description ? (
-						// Case 2: Editing mode ON but NOT actively editing description (and a description exists)
-						<div
-							className={styles.description}
-							style={{ cursor: 'pointer' }}
-							onClick={() => {
-								toggleEditing('description');
-							}}
-						>
-							{pendingData.description}
-							<Edit
-								sx={{
-									position: 'relative',
-									top: '.125rem',
-									fontSize: '1.25rem',
-									cursor: 'pointer',
-									marginLeft: '.25rem',
-									height: '1rem',
-								}}
-							/>
-							{undo.description && (
-								<Undo
-									sx={{
-										position: 'relative',
-										top: '.375rem',
-										fontSize: pendingData.description.length
-											? '1.25rem'
-											: '1.75rem',
-										cursor: 'pointer',
-										height: pendingData.description.length
-											? '1.25rem'
-											: '1.75rem',
-										alignSelf: 'end',
-									}}
-									onClick={(e) => {
-										e.stopPropagation();
-										handleUndo('description');
-									}}
-								/>
-							)}
-						</div>
-					) : (
-						// Case 3: Editing mode ON but NO description yet
-						<div
-							className={styles['textarea-box']}
-							onClick={() => {
-								toggleEditing('description');
-							}}
-							style={{ cursor: 'pointer' }}
-						>
-							<p className={styles.placeholder}>
-								Click here to add a description...
-							</p>
-							{undo.description && (
-								<Undo
-									sx={{
-										position: 'relative',
-										top: '1px', // ULTRA FINE TOUCH FORMATTING
-										fontSize: formData.description?.length
-											? '1.25rem'
-											: '1.5rem',
-										cursor: 'pointer',
-										height: formData.description?.length ? '1.25rem' : '1.5rem',
-										alignSelf: 'end',
-									}}
-									onClick={(e) => {
-										e.stopPropagation();
-										handleUndo('description');
-									}}
-								/>
-							)}
-						</div>
-					)
-				) : formData.description ? (
-					// Case 4: NOT editing mode, just show the description if it exists
-					<p className={styles.description}>{formData.description}</p>
+					<EditableDescription
+						value={pendingData.description}
+						formData={formData}
+						setFormData={setFormData}
+						setPendingData={setPendingData}
+						handleChange={handleChange}
+					/>
+				) : pendingData.description ? (
+					<div className={styles.description}>{pendingData.description}</div>
 				) : (
-					// Case 5: NOT editing mode, and no description — show nothing
 					''
 				)}
 			</div>

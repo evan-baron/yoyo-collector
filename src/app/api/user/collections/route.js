@@ -85,9 +85,9 @@ export async function GET(req, res) {
 // Update collection by collectionId
 export async function PATCH(req, res) {
 	try {
-		const { collectionName, description, id } = await req.json();
+		const { title, description, id } = await req.json();
 
-		const response = await updateCollection(collectionName, id, description);
+		const response = await updateCollection(title, id, description);
 
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {
