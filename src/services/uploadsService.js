@@ -17,8 +17,8 @@ const deletePhoto = async (userId, photoId, category) => {
 };
 
 // Get photo by ID
-const getPhotoByUserIdAndCategory = async (userId, category) => {
-	return await uploadsModel.getPhotoByIdAndCategory(userId, category);
+const getPhotosByUserIdAndCategory = async (userId, category) => {
+	return await uploadsModel.getPhotosByIdAndCategory(userId, category);
 };
 
 // Get photo by ID
@@ -36,7 +36,8 @@ const uploadPhoto = async (
 	bytes,
 	height,
 	width,
-	category
+	category,
+	collectionId
 ) => {
 	try {
 		await uploadsModel.uploadPhoto(
@@ -48,15 +49,25 @@ const uploadPhoto = async (
 			bytes,
 			height,
 			width,
-			category
+			category,
+			collectionId
 		);
 
 		if (category === 'profile') {
-			const profilePicture = await uploadsModel.getPhotoByIdAndCategory(
+			const profilePicture = await uploadsModel.getPhotosByIdAndCategory(
 				userId,
 				category
 			);
-			return { profilePicture };
+			return { profilePicture: profilePicture[0] };
+		} else if (category === 'cover') {
+			const photos = await uploadsModel.getPhotosByIdAndCategory(
+				userId,
+				category
+			);
+			const coverPhoto = photos.find(
+				(photo) => (photo.collection_id = collectionId)
+			);
+			return coverPhoto ? { coverPhoto } : null;
 		}
 
 		return {
@@ -91,11 +102,11 @@ const updateProfilePicture = async (
 			width
 		);
 
-		const profilePicture = await uploadsModel.getPhotoByIdAndCategory(
+		const profilePicture = await uploadsModel.getPhotosByIdAndCategory(
 			userId,
 			'profile'
 		);
-		return { profilePicture };
+		return { profilePicture: profilePicture[0] };
 	} catch (error) {
 		console.error('Error updating photo:', error.message);
 	}
@@ -104,7 +115,7 @@ const updateProfilePicture = async (
 export default {
 	deletePhoto,
 	getPhotoById,
-	getPhotoByUserIdAndCategory,
+	getPhotosByUserIdAndCategory,
 	updateProfilePicture,
 	uploadPhoto,
 };

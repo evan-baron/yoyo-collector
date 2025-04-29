@@ -1,4 +1,5 @@
 import collectionsModel from '@/models/collectionsModel';
+import Uploads from '@/models/uploadsModel';
 
 // ALL FUNCTIONS LISTED BELOW ALPHABETICALLY
 
@@ -25,9 +26,11 @@ const deleteCollection = async (userId, name) => {
 	}
 };
 
-// Get collection by userId
+// Get collection by collectionId
 const getCollectionById = async (collectionId) => {
-	return await collectionsModel.getCollectionById(collectionId);
+	const collectionData = await collectionsModel.getCollectionById(collectionId);
+	const collectionPhotos = await Uploads.getAllCollectionPhotos(collectionId);
+	return { collectionData, collectionPhotos };
 };
 
 // Get collection by userId

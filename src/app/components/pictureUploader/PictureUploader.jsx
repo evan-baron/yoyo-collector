@@ -20,7 +20,13 @@ import { useAppContext } from '@/app/context/AppContext';
 import BlankProfilePhoto from '../blankProfilePhoto/BlankProfilePhoto';
 import BlankCoverPhoto from '../blankCoverPhoto/BlankCoverPhoto';
 
-function PictureUploader({ uploadType, defaultUrl }) {
+function PictureUploader({
+	uploadType,
+	defaultUrl,
+	collection,
+	setCoverPhoto,
+	editing,
+}) {
 	// Context
 	const { loading, setLoading, user, setUser } = useAppContext();
 
@@ -50,6 +56,7 @@ function PictureUploader({ uploadType, defaultUrl }) {
 			setError('File must not exceed 4mb');
 			return;
 		} else {
+			// IF THERE IS ALREADY A PICTURE URL, SET TO UPDATE, ELSE SET TO NEW
 			if (!picture) {
 				setUploadAction('new');
 			} else {
@@ -74,11 +81,16 @@ function PictureUploader({ uploadType, defaultUrl }) {
 		} else {
 			const formData = new FormData();
 
+			// UPLOAD TYPES: PROFILE, COVER, COLLECTION, YOYO
+			const preset = {
+				profile: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_PROFILE,
+				cover: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_COLLECTION,
+				collection: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_COLLECTION,
+				yoyo: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_YOYO,
+			};
+
 			formData.append('file', file);
-			formData.append(
-				'upload_preset',
-				process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_PROFILE
-			);
+			formData.append('upload_preset', preset[uploadType]);
 
 			try {
 				setLoading(true);
@@ -121,9 +133,18 @@ function PictureUploader({ uploadType, defaultUrl }) {
 							...prev,
 							secure_url: profilePicture.secure_url,
 						}));
+					} else if (uploadType === 'cover') {
+						uploadData.collectionId = collection;
+						const response = await axiosInstance.post(
+							'/api/user/collectionPictures',
+							uploadData
+						);
+
+						const { coverPhoto } = response.data;
+						setPicture(coverPhoto.secure_url);
+						setCoverPhoto(coverPhoto.secure_url);
 					} else {
 						console.log('do nothing');
-						return;
 					}
 				} catch (error) {
 					console.log('There was an error saving the photo:', error);
@@ -173,7 +194,7 @@ function PictureUploader({ uploadType, defaultUrl }) {
 					htmlFor='fileInput'
 					className={`${styles.placeholder} ${
 						uploadType === 'profile' ? styles.circle : styles.square
-					}`}
+					} ${editing && styles.glowing}`}
 				>
 					<input
 						name='fileInput'

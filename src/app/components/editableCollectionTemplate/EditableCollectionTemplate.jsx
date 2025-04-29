@@ -23,9 +23,12 @@ import Heart from '../icons/heart/Heart';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function EditableCollectionTemplate({ collection }) {
+function EditableCollectionTemplate({ collection, photos }) {
 	const { id, collection_name, collection_description, likes, created_at } =
 		collection;
+	const originalCoverPhoto = photos.find(
+		(photo) => photo.upload_category === 'cover'
+	).secure_url;
 	const created = dayjs(created_at).format('MMMM, D, YYYY');
 
 	const {
@@ -47,6 +50,7 @@ function EditableCollectionTemplate({ collection }) {
 	});
 	const [pendingData, setPendingData] = useState({ ...formData });
 	const [editing, setEditing] = useState(false);
+	const [coverPhoto, setCoverPhoto] = useState(originalCoverPhoto);
 
 	useEffect(() => {
 		setOriginalCollectionData({
@@ -188,7 +192,19 @@ function EditableCollectionTemplate({ collection }) {
 						<h2 className={styles.h2}>Cover Photo</h2>
 						<div className={styles.cover}>
 							{editing ? (
-								<PictureUploader uploadType='cover' />
+								<PictureUploader
+									uploadType='cover'
+									defaultUrl={coverPhoto}
+									collection={id}
+									setCoverPhoto={setCoverPhoto}
+									editing={editing}
+								/>
+							) : coverPhoto ? (
+								<img
+									src={coverPhoto}
+									alt='Collection cover photo'
+									className={styles.image}
+								/>
 							) : (
 								<BlankCoverPhoto />
 							)}

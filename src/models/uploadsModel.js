@@ -11,10 +11,11 @@ const Uploads = {
 		bytes,
 		height,
 		width,
-		category
+		category,
+		collectionId
 	) {
 		const [result] = await pool.execute(
-			'INSERT INTO user_uploads (user_id, public_id, secure_url, format, resource_type, bytes, height, width, upload_category) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+			'INSERT INTO user_uploads (user_id, public_id, secure_url, format, resource_type, bytes, height, width, upload_category, collection_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 			[
 				userId,
 				publicId,
@@ -25,6 +26,7 @@ const Uploads = {
 				height,
 				width,
 				category,
+				collectionId,
 			]
 		);
 		return result;
@@ -39,13 +41,22 @@ const Uploads = {
 		return rows[0];
 	},
 
+	// Get all collection photos by collectionId
+	async getAllCollectionPhotos(collectionId) {
+		const [rows] = await pool.execute(
+			`SELECT * FROM user_uploads WHERE collection_id = ?`,
+			[collectionId]
+		);
+		return rows;
+	},
+
 	// Get photo by userId and category
-	async getPhotoByIdAndCategory(userId, category) {
+	async getPhotosByIdAndCategory(userId, category) {
 		const [rows] = await pool.execute(
 			`SELECT * FROM user_uploads WHERE user_id = ? AND upload_category = ?`,
 			[userId, category]
 		);
-		return rows[0];
+		return rows;
 	},
 
 	// Update profile photo in db

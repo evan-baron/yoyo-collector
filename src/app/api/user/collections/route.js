@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import collectionsService from '@/services/collectionsService';
+import uploadsService from '@/services/uploadsService';
 
 const {
 	createCollection,
@@ -8,6 +9,8 @@ const {
 	getCollectionById,
 	updateCollection,
 } = collectionsService;
+
+const { getPhotosByUserIdAndCategory } = uploadsService;
 
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
@@ -69,9 +72,23 @@ export async function GET(req, res) {
 			);
 		}
 
-		if (response.user_id) {
-			delete response.user_id;
+		if (response.collectionData.user_id) {
+			delete response.collectionData.user_id;
 		}
+
+		response.collectionPhotos = response.collectionPhotos.map(
+			({
+				user_id,
+				public_id,
+				bytes,
+				format,
+				height,
+				resource_type,
+				updated_at,
+				width,
+				...rest
+			}) => rest
+		);
 
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {
