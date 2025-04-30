@@ -1,17 +1,8 @@
 import userService from '@/services/userService';
 const { updateUserSettings, updateWarning } = userService;
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-
-async function getUserIdFromToken() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get('session_token')?.value;
-
-	if (!token) throw new Error('Unauthorized');
-	const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-	return userId;
-}
+import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
+import { headers, cookies } from 'next/headers';
 
 export async function POST(req) {
 	try {

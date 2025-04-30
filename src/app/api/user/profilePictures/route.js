@@ -3,24 +3,14 @@ import { v2 as cloudinary } from 'cloudinary';
 import uploadsService from '@/services/uploadsService';
 const { deletePhoto, getPhotoById, updateProfilePicture, uploadPhoto } =
 	uploadsService;
+import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
+import { headers, cookies } from 'next/headers';
 
 cloudinary.config({
 	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
 	api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-
-async function getUserIdFromToken() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get('session_token')?.value;
-
-	if (!token) throw new Error('Unauthorized');
-	const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-	return userId;
-}
 
 // Uploading Profile Pictures
 export async function POST(req, res) {

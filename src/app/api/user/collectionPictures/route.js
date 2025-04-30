@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import collectionsService from '@/services/collectionsService';
 import uploadsService from '@/services/uploadsService';
+import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
+import { cookies, headers } from 'next/headers';
 
 const { getCollectionById } = collectionsService;
 
@@ -13,22 +15,6 @@ cloudinary.config({
 	api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-
-async function getUserIdFromToken() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get('session_token')?.value;
-
-	if (!token) throw new Error('Unauthorized');
-	try {
-		const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-		return userId;
-	} catch (err) {
-		throw new Error('Invalid or expired token');
-	}
-}
 
 // Uploading Collection Pictures
 export async function POST(req, res) {

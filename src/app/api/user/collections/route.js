@@ -1,30 +1,17 @@
 import { NextResponse } from 'next/server';
 import collectionsService from '@/services/collectionsService';
+import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
+import { headers, cookies } from 'next/headers';
 
 const { createCollection, getAllCollectionsById } = collectionsService;
-
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-
-async function getUserIdFromToken() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get('session_token')?.value;
-
-	if (!token) throw new Error('Unauthorized');
-
-	try {
-		const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-		return userId;
-	} catch (err) {
-		console.error('JWT verification failed:', err);
-		throw new Error('Invalid or expired token');
-	}
-}
 
 // Creat new collection
 export async function POST(req, res) {
 	try {
-		const userId = await getUserIdFromToken();
+		const userId = await getUserIdFromToken({
+			headers,
+			cookies,
+		});
 
 		if (!userId) {
 			throw new Error('User ID is missing');
@@ -57,7 +44,10 @@ export async function POST(req, res) {
 // GET all collections
 export async function GET(req, res) {
 	try {
-		const userId = await getUserIdFromToken();
+		const userId = await getUserIdFromToken({
+			headers,
+			cookies,
+		});
 
 		if (!userId) {
 			throw new Error('User ID is missing');
@@ -69,10 +59,10 @@ export async function GET(req, res) {
 			({ user_id, ...collection }) => collection
 		);
 
-		return NextResponse.json(collections, { status: 201 });
+		return NextResponse.json(collections, { status: 200 });
 	} catch (error) {
 		return NextResponse.json(
-			{ 'There was an error at /api/user/collections POST': error.message },
+			{ 'There was an error at /api/user/collections GET': error.message },
 			{ status: 500 }
 		);
 	}

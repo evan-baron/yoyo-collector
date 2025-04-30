@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import collectionsService from '@/services/collectionsService';
 import uploadsService from '@/services/uploadsService';
+import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
+import { cookies, headers } from 'next/headers';
 
 cloudinary.config({
 	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -19,18 +21,6 @@ const {
 
 const { getAllCollectionPhotosByUserId, deleteUploadsByCollectionId } =
 	uploadsService;
-
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-
-async function getUserIdFromToken() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get('session_token')?.value;
-
-	if (!token) throw new Error('Unauthorized');
-	const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-	return userId;
-}
 
 // Get collection by collectionId
 export async function GET(req, res) {

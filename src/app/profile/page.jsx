@@ -36,6 +36,7 @@ async function Profile() {
 	}
 
 	let profile = {};
+	let collections = [];
 
 	try {
 		const user = await axiosInstance.get(`${baseUrl}/api/token/authenticate/`, {
@@ -75,9 +76,20 @@ async function Profile() {
 			profilePicture: secure_url,
 			memberSince: dayjs(created_at).format('MMMM, D, YYYY'),
 		};
+
+		const collectionData = await axiosInstance.get(
+			`${baseUrl}/api/user/collections/`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+
+		console.log(collectionData.data);
 	} catch (error) {
 		console.error('Error fetching user data:', error);
-		redirect('/');
+		// redirect('/');
 	}
 
 	return (
@@ -168,7 +180,9 @@ async function Profile() {
 									className={styles['settings-icon']}
 									style={{ fontSize: '1.25rem' }}
 								/>
-								<p className={styles.settings}>Edit Collections</p>
+								<Link href='/mycollections' className={styles.settings}>
+									Edit Collections
+								</Link>
 							</button>
 						</div>
 						<CollectionCarousel />
