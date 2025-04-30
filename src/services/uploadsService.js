@@ -32,9 +32,17 @@ const deleteUploadsByCollectionId = async (userId, collectionId) => {
 	}
 };
 
-// Get photo by UserID and Category
+// Get all collection photos by collectionId
 const getAllCollectionPhotos = async (collectionId) => {
 	return await uploadsModel.getAllCollectionPhotos(collectionId);
+};
+
+// Get all collection photos by userId and collectionId
+const getAllCollectionPhotosByUserId = async (userId, collectionId) => {
+	return await uploadsModel.getAllCollectionPhotosByUserId(
+		userId,
+		collectionId
+	);
 };
 
 // Get photo by UserID and Category
@@ -180,6 +188,7 @@ export default {
 	deletePhoto,
 	deleteUploadsByCollectionId,
 	getAllCollectionPhotos,
+	getAllCollectionPhotosByUserId,
 	getPhotoById,
 	getPhotosByUserIdAndCategory,
 	updateCoverPhoto,

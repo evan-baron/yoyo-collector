@@ -1,6 +1,13 @@
 import { NextResponse } from 'next/server';
+import { v2 as cloudinary } from 'cloudinary';
 import collectionsService from '@/services/collectionsService';
 import uploadsService from '@/services/uploadsService';
+
+cloudinary.config({
+	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const {
 	createCollection,
@@ -10,7 +17,8 @@ const {
 	updateCollection,
 } = collectionsService;
 
-const { deleteUploadsByCollectionId } = uploadsService;
+const { getAllCollectionPhotosByUserId, deleteUploadsByCollectionId } =
+	uploadsService;
 
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
@@ -92,6 +100,16 @@ export async function DELETE(req, res) {
 	try {
 		const userId = await getUserIdFromToken();
 		const { id } = await req.json();
+
+		const getAllCollectionPhotosResponse = await getAllCollectionPhotosByUserId(
+			userId,
+			id
+		);
+		const publicIds = getAllCollectionPhotosResponse.map(
+			(photo) => photo.public_id
+		);
+
+		await Promise.all(publicIds.map((id) => cloudinary.uploader.destroy(id)));
 
 		const deleteCollectionResponse = await deleteCollection(userId, id);
 		const deleteUploadsResponse = await deleteUploadsByCollectionId(userId, id);
