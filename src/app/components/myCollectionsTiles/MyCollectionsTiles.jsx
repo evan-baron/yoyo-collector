@@ -11,8 +11,14 @@ import styles from './myCollectionsTiles.module.scss';
 
 // Components
 import CollectionTile from '../collectionTile/CollectionTile';
+import NewCollectionTile from '../newCollectionTile/NewCollectionTile';
+
+// Context
+import { useAppContext } from '@/app/context/AppContext';
 
 function MyCollectionsTiles() {
+	const { newCollectionCounter } = useAppContext();
+
 	const [collections, setCollections] = useState(null);
 
 	useEffect(() => {
@@ -30,7 +36,7 @@ function MyCollectionsTiles() {
 			}
 		};
 		fetchCollections();
-	}, []);
+	}, [newCollectionCounter]);
 
 	useEffect(() => {
 		console.log(collections);
@@ -42,7 +48,7 @@ function MyCollectionsTiles() {
 				collections.map((collection, index) => {
 					return <CollectionTile key={index} collectionData={collection} />;
 				})}
-			<div className={styles.tile}>New Collection Tile</div>
+			<NewCollectionTile />
 		</div>
 	);
 }

@@ -45,6 +45,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [currentlyEditing, setCurrentlyEditing] = useState(null);
 	const [pendingRoute, setPendingRoute] = useState(null);
 	const [error, setError] = useState(null);
+	const [newCollectionCounter, setNewCollectionCounter] = useState(0);
 
 	const router = useRouter();
 
@@ -200,6 +201,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				loading,
 				modalOpen,
 				modalType,
+				newCollectionCounter,
 				newCollectionData,
 				originalCollectionData,
 				pendingRoute,
@@ -212,6 +214,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setDirtyType,
 				setEmailVerified,
 				setError,
+				setNewCollectionCounter,
 				setNewCollectionData,
 				setOriginalCollectionData,
 				setProfileSettingsFormData,

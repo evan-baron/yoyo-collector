@@ -16,9 +16,9 @@ const Uploads = {
 			`SELECT user_collections.*, user_uploads.secure_url 
 			 FROM user_collections 
 			 LEFT JOIN user_uploads
-				ON user_collections.user_id = user_uploads.user_id
-			 WHERE user_collections.user_id = ? 
-			 AND user_uploads.upload_category = 'cover'`,
+				ON user_collections.id = user_uploads.collection_id
+				AND user_uploads.upload_category = 'cover'
+			 WHERE user_collections.user_id = ?`,
 			[userId]
 		);
 		return rows;

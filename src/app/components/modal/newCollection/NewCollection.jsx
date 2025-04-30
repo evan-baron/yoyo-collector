@@ -14,7 +14,7 @@ import styles from './newCollection.module.scss';
 import { useAppContext } from '@/app/context/AppContext';
 
 function NewCollection() {
-	const { setModalOpen, setLoading } = useAppContext();
+	const { setModalOpen, setLoading, setNewCollectionCounter } = useAppContext();
 
 	const router = useRouter();
 
@@ -75,6 +75,7 @@ function NewCollection() {
 			setFormData({
 				collection: '',
 			});
+			setNewCollectionCounter((prev) => (prev += 1));
 		}
 	};
 

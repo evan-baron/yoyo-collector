@@ -6,7 +6,6 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 2rem;
 	color: var(--lightestGray);
 
 	.my-collections {
@@ -17,23 +16,13 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 2rem;
+		gap: 1rem;
 		padding: 0 2rem;
-		margin: 1rem 0;
+		margin: 2rem 0;
 
 		.h1 {
 			font-size: 3rem;
 			text-shadow: 2px 2px 0.5rem black;
-		}
-
-		.collections {
-			width: 100%;
-			flex-grow: 1;
-
-			display: flex;
-			flex-direction: column;
-
-			border: 1px solid red;
 		}
 	}
 }
