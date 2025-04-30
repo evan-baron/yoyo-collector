@@ -52,11 +52,6 @@ function DeleteCollection() {
 	}
 
 	async function handleSubmit() {
-		console.log('delete collection', collectionToDelete);
-		console.log(deleteWarning);
-		console.log(formData);
-		console.log(user);
-
 		if (!deleteWarning && !warning) {
 			setWarning(true);
 			return;
@@ -65,7 +60,6 @@ function DeleteCollection() {
 		try {
 			setLoading(true);
 			if (formData.ask) {
-				console.log('test');
 				try {
 					await axiosInstance.patch('/api/user/updateSettings', {
 						warningType: 'collection',

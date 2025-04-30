@@ -138,7 +138,6 @@ export async function PATCH(req, res) {
 
 		const params = await req.json();
 		const { warningType } = params;
-		console.log(warningType);
 
 		if (warningType === 'collection') {
 			await updateWarning(userId, 'delete_collection_warning');
