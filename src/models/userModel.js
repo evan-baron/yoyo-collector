@@ -159,6 +159,25 @@ const User = {
 		);
 		return result.affectedRows > 0;
 	},
+
+	// Update warning
+	async updateWarning(user_id, warningType) {
+		const allowedColumns = [
+			'delete_collection_warning',
+			'delete_account_warning',
+			'delete_yoyo_warning',
+		];
+
+		if (!allowedColumns.includes(warningType)) {
+			throw new Error('Invalid warning type column');
+		}
+
+		const sql = `UPDATE users SET \`${warningType}\` = IF(\`${warningType}\` = 1, 0, 1) WHERE id = ?`;
+
+		const [result] = await pool.execute(sql, [user_id]);
+
+		return result;
+	},
 };
 
 export default User;

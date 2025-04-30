@@ -12,6 +12,7 @@ import LocationPicker from './locationPicker/LocationPicker';
 import Dirty from './dirty/Dirty';
 import NewCollection from './newCollection/NewCollection';
 import ErrorModal from './error/ErrorModal';
+import DeleteCollection from './deleteCollection/DeleteCollection';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -44,6 +45,8 @@ function Modal() {
 				return <NewCollection />;
 			case 'error':
 				return <ErrorModal />;
+			case 'delete-collection':
+				return <DeleteCollection />;
 			default:
 				return <div>Modal</div>;
 		}

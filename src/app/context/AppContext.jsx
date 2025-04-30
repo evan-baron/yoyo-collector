@@ -46,6 +46,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [pendingRoute, setPendingRoute] = useState(null);
 	const [error, setError] = useState(null);
 	const [newCollectionCounter, setNewCollectionCounter] = useState(0);
+	const [collectionToDelete, setCollectionToDelete] = useState(null);
 
 	const router = useRouter();
 
@@ -192,6 +193,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	return (
 		<AppContext.Provider
 			value={{
+				collectionToDelete,
 				currentlyEditing,
 				dirty,
 				dirtyType,
@@ -209,6 +211,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				timeRemaining,
 				tokenValid,
 				user,
+				setCollectionToDelete,
 				setCurrentlyEditing,
 				setDirty,
 				setDirtyType,

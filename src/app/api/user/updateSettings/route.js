@@ -1,5 +1,5 @@
 import userService from '@/services/userService';
-const { updateUserSettings } = userService;
+const { updateUserSettings, updateWarning } = userService;
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
@@ -126,6 +126,35 @@ export async function POST(req) {
 		);
 	} catch (err) {
 		console.log('There was an error at api/user/updateSettings: ', err.message);
+		return NextResponse.json({ message: err.message }, { status: 500 });
+	}
+}
+
+export async function PATCH(req, res) {
+	try {
+		const userId = await getUserIdFromToken();
+
+		if (!userId) return;
+
+		const params = await req.json();
+		const { warningType } = params;
+		console.log(warningType);
+
+		if (warningType === 'collection') {
+			await updateWarning(userId, 'delete_collection_warning');
+		}
+
+		return NextResponse.json(
+			{
+				message: 'User warning settings updated successfully',
+			},
+			{ status: 200 }
+		);
+	} catch (error) {
+		console.log(
+			'There was an error updating the user at api/user/updateSettings PATCH: ',
+			error.message
+		);
 		return NextResponse.json({ message: err.message }, { status: 500 });
 	}
 }

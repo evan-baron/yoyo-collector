@@ -14,11 +14,8 @@ const createCollection = async (userId, name) => {
 };
 
 // Delete a collection
-const deleteCollection = async (userId, name) => {
+const deleteCollection = async (userId, collectionId) => {
 	try {
-		const response = await collectionsModel.getCollectionId(userId, name);
-		const { id } = response.data;
-		const collectionId = id;
 		return await collectionsModel.deleteCollection(userId, collectionId);
 	} catch (error) {
 		console.error('Error deleting collection:', error.message);

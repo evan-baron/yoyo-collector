@@ -10,6 +10,8 @@ const {
 	updateCollection,
 } = collectionsService;
 
+const { deleteUploadsByCollectionId } = uploadsService;
+
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 
@@ -54,8 +56,6 @@ export async function GET(req, res) {
 			}) => rest
 		);
 
-		console.log('response', response);
-
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {
 		return NextResponse.json(
@@ -80,6 +80,32 @@ export async function PATCH(req, res) {
 		return NextResponse.json(
 			{
 				'There was an error at /api/user/collections/byCollectionId PATCH':
+					error.message,
+			},
+			{ status: 500 }
+		);
+	}
+}
+
+// Delete collection by collectionId
+export async function DELETE(req, res) {
+	try {
+		const userId = await getUserIdFromToken();
+		const { id } = await req.json();
+
+		const deleteCollectionResponse = await deleteCollection(userId, id);
+		const deleteUploadsResponse = await deleteUploadsByCollectionId(userId, id);
+
+		const response = {
+			collection: deleteCollectionResponse,
+			uploads: deleteUploadsResponse,
+		};
+
+		return NextResponse.json(response, { status: 201 });
+	} catch (error) {
+		return NextResponse.json(
+			{
+				'There was an error deleting the collection at /api/user/collections/byCollectionId DELETE':
 					error.message,
 			},
 			{ status: 500 }

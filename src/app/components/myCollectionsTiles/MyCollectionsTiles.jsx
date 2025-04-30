@@ -12,12 +12,13 @@ import styles from './myCollectionsTiles.module.scss';
 // Components
 import CollectionTile from '../collectionTile/CollectionTile';
 import NewCollectionTile from '../newCollectionTile/NewCollectionTile';
+import LoadingSpinner from '../loading/LoadingSpinner';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
 function MyCollectionsTiles() {
-	const { newCollectionCounter } = useAppContext();
+	const { newCollectionCounter, loading } = useAppContext();
 
 	const [collections, setCollections] = useState(null);
 
@@ -43,13 +44,16 @@ function MyCollectionsTiles() {
 	}, [collections]);
 
 	return (
-		<div className={styles['collections-tiles']}>
-			{collections &&
-				collections.map((collection, index) => {
-					return <CollectionTile key={index} collectionData={collection} />;
-				})}
-			<NewCollectionTile />
-		</div>
+		<>
+			<div className={styles['collections-tiles']}>
+				{collections &&
+					collections.map((collection, index) => {
+						return <CollectionTile key={index} collectionData={collection} />;
+					})}
+				<NewCollectionTile />
+			</div>
+			{loading && <LoadingSpinner message='Loading' />}
+		</>
 	);
 }
 

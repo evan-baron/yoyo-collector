@@ -4,6 +4,9 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 
+// Utils
+import axiosInstance from '@/utils/axios';
+
 // Styles
 import styles from './collectionTile.module.scss';
 
@@ -14,8 +17,12 @@ import { Search, Edit, Share, DeleteOutline } from '@mui/icons-material';
 import BlankCoverPhoto from '../blankCoverPhoto/BlankCoverPhoto';
 import Heart from '../icons/heart/Heart';
 
+// Context
+import { useAppContext } from '@/app/context/AppContext';
+
 function CollectionTile({ collectionData }) {
 	const {
+		id: collectionId,
 		collection_name: name,
 		likes,
 		created_at,
@@ -24,7 +31,15 @@ function CollectionTile({ collectionData }) {
 	} = collectionData;
 	const created = dayjs(created_at).format('MMMM, D, YYYY');
 
+	const { setCollectionToDelete, setModalOpen, setModalType } = useAppContext();
+
 	const [hover, setHover] = useState(false);
+
+	function handleDelete() {
+		setCollectionToDelete(collectionId);
+		setModalOpen(true);
+		setModalType('delete-collection');
+	}
 
 	return (
 		<div className={`${styles.tile} ${hover && styles.hover}`}>
@@ -49,7 +64,7 @@ function CollectionTile({ collectionData }) {
 						<div className={styles.option}>
 							<Share className={styles.icon} />
 						</div>
-						<div className={styles.option}>
+						<div className={styles.option} onClick={handleDelete}>
 							<DeleteOutline className={styles.icon} />
 						</div>
 					</div>

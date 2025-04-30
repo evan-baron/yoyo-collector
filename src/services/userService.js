@@ -219,6 +219,18 @@ const updateVerified = async (user_id, token) => {
 	}
 };
 
+// Update warnings
+const updateWarning = async (user_id, warningType) => {
+	try {
+		await userModel.updateWarning(user_id, warningType);
+	} catch (err) {
+		console.log(
+			'There was an error at updateWarningType in userService',
+			err.message
+		);
+	}
+};
+
 export default {
 	authenticateUser,
 	checkIfUserExists,
@@ -233,4 +245,5 @@ export default {
 	updatePassword,
 	updateUserSettings,
 	updateVerified,
+	updateWarning,
 };
