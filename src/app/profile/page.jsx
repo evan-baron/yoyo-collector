@@ -207,8 +207,8 @@ async function Profile() {
 					</div>
 					<div className={styles['favorites-container']}>
 						<h2 className={styles.h2}>Favorites:</h2>
-						<CollectionCarousel type='Favorite Collections:' />
-						<CollectionCarousel type='Favorite Yoyos:' />
+						<CollectionCarousel title='Favorite Collections:' />
+						<CollectionCarousel title='Favorite Yoyos:' />
 					</div>
 				</section>
 			</div>

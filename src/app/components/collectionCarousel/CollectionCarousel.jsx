@@ -4,10 +4,10 @@ import React from 'react';
 // Styles
 import styles from './collectionCarousel.module.scss';
 
-function CollectionCarousel({ type }) {
+function CollectionCarousel({ title, scrollType }) {
 	return (
 		<div className={styles.collection}>
-			{type && <h2 className={styles.h2}>{type}</h2>}
+			{title && <h2 className={styles.h2}>{title}</h2>}
 			<div className={styles['scroll-wrapper']}>
 				<div className={styles.carousel}>
 					<div className={styles.tile}></div>

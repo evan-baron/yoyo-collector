@@ -33,8 +33,8 @@ export default function Home() {
 			</section>
 			<section className={styles['preview-container']}>
 				<div className={styles.preview}>
-					<CollectionCarousel type='Top Collections' />
-					<CollectionCarousel type='Newest Collections' />
+					<CollectionCarousel title='Top Collections' />
+					<CollectionCarousel title='Newest Collections' />
 				</div>
 				<Link href='/mycollections' className={styles.link}>
 					View All
