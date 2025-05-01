@@ -2,9 +2,16 @@ import React from 'react';
 
 import styles from './heart.module.scss';
 
-function Heart() {
+function Heart({ size }) {
 	return (
-		<svg viewBox='0 0 24 24' className={styles.heart}>
+		<svg
+			viewBox='0 0 24 24'
+			className={styles.heart}
+			style={{
+				height: size === 'small' ? '1.5rem' : '2rem',
+				width: size === 'small' ? '1.5rem' : '2rem',
+			}}
+		>
 			<defs>
 				<linearGradient id='quoteGradient' x1='0%' y1='0%' x2='100%' y2='100%'>
 					<stop offset='0%' stopColor='#ff00ff' />

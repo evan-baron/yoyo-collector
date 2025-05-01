@@ -48,13 +48,11 @@
 			}
 
 			.menu {
-				width: 16rem;
 				aspect-ratio: 1;
 
 				display: grid;
 				grid-template-columns: repeat(2, 1fr);
 				grid-template-rows: repeat(2, 1fr);
-				gap: 0.5rem;
 				border-radius: 0.5rem;
 				padding: 0.5rem;
 				z-index: 5;
@@ -71,7 +69,7 @@
 					background-color: rgba(37, 37, 37, 0.25);
 					transition: 0.3s;
 
-					opacity: 0.75;
+					opacity: 0.65;
 
 					&:hover {
 						transform: scale(1.25);
@@ -104,11 +102,11 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			height: 1.75rem;
+			height: 2rem;
 
 			.name {
-				font-size: 1.75rem;
 				text-shadow: 2px 2px 0.5rem black;
+				color: var(--lightestGray);
 				cursor: pointer;
 			}
 
@@ -116,7 +114,7 @@
 				display: flex;
 				align-items: center;
 				gap: 0.2rem;
-				font-size: 1.125rem;
+				height: 2rem;
 			}
 		}
 

@@ -37,10 +37,10 @@ const Uploads = {
 	},
 
 	// Get collection by name
-	async getCollectionByName(userId, name) {
+	async getCollectionByName(userId, collectionName) {
 		const [rows] = await pool.execute(
-			`SELECT * FROM user_collections WHERE id = ? AND collection_name = ?`,
-			[userId, name]
+			`SELECT * FROM user_collections WHERE user_id = ? AND collection_name = ?`,
+			[userId, collectionName]
 		);
 		return rows[0];
 	},

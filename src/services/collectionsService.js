@@ -36,9 +36,9 @@ const getCollectionById = async (collectionId) => {
 	return { collectionData, collectionPhotos };
 };
 
-// Get collection by userId
-const getCollectionByName = async (userId, name) => {
-	return await collectionsModel.getCollectionByName(userId, name);
+// Get collection by userId and collectionName
+const getCollectionByName = async (userId, collectionName) => {
+	return await collectionsModel.getCollectionByName(userId, collectionName);
 };
 
 // Update a collection

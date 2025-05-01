@@ -48,7 +48,13 @@ function MyCollectionsTiles() {
 			<div className={styles['collections-tiles']}>
 				{collections &&
 					collections.map((collection, index) => {
-						return <CollectionTile key={index} collectionData={collection} />;
+						return (
+							<CollectionTile
+								key={index}
+								collectionData={collection}
+								editing={true}
+							/>
+						);
 					})}
 				<NewCollectionTile />
 			</div>

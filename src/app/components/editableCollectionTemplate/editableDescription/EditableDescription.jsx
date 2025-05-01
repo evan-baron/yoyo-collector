@@ -119,7 +119,7 @@ function EditableDescription({
 						{300 - (value?.length || 0)}
 					</div>
 				</div>
-			) : value.trim() ? (
+			) : value?.trim() ? (
 				<div
 					className={styles.description}
 					style={{ cursor: 'pointer' }}

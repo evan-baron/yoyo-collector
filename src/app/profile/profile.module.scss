@@ -162,9 +162,11 @@
 			.collections-container {
 				.collections-buttons {
 					display: flex;
-					gap: 1rem;
+					gap: 1.5rem;
 
 					.new-collection-btn {
+						width: 12rem;
+
 						display: flex;
 						align-items: center;
 						line-height: 1;
@@ -198,6 +200,11 @@
 							}
 						}
 					}
+				}
+
+				.collections {
+					display: flex;
+					gap: 1rem;
 				}
 			}
 			.favorites-container {

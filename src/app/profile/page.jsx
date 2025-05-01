@@ -25,6 +25,7 @@ import VerticalDivider from '../components/dividers/VerticalDivider';
 import CollectionCarousel from '../components/collectionCarousel/CollectionCarousel';
 import NewCollectionButton from '../components/newCollectionButton/NewCollectionButton';
 import BlankProfilePhoto from '../components/blankProfilePhoto/BlankProfilePhoto';
+import CollectionTile from '../components/collectionTile/CollectionTile';
 
 async function Profile() {
 	const cookieStore = await cookies();
@@ -36,7 +37,7 @@ async function Profile() {
 	}
 
 	let profile = {};
-	let collections = [];
+	let userCollections = [];
 
 	try {
 		const user = await axiosInstance.get(`${baseUrl}/api/token/authenticate/`, {
@@ -86,10 +87,10 @@ async function Profile() {
 			}
 		);
 
-		console.log(collectionData.data);
+		userCollections = collectionData.data;
 	} catch (error) {
 		console.error('Error fetching user data:', error);
-		// redirect('/');
+		redirect('/');
 	}
 
 	return (
@@ -172,7 +173,9 @@ async function Profile() {
 				<section className={styles.right}>
 					<div className={styles['collections-container']}>
 						{/* MAKE THE PLURAL CONDITIONAL ON COLLECTIONS.LENGTH */}
-						<h2 className={styles.h2}>Your Collection(s):</h2>
+						<h2 className={styles.h2}>
+							Your {userCollections.length > 1 ? 'Collections' : 'Collection'}:
+						</h2>
 						<div className={styles['collections-buttons']}>
 							<NewCollectionButton />
 							<button className={styles['new-collection-btn']}>
@@ -185,7 +188,22 @@ async function Profile() {
 								</Link>
 							</button>
 						</div>
-						<CollectionCarousel />
+						{userCollections && userCollections.length > 3 ? (
+							<CollectionCarousel />
+						) : (
+							<div className={styles.collections}>
+								{userCollections.map((collection, index) => {
+									return (
+										<CollectionTile
+											key={index}
+											collectionData={collection}
+											editing={true}
+											size='small'
+										/>
+									);
+								})}
+							</div>
+						)}
 					</div>
 					<div className={styles['favorites-container']}>
 						<h2 className={styles.h2}>Favorites:</h2>

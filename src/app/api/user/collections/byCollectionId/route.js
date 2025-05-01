@@ -88,7 +88,10 @@ export async function PATCH(req, res) {
 // Delete collection by collectionId
 export async function DELETE(req, res) {
 	try {
-		const userId = await getUserIdFromToken();
+		const userId = await getUserIdFromToken({
+			cookies,
+			headers,
+		});
 		const { id } = await req.json();
 
 		const getAllCollectionPhotosResponse = await getAllCollectionPhotosByUserId(

@@ -3,7 +3,8 @@ import collectionsService from '@/services/collectionsService';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 import { headers, cookies } from 'next/headers';
 
-const { createCollection, getAllCollectionsById } = collectionsService;
+const { createCollection, getCollectionByName, getAllCollectionsById } =
+	collectionsService;
 
 // Creat new collection
 export async function POST(req, res) {
@@ -30,7 +31,9 @@ export async function POST(req, res) {
 			);
 		}
 
-		const response = await createCollection(userId, collection);
+		await createCollection(userId, collection);
+
+		const response = await getCollectionByName(userId, collection);
 
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {

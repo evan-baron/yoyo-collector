@@ -2,10 +2,8 @@
 
 // Libraries
 import React, { useState } from 'react';
+import Link from 'next/link';
 import dayjs from 'dayjs';
-
-// Utils
-import axiosInstance from '@/utils/axios';
 
 // Styles
 import styles from './collectionTile.module.scss';
@@ -20,7 +18,7 @@ import Heart from '../icons/heart/Heart';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function CollectionTile({ collectionData }) {
+function CollectionTile({ collectionData, editing, size }) {
 	const {
 		id: collectionId,
 		collection_name: name,
@@ -30,10 +28,23 @@ function CollectionTile({ collectionData }) {
 		secure_url: cover,
 	} = collectionData;
 	const created = dayjs(created_at).format('MMMM, D, YYYY');
+	const link = `/mycollections/${collectionId}`;
 
 	const { setCollectionToDelete, setModalOpen, setModalType } = useAppContext();
 
 	const [hover, setHover] = useState(false);
+
+	const iconSize = size === 'small' ? '3rem' : '5rem';
+	const borderSize = size === 'small' ? '0.3rem' : '0.5rem';
+	const menuWidth = size === 'small' ? '9rem' : '16rem';
+	const menuGap = size === 'small' ? '.125rem' : '.5rem';
+
+	const iconActions = [
+		{ icon: Search, onClick: () => {} },
+		{ icon: Edit, onClick: () => {} },
+		{ icon: Share, onClick: () => {} },
+		{ icon: DeleteOutline, onClick: handleDelete },
+	];
 
 	function handleDelete() {
 		setCollectionToDelete(collectionId);
@@ -42,43 +53,75 @@ function CollectionTile({ collectionData }) {
 	}
 
 	return (
-		<div className={`${styles.tile} ${hover && styles.hover}`}>
+		<div
+			className={`${styles.tile} ${hover && styles.hover}`}
+			style={{ width: size === 'small' ? '15rem' : 'auto' }}
+		>
 			<div
 				className={styles['cover-photo']}
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
+				onClick={() => console.log(link)}
 			>
 				{cover ? (
-					<img className={styles.image} src={cover} />
+					editing ? (
+						<img className={styles.image} src={cover} />
+					) : (
+						<Link href={link}>
+							<img className={styles.image} src={cover} />
+						</Link>
+					)
 				) : (
-					<BlankCoverPhoto />
+					<Link href={link}>
+						<BlankCoverPhoto />
+					</Link>
 				)}
-				<div className={styles.options}>
-					<div className={styles.menu}>
-						<div className={styles.option}>
-							<Search className={styles.icon} />
-						</div>
-						<div className={styles.option}>
-							<Edit className={styles.icon} />
-						</div>
-						<div className={styles.option}>
-							<Share className={styles.icon} />
-						</div>
-						<div className={styles.option} onClick={handleDelete}>
-							<DeleteOutline className={styles.icon} />
+				{editing && (
+					<div className={styles.options}>
+						<div
+							className={styles.menu}
+							style={{
+								width: menuWidth,
+								gap: menuGap,
+							}}
+						>
+							{iconActions.map(({ icon: Icon, onClick }, i) => (
+								<div
+									key={i}
+									className={styles.option}
+									style={{ border: `${borderSize} solid var(--lightestGray)` }}
+									onClick={onClick}
+								>
+									<Icon
+										className={styles.icon}
+										style={{ width: iconSize, height: iconSize }}
+									/>
+								</div>
+							))}
 						</div>
 					</div>
-				</div>
+				)}
 			</div>
 			<div className={styles.details}>
 				<div className={styles['name-likes']}>
-					<div className={styles.name}>{name}</div>
+					<Link
+						href={link}
+						className={styles.name}
+						style={{ fontSize: size === 'small' ? '1.25rem' : '1.75rem' }}
+					>
+						{name}
+					</Link>
 
-					<div className={styles.likes}>
-						<Heart /> {likes || '69'} likes
+					<div
+						className={styles.likes}
+						style={{ fontSize: size === 'small' ? '1.25rem' : '1.5rem' }}
+					>
+						<Heart size={size} /> {likes} {size === 'small' ? '' : 'likes'}
 					</div>
 				</div>
-				<div className={styles.created}>Uploaded on {created}</div>
+				{size !== 'small' && (
+					<div className={styles.created}>Uploaded on {created}</div>
+				)}
 			</div>
 		</div>
 	);

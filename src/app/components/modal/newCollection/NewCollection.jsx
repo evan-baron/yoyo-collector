@@ -2,6 +2,7 @@
 
 // Libraries
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 // Utils
@@ -23,6 +24,7 @@ function NewCollection() {
 	});
 	const [error, setError] = useState(null);
 	const [collectionCreated, setCollectionCreated] = useState(null);
+	const [link, setLink] = useState(null);
 
 	const getInvalidChars = (input) => {
 		const regex = /[^A-Za-z0-9\-_\.~()"' ]/g;
@@ -63,7 +65,12 @@ function NewCollection() {
 
 		try {
 			setLoading(true);
-			await axiosInstance.post('/api/user/collections', formData);
+			const response = await axiosInstance.post(
+				'/api/user/collections',
+				formData
+			);
+			const { id } = response.data;
+			setLink(`/mycollections/${id}`);
 		} catch (error) {
 			console.error(
 				'There was an error creating a collection at NewCollection.jsx:',
@@ -107,13 +114,14 @@ function NewCollection() {
 			{error && <p style={{ color: 'red' }}>{error}</p>}
 			<div className={styles.buttons}>
 				{collectionCreated ? (
-					<button
+					<Link
+						href={link}
 						className={styles.button}
-						onClick={() => console.log('go to collection')}
+						onClick={() => setModalOpen(false)}
 						style={{ width: '6rem' }}
 					>
 						OK
-					</button>
+					</Link>
 				) : (
 					<button
 						className={styles.button}
