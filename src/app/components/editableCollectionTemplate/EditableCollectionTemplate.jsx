@@ -34,8 +34,10 @@ function EditableCollectionTemplate({ collection, photos }) {
 
 	const {
 		dirty,
+		editing,
 		error,
 		loading,
+		setEditing,
 		setError,
 		setDirty,
 		setDirtyType,
@@ -51,7 +53,6 @@ function EditableCollectionTemplate({ collection, photos }) {
 		description: collection_description,
 	});
 	const [pendingData, setPendingData] = useState({ ...formData });
-	const [editing, setEditing] = useState(false);
 	const [coverPhoto, setCoverPhoto] = useState(originalCoverPhoto);
 
 	useEffect(() => {

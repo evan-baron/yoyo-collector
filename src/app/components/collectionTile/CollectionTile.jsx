@@ -3,6 +3,7 @@
 // Libraries
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 
 // Styles
@@ -18,7 +19,7 @@ import Heart from '../icons/heart/Heart';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function CollectionTile({ collectionData, editing, size }) {
+function CollectionTile({ collectionData, currentUser, size, collectionType }) {
 	const {
 		id: collectionId,
 		collection_name: name,
@@ -28,9 +29,15 @@ function CollectionTile({ collectionData, editing, size }) {
 		secure_url: cover,
 	} = collectionData;
 	const created = dayjs(created_at).format('MMMM, D, YYYY');
-	const link = `/mycollections/${collectionId}`;
+	const link =
+		collectionType === 'user'
+			? `/mycollections/${collectionId}`
+			: `/collections/${collectionId}`;
 
-	const { setCollectionToDelete, setModalOpen, setModalType } = useAppContext();
+	const router = useRouter();
+
+	const { setCollectionToDelete, setModalOpen, setModalType, setEditing } =
+		useAppContext();
 
 	const [hover, setHover] = useState(false);
 
@@ -40,9 +47,25 @@ function CollectionTile({ collectionData, editing, size }) {
 	const menuGap = size === 'small' ? '.125rem' : '.5rem';
 
 	const iconActions = [
-		{ icon: Search, onClick: () => {} },
-		{ icon: Edit, onClick: () => {} },
-		{ icon: Share, onClick: () => {} },
+		{
+			icon: Search,
+			onClick: () => {
+				router.push(link);
+			},
+		},
+		{
+			icon: Edit,
+			onClick: () => {
+				setEditing(true);
+				router.push(link);
+			},
+		},
+		{
+			icon: Share,
+			onClick: () => {
+				console.log('add share link later');
+			},
+		},
 		{ icon: DeleteOutline, onClick: handleDelete },
 	];
 
@@ -61,10 +84,9 @@ function CollectionTile({ collectionData, editing, size }) {
 				className={styles['cover-photo']}
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
-				onClick={() => console.log(link)}
 			>
 				{cover ? (
-					editing ? (
+					currentUser ? (
 						<img className={styles.image} src={cover} />
 					) : (
 						<Link href={link}>
@@ -78,7 +100,7 @@ function CollectionTile({ collectionData, editing, size }) {
 						</div>
 					</Link>
 				)}
-				{editing && (
+				{currentUser && (
 					<div className={styles.options}>
 						<div
 							className={styles.menu}
@@ -87,9 +109,9 @@ function CollectionTile({ collectionData, editing, size }) {
 								gap: menuGap,
 							}}
 						>
-							{iconActions.map(({ icon: Icon, onClick }, i) => (
+							{iconActions.map(({ icon: Icon, onClick }, index) => (
 								<div
-									key={i}
+									key={index}
 									className={styles.option}
 									style={{ border: `${borderSize} solid var(--lightestGray)` }}
 									onClick={onClick}

@@ -39,7 +39,7 @@ async function MyCollections() {
 		<div className={styles['my-collections-container']}>
 			<div className={styles['my-collections']}>
 				<h1 className={styles.h1}>My Collections</h1>
-				<CollectionsTiles />
+				<CollectionsTiles collectionType={'user'} />
 			</div>
 			<Link href='/profile' className={styles['settings-box']}>
 				<West className={styles['settings-icon']} sx={{ fontSize: 30 }} />

@@ -141,13 +141,10 @@ export async function DELETE(req) {
 
 		const response = await getPhotosByUserIdAndCategory(userId, category);
 
-		console.log(response);
 		const { public_id } = response[0];
-		console.log(public_id);
 
 		if (public_id) {
-			const response = await cloudinary.uploader.destroy(public_id);
-			console.log(response);
+			await cloudinary.uploader.destroy(public_id);
 		}
 
 		await deletePhoto(userId, null, category);

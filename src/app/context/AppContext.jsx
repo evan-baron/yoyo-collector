@@ -47,6 +47,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [error, setError] = useState(null);
 	const [newCollectionCounter, setNewCollectionCounter] = useState(0);
 	const [collectionToDelete, setCollectionToDelete] = useState(null);
+	const [editing, setEditing] = useState(false);
 
 	const router = useRouter();
 
@@ -197,6 +198,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				currentlyEditing,
 				dirty,
 				dirtyType,
+				editing,
 				emailVerified,
 				error,
 				profileSettingsFormData,
@@ -215,6 +217,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setCurrentlyEditing,
 				setDirty,
 				setDirtyType,
+				setEditing,
 				setEmailVerified,
 				setError,
 				setNewCollectionCounter,

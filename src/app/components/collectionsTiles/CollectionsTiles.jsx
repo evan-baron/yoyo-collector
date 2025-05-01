@@ -17,7 +17,7 @@ import LoadingSpinner from '../loading/LoadingSpinner';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function CollectionsTiles({ size }) {
+function CollectionsTiles({ size, collectionType }) {
 	const { newCollectionCounter, loading } = useAppContext();
 
 	const [collections, setCollections] = useState(null);
@@ -40,7 +40,7 @@ function CollectionsTiles({ size }) {
 	}, [newCollectionCounter]);
 
 	useEffect(() => {
-		console.log(collections);
+		// rerendering page when collections increases or decreases
 	}, [collections]);
 
 	return (
@@ -52,15 +52,18 @@ function CollectionsTiles({ size }) {
 					gap: size === 'small' ? '0 1rem' : '0 2rem',
 				}}
 			>
-				{size !== 'small' && <NewCollectionTile size={size} />}
+				{size !== 'small' && collectionType === 'user' && (
+					<NewCollectionTile size={size} />
+				)}
 				{collections &&
 					collections.map((collection, index) => {
 						return (
 							<CollectionTile
 								key={index}
 								collectionData={collection}
-								editing={true}
+								currentUser={true}
 								size={size}
+								collectionType={collectionType}
 							/>
 						);
 					})}

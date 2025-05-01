@@ -177,7 +177,7 @@ async function Profile() {
 						<h2 className={styles.h2}>
 							Your {userCollections.length > 1 ? 'Collections' : 'Collection'}:
 						</h2>
-						<CollectionsTiles size='small' />
+						<CollectionsTiles size='small' collectionType={'user'} />
 					</div>
 					<div className={styles['favorites-container']}>
 						<h2 className={styles.h2}>Favorites:</h2>
