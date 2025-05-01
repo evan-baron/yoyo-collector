@@ -77,8 +77,8 @@ const Login = () => {
 					error.response ? error.response.data.message : 'An error occurred'
 				);
 			} finally {
-				// Redirects to home
-				router.push('/collections');
+				// Redirects to user profile
+				router.push('/profile');
 
 				// Closes modal
 				setModalOpen(false);
