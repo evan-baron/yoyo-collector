@@ -73,7 +73,9 @@ function CollectionTile({ collectionData, editing, size }) {
 					)
 				) : (
 					<Link href={link}>
-						<BlankCoverPhoto />
+						<div style={{ boxShadow: '0.25rem 0.25rem 1rem black' }}>
+							<BlankCoverPhoto />
+						</div>
 					</Link>
 				)}
 				{editing && (
