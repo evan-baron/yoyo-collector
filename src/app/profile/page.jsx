@@ -177,9 +177,6 @@ async function Profile() {
 						<h2 className={styles.h2}>
 							Your {userCollections.length > 1 ? 'Collections' : 'Collection'}:
 						</h2>
-						<div className={styles['collections-buttons']}>
-							<NewCollectionButton />
-						</div>
 						<MyCollectionsTiles size='small' />
 					</div>
 					<div className={styles['favorites-container']}>
@@ -202,6 +199,7 @@ async function Profile() {
 					<Edit className={styles['settings-icon']} />
 					<p className={styles.settings}>Edit Collections</p>
 				</Link>
+				<NewCollectionButton />
 			</div>
 		</div>
 	);
