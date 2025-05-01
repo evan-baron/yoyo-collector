@@ -6,7 +6,10 @@ import { headers, cookies } from 'next/headers';
 
 export async function POST(req) {
 	try {
-		const userId = await getUserIdFromToken();
+		const userId = await getUserIdFromToken({
+			headers,
+			cookies,
+		});
 
 		if (!userId) return;
 
@@ -123,7 +126,10 @@ export async function POST(req) {
 
 export async function PATCH(req, res) {
 	try {
-		const userId = await getUserIdFromToken();
+		const userId = await getUserIdFromToken({
+			headers,
+			cookies,
+		});
 
 		if (!userId) return;
 

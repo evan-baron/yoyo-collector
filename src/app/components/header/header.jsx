@@ -62,8 +62,8 @@ const Header = () => {
 	}, [user?.email_verified]);
 
 	const handleLogout = async () => {
-		setActive((prev) => !prev);
-		setAnimate((prev) => !prev);
+		setActive(false);
+		setAnimate(false);
 		try {
 			localStorage.removeItem('token');
 			localStorage.removeItem('user');
@@ -85,7 +85,7 @@ const Header = () => {
 	return (
 		<header className={styles.header}>
 			<nav className={styles.nav}>
-				<div className={styles.menu}>
+				<div className={styles['logo-box']}>
 					<Link
 						href={dirty ? '' : '/'}
 						className={styles.logo}
@@ -111,7 +111,7 @@ const Header = () => {
 				<ul className={styles.ul}>
 					{user ? (
 						<>
-							<li className={styles.li}>
+							<li className={styles['collections-links']}>
 								<Link
 									href={dirty ? '' : '/collections'}
 									className={styles.li}
@@ -124,7 +124,21 @@ const Header = () => {
 										}
 									}}
 								>
-									Collections
+									All Collections
+								</Link>
+								<Link
+									href={dirty ? '' : '/mycollections'}
+									className={styles.li}
+									onClick={() => {
+										if (dirty) {
+											setPendingRoute('/mycollections');
+											setModalOpen(true);
+											setModalType('dirty');
+											return;
+										}
+									}}
+								>
+									My Collections
 								</Link>
 							</li>
 							{user.secure_url ? (
@@ -247,7 +261,7 @@ const Header = () => {
 						>
 							Profile
 						</Link>
-						<Link
+						{/* <Link
 							href={dirty ? '' : '/mycollections'}
 							className={styles.li}
 							onClick={() => {
@@ -272,7 +286,7 @@ const Header = () => {
 							}}
 						>
 							Collection
-						</Link>
+						</Link> */}
 						<Link
 							href={dirty ? '' : '/profile/settings'}
 							className={styles.li}
@@ -299,7 +313,7 @@ const Header = () => {
 						>
 							Settings
 						</Link>
-						<li className={styles.li}>Search</li>
+						{/* <li className={styles.li}>Search</li> */}
 						<Link
 							href={dirty ? '' : '/'}
 							onClick={() => {

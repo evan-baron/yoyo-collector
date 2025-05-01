@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import uploadsService from '@/services/uploadsService';
-const { deletePhoto, getPhotoById, updateProfilePicture, uploadPhoto } =
-	uploadsService;
+const {
+	deletePhoto,
+	getPhotoById,
+	getPhotosByUserIdAndCategory,
+	updateProfilePicture,
+	uploadPhoto,
+} = uploadsService;
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 import { headers, cookies } from 'next/headers';
 
@@ -15,7 +20,10 @@ cloudinary.config({
 // Uploading Profile Pictures
 export async function POST(req, res) {
 	try {
-		const userId = await getUserIdFromToken();
+		const userId = await getUserIdFromToken({
+			headers,
+			cookies,
+		});
 
 		if (!userId) {
 			throw new Error('User ID is missing');
@@ -48,7 +56,7 @@ export async function POST(req, res) {
 
 			return NextResponse.json(uploadResponse, { status: 201 });
 		} else if (category === 'profile' && uploadAction === 'update') {
-			const response = await getPhotoByUserIdAndCategory(userId, 'profile');
+			const response = await getPhotosByUserIdAndCategory(userId, 'profile');
 
 			if (response.public_id) {
 				await cloudinary.uploader.destroy(response.public_id);
@@ -92,7 +100,10 @@ export async function POST(req, res) {
 // Getting Current User Profile Picture
 export async function GET(req) {
 	try {
-		const userId = await getUserIdFromToken();
+		const userId = await getUserIdFromToken({
+			headers,
+			cookies,
+		});
 
 		if (!userId) {
 			throw new Error('User ID is missing');
@@ -100,7 +111,7 @@ export async function GET(req) {
 
 		const type = req.nextUrl.searchParams.get('type');
 
-		const response = await getPhotoByUserIdAndCategory(userId, type);
+		const response = await getPhotosByUserIdAndCategory(userId, type);
 
 		if (!response) {
 			return NextResponse.json({ secure_url: null }, { status: 200 });
@@ -117,7 +128,10 @@ export async function GET(req) {
 
 export async function DELETE(req) {
 	try {
-		const userId = await getUserIdFromToken();
+		const userId = await getUserIdFromToken({
+			headers,
+			cookies,
+		});
 
 		if (!userId) {
 			throw new Error('User ID is required');
@@ -125,12 +139,15 @@ export async function DELETE(req) {
 
 		const category = req.nextUrl.searchParams.get('category');
 
-		const response = await getPhotoByUserIdAndCategory(userId, category);
+		const response = await getPhotosByUserIdAndCategory(userId, category);
 
-		const { public_id } = response;
+		console.log(response);
+		const { public_id } = response[0];
+		console.log(public_id);
 
 		if (public_id) {
-			await cloudinary.uploader.destroy(public_id);
+			const response = await cloudinary.uploader.destroy(public_id);
+			console.log(response);
 		}
 
 		await deletePhoto(userId, null, category);

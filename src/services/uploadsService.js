@@ -79,7 +79,7 @@ const uploadPhoto = async (
 			height,
 			width,
 			category,
-			collectionId
+			collectionId || null
 		);
 
 		if (category === 'profile') {

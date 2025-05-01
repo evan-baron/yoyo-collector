@@ -1,16 +1,19 @@
 import { NextResponse } from 'next/server';
 import uploadsService from '@/services/uploadsService';
-const { getPhotoByUserIdAndCategory } = uploadsService;
+const { getPhotosByUserIdAndCategory } = uploadsService;
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 import { headers, cookies } from 'next/headers';
 
 export async function GET(req) {
 	try {
-		const userId = await getUserIdFromToken();
+		const userId = await getUserIdFromToken({
+			headers,
+			cookies,
+		});
 
 		const category = req.nextUrl.searchParams.get('category');
 
-		const response = await getPhotoByUserIdAndCategory(userId, category);
+		const response = await getPhotosByUserIdAndCategory(userId, category);
 
 		if (!response) {
 			return NextResponse.json({ secure_url: null }, { status: 200 });
