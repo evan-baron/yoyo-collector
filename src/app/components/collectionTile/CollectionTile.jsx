@@ -10,7 +10,13 @@ import dayjs from 'dayjs';
 import styles from './collectionTile.module.scss';
 
 // MUI
-import { Search, Edit, Share, DeleteOutline } from '@mui/icons-material';
+import {
+	Search,
+	Edit,
+	Share,
+	ZoomIn,
+	DeleteOutline,
+} from '@mui/icons-material';
 
 // Components
 import BlankCoverPhoto from '../blankCoverPhoto/BlankCoverPhoto';
@@ -48,7 +54,7 @@ function CollectionTile({ collectionData, currentUser, size, collectionType }) {
 
 	const iconActions = [
 		{
-			icon: Search,
+			icon: ZoomIn, // USED TO BE SEARCH CHANGE BACK IF YOU DONT LIKE THE +
 			onClick: () => {
 				router.push(link);
 			},

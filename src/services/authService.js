@@ -9,7 +9,7 @@ const login = async (email, password, checked) => {
 		const token = jwt.sign(
 			{ userId: user.user.id, email: user.user.email },
 			process.env.JWT_SECRET,
-			checked ? {} : { expiresIn: '1h' } // If checked is true, no expiration time (so users never have to worry about logging in again unless they log out)
+			checked ? {} : { expiresIn: '5s' } // If checked is true, no expiration time (so users never have to worry about logging in again unless they log out)
 		);
 		return { user: user.user, token };
 	} else {
