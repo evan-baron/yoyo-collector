@@ -73,10 +73,11 @@
 			width: 100%;
 
 			position: absolute;
-			text-align: center;
+			// text-align: center;
+			padding-left: 0.25rem;
 			transition: 0.3s;
 
-			opacity: 0;
+			opacity: 0.5;
 		}
 	}
 }

@@ -13,7 +13,7 @@ import styles from './myCollectionsPage.module.scss';
 import { West } from '@mui/icons-material';
 
 // Components
-import MyCollectionsTiles from '../components/myCollectionsTiles/MyCollectionsTiles';
+import CollectionsTiles from '../components/collectionsTiles/CollectionsTiles';
 
 async function MyCollections() {
 	const cookieStore = await cookies();
@@ -39,7 +39,7 @@ async function MyCollections() {
 		<div className={styles['my-collections-container']}>
 			<div className={styles['my-collections']}>
 				<h1 className={styles.h1}>My Collections</h1>
-				<MyCollectionsTiles />
+				<CollectionsTiles />
 			</div>
 			<Link href='/profile' className={styles['settings-box']}>
 				<West className={styles['settings-icon']} sx={{ fontSize: 30 }} />

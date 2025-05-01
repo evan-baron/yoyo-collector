@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance from '@/utils/axios';
 
 // Styles
-import styles from './myCollectionsTiles.module.scss';
+import styles from './collectionsTiles.module.scss';
 
 // Components
 import CollectionTile from '../collectionTile/CollectionTile';
@@ -17,7 +17,7 @@ import LoadingSpinner from '../loading/LoadingSpinner';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function MyCollectionsTiles({ size }) {
+function CollectionsTiles({ size }) {
 	const { newCollectionCounter, loading } = useAppContext();
 
 	const [collections, setCollections] = useState(null);
@@ -52,6 +52,7 @@ function MyCollectionsTiles({ size }) {
 					gap: size === 'small' ? '0 1rem' : '0 2rem',
 				}}
 			>
+				{size !== 'small' && <NewCollectionTile size={size} />}
 				{collections &&
 					collections.map((collection, index) => {
 						return (
@@ -63,11 +64,10 @@ function MyCollectionsTiles({ size }) {
 							/>
 						);
 					})}
-				<NewCollectionTile size={size} />
 			</div>
 			{loading && <LoadingSpinner message='Loading' />}
 		</>
 	);
 }
 
-export default MyCollectionsTiles;
+export default CollectionsTiles;

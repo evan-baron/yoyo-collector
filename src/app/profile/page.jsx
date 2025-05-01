@@ -26,7 +26,7 @@ import CollectionCarousel from '../components/collectionCarousel/CollectionCarou
 import NewCollectionButton from '../components/newCollectionButton/NewCollectionButton';
 import BlankProfilePhoto from '../components/blankProfilePhoto/BlankProfilePhoto';
 import CollectionTile from '../components/collectionTile/CollectionTile';
-import MyCollectionsTiles from '../components/myCollectionsTiles/MyCollectionsTiles';
+import CollectionsTiles from '../components/collectionsTiles/CollectionsTiles';
 
 async function Profile() {
 	const cookieStore = await cookies();
@@ -177,7 +177,7 @@ async function Profile() {
 						<h2 className={styles.h2}>
 							Your {userCollections.length > 1 ? 'Collections' : 'Collection'}:
 						</h2>
-						<MyCollectionsTiles size='small' />
+						<CollectionsTiles size='small' />
 					</div>
 					<div className={styles['favorites-container']}>
 						<h2 className={styles.h2}>Favorites:</h2>
