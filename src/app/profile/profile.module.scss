@@ -212,43 +212,49 @@
 		}
 	}
 
-	.settings-box {
+	.settings-buttons {
 		position: fixed;
 		top: 5.5rem;
 		right: 1.5rem;
 		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0 1rem;
-		cursor: pointer;
-		color: var(--lightestGray);
-		background-color: var(--darkerGray);
-		border-radius: 0.5rem;
-		box-shadow: 0.125rem 0.125rem 0.5rem black;
-		transition: 0.3s;
+		flex-direction: column;
+		gap: 1rem;
 
-		.settings {
-			font-size: 1.125rem;
-			font-weight: bold;
-			padding: 0.75rem 0;
+		.settings-box {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0 1rem;
+			cursor: pointer;
+			color: var(--lightestGray);
+			background-color: var(--darkerGray);
+			border-radius: 0.5rem;
+			box-shadow: 0.125rem 0.125rem 0.5rem black;
+			transition: 0.3s;
 
-			@supports (-webkit-background-clip: text) {
-				background: linear-gradient(135deg, rgb(255, 0, 255), #00e1ff);
-				-webkit-background-clip: text;
-				-webkit-text-fill-color: transparent;
-				cursor: pointer;
+			.settings {
+				font-size: 1.125rem;
+				font-weight: bold;
+				padding: 0.75rem 0;
+
+				@supports (-webkit-background-clip: text) {
+					background: linear-gradient(135deg, rgb(255, 0, 255), #00e1ff);
+					-webkit-background-clip: text;
+					-webkit-text-fill-color: transparent;
+					cursor: pointer;
+				}
 			}
-		}
 
-		.settings-icon {
-			transform: translateY(-5%); // ALIGN ITEMS CENTER NOT WORK GOOD
-			@supports (-webkit-background-clip: text) {
-				color: rgb(255, 0, 225);
+			.settings-icon {
+				transform: translateY(-5%); // ALIGN ITEMS CENTER NOT WORK GOOD
+				@supports (-webkit-background-clip: text) {
+					color: rgb(255, 0, 225);
+				}
 			}
-		}
 
-		&:hover {
-			transform: scale(1.1) translate(-5%, 5%);
+			&:hover {
+				transform: scale(1.1) translate(-5%, 5%);
+			}
 		}
 	}
 }

@@ -179,15 +179,6 @@ async function Profile() {
 						</h2>
 						<div className={styles['collections-buttons']}>
 							<NewCollectionButton />
-							<button className={styles['new-collection-btn']}>
-								<Edit
-									className={styles['settings-icon']}
-									style={{ fontSize: '1.25rem' }}
-								/>
-								<Link href='/mycollections' className={styles.settings}>
-									Edit Collections
-								</Link>
-							</button>
 						</div>
 						<MyCollectionsTiles size='small' />
 					</div>
@@ -198,14 +189,20 @@ async function Profile() {
 					</div>
 				</section>
 			</div>
-			<Link href='/profile/settings' className={styles['settings-box']}>
+			{/* <Link href='/profile/settings' className={styles['settings-box']}>
 				<Edit className={styles['settings-icon']} />
 				<p className={styles.settings}>Edit Your Profile</p>
-			</Link>
-			{/* <Link href='/profile/settings' className={styles['settings-box']}>
-				<Settings className={styles['settings-icon']} />
-				<p className={styles.settings}>Profile Settings</p>
 			</Link> */}
+			<div className={styles['settings-buttons']}>
+				<Link href='/profile/settings' className={styles['settings-box']}>
+					<Settings className={styles['settings-icon']} />
+					<p className={styles.settings}>Profile Settings</p>
+				</Link>
+				<Link href='/mycollections' className={styles['settings-box']}>
+					<Edit className={styles['settings-icon']} />
+					<p className={styles.settings}>Edit Collections</p>
+				</Link>
+			</div>
 		</div>
 	);
 }
