@@ -9,7 +9,7 @@ import styles from './newCollectionTile.module.scss';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function NewCollectionTile() {
+function NewCollectionTile({ size }) {
 	const { setModalOpen, setModalType } = useAppContext();
 
 	return (
@@ -20,8 +20,16 @@ function NewCollectionTile() {
 				setModalType('new-collection');
 			}}
 		>
-			<div className={styles.new}>
-				<div className={styles.create}>New Collection</div>
+			<div className={`${styles.new} ${size === 'small' && styles.small}`}>
+				<div
+					className={styles.create}
+					style={{
+						fontSize: size === 'small' ? '1.25rem' : '2rem',
+						bottom: size === 'small' ? '-1.75rem' : '-2.5rem',
+					}}
+				>
+					New Collection
+				</div>
 			</div>
 		</div>
 	);

@@ -17,7 +17,7 @@ import LoadingSpinner from '../loading/LoadingSpinner';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function MyCollectionsTiles() {
+function MyCollectionsTiles({ size }) {
 	const { newCollectionCounter, loading } = useAppContext();
 
 	const [collections, setCollections] = useState(null);
@@ -45,7 +45,13 @@ function MyCollectionsTiles() {
 
 	return (
 		<>
-			<div className={styles['collections-tiles']}>
+			<div
+				className={styles['collections-tiles']}
+				style={{
+					width: size === 'small' ? '' : '100%',
+					gap: size === 'small' ? '0 1rem' : '0 2rem',
+				}}
+			>
 				{collections &&
 					collections.map((collection, index) => {
 						return (
@@ -53,10 +59,11 @@ function MyCollectionsTiles() {
 								key={index}
 								collectionData={collection}
 								editing={true}
+								size={size}
 							/>
 						);
 					})}
-				<NewCollectionTile />
+				<NewCollectionTile size={size} />
 			</div>
 			{loading && <LoadingSpinner message='Loading' />}
 		</>

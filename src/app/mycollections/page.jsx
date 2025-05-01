@@ -9,6 +9,9 @@ import dayjs from 'dayjs';
 // Styles
 import styles from './myCollectionsPage.module.scss';
 
+// MUI
+import { West } from '@mui/icons-material';
+
 // Components
 import MyCollectionsTiles from '../components/myCollectionsTiles/MyCollectionsTiles';
 
@@ -38,6 +41,10 @@ async function MyCollections() {
 				<h1 className={styles.h1}>My Collections</h1>
 				<MyCollectionsTiles />
 			</div>
+			<Link href='/profile' className={styles['settings-box']}>
+				<West className={styles['settings-icon']} sx={{ fontSize: 30 }} />
+				<p className={styles.settings}>Profile</p>
+			</Link>
 		</div>
 	);
 }

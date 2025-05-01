@@ -26,6 +26,7 @@ import CollectionCarousel from '../components/collectionCarousel/CollectionCarou
 import NewCollectionButton from '../components/newCollectionButton/NewCollectionButton';
 import BlankProfilePhoto from '../components/blankProfilePhoto/BlankProfilePhoto';
 import CollectionTile from '../components/collectionTile/CollectionTile';
+import MyCollectionsTiles from '../components/myCollectionsTiles/MyCollectionsTiles';
 
 async function Profile() {
 	const cookieStore = await cookies();
@@ -188,22 +189,7 @@ async function Profile() {
 								</Link>
 							</button>
 						</div>
-						{userCollections && userCollections.length > 3 ? (
-							<CollectionCarousel />
-						) : (
-							<div className={styles.collections}>
-								{userCollections.map((collection, index) => {
-									return (
-										<CollectionTile
-											key={index}
-											collectionData={collection}
-											editing={true}
-											size='small'
-										/>
-									);
-								})}
-							</div>
-						)}
+						<MyCollectionsTiles size='small' />
 					</div>
 					<div className={styles['favorites-container']}>
 						<h2 className={styles.h2}>Favorites:</h2>

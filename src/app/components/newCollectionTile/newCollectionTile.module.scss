@@ -48,33 +48,21 @@
 			transition: 0.3s;
 		}
 
-		&:hover {
-			transform: scale(1);
-			// background-color: var(--mediumGray);
-			opacity: 1;
+		&.small {
+			&::before {
+				width: 0.75rem;
+				border-radius: 0.375rem;
+			}
 
 			&::after {
-				content: '';
-				position: absolute;
-				width: 80%;
-				height: 1.5rem;
-				border-radius: 0.75rem;
-				inset: 0;
-				margin: auto;
-				// background-color: var(--gray);
+				height: 0.75rem;
+				border-radius: 0.375rem;
 			}
+		}
 
-			&::before {
-				content: '';
-				position: absolute;
-				height: 80%;
-				width: 1.5rem;
-				border-radius: 0.75rem;
-
-				inset: 0;
-				margin: auto;
-				// background-color: var(--gray);
-			}
+		&:hover {
+			transform: scale(1);
+			opacity: 1;
 
 			.create {
 				opacity: 1;
@@ -85,9 +73,7 @@
 			width: 100%;
 
 			position: absolute;
-			bottom: -2.5rem;
 			text-align: center;
-			font-size: 2rem;
 			transition: 0.3s;
 
 			opacity: 0;
