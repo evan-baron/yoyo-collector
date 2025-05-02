@@ -1,22 +1,15 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import userService from '@/services/userService';
 const { getUserById } = userService;
+import sessionService from '@/services/sessionService';
+const { getSessionByToken } = sessionService;
 
 export async function GET(req) {
 	try {
-		const authHeader = req.headers.get('authorization');
 		const cookieStore = await cookies();
 
-		const cookieToken = cookieStore.get('session_token')?.value;
-		console.log('cookie token:', cookieToken);
-
-		const headerToken = authHeader?.split(' ')[1];
-		console.log('header token:', headerToken);
-
-		const token =
-			authHeader?.split(' ')[1] || cookieStore.get('session_token')?.value;
+		const token = cookieStore.get('session_token')?.value;
 
 		if (!token) {
 			return NextResponse.json(
@@ -25,9 +18,20 @@ export async function GET(req) {
 			);
 		}
 
-		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+		const session = await getSessionByToken(token);
 
-		const user = await getUserById(decoded.userId);
+		if (!session) {
+			return NextResponse.json(
+				{ message: 'Invalid or expired token' },
+				{ status: 200 }
+			);
+		}
+
+		const { user_id: userId, expires_at } = session;
+
+		const tokenValid = expires_at > Date.now();
+
+		const user = await getUserById(userId);
 
 		if (user?.password) {
 			delete user.password;
@@ -37,22 +41,15 @@ export async function GET(req) {
 			delete user.id;
 		}
 
-		return NextResponse.json(user);
+		return NextResponse.json({ user, tokenValid });
 	} catch (err) {
-		if (err instanceof JsonWebTokenError) {
-			return NextResponse.json(
-				{ message: 'Invalid or expired token' },
-				{ status: 200 }
-			);
-		} else {
-			console.error(
-				'Error during token verification at /api/token/authenticate/route.js:',
-				err
-			);
-			return NextResponse.json(
-				{ message: 'Unexpected error at api/token/authenticate' },
-				{ status: 500 }
-			);
-		}
+		console.error(
+			'Error during token verification at /api/token/authenticate/route.js:',
+			err
+		);
+		return NextResponse.json(
+			{ message: 'Unexpected error at api/token/authenticate' },
+			{ status: 500 }
+		);
 	}
 }

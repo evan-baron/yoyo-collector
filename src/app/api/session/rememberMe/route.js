@@ -1,6 +1,6 @@
 import sessionService from '@/services/sessionService';
 import { cookies, headers } from 'next/headers';
-const { updateRememberMe } = sessionService;
+const { updateRememberMe, getSessionByUserId } = sessionService;
 import { NextResponse } from 'next/server';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 
@@ -13,7 +13,9 @@ export async function PATCH(req, res) {
 
 		if (!userId) return;
 
-		await updateRememberMe(tokenId, userId);
+		const { token } = await getSessionByUserId(userId);
+
+		await updateRememberMe(userId, token);
 
 		return NextResponse.json(
 			{

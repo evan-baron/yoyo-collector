@@ -4,7 +4,7 @@ import sessionModel from '@/models/sessionModel';
 const createSession = async (userId, token, rememberMe) => {
 	let expiration;
 
-	if (rememberMe) {
+	if (rememberMe === 1) {
 		expiration = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
 			.toISOString()
 			.slice(0, 19)

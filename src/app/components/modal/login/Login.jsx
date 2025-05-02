@@ -54,14 +54,6 @@ const Login = () => {
 					checked: checked,
 				});
 				setLoadingScreen(false);
-				const { token } = response.data;
-
-				// Store token in localstorage if remember me checked
-				if (checked) {
-					localStorage.setItem('token', token);
-				} else {
-					sessionStorage.setItem('token', token);
-				}
 
 				// Reset the form and related states
 				setFormData({

@@ -2,9 +2,9 @@
 import React from 'react';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import axiosInstance from '@/lib/utils/axios';
+import sessionService from '@/services/sessionService';
+import userService from '@/services/userService';
 import Link from 'next/link';
-import dayjs from 'dayjs';
 
 // Styles
 import styles from './myCollectionsPage.module.scss';
@@ -17,22 +17,27 @@ import CollectionsTiles from '../components/collectionsTiles/CollectionsTiles';
 
 async function MyCollections() {
 	const cookieStore = await cookies();
-	const token = cookieStore.get('session_token')?.value;
-	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+	const tokenFromCookie = cookieStore.get('session_token')?.value;
+
+	const token = tokenFromCookie || tokenFromHeader;
 
 	if (!token) {
-		redirect('/');
+		console.error('Token missing');
 	}
 
 	try {
-		await axiosInstance.get(`${baseUrl}/api/token/authenticate/`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-	} catch (error) {
-		console.error('Error fetching user data:', error);
-		redirect('/');
+		const response = await sessionService.getSessionByToken(token);
+
+		const { expires_at } = response;
+
+		const tokenValid = expires_at > Date.now();
+
+		if (!tokenValid) {
+			console.error('token invalid or expired @ mycollections/page.jsx');
+			redirect('/');
+		}
+	} catch (err) {
+		console.error('Token validation failed:', err);
 	}
 
 	return (

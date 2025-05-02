@@ -79,7 +79,7 @@ const Session = {
 	// Update session
 	async updateSession(userId, token, expiration) {
 		const [result] = await pool.execute(
-			'UPDATE session_tokens SET expiration = ? WHERE user_id = ? AND session_token = ?',
+			'UPDATE session_tokens SET expires_at = ? WHERE user_id = ? AND session_token = ?',
 			[expiration, userId, token]
 		);
 		return result.affectedRows > 0;

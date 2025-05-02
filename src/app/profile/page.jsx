@@ -41,11 +41,21 @@ async function Profile() {
 	let userCollections = [];
 
 	try {
-		const user = await axiosInstance.get(`${baseUrl}/api/token/authenticate/`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+		const response = await axiosInstance.get(
+			`${baseUrl}/api/token/authenticate/`,
+			{
+				withCredentials: true,
+			}
+		);
+
+		const { user, tokenValid } = response.data;
+
+		console.log(response.data);
+
+		if (!tokenValid) {
+			console.error('token invalid or expired @ profile/page.jsx');
+			redirect('/');
+		}
 
 		const {
 			first_name,
@@ -60,7 +70,7 @@ async function Profile() {
 			description,
 			secure_url,
 			created_at,
-		} = user.data;
+		} = user;
 
 		const location = () => {
 			return [city, state, country].filter(Boolean).join(', ') || '';
@@ -82,9 +92,7 @@ async function Profile() {
 		const collectionData = await axiosInstance.get(
 			`${baseUrl}/api/user/collections/`,
 			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
+				withCredentials: true,
 			}
 		);
 

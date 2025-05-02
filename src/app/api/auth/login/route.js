@@ -5,17 +5,6 @@ import { NextResponse } from 'next/server';
 import { checkRateLimit } from '@/lib/utils/rateLimiter';
 import validator from 'validator';
 
-const setTokenCookie = (res, token) => {
-	const cookie = serialize('session_token', token, {
-		httpOnly: true,
-		secure: process.env.NODE_ENV === 'production',
-		sameSite: 'Strict',
-		path: '/',
-	});
-
-	res.setHeader('Set-Cookie', cookie);
-};
-
 export async function POST(req) {
 	try {
 		const { email, password, checked } = await req.json();
@@ -45,13 +34,21 @@ export async function POST(req) {
 			delete user.password;
 		}
 
+		console.log('user info:', userInfo);
+
+		const cookie = serialize('session_token', token, {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'Strict',
+			path: '/',
+		});
+
 		const response = NextResponse.json({
 			message: 'User logged in successfully!',
 			user,
-			token,
 		});
 
-		setTokenCookie(response, token);
+		response.headers.set('Set-Cookie', cookie);
 
 		return response;
 	} catch (err) {

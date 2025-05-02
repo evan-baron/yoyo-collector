@@ -11,15 +11,18 @@ import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 
 export async function GET(req, res) {
 	try {
+		const { searchParams } = new URL(req.url);
+		const token = searchParams.get('token');
+
 		const response = await getSessionByToken(token);
 
-		const { expires_at } = response.data;
+		const { expires_at } = response;
 
 		const tokenValid = expires_at > Date.now();
 
-		response.data.valid = tokenValid;
+		response.valid = tokenValid;
 
-		return response;
+		return NextResponse.json(response, { status: 200 });
 	} catch (error) {
 		console.error(
 			'There was an error getting the session at api/session/ GET:',

@@ -11,13 +11,8 @@ cloudinary.config({
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const {
-	createCollection,
-	deleteCollection,
-	getCollectionByName,
-	getCollectionById,
-	updateCollection,
-} = collectionsService;
+const { deleteCollection, getCollectionById, updateCollection } =
+	collectionsService;
 
 const { getAllCollectionPhotosByUserId, deleteUploadsByCollectionId } =
 	uploadsService;

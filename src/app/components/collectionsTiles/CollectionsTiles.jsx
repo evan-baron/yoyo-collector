@@ -26,7 +26,10 @@ function CollectionsTiles({ size, collectionType }) {
 		const fetchCollections = async () => {
 			try {
 				const collectionsData = await axiosInstance.get(
-					'/api/user/collections'
+					'/api/user/collections',
+					{
+						withCredentials: true,
+					}
 				);
 				setCollections(collectionsData.data);
 			} catch (error) {

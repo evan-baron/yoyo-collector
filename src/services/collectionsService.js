@@ -1,5 +1,5 @@
 import collectionsModel from '@/models/collectionsModel';
-import Uploads from '@/models/uploadsModel';
+import uploadsModel from '@/models/uploadsModel';
 
 // ALL FUNCTIONS LISTED BELOW ALPHABETICALLY
 
@@ -32,7 +32,9 @@ const getAllCollectionsById = async (userId) => {
 // Get collection by collectionId
 const getCollectionById = async (collectionId) => {
 	const collectionData = await collectionsModel.getCollectionById(collectionId);
-	const collectionPhotos = await Uploads.getAllCollectionPhotos(collectionId);
+	const collectionPhotos = await uploadsModel.getAllCollectionPhotos(
+		collectionId
+	);
 	return { collectionData, collectionPhotos };
 };
 

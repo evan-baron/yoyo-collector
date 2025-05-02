@@ -1,27 +1,14 @@
 import { NextResponse } from 'next/server';
 import uploadsService from '@/services/uploadsService';
 const { getPhotosByUserIdAndCategory } = uploadsService;
-import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
-import { headers, cookies } from 'next/headers';
 
+// Getting a different user's photos
 export async function GET(req) {
 	try {
-		const { userId, valid } = await getUserIdFromToken({
-			headers,
-			cookies,
-		});
-
-		if (!userId) {
-			throw new Error('User ID is missing');
-		}
-
-		if (!valid) {
-			throw new Error('Token no longer valid');
-		}
-
+		const id = req.nextUrl.searchParams.get('id');
 		const category = req.nextUrl.searchParams.get('category');
 
-		const response = await getPhotosByUserIdAndCategory(userId, category);
+		const response = await getPhotosByUserIdAndCategory(id, category);
 
 		if (!response) {
 			return NextResponse.json({ secure_url: null }, { status: 200 });

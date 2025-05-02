@@ -1,7 +1,7 @@
 // Libraries
 import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
 import userService from '@/services/userService';
+import sessionService from '@/services/sessionService';
 
 // Context
 import { ContextProvider } from './context/AppContext';
@@ -35,22 +35,37 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-	const cookieStore = await cookies();
-	const token = cookieStore.get('session_token')?.value;
-	let user = null;
+	let user;
 
-	if (token) {
-		try {
-			const decoded = jwt.verify(token, process.env.JWT_SECRET);
-			user = await userService.getUserById(decoded.userId);
-			if (user?.password) delete user.password;
-		} catch (err) {
-			if (err instanceof jwt.TokenExpiredError) {
-				// The token expired...
-			} else {
-				console.error('Token authentication error in layout.jsx:', err);
-			}
+	const cookieStore = await cookies();
+	const tokenFromCookie = cookieStore.get('session_token')?.value;
+
+	const token = tokenFromCookie;
+
+	if (!token) {
+		console.error('Token missing');
+	}
+
+	try {
+		const response = await sessionService.getSessionByToken(token);
+
+		const { user_id, expires_at } = response;
+
+		const tokenValid = expires_at > Date.now();
+
+		if (!tokenValid) {
+			console.error('Token expired');
 		}
+
+		const userResponse = await userService.getUserById(user_id);
+
+		if (userResponse.password) {
+			delete userResponse.password;
+		}
+
+		user = userResponse;
+	} catch (err) {
+		console.error('Token validation failed:', err);
 	}
 
 	return (

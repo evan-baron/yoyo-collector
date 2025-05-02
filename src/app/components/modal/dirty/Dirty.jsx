@@ -40,8 +40,6 @@ function Dirty() {
 
 	const handleLogout = async () => {
 		try {
-			localStorage.removeItem('token');
-			localStorage.removeItem('user');
 			setUser(null);
 			await axiosInstance.post('/api/auth/logout', user);
 		} catch (error) {

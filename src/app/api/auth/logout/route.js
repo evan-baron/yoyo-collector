@@ -1,12 +1,8 @@
-// import { cookies } from 'next/headers';
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
 	try {
-		// const cookieStore = await cookies();
-		// const sessionToken = cookieStore.get('session_token')?.value;
-
 		const expiredCookie = serialize('session_token', '', {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',

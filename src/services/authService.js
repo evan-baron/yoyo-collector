@@ -10,18 +10,20 @@ const login = async (email, password, checked) => {
 		password
 	);
 
-	if (success) {
-		const { token: originalToken } = await sessionService.getSessionByUserId(
-			user.id
-		);
+	const rememberMe = checked ? 1 : 0;
 
-		if (!originalToken) {
+	if (success) {
+		const response = await sessionService.getSessionByUserId(user.id);
+
+		if (!response) {
 			const token = generateSecureToken();
 
-			await sessionService.createSession(user.id, token, checked);
+			await sessionService.createSession(user.id, token, rememberMe);
 
 			return { user, token };
 		}
+
+		const { session_token: token } = response;
 
 		let expiration;
 		if (checked) {
@@ -36,9 +38,9 @@ const login = async (email, password, checked) => {
 				.replace('T', ' ');
 		}
 
-		await sessionService.updateSession(user.id, originalToken, expiration);
+		await sessionService.updateSession(user.id, token, expiration);
 
-		return { user, token: originalToken };
+		return { user, token };
 	} else {
 		console.log('Authentication failed at authService.login:', message);
 		throw new Error(message);

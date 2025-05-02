@@ -66,34 +66,16 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const fetchUserData = async () => {
 		setLoading(true);
 
-		// Try getting token from localStorage
-		let token = localStorage.getItem('token');
-
-		// If not found, fallback to cookies
-		if (!token && typeof document !== 'undefined') {
-			const cookies = document.cookie.split(';').reduce((acc, cookie) => {
-				const [key, value] = cookie.trim().split('=');
-				acc[key] = value;
-				return acc;
-			}, {});
-			token = cookies['session_token'];
-		}
-
 		try {
-			const config = token
-				? { headers: { Authorization: `Bearer ${token}` } }
-				: { withCredentials: true };
-
-			const response = await axiosInstance.get(
-				'/api/token/authenticate',
-				config
-			);
+			const response = await axiosInstance.get('/api/token/authenticate', {
+				withCredentials: true,
+			});
 
 			if (response?.data?.message) {
 				setUser(null);
 				return null;
 			}
-			return response.data || null;
+			return response.data.user || null;
 		} catch (error) {
 			console.error('Error authenticating: ', error);
 			setUser(null);
@@ -199,30 +181,15 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 		if (user) {
 			const startInterval = () => {
 				intervalId = setInterval(async () => {
-					// Try getting token from localStorage
-					let token = localStorage.getItem('token');
-
-					// If not found, fallback to cookies
-					if (!token && typeof document !== 'undefined') {
-						const cookies = document.cookie.split(';').reduce((acc, cookie) => {
-							const [key, value] = cookie.trim().split('=');
-							acc[key] = value;
-							return acc;
-						}, {});
-						token = cookies['session_token'];
-					}
-
 					try {
-						const config = token
-							? { headers: { Authorization: `Bearer ${token}` } }
-							: { withCredentials: true };
-
 						const response = await axiosInstance.get(
 							'/api/token/authenticate',
-							config
+							{ withCredentials: true }
 						);
 
-						if (response?.data?.message) {
+						console.log(response);
+
+						if (response?.data?.message || !response.data.tokenValid) {
 							clearInterval(intervalId);
 
 							await axiosInstance.post('/api/auth/logout');
@@ -231,7 +198,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 							setModalOpen(true);
 							setModalType('inactivity');
 
-							return response.data || null;
+							return response.data.user || null;
 						}
 					} catch (error) {
 						console.error('Error authenticating: ', error);
