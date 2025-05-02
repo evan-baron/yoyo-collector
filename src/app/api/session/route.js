@@ -1,5 +1,5 @@
 import sessionService from '@/services/sessionService';
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 const {
 	deleteSessionToken,
 	getSessionByToken,
@@ -36,7 +36,6 @@ export async function GET(req, res) {
 export async function DELETE(req, res) {
 	try {
 		const { userId } = await getUserIdFromToken({
-			headers,
 			cookies,
 		});
 
@@ -62,7 +61,6 @@ export async function DELETE(req, res) {
 export async function PATCH(req, res) {
 	try {
 		const { userId } = await getUserIdFromToken({
-			headers,
 			cookies,
 		});
 

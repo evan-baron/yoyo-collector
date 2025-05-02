@@ -3,7 +3,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import collectionsService from '@/services/collectionsService';
 import uploadsService from '@/services/uploadsService';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 
 cloudinary.config({
 	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -84,7 +84,6 @@ export async function PATCH(req, res) {
 export async function DELETE(req, res) {
 	try {
 		const { userId, valid } = await getUserIdFromToken({
-			headers,
 			cookies,
 		});
 

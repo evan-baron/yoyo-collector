@@ -9,7 +9,7 @@ const {
 	uploadPhoto,
 } = uploadsService;
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
-import { headers, cookies } from 'next/headers';
+import { cookies } from 'next/headers';
 
 cloudinary.config({
 	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -21,7 +21,6 @@ cloudinary.config({
 export async function POST(req, res) {
 	try {
 		const { userId, valid } = await getUserIdFromToken({
-			headers,
 			cookies,
 		});
 
@@ -105,7 +104,6 @@ export async function POST(req, res) {
 export async function GET(req) {
 	try {
 		const { userId, valid } = await getUserIdFromToken({
-			headers,
 			cookies,
 		});
 
@@ -137,7 +135,6 @@ export async function GET(req) {
 export async function DELETE(req) {
 	try {
 		const { userId, valid } = await getUserIdFromToken({
-			headers,
 			cookies,
 		});
 

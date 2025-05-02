@@ -2,12 +2,11 @@ import userService from '@/services/userService';
 const { updateUserSettings, updateWarning } = userService;
 import { NextResponse } from 'next/server';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
-import { headers, cookies } from 'next/headers';
+import { cookies } from 'next/headers';
 
 export async function POST(req) {
 	try {
 		const { userId, valid } = await getUserIdFromToken({
-			headers,
 			cookies,
 		});
 
@@ -133,7 +132,6 @@ export async function POST(req) {
 export async function PATCH(req, res) {
 	try {
 		const { userId, valid } = await getUserIdFromToken({
-			headers,
 			cookies,
 		});
 

@@ -3,7 +3,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import collectionsService from '@/services/collectionsService';
 import uploadsService from '@/services/uploadsService';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 
 const { getCollectionById } = collectionsService;
 
@@ -20,7 +20,6 @@ cloudinary.config({
 export async function POST(req, res) {
 	try {
 		const { userId, valid } = await getUserIdFromToken({
-			headers,
 			cookies,
 		});
 
@@ -135,7 +134,6 @@ export async function POST(req, res) {
 export async function DELETE(req, res) {
 	try {
 		const { userId, valid } = await getUserIdFromToken({
-			headers,
 			cookies,
 		});
 

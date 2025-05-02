@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import collectionsService from '@/services/collectionsService';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
-import { headers, cookies } from 'next/headers';
+import { cookies } from 'next/headers';
 
 const { createCollection, getCollectionByName, getAllCollectionsById } =
 	collectionsService;
@@ -10,7 +10,6 @@ const { createCollection, getCollectionByName, getAllCollectionsById } =
 export async function POST(req, res) {
 	try {
 		const { userId, valid } = await getUserIdFromToken({
-			headers,
 			cookies,
 		});
 
@@ -52,7 +51,6 @@ export async function POST(req, res) {
 export async function GET(req, res) {
 	try {
 		const { userId, valid } = await getUserIdFromToken({
-			headers,
 			cookies,
 		});
 

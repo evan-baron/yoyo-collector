@@ -5,13 +5,9 @@ const createSession = async (userId, token, rememberMe) => {
 	const date = new Date();
 	const diff = date.getTimezoneOffset();
 
-	console.log('offset: ', diff);
-
 	const hoursDiff = diff / 60;
 
 	const diffInMs = hoursDiff * 60 * 60 * 1000;
-
-	console.log(diffInMs);
 
 	let expiration;
 
