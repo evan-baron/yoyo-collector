@@ -12,14 +12,26 @@ const AppContext = createContext(null);
 
 // Create the context provider component
 export const ContextProvider = ({ children, initialUser = null }) => {
-	const [user, setUser] = useState(initialUser);
+	const [collectionToDelete, setCollectionToDelete] = useState(null);
+	const [currentlyEditing, setCurrentlyEditing] = useState(null);
+	const [dirty, setDirty] = useState(false);
+	const [dirtyType, setDirtyType] = useState(null);
+	const [editing, setEditing] = useState(false);
 	const [emailVerified, setEmailVerified] = useState(false);
+	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalType, setModalType] = useState(null);
-	const [resendEmail, setResendEmail] = useState(null);
-	const [timeRemaining, setTimeRemaining] = useState(null);
-	const [tokenValid, setTokenValid] = useState(null);
+	const [newCollectionCounter, setNewCollectionCounter] = useState(0);
+	const [newCollectionData, setNewCollectionData] = useState({
+		collectionName: '',
+		description: '',
+	});
+	const [originalCollectionData, setOriginalCollectionData] = useState({
+		collectionName: '',
+		description: '',
+	});
+	const [pendingRoute, setPendingRoute] = useState(null);
 	const [profileSettingsFormData, setProfileSettingsFormData] = useState({
 		first: '',
 		last: '',
@@ -32,22 +44,10 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 		description: '',
 		privacy: '',
 	});
-	const [originalCollectionData, setOriginalCollectionData] = useState({
-		collectionName: '',
-		description: '',
-	});
-	const [newCollectionData, setNewCollectionData] = useState({
-		collectionName: '',
-		description: '',
-	});
-	const [dirty, setDirty] = useState(false);
-	const [dirtyType, setDirtyType] = useState(null);
-	const [currentlyEditing, setCurrentlyEditing] = useState(null);
-	const [pendingRoute, setPendingRoute] = useState(null);
-	const [error, setError] = useState(null);
-	const [newCollectionCounter, setNewCollectionCounter] = useState(0);
-	const [collectionToDelete, setCollectionToDelete] = useState(null);
-	const [editing, setEditing] = useState(false);
+	const [resendEmail, setResendEmail] = useState(null);
+	const [timeRemaining, setTimeRemaining] = useState(null);
+	const [tokenValid, setTokenValid] = useState(null);
+	const [user, setUser] = useState(initialUser);
 
 	const currentPath = useRef('/');
 	const pathname = usePathname();
@@ -76,7 +76,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				acc[key] = value;
 				return acc;
 			}, {});
-			token = cookies['session_token']; // Adjust name to match your cookie
+			token = cookies['session_token'];
 		}
 
 		try {
