@@ -2,7 +2,7 @@
 import React from 'react';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import axiosInstance from '@/utils/axios';
+import axiosInstance from '@/lib/utils/axios';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 

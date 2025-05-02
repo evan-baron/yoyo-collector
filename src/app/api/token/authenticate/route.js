@@ -8,6 +8,13 @@ export async function GET(req) {
 	try {
 		const authHeader = req.headers.get('authorization');
 		const cookieStore = await cookies();
+
+		const cookieToken = cookieStore.get('session_token')?.value;
+		console.log('cookie token:', cookieToken);
+
+		const headerToken = authHeader?.split(' ')[1];
+		console.log('header token:', headerToken);
+
 		const token =
 			authHeader?.split(' ')[1] || cookieStore.get('session_token')?.value;
 

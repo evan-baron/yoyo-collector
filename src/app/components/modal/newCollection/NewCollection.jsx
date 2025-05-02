@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 // Utils
-import axiosInstance from '@/utils/axios';
+import axiosInstance from '@/lib/utils/axios';
 
 // Styles
 import styles from './newCollection.module.scss';

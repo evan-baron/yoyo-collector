@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Utilities
-import axiosInstance from '@/utils/axios';
+import axiosInstance from '@/lib/utils/axios';
 
 // MUI Icons
 import {

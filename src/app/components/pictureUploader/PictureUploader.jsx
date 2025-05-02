@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 // Utils
 import axios from 'axios';
-import axiosInstance from '@/utils/axios';
+import axiosInstance from '@/lib/utils/axios';
 
 // Styles
 import styles from './pictureUploader.module.scss';

@@ -1,25 +1,47 @@
 import jwt from 'jsonwebtoken';
 import userService from '@/services/userService';
+import sessionService from './sessionService';
 import 'dotenv/config';
+import { generateSecureToken } from '@/lib/utils/generateToken';
 
 const login = async (email, password, checked) => {
-	const user = await userService.authenticateUser(email, password);
+	const { user, success, message } = await userService.authenticateUser(
+		email,
+		password
+	);
 
-	if (user.success) {
-		if (checked) {
-			await userService.updateRememberMe(user.user.id);
+	if (success) {
+		const { token: originalToken } = await sessionService.getSessionByUserId(
+			user.id
+		);
+
+		if (!originalToken) {
+			const token = generateSecureToken();
+
+			await sessionService.createSession(user.id, token, checked);
+
+			return { user, token };
 		}
 
-		const token = jwt.sign(
-			{ userId: user.user.id, email: user.user.email },
-			process.env.JWT_SECRET,
-			// checked ? {} : { expiresIn: '5s' }
-			checked ? {} : { expiresIn: '1h' } // If checked is true, no expiration time (so users never have to worry about logging in again unless they log out)
-		);
-		return { user: user.user, token };
+		let expiration;
+		if (checked) {
+			expiration = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+				.toISOString()
+				.slice(0, 19)
+				.replace('T', ' ');
+		} else {
+			expiration = new Date(Date.now() + 30 * 60 * 1000)
+				.toISOString()
+				.slice(0, 19)
+				.replace('T', ' ');
+		}
+
+		await sessionService.updateSession(user.id, originalToken, expiration);
+
+		return { user, token: originalToken };
 	} else {
-		console.log('Authentication failed at authService.login:', user.message);
-		throw new Error(user.message);
+		console.log('Authentication failed at authService.login:', message);
+		throw new Error(message);
 	}
 };
 

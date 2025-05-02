@@ -209,11 +209,6 @@ const updateUserSettings = async (
 	}
 };
 
-// Update rememberMe
-const updateRememberMe = async (user_id) => {
-	return await userModel.updateRememberMe(user_id);
-};
-
 // Update verified
 const updateVerified = async (user_id, token) => {
 	try {
@@ -248,7 +243,6 @@ export default {
 	getUserById,
 	logUserAction,
 	updatePassword,
-	updateRememberMe,
 	updateUserSettings,
 	updateVerified,
 	updateWarning,

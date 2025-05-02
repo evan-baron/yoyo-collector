@@ -6,10 +6,18 @@ import { headers, cookies } from 'next/headers';
 
 export async function GET(req) {
 	try {
-		const userId = await getUserIdFromToken({
+		const { userId, valid } = await getUserIdFromToken({
 			headers,
 			cookies,
 		});
+
+		if (!userId) {
+			throw new Error('User ID is missing');
+		}
+
+		if (!valid) {
+			throw new Error('Token no longer valid');
+		}
 
 		const category = req.nextUrl.searchParams.get('category');
 

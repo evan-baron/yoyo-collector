@@ -1,5 +1,5 @@
 // Utils
-import axiosInstance from '@/utils/axios';
+import axiosInstance from '@/lib/utils/axios';
 import { redirect } from 'next/navigation';
 
 // Styles

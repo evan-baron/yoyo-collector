@@ -20,13 +20,17 @@ cloudinary.config({
 // Uploading Profile Pictures
 export async function POST(req, res) {
 	try {
-		const userId = await getUserIdFromToken({
+		const { userId, valid } = await getUserIdFromToken({
 			headers,
 			cookies,
 		});
 
 		if (!userId) {
 			throw new Error('User ID is missing');
+		}
+
+		if (!valid) {
+			throw new Error('Token no longer valid');
 		}
 
 		const {
@@ -100,13 +104,17 @@ export async function POST(req, res) {
 // Getting Current User Profile Picture
 export async function GET(req) {
 	try {
-		const userId = await getUserIdFromToken({
+		const { userId, valid } = await getUserIdFromToken({
 			headers,
 			cookies,
 		});
 
 		if (!userId) {
 			throw new Error('User ID is missing');
+		}
+
+		if (!valid) {
+			throw new Error('Token no longer valid');
 		}
 
 		const type = req.nextUrl.searchParams.get('type');
@@ -128,13 +136,17 @@ export async function GET(req) {
 
 export async function DELETE(req) {
 	try {
-		const userId = await getUserIdFromToken({
+		const { userId, valid } = await getUserIdFromToken({
 			headers,
 			cookies,
 		});
 
 		if (!userId) {
-			throw new Error('User ID is required');
+			throw new Error('User ID is missing');
+		}
+
+		if (!valid) {
+			throw new Error('Token no longer valid');
 		}
 
 		const category = req.nextUrl.searchParams.get('category');

@@ -5,7 +5,7 @@ import { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
 // Utils
-import axiosInstance from '@/utils/axios';
+import axiosInstance from '@/lib/utils/axios';
 
 // Create Context
 const AppContext = createContext(null);

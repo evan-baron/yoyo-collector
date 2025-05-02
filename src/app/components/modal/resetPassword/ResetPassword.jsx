@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 // Utilities
-import axiosInstance from '@/utils/axios';
+import axiosInstance from '@/lib/utils/axios';
 
 // MUI Icons
 import { Check, Close, Visibility, VisibilityOff } from '@mui/icons-material';

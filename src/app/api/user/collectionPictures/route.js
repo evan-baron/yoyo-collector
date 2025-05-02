@@ -19,13 +19,17 @@ cloudinary.config({
 // Uploading Collection Pictures
 export async function POST(req, res) {
 	try {
-		const userId = await getUserIdFromToken({
+		const { userId, valid } = await getUserIdFromToken({
 			headers,
 			cookies,
 		});
 
 		if (!userId) {
 			throw new Error('User ID is missing');
+		}
+
+		if (!valid) {
+			throw new Error('Token no longer valid');
 		}
 
 		const {
@@ -130,13 +134,17 @@ export async function POST(req, res) {
 // Deleting Collection Pictures
 export async function DELETE(req, res) {
 	try {
-		const userId = await getUserIdFromToken({
+		const { userId, valid } = await getUserIdFromToken({
 			headers,
 			cookies,
 		});
 
 		if (!userId) {
 			throw new Error('User ID is missing');
+		}
+
+		if (!valid) {
+			throw new Error('Token no longer valid');
 		}
 
 		const { collection, uploadType } = await req.json();

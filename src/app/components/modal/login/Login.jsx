@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '@/utils/axios';
+import axiosInstance from '@/lib/utils/axios';
 import { useRouter } from 'next/navigation';
 import {
 	CheckBox,

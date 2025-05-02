@@ -1,7 +1,7 @@
 import userService from '@/services/userService';
 const { updatePassword } = userService;
 import { NextResponse } from 'next/server';
-import { checkRateLimit } from '@/utils/rateLimiter';
+import { checkRateLimit } from '@/lib/utils/rateLimiter';
 
 export async function POST(req) {
 	try {

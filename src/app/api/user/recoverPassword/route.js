@@ -3,7 +3,7 @@ const { getUserByEmail, generateToken } = userService;
 import mailService from '@/services/mailService';
 const { sendPasswordResetEmail } = mailService;
 import { NextResponse } from 'next/server';
-import { checkRateLimit } from '@/utils/rateLimiter';
+import { checkRateLimit } from '@/lib/utils/rateLimiter';
 
 export async function POST(req) {
 	try {

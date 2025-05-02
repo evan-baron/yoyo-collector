@@ -4,8 +4,8 @@
 import React, { useState, useEffect } from 'react';
 
 // Utils
-import axiosInstance from '@/utils/axios';
-import { trimAndValidate, warningMessage } from '@/helpers/validation';
+import axiosInstance from '@/lib/utils/axios';
+import { trimAndValidate, warningMessage } from '@/lib/helpers/validation';
 
 // Styles
 import styles from './profileSettings.module.scss';

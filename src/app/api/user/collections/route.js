@@ -6,10 +6,10 @@ import { headers, cookies } from 'next/headers';
 const { createCollection, getCollectionByName, getAllCollectionsById } =
 	collectionsService;
 
-// Creat new collection
+// Create new collection
 export async function POST(req, res) {
 	try {
-		const userId = await getUserIdFromToken({
+		const { userId, valid } = await getUserIdFromToken({
 			headers,
 			cookies,
 		});
@@ -18,13 +18,17 @@ export async function POST(req, res) {
 			throw new Error('User ID is missing');
 		}
 
+		if (!valid) {
+			throw new Error('Token no longer valid');
+		}
+
 		const { collection } = await req.json();
 
-		const valid = (param) => /^[A-Za-z0-9\-_.~()"' ]+$/.test(param);
+		const nameValid = (param) => /^[A-Za-z0-9\-_.~()"' ]+$/.test(param);
 
 		const trimmed = collection?.trim();
 
-		if (!valid(trimmed) || !trimmed) {
+		if (!nameValid(trimmed) || !trimmed) {
 			return NextResponse.json(
 				{ message: 'No collection name entered' },
 				{ status: 400 }
@@ -47,13 +51,17 @@ export async function POST(req, res) {
 // GET all collections
 export async function GET(req, res) {
 	try {
-		const userId = await getUserIdFromToken({
+		const { userId, valid } = await getUserIdFromToken({
 			headers,
 			cookies,
 		});
 
 		if (!userId) {
 			throw new Error('User ID is missing');
+		}
+
+		if (!valid) {
+			throw new Error('Token no longer valid');
 		}
 
 		const response = await getAllCollectionsById(userId);

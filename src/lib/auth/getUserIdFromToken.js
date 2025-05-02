@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import axiosInstance from '../utils/axios';
 
 // This now accepts `headers` and `cookies` as parameters.
 export async function getUserIdFromToken({ headers, cookies }) {
@@ -18,10 +18,13 @@ export async function getUserIdFromToken({ headers, cookies }) {
 	}
 
 	try {
-		const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-		return userId;
+		const response = await axiosInstance.get('/api/session', { token });
+
+		const { user_id: userId, valid } = response.data;
+
+		return { userId, valid };
 	} catch (err) {
-		console.error('JWT verification failed:', err);
-		throw new Error('Invalid or expired token');
+		console.error('Token validation failed:', err);
+		throw new Error('Unexpected error fetching userdata from token');
 	}
 }

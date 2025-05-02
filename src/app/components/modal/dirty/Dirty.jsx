@@ -5,8 +5,8 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 
 // Utils
-import axiosInstance from '@/utils/axios';
-import { trimAndValidate, warningMessage } from '@/helpers/validation';
+import axiosInstance from '@/lib/utils/axios';
+import { trimAndValidate, warningMessage } from '@/lib/helpers/validation';
 
 // Styles
 import styles from './dirty.module.scss';

@@ -6,12 +6,18 @@ import { headers, cookies } from 'next/headers';
 
 export async function POST(req) {
 	try {
-		const userId = await getUserIdFromToken({
+		const { userId, valid } = await getUserIdFromToken({
 			headers,
 			cookies,
 		});
 
-		if (!userId) return;
+		if (!userId) {
+			throw new Error('User ID is missing');
+		}
+
+		if (!valid) {
+			throw new Error('Token no longer valid');
+		}
 
 		const newProfileSettings = await req.json();
 
@@ -126,12 +132,18 @@ export async function POST(req) {
 
 export async function PATCH(req, res) {
 	try {
-		const userId = await getUserIdFromToken({
+		const { userId, valid } = await getUserIdFromToken({
 			headers,
 			cookies,
 		});
 
-		if (!userId) return;
+		if (!userId) {
+			throw new Error('User ID is missing');
+		}
+
+		if (!valid) {
+			throw new Error('Token no longer valid');
+		}
 
 		const params = await req.json();
 		const { warningType } = params;

@@ -4,8 +4,8 @@
 import React, { useState, useEffect } from 'react';
 
 // Utils
-import axiosInstance from '@/utils/axios';
-import useCollectionCounter from '@/helpers/collectionCounter';
+import axiosInstance from '@/lib/utils/axios';
+import useCollectionCounter from '@/lib/helpers/collectionCounter';
 
 // Styles
 import styles from './deleteCollection.module.scss';

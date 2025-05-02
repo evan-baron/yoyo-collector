@@ -1,6 +1,6 @@
 // Libraries
 import React, { useState } from 'react';
-import axiosInstance from '@/utils/axios';
+import axiosInstance from '@/lib/utils/axios';
 
 // Styles
 import styles from './verifyEmail.module.scss';

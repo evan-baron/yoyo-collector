@@ -2,7 +2,7 @@ import authService from '@/services/authService';
 const { register } = authService;
 import { NextResponse } from 'next/server';
 import validator from 'validator';
-import { checkRateLimit } from '@/utils/rateLimiter';
+import { checkRateLimit } from '@/lib/utils/rateLimiter';
 
 export async function POST(req) {
 	try {

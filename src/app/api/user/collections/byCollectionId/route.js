@@ -88,10 +88,19 @@ export async function PATCH(req, res) {
 // Delete collection by collectionId
 export async function DELETE(req, res) {
 	try {
-		const userId = await getUserIdFromToken({
-			cookies,
+		const { userId, valid } = await getUserIdFromToken({
 			headers,
+			cookies,
 		});
+
+		if (!userId) {
+			throw new Error('User ID is missing');
+		}
+
+		if (!valid) {
+			throw new Error('Token no longer valid');
+		}
+
 		const { id } = await req.json();
 
 		const getAllCollectionPhotosResponse = await getAllCollectionPhotosByUserId(

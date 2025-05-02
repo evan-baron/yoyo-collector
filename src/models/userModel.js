@@ -151,15 +151,6 @@ const User = {
 		return result.affectedRows > 0;
 	},
 
-	// Update rememberMe
-	async updateRememberMe(user_id) {
-		const [result] = await pool.execute(
-			'UPDATE users SET remember_me = NOT remember_me WHERE id = ?',
-			[user_id]
-		);
-		return result.affectedRows > 0;
-	},
-
 	// Update verified
 	async updateVerified(user_id) {
 		const [result] = await pool.execute(

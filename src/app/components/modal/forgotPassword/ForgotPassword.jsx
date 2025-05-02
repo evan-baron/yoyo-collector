@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { Close } from '@mui/icons-material';
 
 // Utils
-import axiosInstance from '@/utils/axios';
+import axiosInstance from '@/lib/utils/axios';
 
 // Styles
 import styles from './forgotPassword.module.scss';
