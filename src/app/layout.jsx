@@ -42,10 +42,6 @@ export default async function RootLayout({ children }) {
 
 	const token = tokenFromCookie;
 
-	if (!token) {
-		console.error('Token missing');
-	}
-
 	try {
 		const response = await sessionService.getSessionByToken(token);
 
@@ -65,7 +61,7 @@ export default async function RootLayout({ children }) {
 
 		user = userResponse;
 	} catch (err) {
-		console.error('Token validation failed:', err);
+		// Handling this silently, but this means there's no active user or token in the browser
 	}
 
 	return (

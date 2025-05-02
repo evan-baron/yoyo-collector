@@ -65,19 +65,20 @@ const Header = () => {
 		setActive(false);
 		setAnimate(false);
 		try {
-			await axiosInstance.patch('/api/session/rememberMe');
 			setUser(null);
-			await axiosInstance.post('/api/auth/logout', user);
+			await axiosInstance.post('/api/auth/logout', {
+				withCredentials: true,
+			});
 		} catch (error) {
 			console.error('Logout failed: ', error.response?.data || error.message);
 		} finally {
-			setProfileSettingsFormData(null);
-			setCurrentlyEditing(null);
-			setDirty(false);
-			setLoading(false);
-			setModalOpen(false);
-			setModalType(null);
-			router.push('/');
+			// setProfileSettingsFormData(null);
+			// setCurrentlyEditing(null);
+			// setDirty(false);
+			// setLoading(false);
+			// setModalOpen(false);
+			// setModalType(null);
+			// router.push('/');
 		}
 	};
 

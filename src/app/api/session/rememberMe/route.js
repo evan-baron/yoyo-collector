@@ -13,7 +13,7 @@ export async function PATCH(req, res) {
 
 		if (!userId) return;
 
-		const { token } = await getSessionByUserId(userId);
+		const { session_token: token } = await getSessionByUserId(userId);
 
 		await updateRememberMe(userId, token);
 
