@@ -34,10 +34,10 @@ async function Profile() {
 	const cookieStore = await cookies();
 	const tokenFromCookie = cookieStore.get('session_token')?.value;
 
-	const token = tokenFromCookie || tokenFromHeader;
+	const token = tokenFromCookie;
 
 	if (!token) {
-		console.error('Token missing');
+		redirect('/');
 	}
 
 	let profile = {};
@@ -48,7 +48,7 @@ async function Profile() {
 
 		const { user_id, expires_at } = response;
 
-		const tokenValid = expires_at > Date.now();
+		const tokenValid = dayjs(expires_at).isAfter(dayjs());
 
 		if (!tokenValid) {
 			console.error('Token expired or invalid @ mycollections/page.jsx');
@@ -99,6 +99,7 @@ async function Profile() {
 			'Error fetching user or collection data at profile/page:',
 			err
 		);
+		redirect('/');
 	}
 
 	return (

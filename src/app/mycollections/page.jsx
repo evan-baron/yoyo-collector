@@ -3,8 +3,8 @@ import React from 'react';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import sessionService from '@/services/sessionService';
-import userService from '@/services/userService';
 import Link from 'next/link';
+import dayjs from 'dayjs';
 
 // Styles
 import styles from './myCollectionsPage.module.scss';
@@ -19,10 +19,11 @@ async function MyCollections() {
 	const cookieStore = await cookies();
 	const tokenFromCookie = cookieStore.get('session_token')?.value;
 
-	const token = tokenFromCookie || tokenFromHeader;
+	const token = tokenFromCookie;
 
 	if (!token) {
 		console.error('Token missing');
+		redirect('/');
 	}
 
 	try {
@@ -30,7 +31,7 @@ async function MyCollections() {
 
 		const { expires_at } = response;
 
-		const tokenValid = expires_at > Date.now();
+		const tokenValid = dayjs(expires_at).isAfter(dayjs());
 
 		if (!tokenValid) {
 			console.error('token invalid or expired @ mycollections/page.jsx');
@@ -38,6 +39,7 @@ async function MyCollections() {
 		}
 	} catch (err) {
 		console.error('Token validation failed:', err);
+		redirect('/');
 	}
 
 	return (

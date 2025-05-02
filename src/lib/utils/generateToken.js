@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-export function generateSecureToken(length = 22) {
+export function generateSecureToken(length = 64) {
 	const charset =
 		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	const charsetLength = charset.length;

@@ -8,6 +8,7 @@ const {
 } = sessionService;
 import { NextResponse } from 'next/server';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
+import dayjs from 'dayjs';
 
 export async function GET(req, res) {
 	try {
@@ -18,7 +19,7 @@ export async function GET(req, res) {
 
 		const { expires_at } = response;
 
-		const tokenValid = expires_at > Date.now();
+		const tokenValid = dayjs(expires_at).isAfter(dayjs());
 
 		response.valid = tokenValid;
 

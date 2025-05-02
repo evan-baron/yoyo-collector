@@ -2,6 +2,7 @@
 import { cookies } from 'next/headers';
 import userService from '@/services/userService';
 import sessionService from '@/services/sessionService';
+import dayjs from 'dayjs';
 
 // Context
 import { ContextProvider } from './context/AppContext';
@@ -47,7 +48,7 @@ export default async function RootLayout({ children }) {
 
 		const { user_id, expires_at } = response;
 
-		const tokenValid = expires_at > Date.now();
+		const tokenValid = dayjs(expires_at).isAfter(dayjs());
 
 		if (!tokenValid) {
 			console.error('Token expired');

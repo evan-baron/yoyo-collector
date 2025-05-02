@@ -2,15 +2,26 @@ import sessionModel from '@/models/sessionModel';
 
 // Create new session
 const createSession = async (userId, token, rememberMe) => {
+	const date = new Date();
+	const diff = date.getTimezoneOffset();
+
+	console.log('offset: ', diff);
+
+	const hoursDiff = diff / 60;
+
+	const diffInMs = hoursDiff * 60 * 60 * 1000;
+
+	console.log(diffInMs);
+
 	let expiration;
 
 	if (rememberMe === 1) {
-		expiration = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+		expiration = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000 - diffInMs)
 			.toISOString()
 			.slice(0, 19)
 			.replace('T', ' ');
 	} else {
-		expiration = new Date(Date.now() + 30 * 60 * 1000)
+		expiration = new Date(Date.now() + 30 * 60 * 1000 - diffInMs)
 			.toISOString()
 			.slice(0, 19)
 			.replace('T', ' ');

@@ -4,6 +4,7 @@ import userService from '@/services/userService';
 const { getUserById } = userService;
 import sessionService from '@/services/sessionService';
 const { getSessionByToken } = sessionService;
+import dayjs from 'dayjs';
 
 export async function GET(req) {
 	try {
@@ -29,7 +30,12 @@ export async function GET(req) {
 
 		const { user_id: userId, expires_at } = session;
 
-		const tokenValid = expires_at > Date.now();
+		console.log('right now in UTC:', new Date(Date.now()));
+		console.log('expires at should be in UTC now', expires_at);
+
+		const tokenValid = dayjs(expires_at).isAfter(dayjs());
+
+		console.log(tokenValid);
 
 		const user = await getUserById(userId);
 
