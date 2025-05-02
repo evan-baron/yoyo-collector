@@ -45,7 +45,11 @@ export default async function RootLayout({ children }) {
 			user = await userService.getUserById(decoded.userId);
 			if (user?.password) delete user.password;
 		} catch (err) {
-			console.error('Token authentication error in layout.jsx:', err);
+			if (err instanceof jwt.TokenExpiredError) {
+				// The token expired...
+			} else {
+				console.error('Token authentication error in layout.jsx:', err);
+			}
 		}
 	}
 

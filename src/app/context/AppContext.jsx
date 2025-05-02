@@ -1,8 +1,8 @@
 'use client';
 
 // Libraries
-import { createContext, useContext, useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { createContext, useContext, useState, useEffect, useRef } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
 // Utils
 import axiosInstance from '@/utils/axios';
@@ -49,6 +49,13 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [collectionToDelete, setCollectionToDelete] = useState(null);
 	const [editing, setEditing] = useState(false);
 
+	const currentPath = useRef('/');
+	const pathname = usePathname();
+
+	useEffect(() => {
+		currentPath.current = pathname;
+	}, [pathname]);
+
 	const router = useRouter();
 
 	// URL & Query Parameters
@@ -58,7 +65,19 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	// Helper function to fetch user data
 	const fetchUserData = async () => {
 		setLoading(true);
-		const token = localStorage.getItem('token');
+
+		// Try getting token from localStorage
+		let token = localStorage.getItem('token');
+
+		// If not found, fallback to cookies
+		if (!token && typeof document !== 'undefined') {
+			const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+				const [key, value] = cookie.trim().split('=');
+				acc[key] = value;
+				return acc;
+			}, {});
+			token = cookies['session_token']; // Adjust name to match your cookie
+		}
 
 		try {
 			const config = token
@@ -173,6 +192,62 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 		};
 		fetchAndValidate();
 	}, []);
+
+	useEffect(() => {
+		let intervalId;
+
+		if (user) {
+			const startInterval = () => {
+				intervalId = setInterval(async () => {
+					// Try getting token from localStorage
+					let token = localStorage.getItem('token');
+
+					// If not found, fallback to cookies
+					if (!token && typeof document !== 'undefined') {
+						const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+							const [key, value] = cookie.trim().split('=');
+							acc[key] = value;
+							return acc;
+						}, {});
+						token = cookies['session_token'];
+					}
+
+					try {
+						const config = token
+							? { headers: { Authorization: `Bearer ${token}` } }
+							: { withCredentials: true };
+
+						const response = await axiosInstance.get(
+							'/api/token/authenticate',
+							config
+						);
+
+						if (response?.data?.message) {
+							clearInterval(intervalId);
+
+							await axiosInstance.post('/api/auth/logout');
+							setPendingRoute(currentPath.current);
+							setUser(null);
+							setModalOpen(true);
+							setModalType('inactivity');
+
+							return response.data || null;
+						}
+					} catch (error) {
+						console.error('Error authenticating: ', error);
+
+						return null;
+					}
+				}, 900000); // CHANGE BACK TO 900000
+			};
+
+			startInterval();
+		}
+
+		return () => {
+			clearInterval(intervalId);
+		};
+	}, [user]);
 
 	useEffect(() => {
 		if (!user) return;

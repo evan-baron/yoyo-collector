@@ -4,6 +4,8 @@ import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
 import { checkRateLimit } from '@/utils/rateLimiter';
 import validator from 'validator';
+import jwt from 'jsonwebtoken';
+import { jwtDecode } from 'jwt-decode';
 
 export async function POST(req) {
 	try {
@@ -38,8 +40,8 @@ export async function POST(req) {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
 			sameSite: 'Strict',
-			maxAge: 5 * 1000, // 1 hour expiration
-			// maxAge: 60 * 60 * 1000, // 1 hour expiration
+			// maxAge: 5 * 1000, // 5 second expiration
+			maxAge: 60 * 60, // 1 hour expiration
 			path: '/',
 		});
 
@@ -54,6 +56,6 @@ export async function POST(req) {
 		return response;
 	} catch (err) {
 		console.log('Login error at api/auth/login/route.js:', err);
-		return NextResponse.json({ message: err.message }, { status: 500 });
+		return NextResponse.json({ message: err.message }, { status: 401 });
 	}
 }

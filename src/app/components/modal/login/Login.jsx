@@ -15,7 +15,7 @@ import styles from './login.module.scss';
 import LoadingSpinner from '../../loading/LoadingSpinner';
 
 const Login = () => {
-	const { setModalOpen, setModalType, setUser } = useAppContext();
+	const { setModalOpen, setModalType, setUser, pendingRoute } = useAppContext();
 
 	const [formData, setFormData] = useState({
 		email: '',
@@ -71,19 +71,30 @@ const Login = () => {
 
 				// Sets current user
 				setUser(response.data.user);
-			} catch (error) {
-				console.error('Login error: ', error.response?.message);
-				setLoginError(
-					error.response ? error.response.data.message : 'An error occurred'
-				);
-			} finally {
+
 				// Redirects to user profile
-				router.push('/profile');
+				if (pendingRoute) {
+					router.push(pendingRoute);
+				} else {
+					router.push('/profile');
+				}
 
 				// Closes modal
 				setModalOpen(false);
-				setLoadingScreen(false);
 				setFormComplete(false);
+			} catch (error) {
+				const status = error?.response?.status;
+
+				if (status === 401) {
+					// Invalid credentials — not a console error, just user feedback
+					setLoginError('Incorrect email or password.');
+				} else {
+					// Unexpected server/network issue — log it and show generic error
+					console.error('Login error:', error);
+					setLoginError('Something went wrong. Please try again later.');
+				}
+			} finally {
+				setLoadingScreen(false);
 			}
 		}
 	};

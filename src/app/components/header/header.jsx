@@ -65,6 +65,7 @@ const Header = () => {
 		setActive(false);
 		setAnimate(false);
 		try {
+			await axiosInstance.patch('/api/user/rememberMe');
 			localStorage.removeItem('token');
 			localStorage.removeItem('user');
 			setUser(null);

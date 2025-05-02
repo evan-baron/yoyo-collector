@@ -11,10 +11,7 @@ export async function POST(req) {
 			req.ip ||
 			'anonymous';
 
-		console.log('there is likely an error before the rate limiter');
 		await checkRateLimit(ip);
-
-		console.log('you made it past the check rate limit');
 
 		const passwordValid =
 			password.length >= 8 &&

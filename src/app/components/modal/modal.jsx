@@ -13,6 +13,7 @@ import Dirty from './dirty/Dirty';
 import NewCollection from './newCollection/NewCollection';
 import ErrorModal from './error/ErrorModal';
 import DeleteCollection from './deleteCollection/DeleteCollection';
+import Inactivity from './inactivity/Inactivity';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -47,6 +48,8 @@ function Modal() {
 				return <ErrorModal />;
 			case 'delete-collection':
 				return <DeleteCollection />;
+			case 'inactivity':
+				return <Inactivity />;
 			default:
 				return <div>Modal</div>;
 		}

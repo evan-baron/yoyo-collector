@@ -94,7 +94,6 @@ function ProfileSettings() {
 
 	// Functions
 	const handleChange = (e) => {
-		// console.log(e);
 		const key = e.currentTarget.dataset.value;
 		if (key && e.currentTarget.dataset.name === 'undo') {
 			setError((prev) => prev?.filter(([attribute]) => attribute !== key));

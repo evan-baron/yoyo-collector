@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
+import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import userService from '@/services/userService';
 const { getUserById } = userService;
 
@@ -32,13 +32,20 @@ export async function GET(req) {
 
 		return NextResponse.json(user);
 	} catch (err) {
-		console.error(
-			'Error during token verification at /api/token/authenticate/route.js:',
-			err
-		);
-		return NextResponse.json(
-			{ message: 'Invalid or expired token' },
-			{ status: 200 }
-		);
+		if (err instanceof JsonWebTokenError) {
+			return NextResponse.json(
+				{ message: 'Invalid or expired token' },
+				{ status: 200 }
+			);
+		} else {
+			console.error(
+				'Error during token verification at /api/token/authenticate/route.js:',
+				err
+			);
+			return NextResponse.json(
+				{ message: 'Unexpected error at api/token/authenticate' },
+				{ status: 500 }
+			);
+		}
 	}
 }
