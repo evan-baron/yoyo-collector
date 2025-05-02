@@ -2,7 +2,9 @@
 import React from 'react';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import axiosInstance from '@/lib/utils/axios';
+import sessionService from '@/services/sessionService';
+import userService from '@/services/userService';
+import collectionsService from '@/services/collectionsService';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 
@@ -30,32 +32,30 @@ import CollectionsTiles from '../components/collectionsTiles/CollectionsTiles';
 
 async function Profile() {
 	const cookieStore = await cookies();
-	const token = cookieStore.get('session_token')?.value;
-	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+	const tokenFromCookie = cookieStore.get('session_token')?.value;
+
+	const token = tokenFromCookie || tokenFromHeader;
 
 	if (!token) {
-		redirect('/');
+		console.error('Token missing');
 	}
 
 	let profile = {};
 	let userCollections = [];
 
 	try {
-		const response = await axiosInstance.get(
-			`${baseUrl}/api/token/authenticate/`,
-			{
-				withCredentials: true,
-			}
-		);
+		const response = await sessionService.getSessionByToken(token);
 
-		const { user, tokenValid } = response.data;
+		const { user_id, expires_at } = response;
 
-		console.log(response.data);
+		const tokenValid = expires_at > Date.now();
 
 		if (!tokenValid) {
-			console.error('token invalid or expired @ profile/page.jsx');
+			console.error('Token expired or invalid @ mycollections/page.jsx');
 			redirect('/');
 		}
+
+		const user = await userService.getUserById(user_id);
 
 		const {
 			first_name,
@@ -89,17 +89,16 @@ async function Profile() {
 			memberSince: dayjs(created_at).format('MMMM, D, YYYY'),
 		};
 
-		const collectionData = await axiosInstance.get(
-			`${baseUrl}/api/user/collections/`,
-			{
-				withCredentials: true,
-			}
+		const collectionData = await collectionsService.getAllCollectionsById(
+			user_id
 		);
 
-		userCollections = collectionData.data;
-	} catch (error) {
-		console.error('Error fetching user data:', error);
-		redirect('/');
+		userCollections = collectionData;
+	} catch (err) {
+		console.error(
+			'Error fetching user or collection data at profile/page:',
+			err
+		);
 	}
 
 	return (
