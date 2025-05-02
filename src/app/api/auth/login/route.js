@@ -4,8 +4,6 @@ import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
 import { checkRateLimit } from '@/utils/rateLimiter';
 import validator from 'validator';
-import jwt from 'jsonwebtoken';
-import { jwtDecode } from 'jwt-decode';
 
 export async function POST(req) {
 	try {
