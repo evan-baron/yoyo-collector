@@ -1,6 +1,5 @@
 // Libraries
 import React from 'react';
-import Link from 'next/link';
 
 // Styles
 import styles from './thankYou.module.scss';
@@ -12,19 +11,22 @@ import { Close } from '@mui/icons-material';
 import { useAppContext } from '@/app/context/AppContext';
 
 function ThankYou() {
-	const { setModalOpen } = useAppContext();
+	const { setModalType, setModalOpen } = useAppContext();
 
 	return (
 		<div className={styles.thanks}>
-			<h2 className={styles.h2}>Thank you for verifying your email.</h2>
+			<h2 className={styles.h2}>
+				Thank you for verifying your email. Please login.
+			</h2>
 
-			<Link
-				href='/profile'
+			<button
 				className={styles.button}
-				onClick={() => setModalOpen(false)}
+				onClick={() => {
+					setModalType('login');
+				}}
 			>
-				Continue to Profile
-			</Link>
+				Login
+			</button>
 
 			<div className={styles.close} onClick={() => setModalOpen(false)}>
 				<Close sx={{ fontSize: '2rem' }} />

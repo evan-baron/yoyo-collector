@@ -1,6 +1,7 @@
 import userService from '@/services/userService';
-const { getTokenData } = userService;
 import { NextResponse } from 'next/server';
+import { generateSecureToken } from '@/lib/utils/generateToken';
+import sessionService from '@/services/sessionService';
 
 export async function PUT(req) {
 	try {
@@ -16,11 +17,17 @@ export async function PUT(req) {
 		// Update email_verified on user and token_used on token
 		await userService.updateVerified(id, token);
 
-		// Grab the user data and send back to frontend
-		const userData = await userService.getUserById(id);
+		// // Create token for new user/login
+		// const sessionToken = generateSecureToken();
+
+		// // Create session for new user (0 for rememberMe because they didn't check the box yet)
+		// await sessionService.createSession(id, sessionToken, 0);
+
+		// // Grab the user data and send back to frontend
+		// const userData = await userService.getUserById(id);
 
 		return NextResponse.json({
-			userData,
+			validated: true,
 		});
 	} catch (err) {
 		console.error(

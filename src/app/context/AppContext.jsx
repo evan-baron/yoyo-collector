@@ -139,11 +139,14 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 						}
 					);
 
-					const { userData } = response.data;
-					if (!userData) return;
-					setUser(userData);
+					const { validated } = response.data;
+
+					if (!validated) return;
+
 					router.push(window.location.pathname);
+
 					setModalOpen(true);
+
 					setModalType('thank-you');
 
 					// If the token is a password recovery token
