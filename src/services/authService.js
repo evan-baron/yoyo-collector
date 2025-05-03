@@ -28,16 +28,15 @@ const login = async (email, password, checked) => {
 		const date = new Date();
 		const diff = date.getTimezoneOffset();
 
-		console.log('offset: ', diff);
-
 		const hoursDiff = diff / 60;
 
 		const diffInMs = hoursDiff * 60 * 60 * 1000;
 
-		console.log(diffInMs);
-
 		let expiration;
-		if (checked) {
+
+		if (rememberMe) {
+			await sessionService.updateRememberMe(user.id, token);
+
 			expiration = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000 - diffInMs)
 				.toISOString()
 				.slice(0, 19)
@@ -47,8 +46,6 @@ const login = async (email, password, checked) => {
 				.toISOString()
 				.slice(0, 19)
 				.replace('T', ' ');
-
-			console.log(expiration);
 		}
 
 		await sessionService.updateSession(user.id, token, expiration);
