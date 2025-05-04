@@ -43,17 +43,21 @@ export default async function RootLayout({ children }) {
 
 	const token = tokenFromCookie;
 
+	const response = await sessionService.getSessionByToken(token);
+
+	const { user_id, expires_at, remember_me } = response;
+
+	const tokenValid = dayjs(expires_at).isAfter(dayjs());
+
+	if (!tokenValid) {
+		console.log('From layout.jsx: token expired');
+	}
+
+	if (token && tokenValid) {
+		await sessionService.extendSession(user_id, token, remember_me);
+	}
+
 	try {
-		const response = await sessionService.getSessionByToken(token);
-
-		const { user_id, expires_at } = response;
-
-		const tokenValid = dayjs(expires_at).isAfter(dayjs());
-
-		if (!tokenValid) {
-			console.log('From layout.jsx: token expired');
-		}
-
 		const userResponse = await userService.getUserById(user_id);
 
 		if (userResponse.password) {
