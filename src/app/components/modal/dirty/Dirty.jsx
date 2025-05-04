@@ -80,7 +80,12 @@ function Dirty() {
 					'/api/user/updateSettings',
 					submitData
 				);
-				const user = response.data.user;
+				const user = Object.fromEntries(
+					Object.entries(response.data.user).map(([key, value]) => [
+						key,
+						value === null ? '' : value,
+					])
+				);
 				setUser(user);
 				setProfileSettingsFormData({
 					first: user.first_name || '',

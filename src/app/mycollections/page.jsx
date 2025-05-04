@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import sessionService from '@/services/sessionService';
 import Link from 'next/link';
 import dayjs from 'dayjs';
+import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 
 // Styles
 import styles from './myCollectionsPage.module.scss';
@@ -16,31 +17,7 @@ import { West } from '@mui/icons-material';
 import CollectionsTiles from '../components/collectionsTiles/CollectionsTiles';
 
 async function MyCollections() {
-	const cookieStore = await cookies();
-	const tokenFromCookie = cookieStore.get('session_token')?.value;
-
-	const token = tokenFromCookie;
-
-	if (!token) {
-		console.error('Token missing');
-		redirect('/');
-	}
-
-	try {
-		const response = await sessionService.getSessionByToken(token);
-
-		const { expires_at } = response;
-
-		const tokenValid = dayjs(expires_at).isAfter(dayjs());
-
-		if (!tokenValid) {
-			console.error('token invalid or expired @ mycollections/page.jsx');
-			redirect('/');
-		}
-	} catch (err) {
-		console.error('Token validation failed:', err);
-		redirect('/');
-	}
+	await validateAndExtendSession('mycollections/page.jsx');
 
 	return (
 		<div className={styles['my-collections-container']}>

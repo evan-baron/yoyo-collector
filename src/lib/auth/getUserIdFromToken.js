@@ -3,7 +3,7 @@ import axiosInstance from '../utils/axios';
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 // This now accepts `headers` and `cookies` as parameters.
-export async function getUserIdFromToken({ headers, cookies }) {
+export async function getUserIdFromToken({ cookies }) {
 	const cookieStore = await cookies();
 	const tokenFromCookie = cookieStore.get('session_token')?.value;
 	const token = tokenFromCookie;
@@ -16,6 +16,8 @@ export async function getUserIdFromToken({ headers, cookies }) {
 		const response = await axiosInstance.get(
 			`${baseUrl}/api/session?token=${token}`
 		);
+
+		console.log('this is coming from getuseridfromtoken');
 
 		const { user_id: userId, valid } = response.data;
 

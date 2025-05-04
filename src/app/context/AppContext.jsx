@@ -64,6 +64,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 
 	// Helper function to fetch user data
 	const fetchUserData = async () => {
+		console.log('fetching user data from app context');
 		setLoading(true);
 
 		try {
@@ -71,7 +72,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				withCredentials: true,
 			});
 
-			if (response?.data?.message) {
+			if (response?.data?.message || !response.data.tokenValid) {
 				setUser(null);
 				return null;
 			}
@@ -189,8 +190,6 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 							'/api/token/authenticate',
 							{ withCredentials: true }
 						);
-
-						console.log(response);
 
 						if (response?.data?.message || !response.data.tokenValid) {
 							clearInterval(intervalId);

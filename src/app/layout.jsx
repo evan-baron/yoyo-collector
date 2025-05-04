@@ -1,8 +1,6 @@
 // Libraries
-import { cookies } from 'next/headers';
 import userService from '@/services/userService';
-import sessionService from '@/services/sessionService';
-import dayjs from 'dayjs';
+import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 
 // Context
 import { ContextProvider } from './context/AppContext';
@@ -36,24 +34,11 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
+	const { user_id } = validateAndExtendSession('layout.jsx');
+
 	let user;
 
-	const cookieStore = await cookies();
-	const tokenFromCookie = cookieStore.get('session_token')?.value;
-
-	const token = tokenFromCookie;
-
 	try {
-		const response = await sessionService.getSessionByToken(token);
-
-		const { user_id, expires_at } = response;
-
-		const tokenValid = dayjs(expires_at).isAfter(dayjs());
-
-		if (!tokenValid) {
-			console.error('Token expired');
-		}
-
 		const userResponse = await userService.getUserById(user_id);
 
 		if (userResponse.password) {

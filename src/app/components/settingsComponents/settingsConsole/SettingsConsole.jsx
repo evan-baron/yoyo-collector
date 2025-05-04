@@ -35,10 +35,10 @@ function SettingsConsole() {
 			selected: false,
 			component: AccountSettings,
 		},
-		// Collection: {
-		// 	selected: false,
-		// 	component: CollectionSettings,
-		// },
+		Collection: {
+			selected: false,
+			component: CollectionSettings,
+		},
 		Password: {
 			selected: false,
 			component: PasswordSecuritySettings,

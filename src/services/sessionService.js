@@ -37,7 +37,28 @@ const deleteSessionToken = async (userId, token) => {
 };
 
 // Extend session
-const extendSession = async (userId, token, expiration) => {
+const extendSession = async (userId, token, rememberMe) => {
+	const date = new Date();
+	const diff = date.getTimezoneOffset();
+
+	const hoursDiff = diff / 60;
+
+	const diffInMs = hoursDiff * 60 * 60 * 1000;
+
+	let expiration;
+
+	if (rememberMe === 1) {
+		expiration = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000 - diffInMs)
+			.toISOString()
+			.slice(0, 19)
+			.replace('T', ' ');
+	} else {
+		expiration = new Date(Date.now() + 30 * 60 * 1000 - diffInMs)
+			.toISOString()
+			.slice(0, 19)
+			.replace('T', ' ');
+	}
+
 	return await sessionModel.extendSession(userId, token, expiration);
 };
 

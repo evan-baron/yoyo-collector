@@ -1,7 +1,6 @@
 import { cookies } from 'next/headers';
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
-import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 import sessionService from '@/services/sessionService';
 
 export async function POST(req) {

@@ -1,12 +1,11 @@
 // Libraries
 import React from 'react';
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
-import sessionService from '@/services/sessionService';
 import userService from '@/services/userService';
 import collectionsService from '@/services/collectionsService';
 import Link from 'next/link';
 import dayjs from 'dayjs';
+import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 
 // Styles
 import styles from './profile.module.scss';
@@ -31,30 +30,12 @@ import CollectionTile from '../components/collectionTile/CollectionTile';
 import CollectionsTiles from '../components/collectionsTiles/CollectionsTiles';
 
 async function Profile() {
-	const cookieStore = await cookies();
-	const tokenFromCookie = cookieStore.get('session_token')?.value;
-
-	const token = tokenFromCookie;
-
-	if (!token) {
-		redirect('/');
-	}
+	const { user_id } = await validateAndExtendSession('profile/page.jsx');
 
 	let profile = {};
 	let userCollections = [];
 
 	try {
-		const response = await sessionService.getSessionByToken(token);
-
-		const { user_id, expires_at } = response;
-
-		const tokenValid = dayjs(expires_at).isAfter(dayjs());
-
-		if (!tokenValid) {
-			console.error('Token expired or invalid @ mycollections/page.jsx');
-			redirect('/');
-		}
-
 		const user = await userService.getUserById(user_id);
 
 		const {
