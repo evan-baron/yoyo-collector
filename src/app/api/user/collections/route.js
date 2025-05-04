@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import collectionsService from '@/services/collectionsService';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 import { cookies } from 'next/headers';
+import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 
 const { createCollection, getCollectionByName, getAllCollectionsById } =
 	collectionsService;
@@ -37,6 +38,8 @@ export async function POST(req, res) {
 		await createCollection(userId, collection);
 
 		const response = await getCollectionByName(userId, collection);
+
+		await validateAndExtendSession('api/user/collections/route.js POST');
 
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {

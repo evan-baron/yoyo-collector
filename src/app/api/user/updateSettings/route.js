@@ -3,6 +3,7 @@ const { updateUserSettings, updateWarning } = userService;
 import { NextResponse } from 'next/server';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 import { cookies } from 'next/headers';
+import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 
 export async function POST(req) {
 	try {
@@ -115,6 +116,8 @@ export async function POST(req) {
 			yoyo,
 			userId
 		);
+
+		await validateAndExtendSession('api/user/updateSettings/route.js POST');
 
 		return NextResponse.json(
 			{

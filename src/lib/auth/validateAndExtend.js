@@ -25,9 +25,11 @@ export async function validateAndExtendSession(sourceLabel = 'unknown') {
 	if (!tokenValid) {
 		console.error(`Token expired or invalid @ ${sourceLabel}`);
 		redirect('/');
-	}
+	} else {
+		await sessionService.extendSession(user_id, token, remember_me);
 
-	await sessionService.extendSession(user_id, token, remember_me);
+		console.log(`Session extended from ${sourceLabel}`);
+	}
 
 	return session;
 }

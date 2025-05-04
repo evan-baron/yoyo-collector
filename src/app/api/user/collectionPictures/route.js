@@ -4,6 +4,7 @@ import collectionsService from '@/services/collectionsService';
 import uploadsService from '@/services/uploadsService';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 import { cookies } from 'next/headers';
+import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 
 const { getCollectionById } = collectionsService;
 
@@ -69,6 +70,10 @@ export async function POST(req, res) {
 				collectionId
 			);
 
+			await validateAndExtendSession(
+				'api/user/collectionPictures/route.js POST'
+			);
+
 			return NextResponse.json(uploadResponse, { status: 201 });
 		} else if (category === 'cover' && uploadAction === 'update') {
 			const allPhotos = await getAllCollectionPhotos(collectionId);
@@ -102,6 +107,10 @@ export async function POST(req, res) {
 				collectionId
 			);
 
+			await validateAndExtendSession(
+				'api/user/collectionPictures/route.js POST'
+			);
+
 			return NextResponse.json(uploadResponse, { status: 201 });
 		} else {
 			const uploadResponse = await uploadPhoto(
@@ -115,6 +124,10 @@ export async function POST(req, res) {
 				width,
 				category,
 				collectionId
+			);
+
+			await validateAndExtendSession(
+				'api/user/collectionPictures/route.js POST'
 			);
 
 			return NextResponse.json(uploadResponse, { status: 201 });
@@ -158,6 +171,10 @@ export async function DELETE(req, res) {
 		}
 
 		await deletePhoto(userId, photoId);
+
+		await validateAndExtendSession(
+			'api/user/collectionPictures/route.js DELETE'
+		);
 
 		return NextResponse.json({ message: `${uploadType} picture deleted` });
 	} catch (error) {

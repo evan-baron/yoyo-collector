@@ -4,6 +4,7 @@ import collectionsService from '@/services/collectionsService';
 import uploadsService from '@/services/uploadsService';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 import { cookies } from 'next/headers';
+import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 
 cloudinary.config({
 	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -68,6 +69,10 @@ export async function PATCH(req, res) {
 
 		const response = await updateCollection(title, id, description);
 
+		await validateAndExtendSession(
+			'api/user/collections/byCollectionId/route.js PATCH'
+		);
+
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {
 		return NextResponse.json(
@@ -114,6 +119,10 @@ export async function DELETE(req, res) {
 			collection: deleteCollectionResponse,
 			uploads: deleteUploadsResponse,
 		};
+
+		await validateAndExtendSession(
+			'api/user/collections/byCollectionId/route.js DELETE'
+		);
 
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {

@@ -10,6 +10,7 @@ const {
 } = uploadsService;
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 import { cookies } from 'next/headers';
+import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 
 cloudinary.config({
 	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -57,6 +58,8 @@ export async function POST(req, res) {
 				category
 			);
 
+			await validateAndExtendSession('api/user/profilePictures/route.js POST');
+
 			return NextResponse.json(uploadResponse, { status: 201 });
 		} else if (category === 'profile' && uploadAction === 'update') {
 			const response = await getPhotosByUserIdAndCategory(userId, 'profile');
@@ -76,6 +79,8 @@ export async function POST(req, res) {
 				width
 			);
 
+			await validateAndExtendSession('api/user/profilePictures/route.js POST');
+
 			return NextResponse.json(uploadResponse, { status: 201 });
 		} else {
 			const uploadResponse = await uploadPhoto(
@@ -89,6 +94,8 @@ export async function POST(req, res) {
 				width,
 				category
 			);
+
+			await validateAndExtendSession('api/user/profilePictures/route.js POST');
 
 			return NextResponse.json(uploadResponse, { status: 201 });
 		}
@@ -157,6 +164,8 @@ export async function DELETE(req) {
 		}
 
 		await deletePhoto(userId, null, category);
+
+		await validateAndExtendSession('api/user/profilePictures/route.js DELETE');
 
 		return NextResponse.json({ message: `${category} picture deleted` });
 	} catch (error) {
