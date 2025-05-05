@@ -166,7 +166,11 @@ async function Profile() {
 						<h2 className={styles.h2}>
 							Your {userCollections.length > 1 ? 'Collections' : 'Collection'}:
 						</h2>
-						<CollectionsTiles size='small' collectionType={'user'} />
+						<CollectionsTiles
+							size='small'
+							collectionType={'user'}
+							scroll={'click'} // Click for the scroll with click nav dots, auto for default map
+						/>
 					</div>
 					<div className={styles['favorites-container']}>
 						<h2 className={styles.h2}>Favorites:</h2>

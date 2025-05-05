@@ -89,7 +89,7 @@ function NewCollection() {
 	return (
 		<div className={styles.container}>
 			<h2 className={styles.h2}>
-				{collectionCreated ? 'Go To Collection?' : 'New Collection'}
+				{collectionCreated ? 'Go to new collection?' : 'New Collection'}
 			</h2>
 			{!collectionCreated && (
 				<div className={styles['collection-input']}>
