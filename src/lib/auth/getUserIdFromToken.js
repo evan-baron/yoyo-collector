@@ -17,8 +17,6 @@ export async function getUserIdFromToken({ cookies }) {
 			`${baseUrl}/api/session?token=${token}`
 		);
 
-		console.log('this is coming from getuseridfromtoken');
-
 		const { user_id: userId, valid } = response.data;
 
 		return { userId, valid };

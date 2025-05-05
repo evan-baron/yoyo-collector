@@ -20,6 +20,7 @@ import EditableDescription from './editableDescription/EditableDescription';
 import EditableTitle from './editableTitle/EditableTitle';
 import Heart from '../icons/heart/Heart';
 import LoadingSpinner from '../loading/LoadingSpinner';
+import CollectionPhotos from '../collectionPhotos/CollectionPhotos';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -174,7 +175,7 @@ function EditableCollectionTemplate({ collection, photos }) {
 					<div className={styles.details}>
 						<h3 className={styles.h3}>Created {created}</h3>
 						<p className={styles.likes}>
-							<Heart />
+							<Heart likes={likes} size='small' />
 							{likes ? likes : '69'} likes
 						</p>
 					</div>
@@ -220,12 +221,18 @@ function EditableCollectionTemplate({ collection, photos }) {
 						<div className={styles.right}>
 							<h2 className={styles.h2}>Collection Photos</h2>
 							<div className={styles.photos}>
-								<div className={styles.grid}>
+								<CollectionPhotos
+									collectionId={id}
+									collectionType='user'
+									scroll='click'
+									setCoverPhoto={setCoverPhoto}
+								/>
+								{/* <div className={styles.grid}>
+									<PictureUploader uploadType='collection' collection={id} />
 									<div className={styles.photo}></div>
 									<div className={styles.photo}></div>
 									<div className={styles.photo}></div>
-									<div className={styles.photo}></div>
-								</div>
+								</div> */}
 							</div>
 						</div>
 					</section>
@@ -272,7 +279,7 @@ function EditableCollectionTemplate({ collection, photos }) {
 						<Edit className={styles['settings-icon']} />
 					)}
 					<p className={styles.settings}>
-						{editing ? 'Save Changes' : 'Edit Collection'}
+						{editing ? 'Save Changes' : 'Edit Collection Details'}
 					</p>
 				</button>
 			</div>

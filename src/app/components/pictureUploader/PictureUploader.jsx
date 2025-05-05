@@ -19,6 +19,7 @@ import { useAppContext } from '@/app/context/AppContext';
 // Components
 import BlankProfilePhoto from '../blankProfilePhoto/BlankProfilePhoto';
 import BlankCoverPhoto from '../blankCoverPhoto/BlankCoverPhoto';
+import NewCollectionTile from '../newCollectionTile/NewCollectionTile';
 
 function PictureUploader({
 	uploadType,
@@ -47,7 +48,7 @@ function PictureUploader({
 	const fileInputRef = useRef(null);
 
 	// Handle upload
-	const handleUpload = (e) => {
+	const handleUpload = async (e) => {
 		if (!e.target.files.length) return;
 
 		const size = e.target.files[0]?.size;
@@ -62,6 +63,77 @@ function PictureUploader({
 			} else {
 				setUploadAction('update');
 			}
+
+			if (uploadType === 'collection') {
+				const file = e.target.files[0];
+
+				const formData = new FormData();
+
+				// UPLOAD TYPES: PROFILE, COVER, COLLECTION, YOYO
+				const preset = {
+					profile: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_PROFILE,
+					cover: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_COLLECTION,
+					collection:
+						process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_COLLECTION,
+					yoyo: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_YOYO,
+				};
+
+				formData.append('file', file);
+				formData.append('upload_preset', preset[uploadType]);
+
+				try {
+					setLoading(true);
+					const response = await axios.post(
+						'https://api.cloudinary.com/v1_1/ddbotvjio/image/upload',
+						formData
+					);
+
+					const {
+						public_id,
+						secure_url,
+						format,
+						resource_type,
+						bytes,
+						height,
+						width,
+					} = response.data;
+
+					const uploadData = {
+						public_id,
+						secure_url,
+						format,
+						resource_type,
+						bytes,
+						height,
+						width,
+						category: uploadType,
+						uploadAction,
+					};
+
+					try {
+						uploadData.collectionId = collection;
+
+						await axiosInstance.post(
+							'/api/user/collectionPictures',
+							uploadData
+						);
+					} catch (error) {
+						console.log('There was an error saving the photo:', error);
+					} finally {
+						setImageToUpload(null);
+						setUpdatingPicture(false);
+					}
+				} catch (err) {
+					console.error(
+						'Upload error:',
+						err.response?.data?.error?.message || 'Failed to upload image'
+					);
+				} finally {
+					setLoading(false);
+				}
+				return;
+			}
+
 			setError(null);
 			setUpdatingPicture(true);
 			setImageToUpload(e.target.files[0]);
@@ -75,8 +147,8 @@ function PictureUploader({
 
 		if (!file) return;
 
-		if (file.size > 5242880) {
-			setError('File must not exceed 5mb');
+		if (file.size > 4194304) {
+			setError('File must not exceed 4mb');
 			return;
 		} else {
 			const formData = new FormData();
@@ -202,9 +274,12 @@ function PictureUploader({
 			<div className={styles['picture-container']}>
 				<label
 					htmlFor='fileInput'
-					className={`${styles.placeholder} ${
-						uploadType === 'profile' ? styles.circle : styles.square
-					} ${editing && styles.glowing}`}
+					className={`
+						${styles.placeholder} 
+						${uploadType === 'profile' ? styles.circle : styles.square} 
+						${editing && styles.glowing} 
+						${uploadType === 'collection' && styles.collection}
+					`}
 				>
 					<input
 						name='fileInput'
@@ -218,20 +293,25 @@ function PictureUploader({
 							uploadType === 'profile' ? styles.circle : styles.square
 						}`}
 					/>
-					<div
-						className={`${styles.options} ${
-							uploadType === 'profile' ? styles.circle : styles.square
-						}`}
-					>
+					{uploadType !== 'collection' && (
 						<div
-							className={`${styles.update} ${
+							className={`${styles.options} ${
 								uploadType === 'profile' ? styles.circle : styles.square
 							}`}
 						>
-							<FileUpload className={styles.upload} />
-							{picture || previewUrl ? 'Change' : 'Upload Photo'}
+							<div
+								className={`${styles.update} ${
+									uploadType === 'profile' ? styles.circle : styles.square
+								}`}
+								style={{
+									fontSize: uploadType === 'collection' ? '2rem' : '3rem',
+								}}
+							>
+								<FileUpload className={styles.upload} />
+								{picture || previewUrl ? 'Change' : 'Upload Photo'}
+							</div>
 						</div>
-					</div>
+					)}
 					{previewUrl ? (
 						<img
 							src={previewUrl}
@@ -250,8 +330,10 @@ function PictureUploader({
 						/>
 					) : uploadType === 'profile' ? (
 						<BlankProfilePhoto />
-					) : (
+					) : uploadType === 'cover' ? (
 						<BlankCoverPhoto />
+					) : (
+						<div className={styles.new}></div>
 					)}
 				</label>
 				{remove && (
@@ -281,38 +363,44 @@ function PictureUploader({
 					</div>
 				)}
 			</div>
-			<div className={styles.buttons}>
-				{updatingPicture && (
-					<Undo
-						className={styles.undo}
-						onClick={() => {
-							setImageToUpload(null);
-							setUpdatingPicture(null);
-							setPreviewUrl(null);
-							if (fileInputRef.current) {
-								fileInputRef.current.value = '';
-							}
-						}}
-					/>
-				)}
-				<label className={styles.button} htmlFor='fileInput'>
-					{picture || previewUrl ? 'Change' : 'Upload Photo'}
-				</label>
-				{previewUrl && (
-					<button className={styles.button} type='button' onClick={handleSave}>
-						Save
-					</button>
-				)}
-				{picture && !updatingPicture && (
-					<button
-						className={styles.button}
-						type='button'
-						onClick={() => setRemove(true)}
-					>
-						Remove
-					</button>
-				)}
-			</div>
+			{uploadType !== 'collection' && (
+				<div className={styles.buttons}>
+					{updatingPicture && (
+						<Undo
+							className={styles.undo}
+							onClick={() => {
+								setImageToUpload(null);
+								setUpdatingPicture(null);
+								setPreviewUrl(null);
+								if (fileInputRef.current) {
+									fileInputRef.current.value = '';
+								}
+							}}
+						/>
+					)}
+					<label className={styles.button} htmlFor='fileInput'>
+						{picture || previewUrl ? 'Change' : 'Upload Photo'}
+					</label>
+					{previewUrl && (
+						<button
+							className={styles.button}
+							type='button'
+							onClick={handleSave}
+						>
+							Save
+						</button>
+					)}
+					{picture && !updatingPicture && (
+						<button
+							className={styles.button}
+							type='button'
+							onClick={() => setRemove(true)}
+						>
+							Remove
+						</button>
+					)}
+				</div>
+			)}
 			{error && <p className={styles.error}>{error}</p>}
 		</div>
 	);

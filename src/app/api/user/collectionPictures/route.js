@@ -8,8 +8,13 @@ import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 
 const { getCollectionById } = collectionsService;
 
-const { uploadPhoto, getAllCollectionPhotos, updateCoverPhoto, deletePhoto } =
-	uploadsService;
+const {
+	uploadPhoto,
+	getAllCollectionPhotos,
+	updateCoverPhoto,
+	deletePhoto,
+	switchCoverPhoto,
+} = uploadsService;
 
 cloudinary.config({
 	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -94,7 +99,6 @@ export async function POST(req, res) {
 			// Destroy the old cover photo
 			await cloudinary.uploader.destroy(existingCover.public_id);
 
-			// // NEED TO ADD UPDATE COVER PHOTO LOGIC
 			const uploadResponse = await updateCoverPhoto(
 				userId,
 				public_id,
@@ -181,6 +185,41 @@ export async function DELETE(req, res) {
 		return NextResponse.json(
 			{
 				'There was an error deleting a picture at /api/user/collectionPictures DELETE':
+					error.message,
+			},
+			{ status: 500 }
+		);
+	}
+}
+
+// Changing Cover Photo
+export async function PATCH(req, res) {
+	try {
+		const { collectionId, newCover } = await req.json();
+
+		const allPhotos = await getAllCollectionPhotos(collectionId);
+
+		const existingCover = allPhotos.find(
+			(photo) => photo.upload_category === 'cover'
+		);
+
+		if (!existingCover) {
+			// do nothing, handling this gracefully
+		}
+
+		const { id: oldCover } = existingCover;
+
+		// change existing cover photo to collection photo, new photo id from collection to cover
+
+		const response = await switchCoverPhoto(oldCover, newCover, collectionId);
+
+		await validateAndExtendSession('api/user/collectionPictures/route.js POST');
+
+		return NextResponse.json(response, { status: 201 });
+	} catch (error) {
+		return NextResponse.json(
+			{
+				'There was an error changing the cover photo at /api/user/collectionPictures PATCH':
 					error.message,
 			},
 			{ status: 500 }

@@ -55,6 +55,11 @@ const getPhotoById = async (photoId) => {
 	return await uploadsModel.getPhotoById(photoId);
 };
 
+// Switch cover photos
+const switchCoverPhoto = async (oldCover, newCover, collectionId) => {
+	return await uploadsModel.switchCoverPhoto(oldCover, newCover, collectionId);
+};
+
 // Upload a photo
 const uploadPhoto = async (
 	userId,
@@ -191,6 +196,7 @@ export default {
 	getAllCollectionPhotosByUserId,
 	getPhotoById,
 	getPhotosByUserIdAndCategory,
+	switchCoverPhoto,
 	updateCoverPhoto,
 	updateProfilePicture,
 	uploadPhoto,
