@@ -163,13 +163,11 @@ async function Profile() {
 				<section className={styles.right}>
 					<div className={styles['collections-container']}>
 						{/* MAKE THE PLURAL CONDITIONAL ON COLLECTIONS.LENGTH */}
-						<h2 className={styles.h2}>
-							Your {userCollections.length > 1 ? 'Collections' : 'Collection'}:
-						</h2>
 						<CollectionsTiles
 							size='small'
 							collectionType={'user'}
 							scroll={'click'} // Click for the scroll with click nav dots, auto for default map
+							page={'profile'}
 						/>
 					</div>
 					<div className={styles['favorites-container']}>

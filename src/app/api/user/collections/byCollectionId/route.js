@@ -106,6 +106,7 @@ export async function DELETE(req, res) {
 			userId,
 			id
 		);
+
 		const publicIds = getAllCollectionPhotosResponse.map(
 			(photo) => photo.public_id
 		);

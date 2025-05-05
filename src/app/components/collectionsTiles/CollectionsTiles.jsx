@@ -18,7 +18,7 @@ import LoadingSpinner from '../loading/LoadingSpinner';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function CollectionsTiles({ scroll, size, collectionType }) {
+function CollectionsTiles({ scroll, size, collectionType, userName, page }) {
 	const { newCollectionCounter } = useAppContext();
 
 	const [loading, setLoading] = useState(true);
@@ -126,35 +126,43 @@ function CollectionsTiles({ scroll, size, collectionType }) {
 			);
 		}
 
-		if (!loading) {
-			return (
-				<div
-					className={styles['collections-tiles']}
-					style={{
-						gap: size === 'small' ? '0 1rem' : '0 2rem',
-					}}
-				>
-					{size !== 'small' && collectionType === 'user' && (
-						<NewCollectionTile size={size} />
-					)}
-					{collections &&
-						collections.map((collection, index) => {
-							return (
-								<CollectionTile
-									key={index}
-									collectionData={collection}
-									currentUser={true}
-									size={size}
-									collectionType={collectionType}
-								/>
-							);
-						})}
-				</div>
-			);
-		}
+		return (
+			<div
+				className={styles['collections-tiles']}
+				style={{
+					gap: size === 'small' ? '0 1rem' : '0 2rem',
+				}}
+			>
+				{size !== 'small' && collectionType === 'user' && (
+					<NewCollectionTile size={size} />
+				)}
+				{collections &&
+					collections.map((collection, index) => {
+						return (
+							<CollectionTile
+								key={index}
+								collectionData={collection}
+								currentUser={true}
+								size={size}
+								collectionType={collectionType}
+							/>
+						);
+					})}
+			</div>
+		);
 	};
 
-	return <>{renderCollections()}</>;
+	return (
+		<>
+			{page === 'profile' && (
+				<h2 className={styles.h2}>
+					{collectionType === 'user' ? 'Your' : `${userName}'s`}{' '}
+					{collections.length > 1 ? 'Collections' : 'Collection'}:
+				</h2>
+			)}
+			{renderCollections()}
+		</>
+	);
 }
 
 export default CollectionsTiles;
