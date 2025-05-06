@@ -29,7 +29,8 @@ function PictureUploader({
 	editing,
 }) {
 	// Context
-	const { loading, setLoading, user, setUser } = useAppContext();
+	const { loading, setLoading, user, setUser, setNewCollectionCounter } =
+		useAppContext();
 
 	// State to hold the uploaded image URL
 	const [imageToUpload, setImageToUpload] = useState(null);
@@ -46,6 +47,49 @@ function PictureUploader({
 	}, [user, defaultUrl]);
 
 	const fileInputRef = useRef(null);
+
+	// Helpers
+	const getPreset = (uploadType) => {
+		const preset = {
+			profile: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_PROFILE,
+			cover: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_COLLECTION,
+			collection: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_COLLECTION,
+			yoyo: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_YOYO,
+		};
+		return preset[uploadType];
+	};
+
+	// Upload to cloudinary
+	const cloudinaryData = async (formData) => {
+		const response = await axios.post(
+			'https://api.cloudinary.com/v1_1/ddbotvjio/image/upload',
+			formData
+		);
+
+		const {
+			public_id,
+			secure_url,
+			format,
+			resource_type,
+			bytes,
+			height,
+			width,
+		} = response.data;
+
+		const cloudinaryData = {
+			public_id,
+			secure_url,
+			format,
+			resource_type,
+			bytes,
+			height,
+			width,
+			category: uploadType,
+			uploadAction,
+		};
+
+		return cloudinaryData;
+	};
 
 	// Handle upload
 	const handleUpload = async (e) => {
@@ -69,17 +113,10 @@ function PictureUploader({
 
 				const formData = new FormData();
 
-				// UPLOAD TYPES: PROFILE, COVER, COLLECTION, YOYO
-				const preset = {
-					profile: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_PROFILE,
-					cover: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_COLLECTION,
-					collection:
-						process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_COLLECTION,
-					yoyo: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_YOYO,
-				};
+				const preset = getPreset(uploadType);
 
 				formData.append('file', file);
-				formData.append('upload_preset', preset[uploadType]);
+				formData.append('upload_preset', preset);
 
 				try {
 					setLoading(true);
@@ -143,96 +180,64 @@ function PictureUploader({
 
 	// Handle save
 	const handleSave = async () => {
-		const file = imageToUpload;
+		if (!imageToUpload) return;
 
-		if (!file) return;
-
-		if (file.size > 4194304) {
+		if (imageToUpload.size > 4194304) {
 			setError('File must not exceed 4mb');
 			return;
-		} else {
-			const formData = new FormData();
+		}
 
-			// UPLOAD TYPES: PROFILE, COVER, COLLECTION, YOYO
-			const preset = {
-				profile: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_PROFILE,
-				cover: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_COLLECTION,
-				collection: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_COLLECTION,
-				yoyo: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_YOYO,
-			};
+		const formData = new FormData();
 
-			formData.append('file', file);
-			formData.append('upload_preset', preset[uploadType]);
+		const preset = getPreset(uploadType);
 
-			try {
-				setLoading(true);
-				const response = await axios.post(
-					'https://api.cloudinary.com/v1_1/ddbotvjio/image/upload',
-					formData
+		formData.append('file', imageToUpload);
+		formData.append('upload_preset', preset);
+
+		setLoading(true);
+		try {
+			// Uploading to cloudinary first
+			const uploadData = await cloudinaryData(formData);
+
+			if (uploadType === 'profile') {
+				const response = await axiosInstance.post(
+					'/api/user/profilePictures',
+					uploadData
+				);
+				const { profilePicture } = response.data;
+
+				setUser((prev) => ({
+					...prev,
+					secure_url: profilePicture.secure_url,
+				}));
+			} else if (uploadType === 'cover') {
+				uploadData.collectionId = collection;
+
+				const response = await axiosInstance.post(
+					'/api/user/collectionPictures',
+					uploadData
 				);
 
-				const {
-					public_id,
-					secure_url,
-					format,
-					resource_type,
-					bytes,
-					height,
-					width,
-				} = response.data;
+				const { coverPhoto } = response.data;
+				setPicture(coverPhoto.secure_url);
+				setCoverPhoto(coverPhoto.secure_url);
+			} else if (uploadType === 'collection' || uploadType === 'yoyo') {
+				uploadData.collectionId = collection;
 
-				const uploadData = {
-					public_id,
-					secure_url,
-					format,
-					resource_type,
-					bytes,
-					height,
-					width,
-					category: uploadType,
-					uploadAction,
-				};
-
-				try {
-					if (uploadType === 'profile') {
-						const response = await axiosInstance.post(
-							'/api/user/profilePictures',
-							uploadData
-						);
-						const { profilePicture } = response.data;
-
-						setUser((prev) => ({
-							...prev,
-							secure_url: profilePicture.secure_url,
-						}));
-					} else if (uploadType === 'cover') {
-						uploadData.collectionId = collection;
-
-						const response = await axiosInstance.post(
-							'/api/user/collectionPictures',
-							uploadData
-						);
-
-						const { coverPhoto } = response.data;
-						setPicture(coverPhoto.secure_url);
-						setCoverPhoto(coverPhoto.secure_url);
-					} else {
-						console.log('do nothing');
-					}
-				} catch (error) {
-					console.log('There was an error saving the photo:', error);
-				} finally {
-					setImageToUpload(null);
-					setUpdatingPicture(false);
-				}
-			} catch (err) {
-				console.error(
-					'Upload error:',
-					err.response?.data?.error?.message || 'Failed to upload image'
-				);
-			} finally {
-				setLoading(false);
+				await axiosInstance.post('/api/user/collectionPictures', uploadData);
+			} else {
+				console.error('Unrecognized upload type');
 			}
+		} catch (err) {
+			console.error(
+				'Upload error:',
+				err.response?.data?.error?.message || 'Failed to upload image'
+			);
+		} finally {
+			setLoading(false);
+			setImageToUpload(null);
+			setUpdatingPicture(false);
+			setNewCollectionCounter((prev) => (prev += 1));
 		}
 	};
 
@@ -266,6 +271,8 @@ function PictureUploader({
 			setRemove(false);
 		} catch (error) {
 			console.error('There was an error deleting the photo:', error.message);
+		} finally {
+			setNewCollectionCounter((prev) => (prev += 1));
 		}
 	};
 
@@ -277,9 +284,12 @@ function PictureUploader({
 					className={`
 						${styles.placeholder} 
 						${uploadType === 'profile' ? styles.circle : styles.square} 
-						${editing && styles.glowing} 
+						${editing && !picture && styles.glowing} 
 						${uploadType === 'collection' && styles.collection}
 					`}
+					style={{
+						boxShadow: uploadType === 'cover' && '0 0 1.5rem black',
+					}}
 				>
 					<input
 						name='fileInput'

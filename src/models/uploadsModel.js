@@ -68,6 +68,17 @@ const Uploads = {
 		return rows;
 	},
 
+	// Set cover photo
+	async setCoverPhoto(newCover, collectionId) {
+		const [rows] = await pool.execute(
+			`UPDATE user_uploads
+			SET upload_category = 'cover'
+			WHERE id = ? AND collection_id = ?`,
+			[newCover, collectionId]
+		);
+		return rows;
+	},
+
 	// Switch cover photo
 	async switchCoverPhoto(oldCover, newCover, collectionId) {
 		try {
@@ -92,44 +103,6 @@ const Uploads = {
 			console.error('Error switching cover photo:', error);
 			throw error;
 		}
-	},
-
-	// Update cover photo in db
-	async updateCoverPhoto(
-		userId,
-		publicId,
-		secureUrl,
-		format,
-		resourceType,
-		bytes,
-		height,
-		width,
-		collectionId
-	) {
-		const [result] = await pool.execute(
-			`UPDATE user_uploads 
-				SET public_id = ?, 
-				secure_url = ?, 
-				format = ?, 
-				resource_type = ?, 
-				bytes = ?, 
-				height = ?, 
-				width = ?, 
-				updated_at = NOW()
-				WHERE user_id = ? AND collection_id = ? AND upload_category = 'cover'`,
-			[
-				publicId,
-				secureUrl,
-				format,
-				resourceType,
-				bytes,
-				height,
-				width,
-				userId,
-				collectionId,
-			]
-		);
-		return result;
 	},
 
 	// Update profile photo in db

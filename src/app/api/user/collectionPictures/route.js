@@ -11,8 +11,8 @@ const { getCollectionById } = collectionsService;
 const {
 	uploadPhoto,
 	getAllCollectionPhotos,
-	updateCoverPhoto,
 	deletePhoto,
+	setCoverPhoto,
 	switchCoverPhoto,
 } = uploadsService;
 
@@ -51,6 +51,13 @@ export async function POST(req, res) {
 		} = await req.json();
 
 		const response = await getCollectionById(collectionId);
+		console.log(
+			'from collectionpictures route line 56',
+			'category:',
+			category,
+			'uploadAction:',
+			uploadAction
+		);
 
 		if (userId !== response.collectionData.user_id)
 			return NextResponse.json(
@@ -87,19 +94,7 @@ export async function POST(req, res) {
 				(photo) => photo.upload_category === 'cover'
 			);
 
-			if (!existingCover) {
-				return NextResponse.json(
-					{
-						message: 'No existing cover photo found for this collection',
-					},
-					{ status: 404 }
-				);
-			}
-
-			// Destroy the old cover photo
-			await cloudinary.uploader.destroy(existingCover.public_id);
-
-			const uploadResponse = await updateCoverPhoto(
+			const uploadResponse = await uploadPhoto(
 				userId,
 				public_id,
 				secure_url,
@@ -108,6 +103,13 @@ export async function POST(req, res) {
 				bytes,
 				height,
 				width,
+				category,
+				collectionId
+			);
+
+			await switchCoverPhoto(
+				existingCover.id,
+				uploadResponse.coverPhoto.id,
 				collectionId
 			);
 
@@ -204,7 +206,9 @@ export async function PATCH(req, res) {
 		);
 
 		if (!existingCover) {
-			// do nothing, handling this gracefully
+			const response = await setCoverPhoto(newCover, collectionId);
+
+			return NextResponse.json(response, { status: 201 });
 		}
 
 		const { id: oldCover } = existingCover;

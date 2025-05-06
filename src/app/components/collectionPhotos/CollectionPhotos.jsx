@@ -27,7 +27,7 @@ function CollectionPhotos({
 }) {
 	// collection is the collection id
 
-	const { newCollectionCounter, setNewCollectionCounter } = useAppContext();
+	const { newCollectionCounter } = useAppContext();
 
 	const [photos, setPhotos] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -79,7 +79,7 @@ function CollectionPhotos({
 	const renderCollections = () => {
 		if (photos.length === 0 && !loading) {
 			return (
-				<div className={styles['collections-tiles']}>
+				<div className={styles['photo-tiles']}>
 					<PictureUploader uploadType='collection' collection={collectionId} />
 				</div>
 			);

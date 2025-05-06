@@ -55,6 +55,11 @@ const getPhotoById = async (photoId) => {
 	return await uploadsModel.getPhotoById(photoId);
 };
 
+// Set cover photo
+const setCoverPhoto = async (newCover, collectionId) => {
+	return await uploadsModel.setCoverPhoto(newCover, collectionId);
+};
+
 // Switch cover photos
 const switchCoverPhoto = async (oldCover, newCover, collectionId) => {
 	return await uploadsModel.switchCoverPhoto(oldCover, newCover, collectionId);
@@ -98,9 +103,7 @@ const uploadPhoto = async (
 				userId,
 				category
 			);
-			const coverPhoto = photos.find(
-				(photo) => (photo.collection_id = collectionId)
-			);
+			const coverPhoto = photos.find((photo) => photo.public_id === publicId);
 			return coverPhoto ? { coverPhoto } : null;
 		}
 
@@ -110,49 +113,6 @@ const uploadPhoto = async (
 	} catch (error) {
 		console.error('Error uploading photo:', error.message);
 		throw error;
-	}
-};
-
-// Update cover photo
-const updateCoverPhoto = async (
-	userId,
-	publicId,
-	secureUrl,
-	format,
-	resourceType,
-	bytes,
-	height,
-	width,
-	collectionId
-) => {
-	try {
-		await uploadsModel.updateCoverPhoto(
-			userId,
-			publicId,
-			secureUrl,
-			format,
-			resourceType,
-			bytes,
-			height,
-			width,
-			collectionId
-		);
-
-		const coverPhoto = await uploadsModel.getPhotosByIdAndCategory(
-			userId,
-			'cover'
-		);
-
-		return {
-			coverPhoto: coverPhoto.find(
-				(photo) => photo.collection_id === collectionId
-			),
-		};
-	} catch (error) {
-		console.error(
-			'Error updating cover photo at uploadsService:',
-			error.message
-		);
 	}
 };
 
@@ -196,8 +156,8 @@ export default {
 	getAllCollectionPhotosByUserId,
 	getPhotoById,
 	getPhotosByUserIdAndCategory,
+	setCoverPhoto,
 	switchCoverPhoto,
-	updateCoverPhoto,
 	updateProfilePicture,
 	uploadPhoto,
 };
