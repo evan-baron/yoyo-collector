@@ -30,10 +30,12 @@ function CollectionPhoto({
 		secure_url: photoUrl,
 	} = photoData;
 
-	const { setModalOpen, setModalType } = useAppContext();
+	const { setModalOpen, setModalType, setNewCollectionCounter } =
+		useAppContext();
 
 	const [hover, setHover] = useState(false);
-	const [changeCover, setChangeCover] = useState(false);
+	const [changeModal, setChangeModal] = useState(false);
+	const [changeModalType, setChangeModalType] = useState(false);
 
 	function handleDelete() {
 		setPhotoToDelete(photoId);
@@ -41,25 +43,39 @@ function CollectionPhoto({
 		setModalType('delete-collection');
 	}
 
-	function handleChangeCover() {
-		setChangeCover((prev) => !prev);
-	}
-
-	async function handleSaveCover() {
-		try {
-			await axiosInstance.patch('/api/user/collectionPictures', {
-				collectionId,
-				newCover: photoId,
-			});
-			setCoverPhoto(photoUrl);
-		} catch (error) {
-			console.error(
-				'There was an error changing the cover phoot at components/collectionPhoto:',
-				error.message
-			);
-			setChangeCover(false);
-		} finally {
-			setChangeCover(false);
+	async function handleSave() {
+		if (changeModalType === 'cover') {
+			try {
+				await axiosInstance.patch('/api/user/collectionPictures', {
+					collectionId,
+					newCover: photoId,
+				});
+				setCoverPhoto(photoUrl);
+			} catch (error) {
+				console.error(
+					'There was an error changing the cover photo at components/collectionPhoto:',
+					error.message
+				);
+			} finally {
+				setChangeModal(false);
+			}
+		} else if (changeModalType === 'delete') {
+			try {
+				await axiosInstance.delete('/api/user/collectionPictures', {
+					data: {
+						collection: collectionId,
+						photoId,
+					},
+				});
+			} catch (error) {
+				console.error(
+					'There was an error deleting the photo at components/collectionPhoto:',
+					error.message
+				);
+			} finally {
+				setNewCollectionCounter((prev) => (prev += 1));
+				setChangeModal(false);
+			}
 		}
 	}
 
@@ -71,14 +87,24 @@ function CollectionPhoto({
 				onMouseLeave={() => setHover(false)}
 			>
 				<img className={styles.image} src={photoUrl} />
-				{changeCover ? (
+				{changeModal ? (
 					<div className={styles.change}>
-						<h3 className={styles.h3}>Set as cover photo?</h3>
+						<h3 className={styles.h3}>
+							{changeModalType === 'cover'
+								? 'Set as cover photo?'
+								: 'Delete photo?'}
+						</h3>
 						<div className={styles.buttons}>
-							<button className={styles.button} onClick={handleSaveCover}>
+							<button className={styles.button} onClick={handleSave}>
 								Yes
 							</button>
-							<button className={styles.button} onClick={handleChangeCover}>
+							<button
+								className={styles.button}
+								onClick={() => {
+									setChangeModal((prev) => !prev);
+									setChangeModalType(null);
+								}}
+							>
 								No
 							</button>
 						</div>
@@ -106,7 +132,8 @@ function CollectionPhoto({
 								<div
 									className={styles.option}
 									onClick={() => {
-										console.log(photoData);
+										setChangeModal((prev) => !prev);
+										setChangeModalType('delete');
 									}}
 								>
 									<DeleteOutline className={styles.icon} />
@@ -114,7 +141,13 @@ function CollectionPhoto({
 							)}
 						</div>
 						{currentUser && (
-							<div className={styles.cover} onClick={handleChangeCover}>
+							<div
+								className={styles.cover}
+								onClick={() => {
+									setChangeModal((prev) => !prev);
+									setChangeModalType('cover');
+								}}
+							>
 								Set Cover Photo
 							</div>
 						)}

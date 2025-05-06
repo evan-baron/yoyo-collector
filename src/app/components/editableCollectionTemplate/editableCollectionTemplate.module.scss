@@ -173,7 +173,7 @@
 						aspect-ratio: 1;
 						object-fit: cover;
 						border-radius: 0.5rem;
-						box-shadow: 0 0 1.5rem black;
+						box-shadow: 0.25rem 0.25rem 1rem black;
 					}
 				}
 			}
@@ -185,6 +185,27 @@
 				flex-direction: column;
 				align-items: center;
 				gap: 1rem;
+
+				.titles {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					gap: 1rem;
+
+					.divider {
+						height: 100%;
+						border: 1px solid var(--lightestGray);
+					}
+
+					.h2 {
+						cursor: pointer;
+						opacity: 0.5;
+
+						&.selected {
+							opacity: 1;
+						}
+					}
+				}
 
 				.photos {
 					width: 100%;
@@ -214,48 +235,48 @@
 						}
 					}
 				}
-				// border: 1px solid white;
-			}
-		}
 
-		.yoyos-container {
-			width: 100%;
-
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 1rem;
-
-			.sort {
-				width: 100%;
-
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				gap: 1rem;
-
-				.style {
-					padding: 0.25rem 0.5rem;
-					border-radius: 0.5rem;
-					border: 1px solid white;
-				}
-			}
-
-			.yoyos {
-				width: 70%;
-
-				display: flex;
-				flex-direction: column;
-				gap: 1rem;
-
-				.tile {
+				.yoyos-container {
 					width: 100%;
-					height: 15rem;
 
-					text-align: center;
-					border-radius: 0.5rem;
-					border: 1px solid white;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					gap: 1rem;
+
+					.sort {
+						width: 100%;
+
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						gap: 1rem;
+
+						.style {
+							padding: 0.25rem 0.5rem;
+							border-radius: 0.5rem;
+							border: 1px solid white;
+						}
+					}
+
+					.yoyos {
+						width: 100%;
+
+						display: flex;
+						flex-direction: column;
+						gap: 1rem;
+
+						.tile {
+							width: 100%;
+							height: 15rem;
+
+							text-align: center;
+							border-radius: 0.5rem;
+							border: 1px solid white;
+						}
+					}
 				}
+				// border: 1px solid white;
 			}
 		}
 	}

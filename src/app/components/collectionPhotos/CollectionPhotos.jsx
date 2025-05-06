@@ -48,8 +48,6 @@ function CollectionPhotos({
 
 				const { collectionPhotos } = collectionData.data;
 
-				console.log(collectionPhotos);
-
 				setPhotos(collectionPhotos);
 
 				if (collectionPhotos.length > 4) {
@@ -90,47 +88,47 @@ function CollectionPhotos({
 			);
 		}
 
-		if (photos.length > 4 && scroll === 'click') {
-			return (
-				<div className={styles['photo-tiles-nav']}>
-					{splitUpCollection.map((splitCollection, index) => {
-						return (
-							visibleTile === index && (
-								<div className={styles['sub-collection']} key={index}>
-									<div className={styles['photo-tiles']}>
-										{splitCollection.map((photo, colIndex) => {
-											return (
-												<CollectionPhoto
-													key={colIndex}
-													photoData={photo}
-													currentUser={true} // Change this when on profiles page, not profile page. This is for current user viewing their own profile, not viewing other people's profiles
-													collectionType={collectionType}
-												/>
-											);
-										})}
-									</div>
-								</div>
-							)
-						);
-					})}
-					<div className={styles.dots}>
-						{splitUpCollection.map((_, dotIndex) => {
-							return (
-								<div
-									className={`${styles.dot} ${
-										visibleTile === dotIndex && styles.selected
-									}`}
-									key={dotIndex}
-									onClick={() => {
-										setVisibleTile(dotIndex);
-									}}
-								></div>
-							);
-						})}
-					</div>
-				</div>
-			);
-		}
+		// if (photos.length > 4 && scroll === 'click') {
+		// 	return (
+		// 		<div className={styles['photo-tiles-nav']}>
+		// 			{splitUpCollection.map((splitCollection, index) => {
+		// 				return (
+		// 					visibleTile === index && (
+		// 						<div className={styles['sub-collection']} key={index}>
+		// 							<div className={styles['photo-tiles']}>
+		// 								{splitCollection.map((photo, colIndex) => {
+		// 									return (
+		// 										<CollectionPhoto
+		// 											key={colIndex}
+		// 											photoData={photo}
+		// 											currentUser={true} // Change this when on profiles page, not profile page. This is for current user viewing their own profile, not viewing other people's profiles
+		// 											collectionType={collectionType}
+		// 										/>
+		// 									);
+		// 								})}
+		// 							</div>
+		// 						</div>
+		// 					)
+		// 				);
+		// 			})}
+		// 			<div className={styles.dots}>
+		// 				{splitUpCollection.map((_, dotIndex) => {
+		// 					return (
+		// 						<div
+		// 							className={`${styles.dot} ${
+		// 								visibleTile === dotIndex && styles.selected
+		// 							}`}
+		// 							key={dotIndex}
+		// 							onClick={() => {
+		// 								setVisibleTile(dotIndex);
+		// 							}}
+		// 						></div>
+		// 					);
+		// 				})}
+		// 			</div>
+		// 		</div>
+		// 	);
+		// }
 
 		return (
 			<div className={styles['photo-tiles']}>

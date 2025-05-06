@@ -55,6 +55,7 @@ function EditableCollectionTemplate({ collection, photos }) {
 	});
 	const [pendingData, setPendingData] = useState({ ...formData });
 	const [coverPhoto, setCoverPhoto] = useState(originalCoverPhoto);
+	const [selected, setSelected] = useState('collection');
 
 	useEffect(() => {
 		setOriginalCollectionData({
@@ -221,37 +222,58 @@ function EditableCollectionTemplate({ collection, photos }) {
 							</div>
 						</div>
 						<div className={styles.right}>
-							<h2 className={styles.h2}>Collection Photos</h2>
-							<div className={styles.photos}>
-								<CollectionPhotos
-									collectionId={id}
-									collectionType='user'
-									scroll='click'
-									setCoverPhoto={setCoverPhoto}
-								/>
+							<div className={styles.titles}>
+								<h2
+									className={`
+										${styles.h2} 
+										${(selected === 'collection' || !selected) && styles.selected}`}
+									onClick={() => setSelected('collection')}
+								>
+									Collection Photos
+								</h2>
+								<div className={styles.divider}></div>
+								<h2
+									className={`
+										${styles.h2} 
+										${(selected === 'yoyos' || !selected) && styles.selected}
+									`}
+									onClick={() => setSelected('yoyos')}
+								>
+									Yoyos
+								</h2>
 							</div>
-						</div>
-					</section>
-					<section className={styles['yoyos-container']}>
-						<h2 className={styles.h2}>Yoyos</h2>
-						<div className={styles.sort}>
-							<div className={styles.style}>Photos Only</div>
-							<div className={styles.style}>Details Only</div>
-							<div className={styles.style}>Photos and Details</div>
-						</div>
-						<div className={styles.yoyos}>
-							<div className={styles.tile}>
-								(This will be its own component called YoyoTile)
-							</div>
-							<div className={styles.tile}>
-								(This will be its own component called YoyoTile)
-							</div>
-							<div className={styles.tile}>
-								(This will be its own component called YoyoTile)
-							</div>
-							<div className={styles.tile}>
-								(This will be its own component called YoyoTile)
-							</div>
+							{selected === 'collection' ? (
+								<div className={styles.photos}>
+									<CollectionPhotos
+										collectionId={id}
+										collectionType='user'
+										scroll='click'
+										setCoverPhoto={setCoverPhoto}
+									/>
+								</div>
+							) : (
+								<section className={styles['yoyos-container']}>
+									<div className={styles.sort}>
+										<div className={styles.style}>Photos Only</div>
+										<div className={styles.style}>Details Only</div>
+										<div className={styles.style}>Photos and Details</div>
+									</div>
+									<div className={styles.yoyos}>
+										<div className={styles.tile}>
+											(This will be its own component called YoyoTile)
+										</div>
+										<div className={styles.tile}>
+											(This will be its own component called YoyoTile)
+										</div>
+										<div className={styles.tile}>
+											(This will be its own component called YoyoTile)
+										</div>
+										<div className={styles.tile}>
+											(This will be its own component called YoyoTile)
+										</div>
+									</div>
+								</section>
+							)}
 						</div>
 					</section>
 				</div>

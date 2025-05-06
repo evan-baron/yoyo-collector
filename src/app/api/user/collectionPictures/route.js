@@ -14,6 +14,7 @@ const {
 	deletePhoto,
 	setCoverPhoto,
 	switchCoverPhoto,
+	unsetCoverPhoto,
 } = uploadsService;
 
 cloudinary.config({
@@ -164,19 +165,28 @@ export async function DELETE(req, res) {
 			throw new Error('Token no longer valid');
 		}
 
-		const { collection, uploadType } = await req.json();
+		const jsonData = await req.json();
+
+		const { remove, collection, uploadType, photoId } = jsonData;
+
+		console.log(remove, collection, uploadType, photoId);
 
 		const photos = await getAllCollectionPhotos(collection);
 
-		const { public_id, id: photoId } = photos.find(
-			(photo) => photo.upload_category === 'cover'
-		);
+		if (remove) {
+			const { id: photoId } = photos.find(
+				(photo) => photo.upload_category === 'cover'
+			);
+			await unsetCoverPhoto(photoId, collection);
+		} else {
+			const { public_id } = photos.find((photo) => photo.id === photoId);
 
-		if (public_id) {
-			await cloudinary.uploader.destroy(public_id);
+			if (public_id) {
+				await cloudinary.uploader.destroy(public_id);
+			}
+
+			await deletePhoto(userId, photoId);
 		}
-
-		await deletePhoto(userId, photoId);
 
 		await validateAndExtendSession(
 			'api/user/collectionPictures/route.js DELETE'

@@ -3,13 +3,9 @@ import uploadsModel from '@/models/uploadsModel';
 // ALL FUNCTIONS LISTED BELOW ALPHABETICALLY
 
 // Delete a photo
-const deletePhoto = async (userId, photoId, category) => {
+const deletePhoto = async (userId, photoId) => {
 	try {
-		if (!category) {
-			return await uploadsModel.deletePhotoById(userId, photoId);
-		} else if (category === 'profile') {
-			return await uploadsModel.deleteProfilePicture(userId);
-		}
+		return await uploadsModel.deletePhotoById(userId, photoId);
 	} catch (error) {
 		console.error('Error deleting photo:', error.message);
 		throw error;
@@ -63,6 +59,11 @@ const setCoverPhoto = async (newCover, collectionId) => {
 // Switch cover photos
 const switchCoverPhoto = async (oldCover, newCover, collectionId) => {
 	return await uploadsModel.switchCoverPhoto(oldCover, newCover, collectionId);
+};
+
+// Unset cover photo
+const unsetCoverPhoto = async (cover, collectionId) => {
+	return await uploadsModel.unsetCoverPhoto(cover, collectionId);
 };
 
 // Upload a photo
@@ -158,6 +159,7 @@ export default {
 	getPhotosByUserIdAndCategory,
 	setCoverPhoto,
 	switchCoverPhoto,
+	unsetCoverPhoto,
 	updateProfilePicture,
 	uploadPhoto,
 };

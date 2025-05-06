@@ -1,33 +1,21 @@
 import pool from '@/config/db';
 
 const Uploads = {
-	// Upload profile photo to db
-	async uploadPhoto(
-		userId,
-		publicId,
-		secureUrl,
-		format,
-		resourceType,
-		bytes,
-		height,
-		width,
-		category,
-		collectionId
-	) {
+	// Delete all uploads by collectionId
+	async deleteAllUploadsByCollectionId(userId, collectionId) {
 		const [result] = await pool.execute(
-			'INSERT INTO user_uploads (user_id, public_id, secure_url, format, resource_type, bytes, height, width, upload_category, collection_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-			[
-				userId,
-				publicId,
-				secureUrl,
-				format,
-				resourceType,
-				bytes,
-				height,
-				width,
-				category,
-				collectionId,
-			]
+			`DELETE FROM user_uploads WHERE user_id = ? AND collection_id = ?`,
+			[userId, collectionId]
+		);
+		return result;
+	},
+
+	// Delete photo by Id
+	async deletePhotoById(userId, photoId) {
+		const [result] = await pool.execute(
+			`DELETE FROM user_uploads
+			WHERE user_id = ? AND id = ?`,
+			[userId, photoId]
 		);
 		return result;
 	},
@@ -105,6 +93,48 @@ const Uploads = {
 		}
 	},
 
+	// Unset cover photo
+	async unsetCoverPhoto(cover, collectionId) {
+		const [rows] = await pool.execute(
+			`UPDATE user_uploads
+				SET upload_category = 'collection'
+				WHERE id = ? AND collection_id = ?`,
+			[cover, collectionId]
+		);
+		return rows;
+	},
+
+	// Upload profile photo to db
+	async uploadPhoto(
+		userId,
+		publicId,
+		secureUrl,
+		format,
+		resourceType,
+		bytes,
+		height,
+		width,
+		category,
+		collectionId
+	) {
+		const [result] = await pool.execute(
+			'INSERT INTO user_uploads (user_id, public_id, secure_url, format, resource_type, bytes, height, width, upload_category, collection_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+			[
+				userId,
+				publicId,
+				secureUrl,
+				format,
+				resourceType,
+				bytes,
+				height,
+				width,
+				category,
+				collectionId,
+			]
+		);
+		return result;
+	},
+
 	// Update profile photo in db
 	async updateProfilePicture(
 		userId,
@@ -128,35 +158,6 @@ const Uploads = {
 				updated_at = NOW()
 				WHERE user_id = ? AND upload_category = 'profile'`,
 			[publicId, secureUrl, format, resourceType, bytes, height, width, userId]
-		);
-		return result;
-	},
-
-	// Delete all uploads by collectionId
-	async deleteAllUploadsByCollectionId(userId, collectionId) {
-		const [result] = await pool.execute(
-			`DELETE FROM user_uploads WHERE user_id = ? AND collection_id = ?`,
-			[userId, collectionId]
-		);
-		return result;
-	},
-
-	// Delete photo by Id
-	async deletePhotoById(userId, photoId) {
-		const [result] = await pool.execute(
-			`DELETE FROM user_uploads
-			WHERE user_id = ? AND id = ?`,
-			[userId, photoId]
-		);
-		return result;
-	},
-
-	// Delete profile picture
-	async deleteProfilePicture(userId) {
-		const [result] = await pool.execute(
-			`DELETE FROM user_uploads 
-			WHERE user_id = ? AND upload_category = 'profile'`,
-			[userId]
 		);
 		return result;
 	},

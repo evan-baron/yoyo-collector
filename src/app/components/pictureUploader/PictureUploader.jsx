@@ -259,6 +259,7 @@ function PictureUploader({
 			} else if (uploadType === 'cover') {
 				await axiosInstance.delete('/api/user/collectionPictures', {
 					data: {
+						remove,
 						collection,
 						uploadType,
 					},
@@ -292,7 +293,7 @@ function PictureUploader({
 						${uploadType === 'collection' && styles.collection}
 					`}
 					style={{
-						boxShadow: uploadType === 'cover' && '0 0 1.5rem black',
+						boxShadow: uploadType === 'cover' && '0.25rem 0.25rem 1rem black',
 					}}
 				>
 					<input
@@ -357,7 +358,7 @@ function PictureUploader({
 						}`}
 					>
 						<div className={styles.remove}>
-							<p className={styles.delete}>Delete Photo?</p>
+							<p className={styles.delete}>Remove Photo?</p>
 							<div className={styles.buttons}>
 								<button
 									className={styles['delete-button']}
