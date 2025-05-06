@@ -1,35 +1,346 @@
+'use client';
+
+// Libraries
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
+import dayjs from 'dayjs';
+
 // Utils
 import axiosInstance from '@/lib/utils/axios';
-import { redirect } from 'next/navigation';
 
 // Styles
-import styles from './collectionPage.module.scss';
+import styles from '../../components/editableCollectionTemplate/editableCollectionTemplate.module.scss';
+
+// MUI
+import { Edit, Save } from '@mui/icons-material';
 
 // Components
-import CollectionTemplate from '@/app/components/collectionTemplate/CollectionTemplate';
-import EditableCollectionTemplate from '@/app/components/editableCollectionTemplate/EditableCollectionTemplate';
+import BlankCoverPhoto from '@/app/components/blankCoverPhoto/BlankCoverPhoto';
+import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
+import EditableDescription from '@/app/components/editableCollectionTemplate/editableDescription/EditableDescription';
+import EditableTitle from '@/app/components/editableCollectionTemplate/editableTitle/EditableTitle';
+import Heart from '@/app/components/icons/heart/Heart';
+import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
+import CollectionPhotos from '@/app/components/collectionPhotos/CollectionPhotos';
 
-async function Collection({ params }) {
-	const { collectionId } = await params;
+// Context
+import { useAppContext } from '@/app/context/AppContext';
 
-	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+function Collection() {
+	const { collectionId } = useParams();
+	//original params were collection, photos
+	const {
+		dirty,
+		editing,
+		error,
+		loading,
+		setEditing,
+		setError,
+		setDirty,
+		setDirtyType,
+		originalCollectionData,
+		newCollectionData,
+		setOriginalCollectionData,
+		setNewCollectionData,
+	} = useAppContext();
 
-	let collection;
-	let photos;
+	const [collection, setCollection] = useState({});
+	const [photos, setPhotos] = useState([]);
 
-	try {
-		const response = await axiosInstance.get(
-			`${baseUrl}/api/user/collections/byCollectionId?collectionId=${collectionId}`
+	useEffect(() => {
+		if (!collectionId) return;
+
+		const fetchCollectionData = async () => {
+			const response = await axiosInstance.get(
+				`/api/user/collections/byCollectionId?collectionId=${collectionId}`
+			);
+			const { collectionData, collectionPhotos } = response.data;
+
+			console.log(response.data);
+
+			setCollection(collectionData);
+			setPhotos(collectionPhotos);
+		};
+		fetchCollectionData();
+	}, []);
+
+	const originalCoverPhoto = photos.find(
+		(photo) => photo.upload_category === 'cover'
+	)?.secure_url;
+	const created = dayjs(collection.created_at).format('MMMM, D, YYYY');
+
+	// States
+	const [formData, setFormData] = useState({});
+	const [pendingData, setPendingData] = useState({});
+	const [coverPhoto, setCoverPhoto] = useState(originalCoverPhoto);
+	const [selected, setSelected] = useState('collection');
+
+	useEffect(() => {
+		setFormData({
+			title: collection.collection_name,
+			description: collection.collection_description,
+		});
+		setPendingData({
+			title: collection.collection_name,
+			description: collection.collection_description,
+		});
+		setOriginalCollectionData({
+			title: collection.collection_name,
+			description: collection.collection_description,
+		});
+		setNewCollectionData({
+			title: collection.collection_name,
+			description: collection.collection_description,
+			id: collection.id,
+		});
+	}, [collection]);
+
+	// Set Dirty
+	useEffect(() => {
+		setDirty(
+			formData.title !== originalCollectionData.title ||
+				formData.title !== pendingData.title ||
+				formData.description !== originalCollectionData.description ||
+				(formData.description || '') !== (pendingData.description || '')
 		);
 
-		collection = response.data.collectionData;
-		photos = response.data.collectionPhotos;
-	} catch (error) {
-		console.error('Error fetching collection data:', error);
-		redirect('/');
-	}
+		setDirtyType('collection');
+	}, [originalCollectionData, formData, pendingData]);
 
-	return <EditableCollectionTemplate collection={collection} photos={photos} />;
+	// Handles
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+
+		const getInvalidChars = (input) => {
+			const regex = /[^A-Za-z0-9\-_\.~()"' ]/g;
+			const matches = input.match(regex);
+			return matches ? matches.join('') : '';
+		};
+
+		if (name === 'title') {
+			error && setError(null);
+			const invalidChars = getInvalidChars(value);
+
+			if (invalidChars) {
+				setError(`Invalid characters in name: ${invalidChars}`);
+			} else {
+				setError(null); // Clear any previous error
+			}
+		}
+		setPendingData((pendingData) => ({
+			...pendingData,
+			[name]: value,
+		}));
+		setNewCollectionData((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+	};
+
+	const handleSubmit = async () => {
+		if (!dirty) {
+			setEditing((prev) => !prev);
+			return;
+		}
+		const { title } = newCollectionData;
+
+		const trimmed = title.trim();
+
+		const valid = (param) => /^[A-Za-z0-9\-_.~()"' ]+$/.test(param);
+
+		if (!trimmed) {
+			setError(`Collection name can't be empty.`);
+			return;
+		}
+
+		if (!valid(trimmed)) {
+			setError('Only letters, numbers, spaces, -, _, ., and ~ are allowed.');
+			return;
+		}
+
+		try {
+			const submitData = { ...newCollectionData };
+
+			await axiosInstance.patch(
+				'/api/user/collections/byCollectionId',
+				submitData
+			);
+		} catch (error) {
+			console.error(
+				'There was an error updating the collection',
+				error.message
+			);
+		} finally {
+			setEditing((prev) => !prev);
+			setOriginalCollectionData({
+				title: newCollectionData.title,
+				description: newCollectionData.description,
+			});
+		}
+	};
+
+	// Loading screen
+	const loadingComplete = !!(
+		collection?.id &&
+		formData.title &&
+		formData.description &&
+		pendingData.title &&
+		pendingData.description
+	);
+
+	if (!loadingComplete) return <LoadingSpinner message='loading' />;
+
+	return (
+		<>
+			<div className={styles['collection-container']}>
+				<div className={styles.title}>
+					{editing ? (
+						<EditableTitle
+							value={pendingData.title}
+							setPendingData={setPendingData}
+							formData={formData}
+							setFormData={setFormData}
+							handleChange={handleChange}
+						/>
+					) : (
+						<div className={styles['collection-name-box']}>
+							<h1 className={styles.h1}>{pendingData.title}</h1>
+						</div>
+					)}
+
+					{error && <p style={{ color: 'red' }}>{error}</p>}
+
+					<div className={styles.details}>
+						<h3 className={styles.h3}>Created {created}</h3>
+						<p className={styles.likes}>
+							<Heart likes={collection.likes} size='small' />
+							{collection.likes ? collection.likes : '69'} likes
+						</p>
+					</div>
+
+					{editing ? (
+						<EditableDescription
+							value={pendingData.description}
+							formData={formData}
+							setFormData={setFormData}
+							setPendingData={setPendingData}
+							handleChange={handleChange}
+						/>
+					) : pendingData.description ? (
+						<div className={styles.description}>{pendingData.description}</div>
+					) : (
+						''
+					)}
+				</div>
+				<div className={styles.collection}>
+					<section className={styles['photos-container']}>
+						<div className={styles.left}>
+							<h2 className={styles.h2}>Cover Photo</h2>
+							<div className={styles.cover}>
+								{editing ? (
+									<PictureUploader
+										key='cover'
+										uploadType='cover'
+										input='coverInput'
+										defaultUrl={coverPhoto}
+										collection={collection.id}
+										setCoverPhoto={setCoverPhoto}
+										editing={editing}
+									/>
+								) : coverPhoto ? (
+									<img
+										src={coverPhoto}
+										alt='Collection cover photo'
+										className={styles.image}
+									/>
+								) : (
+									<BlankCoverPhoto />
+								)}
+							</div>
+						</div>
+						<div className={styles.right}>
+							<div className={styles.titles}>
+								<h2
+									className={`
+										${styles.h2} 
+										${(selected === 'collection' || !selected) && styles.selected}`}
+									onClick={() => setSelected('collection')}
+								>
+									Collection Photos
+								</h2>
+								<div className={styles.divider}></div>
+								<h2
+									className={`
+										${styles.h2} 
+										${(selected === 'yoyos' || !selected) && styles.selected}
+									`}
+									onClick={() => setSelected('yoyos')}
+								>
+									Yoyos
+								</h2>
+							</div>
+							{selected === 'collection' ? (
+								<div className={styles.photos}>
+									<CollectionPhotos
+										collectionId={collectionId}
+										collectionType='user'
+										scroll='click'
+										setCoverPhoto={setCoverPhoto}
+									/>
+								</div>
+							) : (
+								<section className={styles['yoyos-container']}>
+									<div className={styles.sort}>
+										<div className={styles.style}>Photos Only</div>
+										<div className={styles.style}>Details Only</div>
+										<div className={styles.style}>Photos and Details</div>
+									</div>
+									<div className={styles.yoyos}>
+										<div className={styles.tile}>
+											(This will be its own component called YoyoTile)
+										</div>
+										<div className={styles.tile}>
+											(This will be its own component called YoyoTile)
+										</div>
+										<div className={styles.tile}>
+											(This will be its own component called YoyoTile)
+										</div>
+										<div className={styles.tile}>
+											(This will be its own component called YoyoTile)
+										</div>
+									</div>
+								</section>
+							)}
+						</div>
+					</section>
+				</div>
+				<button
+					className={`${styles['settings-box']} ${error && styles.disabled}`}
+					onClick={() => {
+						if (editing) {
+							handleSubmit();
+						} else {
+							setEditing((prev) => !prev);
+						}
+					}}
+					disabled={error}
+					style={{
+						cursor: error ? '' : 'pointer',
+					}}
+				>
+					{editing ? (
+						<Save className={styles['settings-icon']} />
+					) : (
+						<Edit className={styles['settings-icon']} />
+					)}
+					<p className={styles.settings}>
+						{editing ? 'Save Changes' : 'Edit Collection Details'}
+					</p>
+				</button>
+			</div>
+			{loading && <LoadingSpinner message='Saving' />}
+		</>
+	);
 }
 
 export default Collection;

@@ -37,18 +37,20 @@ export async function GET(req, res) {
 			delete response.collectionData.user_id;
 		}
 
-		response.collectionPhotos = response.collectionPhotos.map(
-			({
-				user_id,
-				bytes,
-				format,
-				height,
-				resource_type,
-				updated_at,
-				width,
-				...rest
-			}) => rest
-		);
+		if (response.collectionPhotos.length > 0) {
+			response.collectionPhotos = response.collectionPhotos.map(
+				({
+					user_id,
+					bytes,
+					format,
+					height,
+					resource_type,
+					updated_at,
+					width,
+					...rest
+				}) => rest
+			);
+		}
 
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {

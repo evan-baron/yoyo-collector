@@ -2,6 +2,7 @@
 
 // Libraries
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
 
 // Utils
@@ -25,13 +26,33 @@ import CollectionPhotos from '../collectionPhotos/CollectionPhotos';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function EditableCollectionTemplate({ collection, photos }) {
-	const { id, collection_name, collection_description, likes, created_at } =
-		collection;
+function EditableCollectionTemplate() {
+	const { collectionId } = useParams();
+	//original params were collection, photos
+	const [collection, setCollection] = useState({});
+	const [photos, setPhotos] = useState([]);
+
+	useEffect(() => {
+		if (!collectionId) return;
+
+		const fetchCollectionData = async () => {
+			const response = await axiosInstance.get(
+				`/api/user/collections/byCollectionId?collectionId=${collectionId}`
+			);
+			const { collectionData, collectionPhotos } = response.data;
+
+			console.log(response.data);
+
+			setCollection(collectionData);
+			setPhotos(collectionPhotos);
+		};
+		fetchCollectionData();
+	}, []);
+
 	const originalCoverPhoto = photos.find(
 		(photo) => photo.upload_category === 'cover'
 	)?.secure_url;
-	const created = dayjs(created_at).format('MMMM, D, YYYY');
+	const created = dayjs(collection.created_at).format('MMMM, D, YYYY');
 
 	const {
 		dirty,
@@ -49,25 +70,31 @@ function EditableCollectionTemplate({ collection, photos }) {
 	} = useAppContext();
 
 	// States
-	const [formData, setFormData] = useState({
-		title: collection_name,
-		description: collection_description,
-	});
-	const [pendingData, setPendingData] = useState({ ...formData });
+	const [formData, setFormData] = useState({});
+	const [pendingData, setPendingData] = useState({});
 	const [coverPhoto, setCoverPhoto] = useState(originalCoverPhoto);
 	const [selected, setSelected] = useState('collection');
 
 	useEffect(() => {
+		console.log('collection changed:', collection);
+		setFormData({
+			title: collection.collection_name,
+			description: collection.collection_description,
+		});
+		setPendingData({
+			title: collection.collection_name,
+			description: collection.collection_description,
+		});
 		setOriginalCollectionData({
-			title: collection_name,
-			description: collection_description,
+			title: collection.collection_name,
+			description: collection.collection_description,
 		});
 		setNewCollectionData({
-			title: collection_name,
-			description: collection_description,
-			id: id,
+			title: collection.collection_name,
+			description: collection.collection_description,
+			id: collection.id,
 		});
-	}, []);
+	}, [collection]);
 
 	// Set Dirty
 	useEffect(() => {
@@ -176,8 +203,8 @@ function EditableCollectionTemplate({ collection, photos }) {
 					<div className={styles.details}>
 						<h3 className={styles.h3}>Created {created}</h3>
 						<p className={styles.likes}>
-							<Heart likes={likes} size='small' />
-							{likes ? likes : '69'} likes
+							<Heart likes={collection.likes} size='small' />
+							{collection.likes ? collection.likes : '69'} likes
 						</p>
 					</div>
 
@@ -206,7 +233,7 @@ function EditableCollectionTemplate({ collection, photos }) {
 										uploadType='cover'
 										input='coverInput'
 										defaultUrl={coverPhoto}
-										collection={id}
+										collection={collection.id}
 										setCoverPhoto={setCoverPhoto}
 										editing={editing}
 									/>
@@ -245,7 +272,7 @@ function EditableCollectionTemplate({ collection, photos }) {
 							{selected === 'collection' ? (
 								<div className={styles.photos}>
 									<CollectionPhotos
-										collectionId={id}
+										collectionId={collectionId}
 										collectionType='user'
 										scroll='click'
 										setCoverPhoto={setCoverPhoto}
