@@ -14,6 +14,7 @@ import NewCollection from './newCollection/NewCollection';
 import ErrorModal from './error/ErrorModal';
 import DeleteCollection from './deleteCollection/DeleteCollection';
 import Inactivity from './inactivity/Inactivity';
+import ViewPhoto from './viewPhoto/ViewPhoto';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -50,6 +51,8 @@ function Modal() {
 				return <DeleteCollection />;
 			case 'inactivity':
 				return <Inactivity />;
+			case 'view-photo':
+				return <ViewPhoto />;
 			default:
 				return <div>Modal</div>;
 		}

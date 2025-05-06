@@ -21,9 +21,9 @@ import { useAppContext } from '@/app/context/AppContext';
 function CollectionPhotos({
 	collectionId,
 	collectionType,
-	scroll,
 	size,
 	setCoverPhoto,
+	editing,
 }) {
 	// collection is the collection id
 
@@ -75,7 +75,7 @@ function CollectionPhotos({
 	}, [splitUpCollection]);
 
 	const renderCollections = () => {
-		if (photos.length === 0 && !loading) {
+		if (photos.length === 0 && !loading && editing) {
 			return (
 				<div className={styles['photo-tiles']}>
 					<PictureUploader
@@ -88,51 +88,9 @@ function CollectionPhotos({
 			);
 		}
 
-		// if (photos.length > 4 && scroll === 'click') {
-		// 	return (
-		// 		<div className={styles['photo-tiles-nav']}>
-		// 			{splitUpCollection.map((splitCollection, index) => {
-		// 				return (
-		// 					visibleTile === index && (
-		// 						<div className={styles['sub-collection']} key={index}>
-		// 							<div className={styles['photo-tiles']}>
-		// 								{splitCollection.map((photo, colIndex) => {
-		// 									return (
-		// 										<CollectionPhoto
-		// 											key={colIndex}
-		// 											photoData={photo}
-		// 											currentUser={true} // Change this when on profiles page, not profile page. This is for current user viewing their own profile, not viewing other people's profiles
-		// 											collectionType={collectionType}
-		// 										/>
-		// 									);
-		// 								})}
-		// 							</div>
-		// 						</div>
-		// 					)
-		// 				);
-		// 			})}
-		// 			<div className={styles.dots}>
-		// 				{splitUpCollection.map((_, dotIndex) => {
-		// 					return (
-		// 						<div
-		// 							className={`${styles.dot} ${
-		// 								visibleTile === dotIndex && styles.selected
-		// 							}`}
-		// 							key={dotIndex}
-		// 							onClick={() => {
-		// 								setVisibleTile(dotIndex);
-		// 							}}
-		// 						></div>
-		// 					);
-		// 				})}
-		// 			</div>
-		// 		</div>
-		// 	);
-		// }
-
 		return (
 			<div className={styles['photo-tiles']}>
-				{collectionType === 'user' && (
+				{collectionType === 'user' && editing && (
 					<PictureUploader
 						key='collection'
 						input='collectionInput'
@@ -150,6 +108,7 @@ function CollectionPhotos({
 								size={size}
 								collectionType={collectionType}
 								setCoverPhoto={setCoverPhoto}
+								editing={editing}
 							/>
 						);
 					})}

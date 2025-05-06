@@ -40,6 +40,7 @@ function Collection() {
 		setDirtyType,
 		originalCollectionData,
 		newCollectionData,
+		newCollectionCounter,
 		setOriginalCollectionData,
 		setNewCollectionData,
 	} = useAppContext();
@@ -60,19 +61,20 @@ function Collection() {
 
 			setCollection(collectionData);
 			setPhotos(collectionPhotos);
+			setCoverPhoto(
+				collectionPhotos.find((photo) => photo.upload_category === 'cover')
+					?.secure_url
+			);
 		};
 		fetchCollectionData();
-	}, []);
+	}, [newCollectionCounter]);
 
-	const originalCoverPhoto = photos.find(
-		(photo) => photo.upload_category === 'cover'
-	)?.secure_url;
 	const created = dayjs(collection.created_at).format('MMMM, D, YYYY');
 
 	// States
 	const [formData, setFormData] = useState({});
 	const [pendingData, setPendingData] = useState({});
-	const [coverPhoto, setCoverPhoto] = useState(originalCoverPhoto);
+	const [coverPhoto, setCoverPhoto] = useState(null);
 	const [selected, setSelected] = useState('collection');
 
 	useEffect(() => {
@@ -287,6 +289,7 @@ function Collection() {
 										collectionType='user'
 										scroll='click'
 										setCoverPhoto={setCoverPhoto}
+										editing={editing}
 									/>
 								</div>
 							) : (
@@ -335,7 +338,7 @@ function Collection() {
 						<Edit className={styles['settings-icon']} />
 					)}
 					<p className={styles.settings}>
-						{editing ? 'Save Changes' : 'Edit Collection Details'}
+						{editing ? 'Save Changes' : 'Edit Collection'}
 					</p>
 				</button>
 			</div>

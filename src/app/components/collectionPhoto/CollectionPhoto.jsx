@@ -21,6 +21,7 @@ function CollectionPhoto({
 	currentUser,
 	collectionType,
 	setCoverPhoto,
+	editing,
 }) {
 	const {
 		id: photoId,
@@ -30,18 +31,12 @@ function CollectionPhoto({
 		secure_url: photoUrl,
 	} = photoData;
 
-	const { setModalOpen, setModalType, setNewCollectionCounter } =
+	const { setModalOpen, setModalType, setViewPhoto, setNewCollectionCounter } =
 		useAppContext();
 
 	const [hover, setHover] = useState(false);
 	const [changeModal, setChangeModal] = useState(false);
 	const [changeModalType, setChangeModalType] = useState(false);
-
-	function handleDelete() {
-		setPhotoToDelete(photoId);
-		setModalOpen(true);
-		setModalType('delete-collection');
-	}
 
 	async function handleSave() {
 		if (changeModalType === 'cover') {
@@ -117,22 +112,39 @@ function CollectionPhoto({
 					<div className={styles.options}>
 						<div className={styles.menu}>
 							<div
-								className={styles.option}
+								className={`${styles.option} ${
+									!editing && styles['not-editing']
+								}`}
 								onClick={() => {
 									console.log('zoom action');
 								}}
 							>
-								<ZoomIn className={styles.icon} />
+								<ZoomIn
+									className={`${styles.icon} ${
+										!editing && styles['not-editing']
+									}`}
+									onClick={() => {
+										setModalOpen(true);
+										setModalType('view-photo');
+										setViewPhoto(photoUrl);
+									}}
+								/>
 							</div>
 							<div
-								className={styles.option}
+								className={`${styles.option} ${
+									!editing && styles['not-editing']
+								}`}
 								onClick={() => {
 									console.log(photoData);
 								}}
 							>
-								<Share className={styles.icon} />
+								<Share
+									className={`${styles.icon} ${
+										!editing && styles['not-editing']
+									}`}
+								/>
 							</div>
-							{currentUser && (
+							{currentUser && editing && (
 								<div
 									className={styles.option}
 									onClick={() => {
@@ -144,7 +156,7 @@ function CollectionPhoto({
 								</div>
 							)}
 						</div>
-						{currentUser && (
+						{currentUser && editing && (
 							<div
 								className={styles.cover}
 								onClick={() => {

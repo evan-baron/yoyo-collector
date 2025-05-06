@@ -48,6 +48,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [timeRemaining, setTimeRemaining] = useState(null);
 	const [tokenValid, setTokenValid] = useState(null);
 	const [user, setUser] = useState(initialUser);
+	const [viewPhoto, setViewPhoto] = useState(null);
 
 	const currentPath = useRef('/');
 	const pathname = usePathname();
@@ -257,6 +258,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				timeRemaining,
 				tokenValid,
 				user,
+				viewPhoto,
 				setCollectionToDelete,
 				setCurrentlyEditing,
 				setDirty,
@@ -276,6 +278,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setTimeRemaining,
 				setTokenValid,
 				setUser,
+				setViewPhoto,
 			}}
 		>
 			{children}

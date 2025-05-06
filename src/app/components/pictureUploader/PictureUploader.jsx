@@ -319,7 +319,10 @@ function PictureUploader({
 									uploadType === 'profile' ? styles.circle : styles.square
 								}`}
 								style={{
-									fontSize: uploadType === 'collection' ? '2rem' : '3rem',
+									fontSize:
+										uploadType === 'collection' || uploadType === 'profile'
+											? '2rem'
+											: '2.5rem',
 								}}
 							>
 								<FileUpload className={styles.upload} />
