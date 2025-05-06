@@ -201,7 +201,9 @@ function EditableCollectionTemplate({ collection, photos }) {
 							<div className={styles.cover}>
 								{editing ? (
 									<PictureUploader
+										key='cover'
 										uploadType='cover'
+										input='coverInput'
 										defaultUrl={coverPhoto}
 										collection={id}
 										setCoverPhoto={setCoverPhoto}
@@ -227,12 +229,6 @@ function EditableCollectionTemplate({ collection, photos }) {
 									scroll='click'
 									setCoverPhoto={setCoverPhoto}
 								/>
-								{/* <div className={styles.grid}>
-									<PictureUploader uploadType='collection' collection={id} />
-									<div className={styles.photo}></div>
-									<div className={styles.photo}></div>
-									<div className={styles.photo}></div>
-								</div> */}
 							</div>
 						</div>
 					</section>

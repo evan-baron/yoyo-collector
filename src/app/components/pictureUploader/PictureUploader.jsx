@@ -22,6 +22,7 @@ import BlankCoverPhoto from '../blankCoverPhoto/BlankCoverPhoto';
 import NewCollectionTile from '../newCollectionTile/NewCollectionTile';
 
 function PictureUploader({
+	input,
 	uploadType,
 	defaultUrl,
 	collection,
@@ -95,6 +96,8 @@ function PictureUploader({
 	const handleUpload = async (e) => {
 		if (!e.target.files.length) return;
 
+		console.log(uploadType);
+
 		const size = e.target.files[0]?.size;
 
 		if (size > 4194304) {
@@ -159,6 +162,7 @@ function PictureUploader({
 					} finally {
 						setImageToUpload(null);
 						setUpdatingPicture(false);
+						setNewCollectionCounter((prev) => (prev += 1));
 					}
 				} catch (err) {
 					console.error(
@@ -280,7 +284,7 @@ function PictureUploader({
 		<div className={styles.container}>
 			<div className={styles['picture-container']}>
 				<label
-					htmlFor='fileInput'
+					htmlFor={input}
 					className={`
 						${styles.placeholder} 
 						${uploadType === 'profile' ? styles.circle : styles.square} 
@@ -292,8 +296,8 @@ function PictureUploader({
 					}}
 				>
 					<input
-						name='fileInput'
-						id='fileInput'
+						name={input}
+						id={input}
 						type='file'
 						ref={fileInputRef}
 						accept='image/*'

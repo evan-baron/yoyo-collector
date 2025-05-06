@@ -80,7 +80,12 @@ function CollectionPhotos({
 		if (photos.length === 0 && !loading) {
 			return (
 				<div className={styles['photo-tiles']}>
-					<PictureUploader uploadType='collection' collection={collectionId} />
+					<PictureUploader
+						key='collection'
+						input='collectionInput'
+						uploadType='collection'
+						collection={collectionId}
+					/>
 				</div>
 			);
 		}
@@ -130,7 +135,12 @@ function CollectionPhotos({
 		return (
 			<div className={styles['photo-tiles']}>
 				{collectionType === 'user' && (
-					<PictureUploader uploadType='collection' collection={collectionId} />
+					<PictureUploader
+						key='collection'
+						input='collectionInput'
+						uploadType='collection'
+						collection={collectionId}
+					/>
 				)}
 				{photos &&
 					photos.map((photo, index) => {

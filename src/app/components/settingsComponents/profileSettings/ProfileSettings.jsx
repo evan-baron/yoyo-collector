@@ -288,6 +288,7 @@ function ProfileSettings() {
 						className={`${styles['form-item']} ${styles['profile-picture']}`}
 					>
 						<PictureUploader
+							key='profile'
 							uploadType='profile'
 							defaultUrl={user.secure_url}
 						/>

@@ -30,7 +30,7 @@ function CollectionPhoto({
 		secure_url: photoUrl,
 	} = photoData;
 
-	const { setModalOpen, setModalType, setEditing } = useAppContext();
+	const { setModalOpen, setModalType } = useAppContext();
 
 	const [hover, setHover] = useState(false);
 	const [changeCover, setChangeCover] = useState(false);
