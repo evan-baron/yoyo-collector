@@ -1,0 +1,40 @@
+.textarea-box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.25rem;
+	width: 100%;
+	cursor: pointer;
+
+	.textarea {
+		width: 100%;
+
+		background-color: var(--darkGray);
+		color: var(--lightestGray);
+		font-size: 1.125rem;
+		padding-left: 0.25rem;
+
+		&::placeholder {
+			color: var(--lightGray);
+		}
+
+		&:focus {
+			background-color: var(--mediumGray);
+		}
+	}
+}
+
+.max-length {
+	position: absolute;
+	transform: translateY(calc(100% + 0.125rem));
+	bottom: 0;
+	font-size: 0.75rem;
+	opacity: 0.5;
+}
+
+.description {
+	font-size: 1.125rem;
+	width: fit-content;
+	text-align: center;
+	line-height: normal;
+}

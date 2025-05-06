@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 
 // Styles
-import styles from '../editableCollectionTemplate.module.scss';
+import styles from './editableTitle.module.scss';
 
 // MUI
 import { Edit, Check, Close, Undo } from '@mui/icons-material';

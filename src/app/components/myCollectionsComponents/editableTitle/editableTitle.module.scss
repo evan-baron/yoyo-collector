@@ -1,0 +1,47 @@
+.input-box {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+
+	.icons {
+		display: flex;
+		height: 2rem;
+		width: 2rem;
+		cursor: pointer;
+	}
+
+	.input {
+		border: none;
+		height: 3rem;
+		width: 20rem;
+		font-size: 2.5rem;
+		background-color: var(--darkGray);
+		color: var(--lightestGray);
+		padding-left: 0.25rem;
+
+		&::placeholder {
+			color: var(--gray);
+		}
+
+		&:focus {
+			outline: none;
+			background-color: var(--mediumGray);
+		}
+	}
+}
+
+.collection-name-box {
+	display: flex;
+	align-items: end;
+
+	.name-edit-icon {
+		height: 2.5rem;
+		font-size: 2rem;
+		margin-left: 0.5rem;
+	}
+
+	.h1 {
+		font-size: 3rem;
+		text-shadow: 2px 2px 0.5rem black;
+	}
+}

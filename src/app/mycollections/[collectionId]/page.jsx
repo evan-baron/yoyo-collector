@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import axiosInstance from '@/lib/utils/axios';
 
 // Styles
-import styles from '../../components/editableCollectionTemplate/editableCollectionTemplate.module.scss';
+import styles from './collectionPage.module.scss';
 
 // MUI
 import { Edit, Save } from '@mui/icons-material';
@@ -17,8 +17,8 @@ import { Edit, Save } from '@mui/icons-material';
 // Components
 import BlankCoverPhoto from '@/app/components/blankCoverPhoto/BlankCoverPhoto';
 import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
-import EditableDescription from '@/app/components/editableCollectionTemplate/editableDescription/EditableDescription';
-import EditableTitle from '@/app/components/editableCollectionTemplate/editableTitle/EditableTitle';
+import EditableDescription from '@/app/components/myCollectionsComponents/editableDescription/EditableDescription';
+import EditableTitle from '@/app/components/myCollectionsComponents/editableTitle/EditableTitle';
 import Heart from '@/app/components/icons/heart/Heart';
 import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
 import CollectionPhotos from '@/app/components/collectionPhotos/CollectionPhotos';
