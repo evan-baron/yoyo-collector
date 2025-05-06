@@ -15,6 +15,7 @@ import ErrorModal from './error/ErrorModal';
 import DeleteCollection from './deleteCollection/DeleteCollection';
 import Inactivity from './inactivity/Inactivity';
 import ViewPhoto from './viewPhoto/ViewPhoto';
+import Share from './share/Share';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -53,6 +54,8 @@ function Modal() {
 				return <Inactivity />;
 			case 'view-photo':
 				return <ViewPhoto />;
+			case 'share':
+				return <Share />;
 			default:
 				return <div>Modal</div>;
 		}

@@ -31,8 +31,13 @@ function CollectionPhoto({
 		secure_url: photoUrl,
 	} = photoData;
 
-	const { setModalOpen, setModalType, setViewPhoto, setNewCollectionCounter } =
-		useAppContext();
+	const {
+		setModalOpen,
+		setModalType,
+		setShareLink,
+		setViewPhoto,
+		setNewCollectionCounter,
+	} = useAppContext();
 
 	const [hover, setHover] = useState(false);
 	const [changeModal, setChangeModal] = useState(false);
@@ -135,7 +140,9 @@ function CollectionPhoto({
 									!editing && styles['not-editing']
 								}`}
 								onClick={() => {
-									console.log(photoData);
+									setModalOpen(true);
+									setModalType('share');
+									setShareLink(photoUrl);
 								}}
 							>
 								<Share

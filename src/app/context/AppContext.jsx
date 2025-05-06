@@ -45,6 +45,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 		privacy: '',
 	});
 	const [resendEmail, setResendEmail] = useState(null);
+	const [shareLink, setShareLink] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState(null);
 	const [tokenValid, setTokenValid] = useState(null);
 	const [user, setUser] = useState(initialUser);
@@ -255,6 +256,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				originalCollectionData,
 				pendingRoute,
 				resendEmail,
+				shareLink,
 				timeRemaining,
 				tokenValid,
 				user,
@@ -275,6 +277,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setModalType,
 				setPendingRoute,
 				setResendEmail,
+				setShareLink,
 				setTimeRemaining,
 				setTokenValid,
 				setUser,

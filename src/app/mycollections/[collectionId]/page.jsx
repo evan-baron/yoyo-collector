@@ -38,6 +38,7 @@ function Collection() {
 		setError,
 		setDirty,
 		setDirtyType,
+		setShareLink,
 		originalCollectionData,
 		newCollectionData,
 		newCollectionCounter,
@@ -292,7 +293,9 @@ function Collection() {
 													!editing && styles['not-editing']
 												}`}
 												onClick={() => {
-													console.log(photoData);
+													setModalOpen(true);
+													setModalType('share');
+													setShareLink(coverPhoto);
 												}}
 											>
 												<Share
