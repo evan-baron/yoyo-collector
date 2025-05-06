@@ -13,7 +13,6 @@ import styles from './collectionPhotos.module.scss';
 // Components
 import CollectionPhoto from '../collectionPhoto/CollectionPhoto';
 import PictureUploader from '../pictureUploader/PictureUploader';
-import LoadingSpinner from '../loading/LoadingSpinner';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -33,7 +32,6 @@ function CollectionPhotos({
 	const [loading, setLoading] = useState(true);
 	const [splitUpCollection, setSplitUpCollection] = useState([]);
 	const [visibleTile, setVisibleTile] = useState(0);
-	const [selectedCollection, setSelectedCollection] = useState(1);
 
 	useEffect(() => {
 		const fetchCollectionPhotos = async () => {

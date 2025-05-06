@@ -116,42 +116,46 @@ function CollectionPhoto({
 				) : (
 					<div className={styles.options}>
 						<div className={styles.menu}>
-							<div
-								className={`${styles.option} ${
-									!editing && styles['not-editing']
-								}`}
-								onClick={() => {
-									console.log('zoom action');
-								}}
-							>
-								<ZoomIn
-									className={`${styles.icon} ${
-										!editing && styles['not-editing']
-									}`}
-									onClick={() => {
-										setModalOpen(true);
-										setModalType('view-photo');
-										setViewPhoto(photoUrl);
-									}}
-								/>
-							</div>
-							<div
-								className={`${styles.option} ${
-									!editing && styles['not-editing']
-								}`}
-								onClick={() => {
-									setModalOpen(true);
-									setModalType('share');
-									setShareLink(photoUrl);
-								}}
-							>
-								<Share
-									className={`${styles.icon} ${
-										!editing && styles['not-editing']
-									}`}
-								/>
-							</div>
-							{currentUser && editing && (
+							{currentUser && !editing && (
+								<>
+									<div
+										className={`${styles.option} ${
+											!editing && styles['not-editing']
+										}`}
+										onClick={() => {
+											console.log('zoom action');
+										}}
+									>
+										<ZoomIn
+											className={`${styles.icon} ${
+												!editing && styles['not-editing']
+											}`}
+											onClick={() => {
+												setModalOpen(true);
+												setModalType('view-photo');
+												setViewPhoto(photoUrl);
+											}}
+										/>
+									</div>
+									<div
+										className={`${styles.option} ${
+											!editing && styles['not-editing']
+										}`}
+										onClick={() => {
+											setModalOpen(true);
+											setModalType('share');
+											setShareLink(photoUrl);
+										}}
+									>
+										<Share
+											className={`${styles.icon} ${
+												!editing && styles['not-editing']
+											}`}
+										/>
+									</div>
+								</>
+							)}
+							{/* {currentUser && editing && (
 								<div
 									className={styles.option}
 									onClick={() => {
@@ -161,18 +165,29 @@ function CollectionPhoto({
 								>
 									<DeleteOutline className={styles.icon} />
 								</div>
-							)}
+							)} */}
 						</div>
 						{currentUser && editing && (
-							<div
-								className={styles.cover}
-								onClick={() => {
-									setChangeModal((prev) => !prev);
-									setChangeModalType('cover');
-								}}
-							>
-								Set Cover Photo
-							</div>
+							<>
+								<div
+									className={styles.cover}
+									onClick={() => {
+										setChangeModal((prev) => !prev);
+										setChangeModalType('cover');
+									}}
+								>
+									Set Cover Photo
+								</div>
+								<div
+									className={styles.cover}
+									onClick={() => {
+										setChangeModal((prev) => !prev);
+										setChangeModalType('delete');
+									}}
+								>
+									Delete Photo
+								</div>
+							</>
 						)}
 					</div>
 				)}
@@ -180,7 +195,8 @@ function CollectionPhoto({
 			<div className={styles.details}>
 				<div className={styles['name-likes']}>
 					<div className={styles.likes}>
-						<Heart size={'small'} likes={likes} /> {likes && `${likes} likes`}
+						<Heart size={'small'} likes={likes} />{' '}
+						{likes ? `${likes} likes` : ''}
 					</div>
 				</div>
 			</div>
