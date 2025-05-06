@@ -169,8 +169,6 @@ export async function DELETE(req, res) {
 
 		const { remove, collection, uploadType, photoId } = jsonData;
 
-		console.log(remove, collection, uploadType, photoId);
-
 		const photos = await getAllCollectionPhotos(collection);
 
 		if (remove) {
