@@ -185,7 +185,8 @@ function Collection() {
 		formData.title &&
 		formData.description &&
 		pendingData.title &&
-		pendingData.description
+		pendingData.description &&
+		photos
 	);
 
 	if (!loadingComplete) return <LoadingSpinner message='loading' />;

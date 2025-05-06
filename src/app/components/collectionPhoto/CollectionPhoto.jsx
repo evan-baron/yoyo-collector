@@ -84,7 +84,11 @@ function CollectionPhoto({
 			<div
 				className={styles['cover-photo']}
 				onMouseEnter={() => setHover(true)}
-				onMouseLeave={() => setHover(false)}
+				onMouseLeave={() => {
+					setHover(false);
+					changeModal && setChangeModal(false);
+					changeModal && setChangeModalType('null');
+				}}
 			>
 				<img className={styles.image} src={photoUrl} />
 				{changeModal ? (

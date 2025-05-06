@@ -62,7 +62,7 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					background-color: rgba(255, 255, 255, 0.1);
+					background-color: rgba(30, 30, 30, 0.35);
 					cursor: pointer;
 					transition: 0.3s;
 
@@ -70,7 +70,7 @@
 
 					&:hover {
 						transform: scale(1.25);
-						background-color: rgba(255, 255, 255, 0.25);
+						background-color: rgba(30, 30, 30, 0.5);
 
 						opacity: 1;
 					}
@@ -89,6 +89,8 @@
 				border: 0.25rem solid var(--lightestGray);
 				padding: 0.25rem 0.5rem;
 				border-radius: 0.5rem;
+				background-color: rgba(30, 30, 30, 0.35);
+
 				cursor: pointer;
 				transition: 0.3s;
 
@@ -96,6 +98,7 @@
 
 				&:hover {
 					transform: scale(1.25);
+					background-color: rgba(30, 30, 30, 0.5);
 					opacity: 1;
 				}
 			}
