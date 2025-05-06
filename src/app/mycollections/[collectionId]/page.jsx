@@ -12,7 +12,7 @@ import axiosInstance from '@/lib/utils/axios';
 import styles from './collectionPage.module.scss';
 
 // MUI
-import { Edit, Save } from '@mui/icons-material';
+import { Edit, Save, ZoomIn, Share } from '@mui/icons-material';
 
 // Components
 import BlankCoverPhoto from '@/app/components/blankCoverPhoto/BlankCoverPhoto';
@@ -42,11 +42,15 @@ function Collection() {
 		newCollectionData,
 		newCollectionCounter,
 		setOriginalCollectionData,
+		setModalOpen,
+		setModalType,
+		setViewPhoto,
 		setNewCollectionData,
 	} = useAppContext();
 
 	const [collection, setCollection] = useState({});
 	const [photos, setPhotos] = useState([]);
+	const [hover, setHover] = useState(false);
 
 	useEffect(() => {
 		if (!collectionId) return;
@@ -251,11 +255,54 @@ function Collection() {
 										editing={editing}
 									/>
 								) : coverPhoto ? (
-									<img
-										src={coverPhoto}
-										alt='Collection cover photo'
-										className={styles.image}
-									/>
+									<div
+										className={styles['image-box']}
+										onMouseEnter={() => setHover(true)}
+										onMouseLeave={() => {
+											setHover(false);
+										}}
+									>
+										<img
+											src={coverPhoto}
+											alt='Collection cover photo'
+											className={styles.image}
+										/>
+										<div className={`${styles.menu} ${hover && styles.hover}`}>
+											<div
+												className={`${styles.option} ${
+													!editing && styles['not-editing']
+												}`}
+												onClick={() => {
+													console.log('zoom action');
+												}}
+											>
+												<ZoomIn
+													className={`${styles.icon} ${
+														!editing && styles['not-editing']
+													}`}
+													onClick={() => {
+														setModalOpen(true);
+														setModalType('view-photo');
+														setViewPhoto(coverPhoto);
+													}}
+												/>
+											</div>
+											<div
+												className={`${styles.option} ${
+													!editing && styles['not-editing']
+												}`}
+												onClick={() => {
+													console.log(photoData);
+												}}
+											>
+												<Share
+													className={`${styles.icon} ${
+														!editing && styles['not-editing']
+													}`}
+												/>
+											</div>
+										</div>
+									</div>
 								) : (
 									<BlankCoverPhoto />
 								)}
