@@ -1,5 +1,7 @@
+'use client';
+
 // Libraries
-import React from 'react';
+import React, { useState } from 'react';
 
 // Styles
 import styles from './yoyoTiles.module.scss';
@@ -11,21 +13,100 @@ import { North } from '@mui/icons-material';
 import YoyoTile from '../yoyoTile/YoyoTile';
 
 function YoyoTiles({ editing }) {
+	const [sort, setSort] = useState({
+		name: {
+			selected: true,
+			direction: 'ascending',
+		},
+		manufacturer: {
+			selected: false,
+			direction: 'ascending',
+		},
+		year: {
+			selected: false,
+			direction: 'ascending',
+		},
+	});
+
+	const handleSort = (e) => {
+		const { name } = e.target.dataset;
+
+		setSort((prev) => {
+			const newSort = {};
+
+			for (const key in prev) {
+				if (key === name) {
+					newSort[key] = {
+						selected: true,
+						direction:
+							prev[key].selected && prev[key].direction === 'ascending'
+								? 'descending'
+								: 'ascending',
+					};
+				} else {
+					newSort[key] = {
+						selected: false,
+						direction: 'ascending',
+					};
+				}
+			}
+
+			return newSort;
+		});
+	};
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.legend}>
 				<ul className={styles.ul}>
-					<li className={styles.sort}>
+					<li
+						data-name='name'
+						className={`${styles.sort} ${
+							sort.name.selected && styles.selected
+						}`}
+						onClick={handleSort}
+					>
 						Name
-						<North className={styles.icon} />
+						<North
+							className={styles.icon}
+							style={{
+								transform:
+									sort.name.direction === 'descending' && 'rotate(180deg)',
+							}}
+						/>
 					</li>
-					<li className={styles.sort}>
+					<li
+						data-name='manufacturer'
+						className={`${styles.sort} ${
+							sort.manufacturer.selected && styles.selected
+						}`}
+						onClick={handleSort}
+					>
 						Manufacturer
-						<North className={styles.icon} />
+						<North
+							className={styles.icon}
+							style={{
+								transform:
+									sort.manufacturer.direction === 'descending' &&
+									'rotate(180deg)',
+							}}
+						/>
 					</li>
-					<li className={styles.sort}>
+					<li
+						data-name='year'
+						className={`${styles.sort} ${
+							sort.year.selected && styles.selected
+						}`}
+						onClick={handleSort}
+					>
 						Year
-						<North className={styles.icon} />
+						<North
+							className={styles.icon}
+							style={{
+								transform:
+									sort.year.direction === 'descending' && 'rotate(180deg)',
+							}}
+						/>
 					</li>
 				</ul>
 			</div>

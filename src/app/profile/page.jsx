@@ -27,7 +27,7 @@ import CollectionCarousel from '../components/collectionCarousel/CollectionCarou
 import NewCollectionButton from '../components/newCollectionButton/NewCollectionButton';
 import BlankProfilePhoto from '../components/blankProfilePhoto/BlankProfilePhoto';
 import CollectionTile from '../components/collectionsComponents/myCollectionsComponents/collectionTile/CollectionTile';
-import CollectionsTiles from '../components/collectionsTiles/CollectionsTiles';
+import CollectionsTiles from '../components/collectionsComponents/myCollectionsComponents/collectionsTiles/CollectionsTiles';
 
 async function Profile() {
 	const { user_id } = await validateAndExtendSession('profile/page.jsx');

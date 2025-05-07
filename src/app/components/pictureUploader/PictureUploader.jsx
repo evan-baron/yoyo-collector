@@ -304,7 +304,9 @@ function PictureUploader({
 						${uploadType === 'collection' && styles.collection}
 					`}
 					style={{
-						boxShadow: uploadType === 'cover' && '0.25rem 0.25rem 1rem black',
+						boxShadow:
+							(uploadType === 'cover' || uploadType === 'yoyo') &&
+							'0.25rem 0.25rem 1rem black',
 					}}
 				>
 					<input

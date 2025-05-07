@@ -250,15 +250,17 @@ function Collection() {
 							<div className={styles.cover}>
 								{editing ? (
 									<PictureUploader
-										key='cover'
+										key={selected === 'collection' ? 'cover' : 'yoyo'}
 										uploadType={selected === 'collection' ? 'cover' : 'yoyo'}
-										input='coverInput'
-										defaultUrl={coverPhoto}
+										input={
+											selected === 'collection' ? 'coverInput' : 'yoyoInput'
+										}
+										defaultUrl={selected === 'collection' ? coverPhoto : ''}
 										collection={collection.id}
 										setCoverPhoto={setCoverPhoto}
-										editing={editing}
+										editing={selected === 'collection' && editing}
 									/>
-								) : coverPhoto ? (
+								) : selected === 'collection' && coverPhoto ? (
 									<div
 										className={styles['image-box']}
 										onMouseEnter={() => setHover(true)}
@@ -310,7 +312,9 @@ function Collection() {
 										</div>
 									</div>
 								) : (
-									<BlankCoverPhoto />
+									<div style={{ boxShadow: '0.25rem 0.25rem 1rem black' }}>
+										<BlankCoverPhoto />
+									</div>
 								)}
 							</div>
 						</div>
