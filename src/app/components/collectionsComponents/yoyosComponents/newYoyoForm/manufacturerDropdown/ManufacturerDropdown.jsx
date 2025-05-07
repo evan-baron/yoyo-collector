@@ -8,11 +8,11 @@ import { yoyoBrands } from '../yoyoBrands';
 // Styles
 import customSelectStyles from '../customSelectStyles';
 
-function ManufacturerDropdown({ value, handleChange }) {
-	const options = [' '].concat(yoyoBrands).map((brand) => ({
+function ManufacturerDropdown({ value, handleChange, name }) {
+	const options = yoyoBrands.map((brand) => ({
 		value: brand.toString(),
 		label: brand.toString(),
-		name: 'manufacturer',
+		name: name,
 	}));
 
 	return (
@@ -24,6 +24,7 @@ function ManufacturerDropdown({ value, handleChange }) {
 			menuPlacement='bottom'
 			menuShouldScrollIntoView={false}
 			styles={customSelectStyles}
+			name={name}
 			isClearable
 		/>
 	);

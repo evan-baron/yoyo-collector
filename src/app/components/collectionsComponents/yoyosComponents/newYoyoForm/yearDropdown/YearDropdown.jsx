@@ -1,6 +1,6 @@
 // Libraries
 import React from 'react';
-import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 // Styles
 import customSelectStyles from '../customSelectStyles';
@@ -9,13 +9,11 @@ function YearDropdown({ value, handleChange, name }) {
 	const startYear = 1950;
 	const endYear = new Date().getFullYear();
 
-	const years = ['']
-		.concat(
-			Array.from(
-				{ length: endYear - startYear + 1 },
-				(_, i) => startYear + i
-			).sort((a, b) => b - a)
-		)
+	const years = Array.from(
+		{ length: endYear - startYear + 1 },
+		(_, i) => startYear + i
+	)
+		.sort((a, b) => b - a)
 		.map((year) => ({
 			value: year,
 			label: year === '' ? 'Select year' : String(year),
@@ -23,7 +21,7 @@ function YearDropdown({ value, handleChange, name }) {
 		}));
 
 	return (
-		<Select
+		<CreatableSelect
 			options={years}
 			value={years.find((year) => year.value === value)}
 			onChange={handleChange}
@@ -31,6 +29,8 @@ function YearDropdown({ value, handleChange, name }) {
 			menuPlacement='bottom'
 			menuShouldScrollIntoView={false}
 			styles={customSelectStyles}
+			name={name}
+			isClearable
 		/>
 	);
 }

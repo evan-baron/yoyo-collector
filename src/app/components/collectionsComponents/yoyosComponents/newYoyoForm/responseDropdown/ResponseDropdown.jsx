@@ -1,21 +1,21 @@
 // Libraries
 import React from 'react';
-import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 // Styles
 import customSelectStyles from '../customSelectStyles';
 
-function ResponseDropdown({ value, handleChange }) {
+function ResponseDropdown({ value, handleChange, name }) {
 	const response = ['Fixed', 'Responsive', 'Unresponsive'];
 
 	const options = response.map((option) => ({
 		value: option.toString(),
-		label: option,
-		name: 'response',
+		label: option.toString(),
+		name: name,
 	}));
 
 	return (
-		<Select
+		<CreatableSelect
 			options={options}
 			value={options.find((option) => option.value === value)}
 			onChange={handleChange}
@@ -23,6 +23,8 @@ function ResponseDropdown({ value, handleChange }) {
 			menuPlacement='bottom'
 			menuShouldScrollIntoView={false}
 			styles={customSelectStyles}
+			name={name}
+			isClearable
 		/>
 	);
 }

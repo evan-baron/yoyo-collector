@@ -26,8 +26,9 @@ function NewYoyoForm() {
 		condition: '',
 	});
 
-	const handleDropdownChange = (e) => {
-		const { value = '', name = 'manufacturer' } = e || {};
+	const handleDropdownChange = (e, meta) => {
+		const { name } = meta;
+		const value = e ? e.value : '';
 		console.log(value, name);
 
 		setYoyoFormData((prev) => ({
@@ -67,6 +68,7 @@ function NewYoyoForm() {
 						<ManufacturerDropdown
 							value={yoyoFormData.manufacturer}
 							handleChange={handleDropdownChange}
+							name='manufacturer'
 						/>
 					</div>
 					<div className={styles['input-box']}>
@@ -140,6 +142,7 @@ function NewYoyoForm() {
 						<ResponseDropdown
 							value={yoyoFormData.response}
 							handleChange={handleDropdownChange}
+							name='response'
 						/>
 					</div>
 					<div className={styles['input-box']}>

@@ -68,7 +68,7 @@ const customSelectStyles = {
 	// SingleValue (the selected value in the control)
 	singleValue: (styles) => ({
 		...styles,
-		color: '#aaaaaa',
+		color: '#eeeeee',
 	}),
 
 	// ValueContainer (the container holding the selected value)
