@@ -10,6 +10,9 @@
 
 	.picture-container {
 		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		width: 100%;
 		aspect-ratio: 1;
 		// padding: 1rem; // ENABLE THIS IF YOU WANT THE FONT SIZE ON THE BUTTONS BACK TO 1.125REM
@@ -200,6 +203,12 @@
 				font-size: 1.125rem;
 				border-radius: 0.5rem;
 
+				.error {
+					text-align: center;
+					color: red;
+					z-index: 2;
+				}
+
 				.delete {
 					z-index: 2;
 				}
@@ -234,7 +243,7 @@
 					width: 100%;
 					background-color: var(--darkerGray);
 					border-radius: 0.5rem;
-					opacity: 0.7;
+					opacity: 0.75;
 				}
 			}
 		}
@@ -295,13 +304,5 @@
 
 			cursor: pointer;
 		}
-	}
-
-	.error {
-		position: absolute;
-		bottom: 0;
-		font-size: 1rem;
-		color: red;
-		transform: translateY(100%);
 	}
 }

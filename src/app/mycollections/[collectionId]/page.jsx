@@ -243,12 +243,14 @@ function Collection() {
 				<div className={styles.collection}>
 					<section className={styles['photos-container']}>
 						<div className={styles.left}>
-							<h2 className={styles.h2}>Cover Photo</h2>
+							<h2 className={styles.h2}>
+								{selected === 'collection' ? 'Cover Photo' : 'Yoyo Photos'}
+							</h2>
 							<div className={styles.cover}>
 								{editing ? (
 									<PictureUploader
 										key='cover'
-										uploadType='cover'
+										uploadType={selected === 'collection' ? 'cover' : 'yoyo'}
 										input='coverInput'
 										defaultUrl={coverPhoto}
 										collection={collection.id}
@@ -348,11 +350,13 @@ function Collection() {
 								className={styles['yoyos-container']}
 								style={{ display: selected === 'yoyos' ? 'flex' : 'none' }}
 							>
-								<div className={styles.sort}>
-									<div className={styles.style}>Photos Only</div>
-									<div className={styles.style}>Details Only</div>
-									<div className={styles.style}>Photos and Details</div>
-								</div>
+								{!editing && (
+									<div className={styles.sort}>
+										<div className={styles.style}>Photos Only</div>
+										<div className={styles.style}>Details Only</div>
+										<div className={styles.style}>Photos and Details</div>
+									</div>
+								)}
 								<div className={styles.yoyos}>
 									<div className={styles.tile}>
 										(This will be its own component called YoyoTile)

@@ -181,7 +181,6 @@ function PictureUploader({
 			} catch (error) {
 				console.log('There was an error saving the photo:', error);
 			} finally {
-				setLoading(false);
 				setError(null);
 				setImageToUpload(null);
 				setUpdatingPicture(false);
@@ -396,11 +395,7 @@ function PictureUploader({
 							<div className={styles.buttons}>
 								<button
 									className={styles['delete-button']}
-									onClick={() => {
-										setError(null);
-										setImageToUpload(null);
-										fileInputRef.current.value = '';
-									}}
+									onClick={() => setError(null)}
 								>
 									Ok
 								</button>
