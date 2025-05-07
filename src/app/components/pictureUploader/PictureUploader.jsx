@@ -134,7 +134,10 @@ function PictureUploader({
 
 			return;
 		} else {
-			if (!validFiles.length) {
+			if (!validFiles.length && files.length === 1) {
+				setError('File must not exceed 4MB');
+				return;
+			} else if (!validFiles.length) {
 				setError('All selected files were too large (max: 4MB).');
 				return;
 			} else if (validFiles.length !== files.length) {
@@ -181,8 +184,8 @@ function PictureUploader({
 			} catch (error) {
 				console.log('There was an error saving the photo:', error);
 			} finally {
+				fileInputRef.current.value = '';
 				setLoading(false);
-				setError(null);
 				setImageToUpload(null);
 				setUpdatingPicture(false);
 			}
