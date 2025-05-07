@@ -33,6 +33,8 @@ function PictureUploader({
 	const { loading, setLoading, user, setUser, setNewCollectionCounter } =
 		useAppContext();
 
+	const MAX_FILE_SIZE = 4 * 1024 * 1024;
+
 	// State to hold the uploaded image URL
 	const [imageToUpload, setImageToUpload] = useState(null);
 	const [previewUrl, setPreviewUrl] = useState(null);
@@ -100,7 +102,7 @@ function PictureUploader({
 
 		const size = e.target.files[0]?.size;
 
-		if (size > 4194304) {
+		if (size > MAX_FILE_SIZE) {
 			setError('File must not exceed 4mb');
 			return;
 		} else {
@@ -162,7 +164,7 @@ function PictureUploader({
 					} finally {
 						setImageToUpload(null);
 						setUpdatingPicture(false);
-						setNewCollectionCounter((prev) => (prev += 1));
+						setNewCollectionCounter((prev) => prev + 1);
 					}
 				} catch (err) {
 					console.error(
@@ -186,7 +188,7 @@ function PictureUploader({
 	const handleSave = async () => {
 		if (!imageToUpload) return;
 
-		if (imageToUpload.size > 4194304) {
+		if (imageToUpload.size > MAX_FILE_SIZE) {
 			setError('File must not exceed 4mb');
 			return;
 		}
@@ -241,7 +243,7 @@ function PictureUploader({
 			setLoading(false);
 			setImageToUpload(null);
 			setUpdatingPicture(false);
-			setNewCollectionCounter((prev) => (prev += 1));
+			setNewCollectionCounter((prev) => prev + 1);
 		}
 	};
 
@@ -277,7 +279,7 @@ function PictureUploader({
 		} catch (error) {
 			console.error('There was an error deleting the photo:', error.message);
 		} finally {
-			setNewCollectionCounter((prev) => (prev += 1));
+			setNewCollectionCounter((prev) => prev + 1);
 		}
 	};
 
