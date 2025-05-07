@@ -22,6 +22,7 @@ import EditableTitle from '@/app/components/collectionsComponents/myCollectionsC
 import Heart from '@/app/components/icons/heart/Heart';
 import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
 import CollectionPhotos from '@/app/components/collectionsComponents/collectionComponents/collectionPhotos/CollectionPhotos';
+import YoyoTiles from '@/app/components/collectionsComponents/yoyosComponents/yoyoTiles/YoyoTiles';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -373,7 +374,9 @@ function Collection() {
 										</div>
 									</>
 								) : (
-									<div className={styles.yoyos}>Test</div>
+									<div className={styles.yoyos}>
+										<YoyoTiles editing={editing} />
+									</div>
 								)}
 							</section>
 							{/* {selected === 'collection' ? (
