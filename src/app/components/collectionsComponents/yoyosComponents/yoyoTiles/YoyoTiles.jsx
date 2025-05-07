@@ -11,6 +11,7 @@ import { North } from '@mui/icons-material';
 
 // Components
 import YoyoTile from '../yoyoTile/YoyoTile';
+import NewYoyoForm from '../newYoyoForm/NewYoyoForm';
 
 function YoyoTiles({ editing }) {
 	const [sort, setSort] = useState({
@@ -56,66 +57,69 @@ function YoyoTiles({ editing }) {
 	};
 
 	return (
-		<div className={styles.container}>
-			<div className={styles.legend}>
-				<ul className={`${styles.ul} ${editing && styles.editing}`}>
-					<li className={styles.checkbox}>
-						<input type='checkbox' className={styles.input} />
-					</li>
-					<li
-						data-name='name'
-						className={`${styles.sort} ${styles.name} ${
-							sort.name.selected && styles.selected
-						}`}
-						onClick={handleSort}
-					>
-						Name
-						<North
-							className={styles.icon}
-							style={{
-								transform:
-									sort.name.direction === 'descending' && 'rotate(180deg)',
-							}}
-						/>
-					</li>
-					<li
-						data-name='manufacturer'
-						className={`${styles.sort} ${styles.manufacturer} ${
-							sort.manufacturer.selected && styles.selected
-						}`}
-						onClick={handleSort}
-					>
-						Manufacturer
-						<North
-							className={styles.icon}
-							style={{
-								transform:
-									sort.manufacturer.direction === 'descending' &&
-									'rotate(180deg)',
-							}}
-						/>
-					</li>
-					<li
-						data-name='year'
-						className={`${styles.sort} ${styles.year} ${
-							sort.year.selected && styles.selected
-						}`}
-						onClick={handleSort}
-					>
-						Year
-						<North
-							className={styles.icon}
-							style={{
-								transform:
-									sort.year.direction === 'descending' && 'rotate(180deg)',
-							}}
-						/>
-					</li>
-				</ul>
+		<div className={styles['yoyos-container']}>
+			{editing && <NewYoyoForm />}
+			<div className={styles.list}>
+				<div className={styles.legend}>
+					<ul className={`${styles.ul} ${editing && styles.editing}`}>
+						<li className={styles.checkbox}>
+							<input type='checkbox' className={styles.input} />
+						</li>
+						<li
+							data-name='name'
+							className={`${styles.sort} ${styles.name} ${
+								sort.name.selected && styles.selected
+							}`}
+							onClick={handleSort}
+						>
+							Name
+							<North
+								className={styles.icon}
+								style={{
+									transform:
+										sort.name.direction === 'descending' && 'rotate(180deg)',
+								}}
+							/>
+						</li>
+						<li
+							data-name='manufacturer'
+							className={`${styles.sort} ${styles.manufacturer} ${
+								sort.manufacturer.selected && styles.selected
+							}`}
+							onClick={handleSort}
+						>
+							Manufacturer
+							<North
+								className={styles.icon}
+								style={{
+									transform:
+										sort.manufacturer.direction === 'descending' &&
+										'rotate(180deg)',
+								}}
+							/>
+						</li>
+						<li
+							data-name='year'
+							className={`${styles.sort} ${styles.year} ${
+								sort.year.selected && styles.selected
+							}`}
+							onClick={handleSort}
+						>
+							Year
+							<North
+								className={styles.icon}
+								style={{
+									transform:
+										sort.year.direction === 'descending' && 'rotate(180deg)',
+								}}
+							/>
+						</li>
+					</ul>
+				</div>
+				<YoyoTile editing={editing} />
+				<YoyoTile editing={editing} />
+				<YoyoTile editing={editing} />
 			</div>
-			<YoyoTile editing={editing} />
-			<YoyoTile editing={editing} />
-			<YoyoTile editing={editing} />
 		</div>
 	);
 }

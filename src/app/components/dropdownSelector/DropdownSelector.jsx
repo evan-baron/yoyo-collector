@@ -1,16 +1,10 @@
 // Libraries
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // Styles
 import styles from './dropdownSelector.module.scss';
 
-function DropdownSelector({
-	name,
-	value,
-	list,
-	locationFormData,
-	setLocationFormData,
-}) {
+function DropdownSelector({ name, value, list, formData, setFunction }) {
 	const [isFocused, setIsFocused] = useState(false);
 	const [highlightedIndex, setHighlightedIndex] = useState(-1);
 	const [isUsingKeyboard, setIsUsingKeyboard] = useState(false);
@@ -60,8 +54,8 @@ function DropdownSelector({
 	// Sets form data values
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setLocationFormData({
-			...locationFormData,
+		setFunction({
+			...formData,
 			[name]: value,
 		});
 	};
@@ -104,8 +98,8 @@ function DropdownSelector({
 				inputRef.current?.blur();
 
 				if (shouldAutoComplete) {
-					setLocationFormData({
-						...locationFormData,
+					setFunction({
+						...formData,
 						[name.toLowerCase()]: list[0],
 					});
 				}
@@ -121,8 +115,8 @@ function DropdownSelector({
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			if (highlightedIndex >= 0 && highlightedIndex < list?.length) {
-				setLocationFormData({
-					...locationFormData,
+				setFunction({
+					...formData,
 					[name.toLowerCase()]: list[highlightedIndex],
 				});
 				setIsFocused(false);
@@ -173,8 +167,8 @@ function DropdownSelector({
 								}
 							}}
 							onClick={() => {
-								setLocationFormData({
-									...locationFormData,
+								setFunction({
+									...formData,
 									[name.toLowerCase()]: item,
 								});
 								setIsFocused(false);

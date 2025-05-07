@@ -143,8 +143,8 @@ function LocationPicker() {
 						name='Country'
 						value={locationFormData.country}
 						list={filteredCountries}
-						locationFormData={locationFormData}
-						setLocationFormData={setLocationFormData}
+						formData={locationFormData}
+						setFunction={setLocationFormData}
 					/>
 				</div>
 				<div className={styles['city-state']}>
@@ -153,8 +153,8 @@ function LocationPicker() {
 							name='State'
 							value={locationFormData.state}
 							list={filteredStates}
-							locationFormData={locationFormData}
-							setLocationFormData={setLocationFormData}
+							formData={locationFormData}
+							setFunction={setLocationFormData}
 						/>
 					</div>
 					<div className={styles.item}>
@@ -162,8 +162,8 @@ function LocationPicker() {
 							name='City'
 							value={locationFormData.city}
 							list={filteredCities}
-							locationFormData={locationFormData}
-							setLocationFormData={setLocationFormData}
+							formData={locationFormData}
+							setFunction={setLocationFormData}
 						/>
 					</div>
 				</div>
