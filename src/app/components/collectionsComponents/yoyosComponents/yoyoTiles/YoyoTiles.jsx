@@ -58,10 +58,13 @@ function YoyoTiles({ editing }) {
 	return (
 		<div className={styles.container}>
 			<div className={styles.legend}>
-				<ul className={styles.ul}>
+				<ul className={`${styles.ul} ${editing && styles.editing}`}>
+					<li className={styles.checkbox}>
+						<input type='checkbox' className={styles.input} />
+					</li>
 					<li
 						data-name='name'
-						className={`${styles.sort} ${
+						className={`${styles.sort} ${styles.name} ${
 							sort.name.selected && styles.selected
 						}`}
 						onClick={handleSort}
@@ -77,7 +80,7 @@ function YoyoTiles({ editing }) {
 					</li>
 					<li
 						data-name='manufacturer'
-						className={`${styles.sort} ${
+						className={`${styles.sort} ${styles.manufacturer} ${
 							sort.manufacturer.selected && styles.selected
 						}`}
 						onClick={handleSort}
@@ -94,7 +97,7 @@ function YoyoTiles({ editing }) {
 					</li>
 					<li
 						data-name='year'
-						className={`${styles.sort} ${
+						className={`${styles.sort} ${styles.year} ${
 							sort.year.selected && styles.selected
 						}`}
 						onClick={handleSort}
