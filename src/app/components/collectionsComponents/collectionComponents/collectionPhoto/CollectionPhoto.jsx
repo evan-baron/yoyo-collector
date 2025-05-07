@@ -10,7 +10,7 @@ import styles from './collectionPhoto.module.scss';
 import { Share, ZoomIn, DeleteOutline } from '@mui/icons-material';
 
 // Components
-import Heart from '../icons/heart/Heart';
+import Heart from '@/app/components/icons/heart/Heart';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';

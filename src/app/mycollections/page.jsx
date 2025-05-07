@@ -14,7 +14,7 @@ import styles from './myCollectionsPage.module.scss';
 import { West } from '@mui/icons-material';
 
 // Components
-import CollectionsTiles from '../components/collectionsTiles/CollectionsTiles';
+import CollectionsTiles from '../components/collectionsComponents/myCollectionsComponents/collectionsTiles/CollectionsTiles';
 
 async function MyCollections() {
 	await validateAndExtendSession('mycollections/page.jsx');

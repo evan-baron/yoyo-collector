@@ -19,8 +19,8 @@ import {
 } from '@mui/icons-material';
 
 // Components
-import BlankCoverPhoto from '../blankCoverPhoto/BlankCoverPhoto';
-import Heart from '../icons/heart/Heart';
+import BlankCoverPhoto from '../../../blankCoverPhoto/BlankCoverPhoto';
+import Heart from '../../../icons/heart/Heart';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';

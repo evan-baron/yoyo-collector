@@ -13,7 +13,7 @@ import styles from './collectionsTiles.module.scss';
 // Components
 import CollectionTile from '../collectionTile/CollectionTile';
 import NewCollectionTile from '../newCollectionTile/NewCollectionTile';
-import LoadingSpinner from '../loading/LoadingSpinner';
+import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';

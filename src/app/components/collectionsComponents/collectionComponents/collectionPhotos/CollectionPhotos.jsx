@@ -12,7 +12,7 @@ import styles from './collectionPhotos.module.scss';
 
 // Components
 import CollectionPhoto from '../collectionPhoto/CollectionPhoto';
-import PictureUploader from '../pictureUploader/PictureUploader';
+import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';

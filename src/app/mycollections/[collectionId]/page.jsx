@@ -17,11 +17,11 @@ import { Edit, Save, ZoomIn, Share } from '@mui/icons-material';
 // Components
 import BlankCoverPhoto from '@/app/components/blankCoverPhoto/BlankCoverPhoto';
 import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
-import EditableDescription from '@/app/components/myCollectionsComponents/editableDescription/EditableDescription';
-import EditableTitle from '@/app/components/myCollectionsComponents/editableTitle/EditableTitle';
+import EditableDescription from '@/app/components/collectionsComponents/myCollectionsComponents/editableDescription/EditableDescription';
+import EditableTitle from '@/app/components/collectionsComponents/myCollectionsComponents/editableTitle/EditableTitle';
 import Heart from '@/app/components/icons/heart/Heart';
 import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
-import CollectionPhotos from '@/app/components/collectionPhotos/CollectionPhotos';
+import CollectionPhotos from '@/app/components/collectionsComponents/collectionComponents/collectionPhotos/CollectionPhotos';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -350,27 +350,31 @@ function Collection() {
 								className={styles['yoyos-container']}
 								style={{ display: selected === 'yoyos' ? 'flex' : 'none' }}
 							>
-								{!editing && (
-									<div className={styles.sort}>
-										<div className={styles.style}>Photos Only</div>
-										<div className={styles.style}>Details Only</div>
-										<div className={styles.style}>Photos and Details</div>
-									</div>
+								{!editing ? (
+									<>
+										<div className={styles.sort}>
+											<div className={styles.style}>Photos Only</div>
+											<div className={styles.style}>Details Only</div>
+											<div className={styles.style}>Photos and Details</div>
+										</div>
+										<div className={styles.yoyos}>
+											<div className={styles.tile}>
+												(This will be its own component called YoyoTile)
+											</div>
+											<div className={styles.tile}>
+												(This will be its own component called YoyoTile)
+											</div>
+											<div className={styles.tile}>
+												(This will be its own component called YoyoTile)
+											</div>
+											<div className={styles.tile}>
+												(This will be its own component called YoyoTile)
+											</div>
+										</div>
+									</>
+								) : (
+									<div className={styles.yoyos}>Test</div>
 								)}
-								<div className={styles.yoyos}>
-									<div className={styles.tile}>
-										(This will be its own component called YoyoTile)
-									</div>
-									<div className={styles.tile}>
-										(This will be its own component called YoyoTile)
-									</div>
-									<div className={styles.tile}>
-										(This will be its own component called YoyoTile)
-									</div>
-									<div className={styles.tile}>
-										(This will be its own component called YoyoTile)
-									</div>
-								</div>
 							</section>
 							{/* {selected === 'collection' ? (
 								<div className={styles.photos}>
