@@ -332,7 +332,43 @@ function Collection() {
 									Yoyos
 								</h2>
 							</div>
-							{selected === 'collection' ? (
+							<div
+								className={styles.photos}
+								style={{ display: selected === 'collection' ? 'flex' : 'none' }}
+							>
+								<CollectionPhotos
+									collectionId={collectionId}
+									collectionType='user'
+									scroll='click'
+									setCoverPhoto={setCoverPhoto}
+									editing={editing}
+								/>
+							</div>
+							<section
+								className={styles['yoyos-container']}
+								style={{ display: selected === 'yoyos' ? 'flex' : 'none' }}
+							>
+								<div className={styles.sort}>
+									<div className={styles.style}>Photos Only</div>
+									<div className={styles.style}>Details Only</div>
+									<div className={styles.style}>Photos and Details</div>
+								</div>
+								<div className={styles.yoyos}>
+									<div className={styles.tile}>
+										(This will be its own component called YoyoTile)
+									</div>
+									<div className={styles.tile}>
+										(This will be its own component called YoyoTile)
+									</div>
+									<div className={styles.tile}>
+										(This will be its own component called YoyoTile)
+									</div>
+									<div className={styles.tile}>
+										(This will be its own component called YoyoTile)
+									</div>
+								</div>
+							</section>
+							{/* {selected === 'collection' ? (
 								<div className={styles.photos}>
 									<CollectionPhotos
 										collectionId={collectionId}
@@ -364,7 +400,7 @@ function Collection() {
 										</div>
 									</div>
 								</section>
-							)}
+							)} */}
 						</div>
 					</section>
 				</div>
