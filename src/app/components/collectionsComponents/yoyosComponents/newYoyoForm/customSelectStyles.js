@@ -8,7 +8,7 @@ const customSelectStyles = {
 	// Control (the outer container of the select box)
 	control: (styles) => ({
 		...styles,
-		backgroundColor: '#373737',
+		backgroundColor: '#454545',
 		border: 'none',
 		borderRadius: 'none',
 		fontSize: '1.25rem',
@@ -28,7 +28,7 @@ const customSelectStyles = {
 	// Menu (the dropdown menu that appears when clicking the control)
 	menu: (styles) => ({
 		...styles,
-		backgroundColor: '#373737',
+		backgroundColor: '#454545',
 		borderRadius: 'none',
 		zIndex: '9999',
 		margin: '0px',
@@ -38,7 +38,7 @@ const customSelectStyles = {
 	menuList: (styles) => ({
 		...styles,
 		overflowY: 'auto',
-		backgroundColor: '#373737',
+		backgroundColor: '#454545',
 	}),
 
 	// Option (each item in the dropdown)
@@ -48,7 +48,7 @@ const customSelectStyles = {
 			? 'rgba(0, 225, 225, .75)'
 			: isFocused
 			? '#525252'
-			: '#373737',
+			: '#454545',
 		color: isSelected ? '#eeeeee' : '#eeeeee',
 		padding: '0.25rem .5rem',
 		cursor: 'pointer',
