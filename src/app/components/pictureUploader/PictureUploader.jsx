@@ -322,7 +322,7 @@ function PictureUploader({
 							uploadType === 'profile' ? styles.circle : styles.square
 						}`}
 					/>
-					{uploadType !== 'collection' && (
+					{uploadType !== 'collection' && uploadType !== 'yoyo' && (
 						<div
 							className={`${styles.options} ${
 								uploadType === 'profile' ? styles.circle : styles.square
@@ -415,7 +415,7 @@ function PictureUploader({
 					</div>
 				)}
 			</div>
-			{uploadType !== 'collection' && (
+			{uploadType !== 'collection' && uploadType !== 'yoyo' && (
 				<div className={styles.buttons}>
 					{updatingPicture && (
 						<Undo

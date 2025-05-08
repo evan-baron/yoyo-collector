@@ -24,7 +24,7 @@ function YearDropdown({ value, handleChange, name }) {
 		<Select
 			options={years}
 			value={years.find((year) => year.value === value)}
-			onChange={handleChange}
+			onChange={(selectedOption) => handleChange(selectedOption, { name })}
 			placeholder='Select year...'
 			menuPlacement='bottom'
 			menuShouldScrollIntoView={false}

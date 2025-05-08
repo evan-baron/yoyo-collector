@@ -18,7 +18,7 @@ function NewYoyoForm() {
 	const [yoyoFormData, setYoyoFormData] = useState({
 		model: '',
 		manufacturer: '',
-		colorway: '',
+		color: '',
 		year: '',
 		originalOwner: '',
 		purchased: '',
@@ -30,6 +30,7 @@ function NewYoyoForm() {
 
 	const handleDropdownChange = (e, meta) => {
 		const { name } = meta;
+		console.log(name);
 		const value = e ? e.value : '';
 		console.log(value, name);
 
@@ -39,10 +40,36 @@ function NewYoyoForm() {
 		}));
 	};
 
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		console.log(name, value);
+		setYoyoFormData((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+	};
+
+	const handleCancel = () => {
+		setYoyoFormData({
+			model: '',
+			manufacturer: '',
+			color: '',
+			year: '',
+			originalOwner: '',
+			purchased: '',
+			price: '',
+			material: '',
+			response: '',
+			condition: '',
+		});
+		setAddYoyo(false);
+		setMore(false);
+	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		console.log('test');
+		console.log(yoyoFormData);
 	};
 
 	return (
@@ -71,6 +98,8 @@ function NewYoyoForm() {
 											name='model'
 											type='text'
 											className={styles.input}
+											onChange={handleChange}
+											value={yoyoFormData.model}
 										/>
 									</div>
 									<div className={styles['input-box']}>
@@ -82,6 +111,8 @@ function NewYoyoForm() {
 											name='color'
 											type='text'
 											className={styles.input}
+											onChange={handleChange}
+											value={yoyoFormData.color}
 										/>
 									</div>
 								</div>
@@ -95,6 +126,11 @@ function NewYoyoForm() {
 											handleChange={handleDropdownChange}
 											name='manufacturer'
 										/>
+									</div>
+									<div className={styles['photo-input']}>
+										<label htmlFor='yoyoInput' className={styles.label}>
+											Add Photos
+										</label>
 									</div>
 								</div>
 							</div>
@@ -117,6 +153,8 @@ function NewYoyoForm() {
 												name='material'
 												type='text'
 												className={styles.input}
+												onChange={handleChange}
+												value={yoyoFormData.material}
 											/>
 										</div>
 										<div className={styles['input-box']}>
@@ -153,15 +191,45 @@ function NewYoyoForm() {
 									<div className={styles.right}>
 										{' '}
 										<div className={styles['input-box']}>
-											<label htmlFor='originalOwner' className={styles.label}>
+											<div className={styles['radio-label']}>
 												Original Owner?
-											</label>
-											<input
-												id='originalOwner'
-												name='originalOwner'
-												type='text'
-												className={styles.input}
-											/>
+											</div>
+											<div className={styles.options}>
+												<div className={styles.option}>
+													<input
+														id='originalOwnerYes'
+														name='originalOwner'
+														type='radio'
+														className={styles.radio}
+														onChange={handleChange}
+														value='yes'
+														checked={yoyoFormData.originalOwner === 'yes'}
+													/>
+													<label
+														htmlFor='originalOwnerYes'
+														className={styles.label}
+													>
+														Yes
+													</label>
+												</div>
+												<div className={styles.option}>
+													<input
+														id='originalOwnerNo'
+														name='originalOwner'
+														type='radio'
+														className={styles.radio}
+														onChange={handleChange}
+														value='no'
+														checked={yoyoFormData.originalOwner === 'no'}
+													/>
+													<label
+														htmlFor='originalOwnerNo'
+														className={styles.label}
+													>
+														No
+													</label>
+												</div>
+											</div>
 										</div>
 										<div className={styles['input-box']}>
 											<label htmlFor='purchased' className={styles.label}>
@@ -182,6 +250,8 @@ function NewYoyoForm() {
 												name='price'
 												type='text'
 												className={styles.input}
+												onChange={handleChange}
+												value={yoyoFormData.price}
 											/>
 										</div>
 										<div className={styles['input-box']}>
@@ -193,6 +263,8 @@ function NewYoyoForm() {
 												name='condition'
 												type='text'
 												className={styles.input}
+												onChange={handleChange}
+												value={yoyoFormData.condition}
 											/>
 										</div>
 									</div>
@@ -204,9 +276,15 @@ function NewYoyoForm() {
 			</div>
 			{addYoyo && (
 				<div className={styles.buttons}>
-					<div className={styles.button}>Save</div>
-					<div className={styles.button}>Save & Add New</div>
-					<div className={styles.button}>Cancel</div>
+					<div className={styles.button} onClick={handleSubmit}>
+						Save
+					</div>
+					<div className={styles.button} onClick={handleSubmit}>
+						Save & Add New
+					</div>
+					<div className={styles.button} onClick={handleCancel}>
+						Cancel
+					</div>
 				</div>
 			)}
 		</>
