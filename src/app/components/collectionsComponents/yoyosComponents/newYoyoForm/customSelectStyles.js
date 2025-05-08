@@ -39,6 +39,9 @@ const customSelectStyles = {
 		...styles,
 		overflowY: 'auto',
 		backgroundColor: '#454545',
+		// Custom scrollbar styles
+		scrollbarWidth: '1rem',
+		scrollbarColor: '#757575 #373737',
 	}),
 
 	// Option (each item in the dropdown)
@@ -63,6 +66,7 @@ const customSelectStyles = {
 	placeholder: (styles) => ({
 		...styles,
 		color: '#aaaaaa',
+		position: 'absolute',
 	}),
 
 	// SingleValue (the selected value in the control)
@@ -93,7 +97,7 @@ const customSelectStyles = {
 	input: (styles) => ({
 		...styles,
 		margin: '0px',
-		padding: '0px',
+		padding: '0px .25rem',
 		color: '#eeeeee',
 	}),
 
