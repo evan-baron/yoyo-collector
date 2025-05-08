@@ -112,6 +112,13 @@ const customSelectStyles = {
 			color: '#696969',
 		},
 	}),
+
+	clearIndicator: (styles, { isFocused }) => ({
+		...styles,
+		'&:hover': {
+			color: '#eeeeee',
+		},
+	}),
 };
 
 export default customSelectStyles;

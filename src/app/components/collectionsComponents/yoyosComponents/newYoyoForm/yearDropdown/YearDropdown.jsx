@@ -1,6 +1,6 @@
 // Libraries
 import React from 'react';
-import CreatableSelect from 'react-select/creatable';
+import Select from 'react-select';
 
 // Styles
 import customSelectStyles from '../customSelectStyles';
@@ -21,7 +21,7 @@ function YearDropdown({ value, handleChange, name }) {
 		}));
 
 	return (
-		<CreatableSelect
+		<Select
 			options={years}
 			value={years.find((year) => year.value === value)}
 			onChange={handleChange}
@@ -29,7 +29,6 @@ function YearDropdown({ value, handleChange, name }) {
 			menuPlacement='bottom'
 			menuShouldScrollIntoView={false}
 			styles={customSelectStyles}
-			name={name}
 			isClearable
 		/>
 	);

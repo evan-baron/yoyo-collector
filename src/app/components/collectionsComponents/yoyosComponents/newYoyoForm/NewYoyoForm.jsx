@@ -10,6 +10,7 @@ import styles from './newYoyoForm.module.scss';
 import ManufacturerDropdown from './manufacturerDropdown/ManufacturerDropdown';
 import YearDropdown from './yearDropdown/YearDropdown';
 import ResponseDropdown from './responseDropdown/ResponseDropdown';
+import BearingDropdown from './bearingDropdown/bearingDropdown';
 
 function NewYoyoForm() {
 	const [addYoyo, setAddYoyo] = useState(null);
@@ -72,28 +73,6 @@ function NewYoyoForm() {
 									/>
 								</div>
 								<div className={styles['input-box']}>
-									<label htmlFor='manufacturer' className={styles.label}>
-										Brand:
-									</label>
-									<ManufacturerDropdown
-										value={yoyoFormData.manufacturer}
-										handleChange={handleDropdownChange}
-										name='manufacturer'
-									/>
-								</div>
-								<div className={styles['input-box']}>
-									<label htmlFor='year' className={styles.label}>
-										Release Date (year):
-									</label>
-									<YearDropdown
-										value={yoyoFormData.year}
-										handleChange={handleDropdownChange}
-										name='year'
-									/>
-								</div>
-							</div>
-							<div className={styles.right}>
-								<div className={styles['input-box']}>
 									<label htmlFor='color' className={styles.label}>
 										Color/Colorway Name:
 									</label>
@@ -102,6 +81,18 @@ function NewYoyoForm() {
 										name='color'
 										type='text'
 										className={styles.input}
+									/>
+								</div>
+							</div>
+							<div className={styles.right}>
+								<div className={styles['input-box']}>
+									<label htmlFor='manufacturer' className={styles.label}>
+										Brand:
+									</label>
+									<ManufacturerDropdown
+										value={yoyoFormData.manufacturer}
+										handleChange={handleDropdownChange}
+										name='manufacturer'
 									/>
 								</div>
 							</div>
@@ -131,7 +122,7 @@ function NewYoyoForm() {
 									</div>
 									<div className={styles['input-box']}>
 										<label htmlFor='response' className={styles.label}>
-											Response type:
+											Response Type:
 										</label>
 										<ResponseDropdown
 											value={yoyoFormData.response}
@@ -140,14 +131,23 @@ function NewYoyoForm() {
 										/>
 									</div>
 									<div className={styles['input-box']}>
-										<label htmlFor='condition' className={styles.label}>
-											Condition:
+										<label htmlFor='bearing' className={styles.label}>
+											Bearing Type:
 										</label>
-										<input
-											id='condition'
-											name='condition'
-											type='text'
-											className={styles.input}
+										<BearingDropdown
+											value={yoyoFormData.response}
+											handleChange={handleDropdownChange}
+											name='bearing'
+										/>
+									</div>
+									<div className={styles['input-box']}>
+										<label htmlFor='year' className={styles.label}>
+											Release Date (year):
+										</label>
+										<YearDropdown
+											value={yoyoFormData.year}
+											handleChange={handleDropdownChange}
+											name='year'
 										/>
 									</div>
 								</div>
@@ -155,7 +155,7 @@ function NewYoyoForm() {
 									{' '}
 									<div className={styles['input-box']}>
 										<label htmlFor='originalOwner' className={styles.label}>
-											Original owner:
+											Original Owner?
 										</label>
 										<input
 											id='originalOwner'
@@ -166,7 +166,7 @@ function NewYoyoForm() {
 									</div>
 									<div className={styles['input-box']}>
 										<label htmlFor='purchased' className={styles.label}>
-											Purchase date (year):
+											Purchase Date (year):
 										</label>
 										<YearDropdown
 											value={yoyoFormData.purchased}
@@ -176,11 +176,22 @@ function NewYoyoForm() {
 									</div>
 									<div className={styles['input-box']}>
 										<label htmlFor='price' className={styles.label}>
-											Purchase price (private):
+											Purchase Price (private):
 										</label>
 										<input
 											id='price'
 											name='price'
+											type='text'
+											className={styles.input}
+										/>
+									</div>
+									<div className={styles['input-box']}>
+										<label htmlFor='condition' className={styles.label}>
+											Condition:
+										</label>
+										<input
+											id='condition'
+											name='condition'
 											type='text'
 											className={styles.input}
 										/>

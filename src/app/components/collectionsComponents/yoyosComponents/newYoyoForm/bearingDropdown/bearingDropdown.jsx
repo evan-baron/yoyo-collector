@@ -1,26 +1,25 @@
 // Libraries
 import React from 'react';
-import CreatableSelect from 'react-select/creatable';
-
-// Utils
-import { yoyoBrands } from '../yoyoBrands';
+import Select from 'react-select';
 
 // Styles
 import customSelectStyles from '../customSelectStyles';
 
-function ManufacturerDropdown({ value, handleChange, name }) {
-	const options = yoyoBrands.map((brand) => ({
-		value: brand.toString(),
-		label: brand.toString(),
+function BearingDropdown({ value, handleChange, name }) {
+	const response = ['A', 'C', 'D', 'Other'];
+
+	const options = response.map((option) => ({
+		value: option.toString(),
+		label: option.toString(),
 		name: name,
 	}));
 
 	return (
-		<CreatableSelect
+		<Select
 			options={options}
 			value={options.find((option) => option.value === value)}
 			onChange={handleChange}
-			placeholder='Select brand...'
+			placeholder='Select bearing type...'
 			menuPlacement='bottom'
 			menuShouldScrollIntoView={false}
 			styles={customSelectStyles}
@@ -30,4 +29,4 @@ function ManufacturerDropdown({ value, handleChange, name }) {
 	);
 }
 
-export default ManufacturerDropdown;
+export default BearingDropdown;
