@@ -103,7 +103,7 @@ function NewYoyoForm() {
 							}`}
 							onClick={() => setMore((prev) => !prev)}
 						>
-							More Details
+							{more ? 'Less' : 'More'} Details
 						</div>
 
 						{more && (
