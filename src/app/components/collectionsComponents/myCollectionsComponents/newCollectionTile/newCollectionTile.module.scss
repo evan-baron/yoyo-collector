@@ -17,7 +17,7 @@
 		display: flex;
 		position: relative;
 		border-radius: 0.5rem;
-		background-color: var(--darkGray);
+		background-color: var(--darkerGray);
 		box-shadow: 0.25rem 0.25rem 1rem black;
 		cursor: pointer;
 		transition: 0.3s;
@@ -29,11 +29,11 @@
 			content: '';
 			position: absolute;
 			height: 80%;
-			width: 1.5rem;
-			border-radius: 0.75rem;
+			width: 1rem;
+			border-radius: 0.5rem;
 			inset: 0;
 			margin: auto;
-			background-color: var(--mediumGray);
+			background-color: #373737;
 			transition: 0.3s;
 		}
 
@@ -41,11 +41,11 @@
 			content: '';
 			position: absolute;
 			width: 80%;
-			height: 1.5rem;
-			border-radius: 0.75rem;
+			height: 1rem;
+			border-radius: 0.5rem;
 			inset: 0;
 			margin: auto;
-			background-color: var(--mediumGray);
+			background-color: #373737;
 			transition: 0.3s;
 		}
 

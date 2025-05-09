@@ -150,7 +150,7 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				background: rgba(20, 20, 20, 0.5);
+				background: var(--darkerGray);
 				border-radius: 0.5rem;
 
 				&::before {
@@ -161,7 +161,7 @@
 					content: '';
 					position: absolute;
 
-					background-color: var(--darkerGray);
+					background-color: #373737;
 				}
 
 				&::after {
@@ -172,7 +172,7 @@
 					content: '';
 					position: absolute;
 
-					background-color: var(--darkerGray);
+					background-color: #373737;
 				}
 			}
 		}
