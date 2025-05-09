@@ -13,7 +13,7 @@ import { North } from '@mui/icons-material';
 import YoyoTile from '../yoyoTile/YoyoTile';
 import NewYoyoForm from '../newYoyoForm/NewYoyoForm';
 
-function YoyoTiles({ editing }) {
+function YoyoTiles({ collectionId, editing }) {
 	const [sort, setSort] = useState({
 		name: {
 			selected: true,
@@ -27,6 +27,21 @@ function YoyoTiles({ editing }) {
 			selected: false,
 			direction: 'ascending',
 		},
+	});
+	const [yoyoFormData, setYoyoFormData] = useState({
+		collectionId: collectionId,
+		model: '',
+		brand: '',
+		bearing: '',
+		color: '',
+		year: '',
+		originalOwner: '',
+		purchased: '',
+		price: '',
+		category: '',
+		responseType: '',
+		condition: '',
+		value: '',
 	});
 
 	const handleSort = (e) => {
@@ -58,7 +73,9 @@ function YoyoTiles({ editing }) {
 
 	return (
 		<div className={styles['yoyos-container']}>
-			{editing && <NewYoyoForm />}
+			{editing && (
+				<NewYoyoForm yoyoData={yoyoFormData} setYoyoData={setYoyoFormData} />
+			)}
 			<div className={styles.list}>
 				<div className={styles.legend}>
 					<ul className={`${styles.ul} ${editing && styles.editing}`}>

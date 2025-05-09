@@ -15,22 +15,9 @@ import YearDropdown from './yearDropdown/YearDropdown';
 import ResponseDropdown from './responseDropdown/ResponseDropdown';
 import BearingDropdown from './bearingDropdown/bearingDropdown';
 
-function NewYoyoForm() {
+function NewYoyoForm({ yoyoData, setYoyoData }) {
 	const [addYoyo, setAddYoyo] = useState(null);
 	const [more, setMore] = useState(null);
-	const [yoyoFormData, setYoyoFormData] = useState({
-		model: '',
-		brand: '',
-		color: '',
-		year: '',
-		originalOwner: '',
-		purchased: '',
-		price: '',
-		category: '',
-		response: '',
-		condition: '',
-		value: '',
-	});
 	const [maxHeight, setMaxHeight] = useState('2.5rem');
 
 	useEffect(() => {
@@ -45,7 +32,7 @@ function NewYoyoForm() {
 		const { name } = meta;
 		const value = e ? e.value : '';
 
-		setYoyoFormData((prev) => ({
+		setYoyoData((prev) => ({
 			...prev,
 			[name]: value,
 		}));
@@ -53,14 +40,15 @@ function NewYoyoForm() {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setYoyoFormData((prev) => ({
+		setYoyoData((prev) => ({
 			...prev,
 			[name]: value,
 		}));
 	};
 
 	const handleCancel = () => {
-		setYoyoFormData({
+		setYoyoData({
+			...yoyoData,
 			model: '',
 			manufacturer: '',
 			color: '',
@@ -69,7 +57,7 @@ function NewYoyoForm() {
 			purchased: '',
 			price: '',
 			category: '',
-			response: '',
+			responseType: '',
 			condition: '',
 		});
 		setAddYoyo(false);
@@ -79,7 +67,7 @@ function NewYoyoForm() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		console.log(yoyoFormData);
+		console.log(yoyoData);
 	};
 
 	return (
@@ -129,7 +117,7 @@ function NewYoyoForm() {
 										type='text'
 										className={styles.input}
 										onChange={handleChange}
-										value={yoyoFormData.model}
+										value={yoyoData.model}
 										maxLength={50}
 									/>
 								</div>
@@ -143,54 +131,58 @@ function NewYoyoForm() {
 										type='text'
 										className={styles.input}
 										onChange={handleChange}
-										value={yoyoFormData.color}
+										value={yoyoData.color}
 										maxLength={50}
 									/>
 								</div>
-								<div className={styles['input-box']}>
-									<label htmlFor='category' className={styles.label}>
-										Category (fixed, bimetal, etc.):
-									</label>
-									<input
-										id='category'
-										name='category'
-										type='text'
-										className={styles.input}
-										onChange={handleChange}
-										value={yoyoFormData.category}
-										maxLength={60}
-									/>
-								</div>
-								<div className={styles['input-box']}>
-									<label htmlFor='response' className={styles.label}>
-										Response Type:
-									</label>
-									<ResponseDropdown
-										value={yoyoFormData.response}
-										handleChange={handleDropdownChange}
-										name='response'
-									/>
-								</div>
-								<div className={styles['input-box']}>
-									<label htmlFor='bearing' className={styles.label}>
-										Bearing Type:
-									</label>
-									<BearingDropdown
-										value={yoyoFormData.response}
-										handleChange={handleDropdownChange}
-										name='bearing'
-									/>
-								</div>
-								<div className={styles['input-box']}>
-									<label htmlFor='year' className={styles.label}>
-										Release Date (year):
-									</label>
-									<YearDropdown
-										value={yoyoFormData.year}
-										handleChange={handleDropdownChange}
-										name='year'
-									/>
-								</div>
+								{more && (
+									<>
+										<div className={styles['input-box']}>
+											<label htmlFor='category' className={styles.label}>
+												Category (fixed, bimetal, etc.):
+											</label>
+											<input
+												id='category'
+												name='category'
+												type='text'
+												className={styles.input}
+												onChange={handleChange}
+												value={yoyoData.category}
+												maxLength={60}
+											/>
+										</div>
+										<div className={styles['input-box']}>
+											<label htmlFor='responseType' className={styles.label}>
+												Response Type:
+											</label>
+											<ResponseDropdown
+												value={yoyoData.responseType}
+												handleChange={handleDropdownChange}
+												name='responseType'
+											/>
+										</div>
+										<div className={styles['input-box']}>
+											<label htmlFor='bearing' className={styles.label}>
+												Bearing Type:
+											</label>
+											<BearingDropdown
+												value={yoyoData.bearing}
+												handleChange={handleDropdownChange}
+												name='bearing'
+											/>
+										</div>
+										<div className={styles['input-box']}>
+											<label htmlFor='year' className={styles.label}>
+												Release Date (year):
+											</label>
+											<YearDropdown
+												value={yoyoData.year}
+												handleChange={handleDropdownChange}
+												name='year'
+											/>
+										</div>
+									</>
+								)}
 							</div>
 							<div className={styles.right}>
 								<div className={styles['input-box']}>
@@ -198,7 +190,7 @@ function NewYoyoForm() {
 										Brand:
 									</label>
 									<ManufacturerDropdown
-										value={yoyoFormData.brand}
+										value={yoyoData.brand}
 										handleChange={handleDropdownChange}
 										name='brand'
 									/>
@@ -208,97 +200,108 @@ function NewYoyoForm() {
 										Add Photos
 									</label>
 								</div>
-								<div className={styles['input-box']}>
-									<div className={styles['radio-label']}>Original Owner?</div>
-									<div className={styles.options}>
-										<div className={styles.option}>
-											<input
-												id='originalOwnerYes'
-												name='originalOwner'
-												type='radio'
-												className={styles.radio}
-												onChange={handleChange}
-												value='yes'
-												checked={yoyoFormData.originalOwner === 'yes'}
-											/>
-											<label
-												htmlFor='originalOwnerYes'
-												className={styles.label}
-											>
-												Yes
-											</label>
+								{more && (
+									<>
+										<div className={styles['input-box']}>
+											<div className={styles['radio-label']}>
+												Original Owner?
+											</div>
+											<div className={styles.options}>
+												<div className={styles.option}>
+													<input
+														id='originalOwnerYes'
+														name='originalOwner'
+														type='radio'
+														className={styles.radio}
+														onChange={handleChange}
+														value='yes'
+														checked={yoyoData.originalOwner === 'yes'}
+													/>
+													<label
+														htmlFor='originalOwnerYes'
+														className={styles.label}
+													>
+														Yes
+													</label>
+												</div>
+												<div className={styles.option}>
+													<input
+														id='originalOwnerNo'
+														name='originalOwner'
+														type='radio'
+														className={styles.radio}
+														onChange={handleChange}
+														value='no'
+														checked={yoyoData.originalOwner === 'no'}
+													/>
+													<label
+														htmlFor='originalOwnerNo'
+														className={styles.label}
+													>
+														No
+													</label>
+												</div>
+											</div>
 										</div>
-										<div className={styles.option}>
-											<input
-												id='originalOwnerNo'
-												name='originalOwner'
-												type='radio'
-												className={styles.radio}
-												onChange={handleChange}
-												value='no'
-												checked={yoyoFormData.originalOwner === 'no'}
-											/>
-											<label htmlFor='originalOwnerNo' className={styles.label}>
-												No
+										<div className={styles['input-box']}>
+											<label htmlFor='purchased' className={styles.label}>
+												Purchase Date (year):
 											</label>
+											<YearDropdown
+												value={yoyoData.purchased}
+												handleChange={handleDropdownChange}
+												name='purchased'
+											/>
 										</div>
-									</div>
-								</div>
-								<div className={styles['input-box']}>
-									<label htmlFor='purchased' className={styles.label}>
-										Purchase Date (year):
-									</label>
-									<YearDropdown
-										value={yoyoFormData.purchased}
-										handleChange={handleDropdownChange}
-										name='purchased'
-									/>
-								</div>
-								<div className={styles['input-box']}>
-									<label htmlFor='price' className={styles.label}>
-										Purchase Price (private):
-									</label>
-									<input
-										id='price'
-										name='price'
-										type='text'
-										className={styles.input}
-										onChange={handleChange}
-										value={yoyoFormData.price}
-										maxLength={100}
-									/>
-								</div>
-								<div className={styles['input-box']}>
-									<label htmlFor='value' className={styles.label}>
-										Approximate Value:
-									</label>
-									<input
-										id='value'
-										name='value'
-										type='text'
-										className={styles.input}
-										onChange={handleChange}
-										value={yoyoFormData.value}
-										maxLength={20}
-									/>
-								</div>
+										<div className={styles['input-box']}>
+											<label htmlFor='price' className={styles.label}>
+												Purchase Price (private):
+											</label>
+											<input
+												id='price'
+												name='price'
+												type='text'
+												className={styles.input}
+												onChange={handleChange}
+												value={yoyoData.price}
+												maxLength={100}
+											/>
+										</div>
+										<div className={styles['input-box']}>
+											<label htmlFor='value' className={styles.label}>
+												Approximate Value:
+											</label>
+											<input
+												id='value'
+												name='value'
+												type='text'
+												className={styles.input}
+												onChange={handleChange}
+												value={yoyoData.value}
+												maxLength={20}
+											/>
+										</div>
+									</>
+								)}
 							</div>
 						</div>
-						<div className={styles['input-box']}>
-							<label htmlFor='condition' className={styles.label}>
-								Condition/Additional Notes:
-							</label>
-							<textarea
-								className={styles.textarea}
-								name='condition'
-								id='condition'
-								maxLength={300}
-								rows='3'
-								placeholder="This yoyo is worth at least a thousand bucks, Janice. Don't let anyone convince you otherwise. If I pass on and I see the kids sell it for anything less..."
-								value={yoyoFormData.condition}
-								onChange={handleChange}
-							/>
-						</div>
+						{more && (
+							<div className={styles['input-box']}>
+								<label htmlFor='condition' className={styles.label}>
+									Condition/Additional Notes:
+								</label>
+								<textarea
+									className={styles.textarea}
+									name='condition'
+									id='condition'
+									maxLength={300}
+									rows='3'
+									placeholder="This yoyo is worth at least a thousand bucks, Janice. Don't let anyone convince you otherwise. If I pass on and I see the kids sell it for anything less..."
+									value={yoyoData.condition}
+									onChange={handleChange}
+								/>
+							</div>
+						)}
 					</div>
 				</form>
 				{addYoyo && (

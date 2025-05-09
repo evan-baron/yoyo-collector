@@ -97,7 +97,14 @@ function PictureUploader({
 	// Handle upload
 	const handleUpload = async (e) => {
 		setError(null);
+
 		const files = Array.from(e.target.files);
+
+		if (uploadType === 'yoyo') {
+			console.log('not built yet');
+			return;
+		}
+
 		if (!files.length) return;
 
 		if (

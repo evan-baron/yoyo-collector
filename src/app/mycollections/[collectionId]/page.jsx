@@ -379,7 +379,7 @@ function Collection() {
 									</>
 								) : (
 									<div className={styles.yoyos}>
-										<YoyoTiles editing={editing} />
+										<YoyoTiles collectionId={collection.id} editing={editing} />
 									</div>
 								)}
 							</section>

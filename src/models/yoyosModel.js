@@ -2,7 +2,7 @@ import pool from '@/config/db';
 
 const Yoyos = {
 	// Get yoyo by yoyoId
-	async getYoyoByYoyoId(yoyoId) {
+	async getYoyoById(yoyoId) {
 		const [rows] = await pool.execute(
 			`SELECT 
 				yoyos.*, 
@@ -71,7 +71,7 @@ const Yoyos = {
 		originalOwner,
 		price,
 		purchased,
-		response,
+		responseType,
 		value,
 		year
 	) {
@@ -91,7 +91,7 @@ const Yoyos = {
 				purchased,
 				price,
 				category,
-				response,
+				responseType,
 				condition,
 				value,
 			]

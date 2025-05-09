@@ -47,6 +47,15 @@ const Uploads = {
 		return rows;
 	},
 
+	// Get all yoyo photos by yoyoId
+	async getAllYoyoPhotos(yoyoId) {
+		const [rows] = await pool.execute(
+			`SELECT * FROM user_uploads WHERE yoyo_id = ?`,
+			[yoyoId]
+		);
+		return rows;
+	},
+
 	// Get photo by userId and category
 	async getPhotosByIdAndCategory(userId, category) {
 		const [rows] = await pool.execute(
