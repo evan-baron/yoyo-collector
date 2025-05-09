@@ -27,16 +27,23 @@ function PictureUploader({
 	collection,
 	setCoverPhoto,
 	editing,
+	selectedYoyo,
 }) {
 	// Context
-	const { loading, setLoading, user, setUser, setNewCollectionCounter } =
-		useAppContext();
+	const {
+		imagesToUpload,
+		setImagesToUpload,
+		loading,
+		setLoading,
+		user,
+		setUser,
+		setNewCollectionCounter,
+	} = useAppContext();
 
 	const MAX_FILES = 10;
 	const MAX_FILE_SIZE = 4 * 1024 * 1024;
 
 	// State to hold the uploaded image URL
-	const [imageToUpload, setImageToUpload] = useState([]);
 	const [previewUrl, setPreviewUrl] = useState();
 	const [uploadAction, setUploadAction] = useState(null);
 	const [error, setError] = useState(null);
@@ -136,7 +143,7 @@ function PictureUploader({
 			}
 
 			setUpdatingPicture(true);
-			setImageToUpload(file);
+			setImagesToUpload(file);
 			setPreviewUrl(URL.createObjectURL(file));
 
 			return;
@@ -166,15 +173,15 @@ function PictureUploader({
 						formData
 					);
 
-					const {
-						public_id,
-						secure_url,
-						format,
-						resource_type,
-						bytes,
-						height,
-						width,
-					} = data;
+					// const {
+					// 	public_id,
+					// 	secure_url,
+					// 	format,
+					// 	resource_type,
+					// 	bytes,
+					// 	height,
+					// 	width,
+					// } = data;
 
 					const uploadData = {
 						...data,
@@ -193,7 +200,7 @@ function PictureUploader({
 			} finally {
 				fileInputRef.current.value = '';
 				setLoading(false);
-				setImageToUpload(null);
+				setImagesToUpload(null);
 				setUpdatingPicture(false);
 			}
 			return;
@@ -202,9 +209,9 @@ function PictureUploader({
 
 	// Handle save
 	const handleSave = async () => {
-		if (!imageToUpload) return;
+		if (!imagesToUpload) return;
 
-		if (imageToUpload.size > MAX_FILE_SIZE) {
+		if (imagesToUpload.size > MAX_FILE_SIZE) {
 			setError('File must not exceed 4mb');
 			return;
 		}
@@ -213,7 +220,7 @@ function PictureUploader({
 
 		const preset = getPreset(uploadType);
 
-		formData.append('file', imageToUpload);
+		formData.append('file', imagesToUpload);
 		formData.append('upload_preset', preset);
 
 		setLoading(true);
@@ -257,7 +264,7 @@ function PictureUploader({
 			);
 		} finally {
 			setLoading(false);
-			setImageToUpload(null);
+			setImagesToUpload(null);
 			setUpdatingPicture(false);
 			setNewCollectionCounter((prev) => prev + 1);
 		}
@@ -315,6 +322,7 @@ function PictureUploader({
 							(uploadType === 'cover' || uploadType === 'yoyo') &&
 							'0.25rem 0.25rem 1rem black',
 					}}
+					onClick={() => console.log(uploadType, selectedYoyo)}
 				>
 					<input
 						name={input}
@@ -410,7 +418,7 @@ function PictureUploader({
 									className={styles['delete-button']}
 									onClick={() => {
 										setError(null);
-										setImageToUpload(null);
+										setImagesToUpload(null);
 										fileInputRef.current.value = '';
 									}}
 								>
@@ -428,7 +436,7 @@ function PictureUploader({
 						<Undo
 							className={styles.undo}
 							onClick={() => {
-								setImageToUpload(null);
+								setImagesToUpload(null);
 								setUpdatingPicture(null);
 								setPreviewUrl(null);
 								if (fileInputRef.current) {

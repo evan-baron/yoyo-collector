@@ -19,6 +19,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [editing, setEditing] = useState(false);
 	const [emailVerified, setEmailVerified] = useState(false);
 	const [error, setError] = useState(null);
+	const [imagesToUpload, setImagesToUpload] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalType, setModalType] = useState(null);
@@ -247,6 +248,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				editing,
 				emailVerified,
 				error,
+				imagesToUpload,
 				profileSettingsFormData,
 				loading,
 				modalOpen,
@@ -268,6 +270,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setEditing,
 				setEmailVerified,
 				setError,
+				setImagesToUpload,
 				setNewCollectionCounter,
 				setNewCollectionData,
 				setOriginalCollectionData,

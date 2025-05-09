@@ -13,7 +13,7 @@ import { North } from '@mui/icons-material';
 import YoyoTile from '../yoyoTile/YoyoTile';
 import NewYoyoForm from '../newYoyoForm/NewYoyoForm';
 
-function YoyoTiles({ collectionId, editing }) {
+function YoyoTiles({ setSelectedYoyo, collectionId, editing }) {
 	const [sort, setSort] = useState({
 		name: {
 			selected: true,

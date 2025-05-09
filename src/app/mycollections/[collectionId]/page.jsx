@@ -82,6 +82,7 @@ function Collection() {
 	const [pendingData, setPendingData] = useState({});
 	const [coverPhoto, setCoverPhoto] = useState(null);
 	const [selected, setSelected] = useState('collection');
+	const [selectedYoyo, setSelectedYoyo] = useState(null);
 
 	useEffect(() => {
 		setFormData({
@@ -259,6 +260,7 @@ function Collection() {
 										collection={collection.id}
 										setCoverPhoto={setCoverPhoto}
 										editing={selected === 'collection' && editing}
+										selectedYoyo={selectedYoyo}
 									/>
 								) : selected === 'collection' && coverPhoto ? (
 									<div
@@ -379,7 +381,11 @@ function Collection() {
 									</>
 								) : (
 									<div className={styles.yoyos}>
-										<YoyoTiles collectionId={collection.id} editing={editing} />
+										<YoyoTiles
+											setSelectedYoyo={setSelectedYoyo}
+											collectionId={collection.id}
+											editing={editing}
+										/>
 									</div>
 								)}
 							</section>

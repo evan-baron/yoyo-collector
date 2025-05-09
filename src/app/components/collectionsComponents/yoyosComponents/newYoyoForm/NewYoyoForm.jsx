@@ -18,7 +18,12 @@ import YearDropdown from './yearDropdown/YearDropdown';
 import ResponseDropdown from './responseDropdown/ResponseDropdown';
 import BearingDropdown from './bearingDropdown/bearingDropdown';
 
+// Context
+import { useAppContext } from '@/app/context/AppContext';
+
 function NewYoyoForm({ yoyoData, setYoyoData }) {
+	const { imagesToUpload, setImagesToUpload } = useAppContext();
+
 	const [more, setMore] = useState(null);
 	const [animate, setAnimate] = useState(false);
 
@@ -64,14 +69,12 @@ function NewYoyoForm({ yoyoData, setYoyoData }) {
 			responseType: '',
 			condition: '',
 		});
-		setMore(false);
+		more && setMore(false);
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const { name } = e.target.dataset;
-
-		console.log(yoyoData);
 
 		try {
 			await axiosInstance.post('/api/user/yoyos', yoyoData);
@@ -95,8 +98,9 @@ function NewYoyoForm({ yoyoData, setYoyoData }) {
 				responseType: '',
 				condition: '',
 			});
+
 			if (name === 'save') {
-				setMore(false);
+				more && setMore(false);
 			}
 		}
 	};
