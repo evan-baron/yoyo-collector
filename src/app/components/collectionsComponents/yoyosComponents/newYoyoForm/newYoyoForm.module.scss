@@ -122,6 +122,19 @@
 						magenta
 					);
 					background-size: 200% 1200%;
+					// background: linear-gradient(
+					// 	135deg,
+					// 	magenta,
+					// 	cyan,
+					// 	magenta,
+					// 	cyan,
+					// 	magenta,
+					// 	cyan,
+					// 	magenta,
+					// 	cyan,
+					// 	magenta
+					// );
+					// background-size: 200% 1250%;
 					animation: move-gradient 3s linear infinite;
 					mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
 					mask-composite: exclude;
