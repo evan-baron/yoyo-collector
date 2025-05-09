@@ -77,7 +77,7 @@ const Yoyos = {
 	) {
 		const [result] = await pool.execute(
 			`INSERT INTO 
-				yoyos (user_id, collection_id, brand, model, colorway, bearing, release_year, original_owner, purchase_year, purchase_price, category, response_type, condition, value)
+				yoyos (user_id, collection_id, brand, model, colorway, bearing, release_year, original_owner, purchase_year, purchase_price, category, response_type, yoyo_condition, yoyo_value)
 			VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			[
 				userId,

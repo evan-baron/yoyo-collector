@@ -5,7 +5,7 @@ import Select from 'react-select';
 // Styles
 import customSelectStyles from '../customSelectStyles';
 
-function ResponseDropdown({ value, handleChange, name }) {
+function ResponseDropdown({ disabled, value, handleChange, name }) {
 	const response = ['Fixed', 'Responsive', 'Unresponsive'];
 
 	const options = response.map((option) => ({
@@ -25,6 +25,7 @@ function ResponseDropdown({ value, handleChange, name }) {
 			styles={customSelectStyles}
 			name={name}
 			isClearable
+			isDisabled={disabled}
 		/>
 	);
 }

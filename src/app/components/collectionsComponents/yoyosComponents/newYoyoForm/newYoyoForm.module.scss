@@ -3,8 +3,8 @@
 
 	display: flex;
 	flex-direction: column;
+	border-radius: 0.5rem;
 
-	// background-color: var(--darkerGray);
 	box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.75);
 
 	.add {
@@ -15,15 +15,11 @@
 		font-size: 1.5rem;
 		user-select: none;
 		background-color: var(--darkerGray);
+		border-top-right-radius: 0.5rem;
+		border-top-left-radius: 0.5rem;
 		z-index: 5;
 
 		cursor: pointer;
-
-		&.add-selected {
-			border-top-left-radius: 0.5rem;
-			border-top-right-radius: 0.5rem;
-			// box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.75);
-		}
 	}
 
 	.more {
@@ -50,14 +46,48 @@
 		display: flex;
 		flex-direction: column;
 		background-color: #303030;
-		// border-radius: 0.5rem;
 		box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.75);
+		overflow: hidden;
 
 		.content {
 			display: flex;
 			flex-direction: column;
 			gap: 0.75rem;
 			padding: 0.75rem;
+
+			.bottom {
+				display: flex;
+				flex-direction: column;
+				gap: 0.75rem;
+
+				&.active {
+					max-height: 25rem;
+					animation: slideIn 0.7s ease-in-out;
+				}
+
+				&.inactive {
+					max-height: 0;
+					animation: slideOut 0.7s ease-in-out;
+				}
+			}
+
+			@keyframes slideIn {
+				from {
+					max-height: 0;
+				}
+				to {
+					max-height: 25rem;
+				}
+			}
+
+			@keyframes slideOut {
+				from {
+					max-height: 25rem;
+				}
+				to {
+					max-height: 0rem;
+				}
+			}
 		}
 
 		.details {
@@ -232,7 +262,7 @@
 				margin: 0;
 
 				scrollbar-width: 1rem;
-				scrollbar-color: var(--gray) var(--darkGray);
+				scrollbar-color: var(--mediumGray) var(--darkerGray);
 
 				&::placeholder {
 					color: var(--lightGray);

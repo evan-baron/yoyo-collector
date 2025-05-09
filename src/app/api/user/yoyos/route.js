@@ -22,7 +22,11 @@ export async function POST(req, res) {
 			throw new Error('Token no longer valid');
 		}
 
-		const yoyoFormData = await req.json();
+		const yoyoData = await req.json();
+
+		if (yoyoData.originalOwner === 'yes') {
+			yoyoData.originalOwner = 1;
+		} else yoyoData.originalOwner = 0;
 
 		const {
 			collectionId,
@@ -38,7 +42,7 @@ export async function POST(req, res) {
 			responseType,
 			value,
 			year,
-		} = yoyoFormData;
+		} = yoyoData;
 
 		const response = await createYoyo(
 			userId,
@@ -58,7 +62,7 @@ export async function POST(req, res) {
 		);
 
 		// Eventually figure out how to connect uploading images while inserting yoyo into db...
-		const { insertId } = response.data;
+		console.log(response.data);
 
 		await validateAndExtendSession('api/user/collections/route.js POST');
 

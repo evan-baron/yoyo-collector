@@ -5,7 +5,7 @@ import Select from 'react-select';
 // Styles
 import customSelectStyles from '../customSelectStyles';
 
-function BearingDropdown({ value, handleChange, name }) {
+function BearingDropdown({ disabled, value, handleChange, name }) {
 	const response = ['A', 'C', 'D', 'Other'];
 
 	const options = response.map((option) => ({
@@ -25,6 +25,7 @@ function BearingDropdown({ value, handleChange, name }) {
 			styles={customSelectStyles}
 			name={name}
 			isClearable
+			isDisabled={disabled}
 		/>
 	);
 }

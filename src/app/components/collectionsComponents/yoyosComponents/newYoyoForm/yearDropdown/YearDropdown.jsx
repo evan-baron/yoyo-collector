@@ -5,7 +5,7 @@ import Select from 'react-select';
 // Styles
 import customSelectStyles from '../customSelectStyles';
 
-function YearDropdown({ value, handleChange, name }) {
+function YearDropdown({ disabled, value, handleChange, name }) {
 	const startYear = 1950;
 	const endYear = new Date().getFullYear();
 
@@ -30,6 +30,7 @@ function YearDropdown({ value, handleChange, name }) {
 			menuShouldScrollIntoView={false}
 			styles={customSelectStyles}
 			isClearable
+			isDisabled={disabled}
 		/>
 	);
 }
