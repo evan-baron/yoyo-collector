@@ -1,6 +1,6 @@
 // Libraries
 import React from 'react';
-import CreatableSelect from 'react-select/creatable';
+import Select from 'react-select';
 
 // Styles
 import customSelectStyles from '../customSelectStyles';
@@ -15,7 +15,7 @@ function ResponseDropdown({ value, handleChange, name }) {
 	}));
 
 	return (
-		<CreatableSelect
+		<Select
 			options={options}
 			value={options.find((option) => option.value === value)}
 			onChange={handleChange}

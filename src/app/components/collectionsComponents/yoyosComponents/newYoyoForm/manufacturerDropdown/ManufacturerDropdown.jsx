@@ -1,6 +1,7 @@
 // Libraries
 import React from 'react';
 import CreatableSelect from 'react-select/creatable';
+import { components } from 'react-select';
 
 // Utils
 import { yoyoBrands } from '../yoyoBrands';
@@ -15,8 +16,11 @@ function ManufacturerDropdown({ value, handleChange, name }) {
 		name: name,
 	}));
 
+	const CustomInput = (props) => <components.Input {...props} maxLength={50} />;
+
 	return (
 		<CreatableSelect
+			components={{ Input: CustomInput }}
 			options={options}
 			value={options.find((option) => option.value === value)}
 			onChange={handleChange}

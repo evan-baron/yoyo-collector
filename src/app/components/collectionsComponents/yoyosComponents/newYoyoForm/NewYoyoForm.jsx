@@ -20,7 +20,7 @@ function NewYoyoForm() {
 	const [more, setMore] = useState(null);
 	const [yoyoFormData, setYoyoFormData] = useState({
 		model: '',
-		manufacturer: '',
+		brand: '',
 		color: '',
 		year: '',
 		originalOwner: '',
@@ -130,6 +130,7 @@ function NewYoyoForm() {
 										className={styles.input}
 										onChange={handleChange}
 										value={yoyoFormData.model}
+										maxLength={50}
 									/>
 								</div>
 								<div className={styles['input-box']}>
@@ -143,6 +144,7 @@ function NewYoyoForm() {
 										className={styles.input}
 										onChange={handleChange}
 										value={yoyoFormData.color}
+										maxLength={50}
 									/>
 								</div>
 								<div className={styles['input-box']}>
@@ -156,6 +158,7 @@ function NewYoyoForm() {
 										className={styles.input}
 										onChange={handleChange}
 										value={yoyoFormData.category}
+										maxLength={60}
 									/>
 								</div>
 								<div className={styles['input-box']}>
@@ -191,13 +194,13 @@ function NewYoyoForm() {
 							</div>
 							<div className={styles.right}>
 								<div className={styles['input-box']}>
-									<label htmlFor='manufacturer' className={styles.label}>
+									<label htmlFor='brand' className={styles.label}>
 										Brand:
 									</label>
 									<ManufacturerDropdown
-										value={yoyoFormData.manufacturer}
+										value={yoyoFormData.brand}
 										handleChange={handleDropdownChange}
-										name='manufacturer'
+										name='brand'
 									/>
 								</div>
 								<div className={styles['photo-input']}>
@@ -262,6 +265,7 @@ function NewYoyoForm() {
 										className={styles.input}
 										onChange={handleChange}
 										value={yoyoFormData.price}
+										maxLength={100}
 									/>
 								</div>
 								<div className={styles['input-box']}>
@@ -275,6 +279,7 @@ function NewYoyoForm() {
 										className={styles.input}
 										onChange={handleChange}
 										value={yoyoFormData.value}
+										maxLength={20}
 									/>
 								</div>
 							</div>
