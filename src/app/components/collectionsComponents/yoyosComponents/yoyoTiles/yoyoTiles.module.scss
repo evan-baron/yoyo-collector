@@ -1,5 +1,6 @@
 .yoyos-container {
-	width: 100%;
+	justify-self: center;
+	width: 90%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -41,9 +42,10 @@
 				width: 100%;
 
 				display: grid;
-				grid-template-columns: repeat(16, 1fr);
+				grid-template-columns: repeat(17, 1fr);
 
 				.sort {
+					width: 100%;
 					display: flex;
 					align-items: center;
 					gap: 0.25rem;
@@ -53,6 +55,7 @@
 					opacity: 0.5;
 					width: fit-content;
 					cursor: pointer;
+					user-select: none;
 
 					&.selected {
 						opacity: 0.85;
@@ -64,8 +67,13 @@
 				}
 
 				.name,
-				.manufacturer {
-					grid-column: span 7;
+				.manufacturer,
+				.colorway {
+					grid-column: span 5;
+				}
+
+				.colorway {
+					cursor: default;
 				}
 
 				.year {
@@ -76,7 +84,7 @@
 				}
 
 				&.editing {
-					grid-template-columns: repeat(17, 1fr);
+					grid-template-columns: repeat(18, 1fr);
 
 					.checkbox {
 						grid-column: span 1;

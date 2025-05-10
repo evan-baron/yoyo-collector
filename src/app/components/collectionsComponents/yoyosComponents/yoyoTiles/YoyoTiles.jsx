@@ -22,11 +22,11 @@ function YoyoTiles({
 }) {
 	const [sort, setSort] = useState({
 		name: {
-			selected: true,
+			selected: false,
 			direction: 'ascending',
 		},
 		manufacturer: {
-			selected: false,
+			selected: true,
 			direction: 'ascending',
 		},
 		year: {
@@ -48,6 +48,39 @@ function YoyoTiles({
 		responseType: '',
 		condition: '',
 		value: '',
+	});
+
+	const sortKeyMap = {
+		name: 'model',
+		manufacturer: 'brand',
+		year: 'release_year',
+	};
+
+	const activeSortKey = Object.keys(sort).find((key) => sort[key].selected);
+	const sortDirection = activeSortKey
+		? sort[activeSortKey].direction
+		: 'ascending';
+
+	const sortPriority = [
+		{ key: activeSortKey, direction: sortDirection }, // 1st: user-selected
+		{ key: 'name', direction: 'ascending' }, // 2nd: always model name A-Z
+		{ key: 'colorway', direction: 'ascending' }, // 3rd: always colorway A-Z
+	];
+
+	const sortedYoyos = [...yoyos].sort((a, b) => {
+		for (const { key, direction } of sortPriority) {
+			const objectKey = sortKeyMap[key] || key;
+
+			let valueA = a[objectKey] ?? '';
+			let valueB = b[objectKey] ?? '';
+
+			if (typeof valueA === 'string') valueA = valueA.toLowerCase();
+			if (typeof valueB === 'string') valueB = valueB.toLowerCase();
+
+			if (valueA < valueB) return direction === 'ascending' ? -1 : 1;
+			if (valueA > valueB) return direction === 'ascending' ? 1 : -1;
+		}
+		return 0;
 	});
 
 	const handleSort = (e) => {
@@ -108,7 +141,7 @@ function YoyoTiles({
 							}`}
 							onClick={handleSort}
 						>
-							Name
+							Model Name
 							<North
 								className={styles.icon}
 								style={{
@@ -117,6 +150,7 @@ function YoyoTiles({
 								}}
 							/>
 						</li>
+						<li className={`${styles.sort} ${styles.colorway}`}>Colorway</li>
 						<li
 							data-name='manufacturer'
 							className={`${styles.sort} ${styles.manufacturer} ${
@@ -152,10 +186,9 @@ function YoyoTiles({
 						</li>
 					</ul>
 				</div>
-				{yoyos.map((yoyo, index) => (
+				{sortedYoyos.map((yoyo, index) => (
 					<YoyoTile
 						key={index}
-						id={yoyo.id}
 						editing={editing}
 						yoyoData={yoyo}
 						setSelectedYoyo={setSelectedYoyo}

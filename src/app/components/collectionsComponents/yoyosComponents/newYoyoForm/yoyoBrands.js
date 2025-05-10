@@ -62,8 +62,6 @@ export const yoyoBrands = [
 	'G2 Yoyos',
 	'General-Yo',
 	'God-Tricks',
-	'GSquared',
-	'GSquared Yoyos',
 	'Hany',
 	'heArts',
 	'Henrys',

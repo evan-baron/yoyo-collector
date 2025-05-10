@@ -17,10 +17,13 @@
 			width: 100%;
 
 			display: grid;
-			grid-template-columns: repeat(16, 1fr);
+			grid-template-columns: repeat(17, 1fr);
+			align-items: center;
+
 			.name,
-			.manufacturer {
-				grid-column: span 7;
+			.manufacturer,
+			.colorway {
+				grid-column: span 5;
 			}
 
 			.year {
@@ -32,7 +35,7 @@
 			}
 
 			&.editing {
-				grid-template-columns: repeat(17, 1fr);
+				grid-template-columns: repeat(18, 1fr);
 
 				.checkbox {
 					grid-column: span 1;

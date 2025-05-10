@@ -64,7 +64,9 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 		setYoyoData({
 			...yoyoData,
 			model: '',
-			manufacturer: '',
+			bearing: '',
+			value: '',
+			brand: '',
 			color: '',
 			year: '',
 			originalOwner: '',
@@ -93,7 +95,9 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 			setYoyoData({
 				...yoyoData,
 				model: '',
-				manufacturer: '',
+				bearing: '',
+				value: '',
+				brand: '',
 				color: '',
 				year: '',
 				originalOwner: '',
