@@ -17,40 +17,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		text-align: center;
 		gap: 1rem;
 		// border: 1px solid white;
-
-		.input-box {
-			display: flex;
-			align-items: center;
-			gap: 0.25rem;
-
-			.icons {
-				display: flex;
-				height: 2rem;
-				width: 2rem;
-				cursor: pointer;
-			}
-
-			.input {
-				border: none;
-				height: 3rem;
-				width: 20rem;
-				font-size: 2.5rem;
-				background-color: var(--darkGray);
-				color: var(--lightestGray);
-				padding-left: 0.25rem;
-
-				&::placeholder {
-					color: var(--gray);
-				}
-
-				&:focus {
-					outline: none;
-					background-color: var(--mediumGray);
-				}
-			}
-		}
 
 		.collection-name-box {
 			display: flex;
@@ -103,33 +72,71 @@
 		}
 
 		.details {
+			width: 18rem;
 			position: relative;
 			display: flex;
 			align-items: center;
+			justify-content: space-between;
 
 			.h3 {
 				height: 1.5rem;
 				display: flex;
 				align-items: center;
-				border-right: 1px solid var(--lightestGray);
-				padding-right: 1rem;
+				font-size: 1.125rem;
 			}
 
 			.likes {
 				position: relative;
 				display: flex;
 				align-items: center;
+				font-size: 1.125rem;
 				gap: 0.25rem;
-				border-left: 1px solid var(--lightestGray);
-				padding-left: 1rem;
 			}
 		}
 
 		.description {
-			font-size: 1.125rem;
+			font-size: 1.25rem;
 			width: fit-content;
 			text-align: center;
 			line-height: normal;
+		}
+	}
+
+	.switch-view {
+		width: 100%;
+		display: flex;
+		// display: grid;
+		// grid-template-columns: repeat(2, 1fr);
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		font-size: 2.5rem;
+		margin: 0;
+		padding: 0;
+
+		.option {
+			cursor: pointer;
+			color: rgba(238, 238, 238, 0.35);
+
+			&.selected {
+				color: rgba(238, 238, 238, 1);
+			}
+		}
+
+		// .col-1 {
+		// 	display: flex;
+		// 	justify-content: end;
+		// 	padding-right: 1rem;
+		// 	border-right: 1px solid var(--lightestGray);
+		// }
+		// .col-2 {
+		// 	padding-left: 1rem;
+		// 	border-left: 1px solid var(--lightestGray);
+		// }
+
+		.divider {
+			height: 100%;
+			border: 1px solid var(--lightestGray);
 		}
 	}
 
@@ -140,7 +147,7 @@
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		gap: rem;
+		gap: 1rem;
 		// border: 1px solid white;
 
 		.h2 {
@@ -255,15 +262,6 @@
 					.divider {
 						height: 100%;
 						border: 1px solid var(--lightestGray);
-					}
-
-					.h2 {
-						cursor: pointer;
-						opacity: 0.35;
-
-						&.selected {
-							opacity: 1;
-						}
 					}
 				}
 

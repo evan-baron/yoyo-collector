@@ -245,133 +245,131 @@ function Collection() {
 						''
 					)}
 				</div>
+				<div className={styles['switch-view']}>
+					<div
+						className={`${styles.option} ${styles['col-1']}									
+										${(selected === 'collection' || !selected) && styles.selected}`}
+						onClick={() => setSelected('collection')}
+					>
+						Collection
+					</div>
+					<div className={styles.divider}></div>
+					<div
+						className={`${styles.option} ${styles['col-2']}	 									
+										${(selected === 'yoyos' || !selected) && styles.selected}`}
+						onClick={() => setSelected('yoyos')}
+					>
+						Yoyos
+					</div>
+				</div>
 				<div className={styles.collection}>
-					<section className={styles['photos-container']}>
-						<div className={styles.left}>
-							<h2 className={styles.h2}>
-								{selected === 'collection' ? 'Cover Photo' : 'Yoyo Photos'}
-							</h2>
-							<div className={styles.cover}>
-								{editing ? (
-									<PictureUploader
-										key={selected === 'collection' ? 'cover' : 'yoyo'}
-										uploadType={selected === 'collection' ? 'cover' : 'yoyo'}
-										input={
-											selected === 'collection' ? 'coverInput' : 'yoyoInput'
-										}
-										defaultUrl={selected === 'collection' ? coverPhoto : ''}
-										collection={collection.id}
-										setCoverPhoto={setCoverPhoto}
-										editing={selected === 'collection' && editing}
-										selectedYoyo={selectedYoyo}
-									/>
-								) : selected === 'collection' && coverPhoto ? (
-									<div
-										className={styles['image-box']}
-										onMouseEnter={() => setHover(true)}
-										onMouseLeave={() => {
-											setHover(false);
-										}}
-									>
-										<img
-											src={coverPhoto}
-											alt='Collection cover photo'
-											className={styles.image}
+					{selected === 'collection' ? (
+						<section className={styles['photos-container']}>
+							<div className={styles.left}>
+								<h2 className={styles.h2}>Cover Photo</h2>
+								<div className={styles.cover}>
+									{editing ? (
+										<PictureUploader
+											key={'cover'}
+											uploadType={'cover'}
+											input={'coverInput'}
+											defaultUrl={selected === 'collection' ? coverPhoto : ''}
+											collection={collection.id}
+											setCoverPhoto={setCoverPhoto}
+											editing={selected === 'collection' && editing}
+											selectedYoyo={selectedYoyo}
 										/>
-										<div className={`${styles.menu} ${hover && styles.hover}`}>
+									) : selected === 'collection' && coverPhoto ? (
+										<div
+											className={styles['image-box']}
+											onMouseEnter={() => setHover(true)}
+											onMouseLeave={() => {
+												setHover(false);
+											}}
+										>
+											<img
+												src={coverPhoto}
+												alt='Collection cover photo'
+												className={styles.image}
+											/>
 											<div
-												className={`${styles.option} ${
-													!editing && styles['not-editing']
-												}`}
-												onClick={() => {
-													console.log('zoom action');
-												}}
+												className={`${styles.menu} ${hover && styles.hover}`}
 											>
-												<ZoomIn
-													className={`${styles.icon} ${
+												<div
+													className={`${styles.option} ${
+														!editing && styles['not-editing']
+													}`}
+													onClick={() => {
+														console.log('zoom action');
+													}}
+												>
+													<ZoomIn
+														className={`${styles.icon} ${
+															!editing && styles['not-editing']
+														}`}
+														onClick={() => {
+															setModalOpen(true);
+															setModalType('view-photo');
+															setViewPhoto(coverPhoto);
+														}}
+													/>
+												</div>
+												<div
+													className={`${styles.option} ${
 														!editing && styles['not-editing']
 													}`}
 													onClick={() => {
 														setModalOpen(true);
-														setModalType('view-photo');
-														setViewPhoto(coverPhoto);
+														setModalType('share');
+														setShareLink(coverPhoto);
 													}}
-												/>
-											</div>
-											<div
-												className={`${styles.option} ${
-													!editing && styles['not-editing']
-												}`}
-												onClick={() => {
-													setModalOpen(true);
-													setModalType('share');
-													setShareLink(coverPhoto);
-												}}
-											>
-												<Share
-													className={`${styles.icon} ${
-														!editing && styles['not-editing']
-													}`}
-												/>
+												>
+													<Share
+														className={`${styles.icon} ${
+															!editing && styles['not-editing']
+														}`}
+													/>
+												</div>
 											</div>
 										</div>
-									</div>
-								) : (
-									<div style={{ boxShadow: '0.25rem 0.25rem 1rem black' }}>
-										<BlankCoverPhoto />
-									</div>
-								)}
+									) : (
+										<div style={{ boxShadow: '0.25rem 0.25rem 1rem black' }}>
+											<BlankCoverPhoto />
+										</div>
+									)}
+								</div>
 							</div>
-						</div>
-						<div className={styles.right}>
-							<div className={styles.titles}>
-								<h2
-									className={`
-										${styles.h2} 
-										${(selected === 'collection' || !selected) && styles.selected}`}
-									onClick={() => setSelected('collection')}
-								>
-									Collection Photos
-								</h2>
-								<div className={styles.divider}></div>
-								<h2
-									className={`
-										${styles.h2} 
-										${(selected === 'yoyos' || !selected) && styles.selected}
-									`}
-									onClick={() => setSelected('yoyos')}
-								>
-									Yoyos
-								</h2>
-							</div>
-							<div
-								className={styles.photos}
-								style={{ display: selected === 'collection' ? 'flex' : 'none' }}
-							>
-								<CollectionPhotos
-									collectionId={collectionId}
-									collectionType='user'
-									scroll='click'
-									setCoverPhoto={setCoverPhoto}
-									editing={editing}
-								/>
-							</div>
-							<section
-								className={styles['yoyos-container']}
-								style={{ display: !selected && 'none' }}
-							>
-								<div className={styles.yoyos}>
-									<YoyoTiles
-										yoyos={yoyos}
-										setSelectedYoyo={setSelectedYoyo}
-										setSelectedYoyos={setSelectedYoyos}
-										collectionId={collection.id}
+							<div className={styles.right}>
+								<div className={styles.titles}>
+									<h2 className={styles.h2}>Collection Photos</h2>
+								</div>
+								<div className={styles.photos}>
+									<CollectionPhotos
+										collectionId={collectionId}
+										collectionType='user'
+										scroll='click'
+										setCoverPhoto={setCoverPhoto}
 										editing={editing}
 									/>
 								</div>
-							</section>
-						</div>
-					</section>
+							</div>
+						</section>
+					) : (
+						<section
+							className={styles['yoyos-container']}
+							style={{ display: !selected && 'none' }}
+						>
+							<div className={styles.yoyos}>
+								<YoyoTiles
+									yoyos={yoyos}
+									setSelectedYoyo={setSelectedYoyo}
+									setSelectedYoyos={setSelectedYoyos}
+									collectionId={collection.id}
+									editing={editing}
+								/>
+							</div>
+						</section>
+					)}
 				</div>
 				<button
 					className={`${styles['settings-box']} ${error && styles.disabled}`}
