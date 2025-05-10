@@ -49,6 +49,7 @@ function YoyoTiles({
 		condition: '',
 		value: '',
 	});
+	const [displayType, setDisplayType] = useState('small');
 
 	const sortKeyMap = {
 		name: 'model',
@@ -123,7 +124,7 @@ function YoyoTiles({
 				<div className={styles['sort-buttons']}>
 					<div className={styles.style}>Photos and Details</div>
 					<div className={styles.style}>Photos Only</div>
-					<div className={styles.style}>Details Only</div>
+					<div className={styles.style}>Small Details</div>
 				</div>
 			)}
 			<div className={styles.list}>
@@ -193,6 +194,7 @@ function YoyoTiles({
 						yoyoData={yoyo}
 						setSelectedYoyo={setSelectedYoyo}
 						setSelectedYoyos={setSelectedYoyos}
+						displayType={displayType}
 					/>
 				))}
 			</div>
