@@ -77,7 +77,8 @@ const uploadPhoto = async (
 	height,
 	width,
 	category,
-	collectionId
+	collectionId,
+	yoyoId
 ) => {
 	try {
 		await uploadsModel.uploadPhoto(
@@ -90,7 +91,8 @@ const uploadPhoto = async (
 			height,
 			width,
 			category,
-			collectionId || null
+			collectionId || null,
+			yoyoId || null
 		);
 
 		if (category === 'profile') {

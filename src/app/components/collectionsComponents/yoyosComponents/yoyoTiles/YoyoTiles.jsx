@@ -13,7 +13,13 @@ import { North } from '@mui/icons-material';
 import YoyoTile from '../yoyoTile/YoyoTile';
 import NewYoyoForm from '../newYoyoForm/NewYoyoForm';
 
-function YoyoTiles({ setSelectedYoyo, collectionId, editing }) {
+function YoyoTiles({
+	yoyos,
+	setSelectedYoyo,
+	setSelectedYoyos,
+	collectionId,
+	editing,
+}) {
 	const [sort, setSort] = useState({
 		name: {
 			selected: true,
@@ -76,12 +82,21 @@ function YoyoTiles({ setSelectedYoyo, collectionId, editing }) {
 			{editing && (
 				<NewYoyoForm yoyoData={yoyoFormData} setYoyoData={setYoyoFormData} />
 			)}
+			{!editing && (
+				<div className={styles['sort-buttons']}>
+					<div className={styles.style}>Photos Only</div>
+					<div className={styles.style}>Details Only</div>
+					<div className={styles.style}>Photos and Details</div>
+				</div>
+			)}
 			<div className={styles.list}>
 				<div className={styles.legend}>
 					<ul className={`${styles.ul} ${editing && styles.editing}`}>
-						<li className={styles.checkbox}>
-							<input type='checkbox' className={styles.input} />
-						</li>
+						{editing && (
+							<li className={styles.checkbox}>
+								<input type='checkbox' className={styles.input} />
+							</li>
+						)}
 						<li
 							data-name='name'
 							className={`${styles.sort} ${styles.name} ${
@@ -133,9 +148,16 @@ function YoyoTiles({ setSelectedYoyo, collectionId, editing }) {
 						</li>
 					</ul>
 				</div>
-				<YoyoTile editing={editing} />
-				<YoyoTile editing={editing} />
-				<YoyoTile editing={editing} />
+				{yoyos.map((yoyo, index) => (
+					<YoyoTile
+						key={index}
+						id={yoyo.id}
+						editing={editing}
+						yoyoData={yoyo}
+						setSelectedYoyo={setSelectedYoyo}
+						setSelectedYoyos={setSelectedYoyos}
+					/>
+				))}
 			</div>
 		</div>
 	);

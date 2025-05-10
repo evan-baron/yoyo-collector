@@ -49,6 +49,7 @@ export async function POST(req, res) {
 			category,
 			uploadAction,
 			collectionId,
+			yoyoId,
 		} = await req.json();
 
 		const response = await getCollectionById(collectionId);
@@ -130,7 +131,8 @@ export async function POST(req, res) {
 				height,
 				width,
 				category,
-				collectionId
+				collectionId,
+				yoyoId
 			);
 
 			await validateAndExtendSession(

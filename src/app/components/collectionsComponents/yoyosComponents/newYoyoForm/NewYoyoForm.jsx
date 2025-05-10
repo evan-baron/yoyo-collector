@@ -22,7 +22,8 @@ import BearingDropdown from './bearingDropdown/bearingDropdown';
 import { useAppContext } from '@/app/context/AppContext';
 
 function NewYoyoForm({ yoyoData, setYoyoData }) {
-	const { imagesToUpload, setImagesToUpload } = useAppContext();
+	const { imagesToUpload, setImagesToUpload, setNewCollectionCounter } =
+		useAppContext();
 
 	const [more, setMore] = useState(null);
 	const [animate, setAnimate] = useState(false);
@@ -102,6 +103,8 @@ function NewYoyoForm({ yoyoData, setYoyoData }) {
 			if (name === 'save') {
 				more && setMore(false);
 			}
+
+			setNewCollectionCounter((prev) => prev + 1);
 		}
 	};
 

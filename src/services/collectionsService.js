@@ -1,5 +1,6 @@
 import collectionsModel from '@/models/collectionsModel';
 import uploadsModel from '@/models/uploadsModel';
+import yoyosModel from '@/models/yoyosModel';
 
 // ALL FUNCTIONS LISTED BELOW ALPHABETICALLY
 
@@ -35,7 +36,8 @@ const getCollectionById = async (collectionId) => {
 	const collectionPhotos = await uploadsModel.getAllCollectionPhotos(
 		collectionId
 	);
-	return { collectionData, collectionPhotos };
+	const yoyosData = await yoyosModel.getYoyosByCollectionId(collectionId);
+	return { collectionData, collectionPhotos, yoyosData };
 };
 
 // Get collection by userId and collectionName

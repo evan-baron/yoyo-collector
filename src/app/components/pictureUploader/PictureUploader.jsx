@@ -107,10 +107,10 @@ function PictureUploader({
 
 		const files = Array.from(e.target.files);
 
-		if (uploadType === 'yoyo') {
-			console.log('not built yet');
-			return;
-		}
+		// if (uploadType === 'yoyo') {
+		// 	console.log('not built yet');
+		// 	return;
+		// }
 
 		if (!files.length) return;
 
@@ -146,6 +146,19 @@ function PictureUploader({
 			setImagesToUpload(file);
 			setPreviewUrl(URL.createObjectURL(file));
 
+			return;
+		} else if (uploadType === 'yoyo' && !selectedYoyo) {
+			if (!validFiles.length && files.length === 1) {
+				setError('File must not exceed 4MB');
+				return;
+			} else if (!validFiles.length) {
+				setError('All selected files were too large (max: 4MB).');
+				return;
+			} else if (validFiles.length !== files.length) {
+				setError('Some files were larger than 4MB and were skipped.');
+			}
+
+			setImagesToUpload(validFiles);
 			return;
 		} else {
 			if (!validFiles.length && files.length === 1) {
@@ -188,6 +201,7 @@ function PictureUploader({
 						category: uploadType,
 						uploadAction: 'new',
 						collectionId: collection,
+						yoyoId: selectedYoyo,
 					};
 
 					await axiosInstance.post('/api/user/collectionPictures', uploadData);
@@ -322,7 +336,6 @@ function PictureUploader({
 							(uploadType === 'cover' || uploadType === 'yoyo') &&
 							'0.25rem 0.25rem 1rem black',
 					}}
-					onClick={() => console.log(uploadType, selectedYoyo)}
 				>
 					<input
 						name={input}

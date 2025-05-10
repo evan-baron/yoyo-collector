@@ -52,6 +52,7 @@ function Collection() {
 
 	const [collection, setCollection] = useState({});
 	const [photos, setPhotos] = useState([]);
+	const [yoyos, setYoyos] = useState([]);
 	const [hover, setHover] = useState(false);
 
 	useEffect(() => {
@@ -61,12 +62,13 @@ function Collection() {
 			const response = await axiosInstance.get(
 				`/api/user/collections/byCollectionId?collectionId=${collectionId}`
 			);
-			const { collectionData, collectionPhotos } = response.data;
+			const { collectionData, collectionPhotos, yoyosData } = response.data;
 
 			console.log(response.data);
 
 			setCollection(collectionData);
 			setPhotos(collectionPhotos);
+			setYoyos(yoyosData);
 			setCoverPhoto(
 				collectionPhotos.find((photo) => photo.upload_category === 'cover')
 					?.secure_url
@@ -83,6 +85,7 @@ function Collection() {
 	const [coverPhoto, setCoverPhoto] = useState(null);
 	const [selected, setSelected] = useState('collection');
 	const [selectedYoyo, setSelectedYoyo] = useState(null);
+	const [selectedYoyos, setSelectedYoyos] = useState(null);
 
 	useEffect(() => {
 		setFormData({
@@ -355,73 +358,18 @@ function Collection() {
 							</div>
 							<section
 								className={styles['yoyos-container']}
-								style={{ display: selected === 'yoyos' ? 'flex' : 'none' }}
+								style={{ display: !selected && 'none' }}
 							>
-								{!editing ? (
-									<>
-										<div className={styles.sort}>
-											<div className={styles.style}>Photos Only</div>
-											<div className={styles.style}>Details Only</div>
-											<div className={styles.style}>Photos and Details</div>
-										</div>
-										<div className={styles.yoyos}>
-											<div className={styles.tile}>
-												(This will be its own component called YoyoTile)
-											</div>
-											<div className={styles.tile}>
-												(This will be its own component called YoyoTile)
-											</div>
-											<div className={styles.tile}>
-												(This will be its own component called YoyoTile)
-											</div>
-											<div className={styles.tile}>
-												(This will be its own component called YoyoTile)
-											</div>
-										</div>
-									</>
-								) : (
-									<div className={styles.yoyos}>
-										<YoyoTiles
-											setSelectedYoyo={setSelectedYoyo}
-											collectionId={collection.id}
-											editing={editing}
-										/>
-									</div>
-								)}
-							</section>
-							{/* {selected === 'collection' ? (
-								<div className={styles.photos}>
-									<CollectionPhotos
-										collectionId={collectionId}
-										collectionType='user'
-										scroll='click'
-										setCoverPhoto={setCoverPhoto}
+								<div className={styles.yoyos}>
+									<YoyoTiles
+										yoyos={yoyos}
+										setSelectedYoyo={setSelectedYoyo}
+										setSelectedYoyos={setSelectedYoyos}
+										collectionId={collection.id}
 										editing={editing}
 									/>
 								</div>
-							) : (
-								<section className={styles['yoyos-container']}>
-									<div className={styles.sort}>
-										<div className={styles.style}>Photos Only</div>
-										<div className={styles.style}>Details Only</div>
-										<div className={styles.style}>Photos and Details</div>
-									</div>
-									<div className={styles.yoyos}>
-										<div className={styles.tile}>
-											(This will be its own component called YoyoTile)
-										</div>
-										<div className={styles.tile}>
-											(This will be its own component called YoyoTile)
-										</div>
-										<div className={styles.tile}>
-											(This will be its own component called YoyoTile)
-										</div>
-										<div className={styles.tile}>
-											(This will be its own component called YoyoTile)
-										</div>
-									</div>
-								</section>
-							)} */}
+							</section>
 						</div>
 					</section>
 				</div>

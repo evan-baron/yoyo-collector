@@ -41,7 +41,7 @@ const Uploads = {
 	// Get all collection photos by collectionId
 	async getAllCollectionPhotos(collectionId) {
 		const [rows] = await pool.execute(
-			`SELECT * FROM user_uploads WHERE collection_id = ?`,
+			`SELECT * FROM user_uploads WHERE collection_id = ? AND (upload_category = 'cover' OR upload_category = 'collection')`,
 			[collectionId]
 		);
 		return rows;
@@ -124,10 +124,11 @@ const Uploads = {
 		height,
 		width,
 		category,
-		collectionId
+		collectionId,
+		yoyoId
 	) {
 		const [result] = await pool.execute(
-			'INSERT INTO user_uploads (user_id, public_id, secure_url, format, resource_type, bytes, height, width, upload_category, collection_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+			'INSERT INTO user_uploads (user_id, public_id, secure_url, format, resource_type, bytes, height, width, upload_category, collection_id, yoyo_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 			[
 				userId,
 				publicId,
@@ -139,6 +140,7 @@ const Uploads = {
 				width,
 				category,
 				collectionId,
+				yoyoId,
 			]
 		);
 		return result;

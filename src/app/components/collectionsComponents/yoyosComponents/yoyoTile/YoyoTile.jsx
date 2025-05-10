@@ -9,9 +9,11 @@ function YoyoTile({ editing }) {
 		<div className={styles.tile}>
 			<div className={styles.legend}>
 				<ul className={`${styles.ul} ${editing && styles.editing}`}>
-					<li className={styles.checkbox}>
-						<input type='checkbox' className={styles.input} />
-					</li>
+					{editing && (
+						<li className={styles.checkbox}>
+							<input type='checkbox' className={styles.input} />
+						</li>
+					)}
 					<li className={styles.name}>Draupnir</li>
 					<li className={styles.manufacturer}>Yoyorecreation</li>
 					<li className={styles.year}>2015</li>

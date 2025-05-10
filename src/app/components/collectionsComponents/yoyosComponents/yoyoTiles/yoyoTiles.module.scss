@@ -5,6 +5,21 @@
 	align-items: center;
 	gap: 1.25rem;
 
+	.sort-buttons {
+		width: 100%;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+
+		.style {
+			padding: 0.25rem 0.5rem;
+			border-radius: 0.5rem;
+			border: 1px solid white;
+		}
+	}
+
 	.list {
 		width: 100%;
 
@@ -26,7 +41,7 @@
 				width: 100%;
 
 				display: grid;
-				grid-template-columns: repeat(17, 1fr);
+				grid-template-columns: repeat(16, 1fr);
 
 				.sort {
 					display: flex;

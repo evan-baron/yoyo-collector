@@ -52,6 +52,12 @@ export async function GET(req, res) {
 			);
 		}
 
+		if (response.yoyosData.length > 0) {
+			response.yoyosData = response.yoyosData.map(
+				({ created_at, updated_at, user_id, ...rest }) => rest
+			);
+		}
+
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {
 		return NextResponse.json(
