@@ -277,7 +277,6 @@ function Collection() {
 											collection={collection.id}
 											setCoverPhoto={setCoverPhoto}
 											editing={selected === 'collection' && editing}
-											selectedYoyo={selectedYoyo}
 										/>
 									) : selected === 'collection' && coverPhoto ? (
 										<div

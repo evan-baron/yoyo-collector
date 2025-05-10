@@ -17,16 +17,20 @@ import ManufacturerDropdown from './manufacturerDropdown/ManufacturerDropdown';
 import YearDropdown from './yearDropdown/YearDropdown';
 import ResponseDropdown from './responseDropdown/ResponseDropdown';
 import BearingDropdown from './bearingDropdown/bearingDropdown';
+import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function NewYoyoForm({ yoyoData, setYoyoData }) {
+function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 	const { imagesToUpload, setImagesToUpload, setNewCollectionCounter } =
 		useAppContext();
 
 	const [more, setMore] = useState(null);
 	const [animate, setAnimate] = useState(false);
+	const [added, setAdded] = useState(false);
+	const [uploadError, setUploadError] = useState(null);
+	const [clearInputRef, setClearInputRef] = useState(null);
 
 	useEffect(() => {
 		let timeout;
@@ -110,27 +114,9 @@ function NewYoyoForm({ yoyoData, setYoyoData }) {
 
 	return (
 		<>
-			<div
-				className={styles['form-container']}
-				// style={{
-				// 	maxHeight: maxHeight,
-				// 	overflow: 'hidden',
-				// 	transition: '.5s',
-				// }}
-			>
+			<div className={styles['form-container']}>
 				<div className={styles.add}>Add Yoyo</div>
-				<form
-					className={styles.form}
-					// style={{
-					// 	maxHeight: maxHeight,
-					// 	overflow: 'hidden',
-					// 	transition: '.5s',
-					// 	borderTopLeftRadius: '.5rem',
-					// 	borderTopRightRadius: '.5rem',
-					// 	borderBottomLeftRadius: addYoyo ? '0' : '.5rem',
-					// 	borderBottomRightRadius: addYoyo ? '0' : '.5rem',
-					// }}
-				>
+				<form className={styles.form}>
 					<div className={styles.content}>
 						<div className={styles.top}>
 							<div className={styles.details}>
@@ -179,6 +165,18 @@ function NewYoyoForm({ yoyoData, setYoyoData }) {
 										<label htmlFor='yoyoInput' className={styles.label}>
 											Add Photos
 										</label>
+										<div className={styles['1px']}>
+											<PictureUploader
+												collection={collectionId}
+												key='yoyo'
+												uploadType='yoyo'
+												input='yoyoInput'
+												setAdded={setAdded}
+												setUploadError={setUploadError}
+												clearInputRef={clearInputRef}
+												setClearInputRef={setClearInputRef}
+											/>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -376,6 +374,32 @@ function NewYoyoForm({ yoyoData, setYoyoData }) {
 						}}
 					/>
 				</div>
+
+				{uploadError && (
+					<div className={styles['remove-container']}>
+						<div className={styles.remove}>
+							<p className={styles.error}>{uploadError}</p>
+							<div className={styles.buttons}>
+								<button
+									className={styles['delete-button']}
+									onClick={() => {
+										setUploadError(null);
+										if (
+											uploadError !==
+											'Some files were larger than 4MB and were skipped.'
+										) {
+											setImagesToUpload(null);
+											setClearInputRef(true);
+										}
+									}}
+								>
+									Ok
+								</button>
+							</div>
+							<div className={styles.background}></div>
+						</div>
+					</div>
+				)}
 			</div>
 
 			<div className={styles.buttons}>

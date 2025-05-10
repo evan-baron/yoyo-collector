@@ -80,13 +80,17 @@ function YoyoTiles({
 	return (
 		<div className={styles['yoyos-container']}>
 			{editing && (
-				<NewYoyoForm yoyoData={yoyoFormData} setYoyoData={setYoyoFormData} />
+				<NewYoyoForm
+					collectionId={collectionId}
+					yoyoData={yoyoFormData}
+					setYoyoData={setYoyoFormData}
+				/>
 			)}
 			{!editing && (
 				<div className={styles['sort-buttons']}>
+					<div className={styles.style}>Photos and Details</div>
 					<div className={styles.style}>Photos Only</div>
 					<div className={styles.style}>Details Only</div>
-					<div className={styles.style}>Photos and Details</div>
 				</div>
 			)}
 			<div className={styles.list}>

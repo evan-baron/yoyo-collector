@@ -24,10 +24,14 @@ function PictureUploader({
 	input,
 	uploadType,
 	defaultUrl,
+	clearInputRef,
+	setClearInputRef,
 	collection,
 	setCoverPhoto,
 	editing,
 	selectedYoyo,
+	setAdded,
+	setUploadError,
 }) {
 	// Context
 	const {
@@ -57,6 +61,13 @@ function PictureUploader({
 	}, [user, defaultUrl]);
 
 	const fileInputRef = useRef(null);
+
+	useEffect(() => {
+		if (clearInputRef) {
+			fileInputRef.current.value = '';
+			setClearInputRef(false);
+		}
+	}, [clearInputRef]);
 
 	// Helpers
 	const getPreset = (uploadType) => {
@@ -107,11 +118,6 @@ function PictureUploader({
 
 		const files = Array.from(e.target.files);
 
-		// if (uploadType === 'yoyo') {
-		// 	console.log('not built yet');
-		// 	return;
-		// }
-
 		if (!files.length) return;
 
 		if (
@@ -119,7 +125,11 @@ function PictureUploader({
 			uploadType !== 'cover' &&
 			files.length > MAX_FILES
 		) {
-			setError(`You may only upload up to ${MAX_FILES} files at a time.`);
+			if (uploadType !== 'yoyo') {
+				setError(`You may only upload up to ${MAX_FILES} files at a time.`);
+				return;
+			}
+			setUploadError(`You may only upload up to ${MAX_FILES} files at a time.`);
 			return;
 		}
 
@@ -149,26 +159,38 @@ function PictureUploader({
 			return;
 		} else if (uploadType === 'yoyo' && !selectedYoyo) {
 			if (!validFiles.length && files.length === 1) {
-				setError('File must not exceed 4MB');
+				setUploadError('File must not exceed 4MB');
 				return;
 			} else if (!validFiles.length) {
-				setError('All selected files were too large (max: 4MB).');
+				setUploadError('All selected files were too large (max: 4MB).');
 				return;
 			} else if (validFiles.length !== files.length) {
-				setError('Some files were larger than 4MB and were skipped.');
+				setUploadError('Some files were larger than 4MB and were skipped.');
 			}
 
 			setImagesToUpload(validFiles);
 			return;
 		} else {
-			if (!validFiles.length && files.length === 1) {
-				setError('File must not exceed 4MB');
-				return;
-			} else if (!validFiles.length) {
-				setError('All selected files were too large (max: 4MB).');
-				return;
-			} else if (validFiles.length !== files.length) {
-				setError('Some files were larger than 4MB and were skipped.');
+			if (uploadType === 'yoyo') {
+				if (!validFiles.length && files.length === 1) {
+					setUploadError('File must not exceed 4MB');
+					return;
+				} else if (!validFiles.length) {
+					setUploadError('All selected files were too large (max: 4MB).');
+					return;
+				} else if (validFiles.length !== files.length) {
+					setUploadError('Some files were larger than 4MB and were skipped.');
+				}
+			} else {
+				if (!validFiles.length && files.length === 1) {
+					setError('File must not exceed 4MB');
+					return;
+				} else if (!validFiles.length) {
+					setError('All selected files were too large (max: 4MB).');
+					return;
+				} else if (validFiles.length !== files.length) {
+					setError('Some files were larger than 4MB and were skipped.');
+				}
 			}
 
 			try {
@@ -185,16 +207,6 @@ function PictureUploader({
 						'https://api.cloudinary.com/v1_1/ddbotvjio/image/upload',
 						formData
 					);
-
-					// const {
-					// 	public_id,
-					// 	secure_url,
-					// 	format,
-					// 	resource_type,
-					// 	bytes,
-					// 	height,
-					// 	width,
-					// } = data;
 
 					const uploadData = {
 						...data,
@@ -422,7 +434,7 @@ function PictureUploader({
 						</div>
 					</div>
 				)}
-				{error && (
+				{error && uploadType !== 'yoyo' && (
 					<div className={styles['remove-container']}>
 						<div className={styles.remove}>
 							<p className={styles.error}>{error}</p>
