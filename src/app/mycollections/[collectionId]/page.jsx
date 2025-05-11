@@ -1,7 +1,7 @@
 'use client';
 
 // Libraries
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
 
@@ -191,15 +191,16 @@ function Collection() {
 		}
 	};
 
-	// Loading screen
-	const loadingComplete = !!(
-		collection?.id &&
-		formData.title &&
-		formData.description &&
-		pendingData.title &&
-		pendingData.description &&
-		photos
-	);
+	const loadingComplete = useMemo(() => {
+		return (
+			collection?.id &&
+			'title' in formData &&
+			'description' in formData &&
+			'title' in pendingData &&
+			'description' in pendingData &&
+			Array.isArray(photos)
+		);
+	}, [collection, formData, pendingData, photos]);
 
 	if (!loadingComplete) return <LoadingSpinner message='loading' />;
 
