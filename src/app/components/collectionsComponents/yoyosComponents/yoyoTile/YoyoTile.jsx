@@ -7,22 +7,27 @@ import React, { useState } from 'react';
 import styles from './yoyoTile.module.scss';
 
 // MUI
-import { Edit, Undo } from '@mui/icons-material';
+import { Edit } from '@mui/icons-material';
 
 // Components
 import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 import Heart from '@/app/components/icons/heart/Heart';
+import EditableYoyoTile from '../editableYoyoTile/EditableYoyoTile';
+
+// Context
+import { useAppContext } from '@/app/context/AppContext';
 
 function YoyoTile({
 	viewingId, // ADD IN LATER TO PROTECT PRIVATE FIELDS FROM PUBLIC YOYOTILE
 	ownerId, // ADD IN LATER TO PROTECT PRIVATE FIELDS FROM PUBLIC YOYOTILE
 	displayType, // 'small' = SMALL DETAILS (DEFAULT), 'photos' = PHOTOS ONLY WITH NAME AND COLORWAY, 'full' = BIG TILE WITH PICTURES AND ALL INFO
-	editing,
 	yoyoData,
 	setSelectedYoyo,
 	setSelectedYoyos,
 	selectedTile,
 }) {
+	const { editing, setEditing } = useAppContext();
+
 	const {
 		id,
 		bearing,
@@ -49,6 +54,11 @@ function YoyoTile({
 		['Response', responseType],
 		['Bearing', bearing],
 	];
+
+	const validLeftItems = left.filter(
+		(item) => item && item[1] !== null && item[1] !== ''
+	);
+
 	const right = [
 		['Original owner', originalOwner],
 		['Purchased', purchaseYear],
@@ -56,10 +66,14 @@ function YoyoTile({
 		['Approximate value', value],
 	];
 
+	const validRightItems = right.filter(
+		(item) => item && item[1] !== null && item[1] !== ''
+	);
+
 	const handleSelect = () => {
 		console.log(yoyoData);
-		console.log(selectedTile);
-		selectedTile ? setSelectedYoyo(null) : setSelectedYoyo(id);
+		setSelectedYoyo(id);
+		// selectedTile ? setSelectedYoyo(null) : setSelectedYoyo(id);
 	};
 
 	return (
@@ -83,6 +97,14 @@ function YoyoTile({
 						</ul>
 					</div>
 				</div>
+			) : editing ? (
+				<EditableYoyoTile
+					editing={editing}
+					yoyoData={yoyoData}
+					setSelectedYoyo={setSelectedYoyo}
+					setSelectedYoyos={setSelectedYoyos}
+					selectedTile={selectedTile}
+				/>
 			) : (
 				<div
 					className={`${styles.tile} ${selectedTile && styles.selected}`}
@@ -103,45 +125,61 @@ function YoyoTile({
 					</div>
 					<div className={styles['content-box']}>
 						<div className={styles.details}>
-							<div className={styles.left}>
-								{left.map((item, index) => {
-									return (
-										<div key={index} className={styles.attribute}>
-											<label className={styles.label} htmlFor={item[1]}>
-												{item[0]}:
-											</label>
-											<p>{item[1]}</p>
-										</div>
-									);
-								})}
-							</div>
-							<div className={styles.right}>
-								{right.map((item, index) => {
-									return (
-										<div key={index} className={styles.attribute}>
-											<label className={styles.label} htmlFor={item[1]}>
-												{item[0]}:
-											</label>
-											<p>
-												{item[0] === 'Original owner'
-													? item[1] === 0
-														? 'No'
-														: 'Yes'
-													: item[1]}
-											</p>
-										</div>
-									);
-								})}
-							</div>
+							{validLeftItems.length > 0 && (
+								<div className={styles.left}>
+									{validLeftItems.map((item, index) => {
+										return (
+											<div key={index} className={styles.attribute}>
+												<label className={styles.label} htmlFor={item[1]}>
+													{item[0]}:
+												</label>
+												<p>{item[1]}</p>
+											</div>
+										);
+									})}
+								</div>
+							)}
+							{validRightItems.length > 0 && (
+								<div className={styles.right}>
+									{validRightItems.map((item, index) => {
+										console.log(
+											'Original owner value:',
+											item[1],
+											typeof item[1]
+										);
+
+										return (
+											<div key={index} className={styles.attribute}>
+												<label className={styles.label} htmlFor={item[1]}>
+													{item[0]}:
+												</label>
+												<p>
+													{item[0] === 'Original owner'
+														? String(item[1]) === '0'
+															? 'No'
+															: String(item[1]) === '1'
+															? 'Yes'
+															: ''
+														: item[1]}
+												</p>{' '}
+											</div>
+										);
+									})}
+								</div>
+							)}
 						</div>
-						<div className={styles.about}>
-							<div className={styles.attribute}>
-								<label className={styles.label} htmlFor='condition'>
-									About the yoyo:
-								</label>
-								<p>{condition}</p>
+						{condition && (
+							<div className={styles.about}>
+								<div className={styles.attribute}>
+									<label className={styles.label} htmlFor='condition'>
+										About the yoyo:
+									</label>
+									<p>{condition}</p>
+								</div>
 							</div>
-						</div>
+						)}
+						<Edit className={styles.edit} onClick={() => setEditing(true)} />
+						{/* MAKE THIS CONDITIONAL SO ONLY COLLECTION OWNER CAN SEE THIS */}
 					</div>
 				</div>
 			)}
