@@ -101,7 +101,7 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 	const specialsAllowed = ['value', 'price', 'condition'];
 
 	const getInvalidChars = (name, input) => {
-		const noSpecialsTest = /[^a-zA-Z0-9 \-.!']/g;
+		const noSpecialsTest = /[^a-zA-Z0-9 \-./!']/g;
 		const specialsTest = /[^a-zA-Z0-9 '$%^&*()\-\+\/!@,.?:\";#]/g;
 		if (noSpecials.includes(name)) {
 			const matches = input.match(noSpecialsTest);
@@ -209,7 +209,7 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 		more && setMore(false);
 	};
 
-	const noSpecialsTest = (param) => /^[a-zA-Z0-9 \-.!']+$/.test(param);
+	const noSpecialsTest = (param) => /^[a-zA-Z0-9 \-./!']+$/.test(param);
 	const numsTest = (param) => /^[0-9]+$/.test(param);
 	const specialsTest = (param) =>
 		/^[a-zA-Z0-9 '$%^&*()\-\+\/!@,.?:\";#]+$/.test(param);
@@ -290,6 +290,8 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 
 			if (name === 'save') {
 				more && setMore(false);
+				animate && setAnimate(false);
+				setHidden('hidden');
 			}
 
 			setNewCollectionCounter((prev) => prev + 1);

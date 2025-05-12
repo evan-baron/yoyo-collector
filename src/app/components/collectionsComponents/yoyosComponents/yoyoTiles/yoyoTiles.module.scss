@@ -43,6 +43,7 @@
 
 				display: grid;
 				grid-template-columns: repeat(17, 1fr);
+				gap: 0.5rem;
 
 				.sort {
 					width: 100%;

@@ -39,7 +39,8 @@ function YoyoTile({
 
 	const handleSelect = () => {
 		console.log(yoyoData);
-		setSelectedYoyo(id);
+		console.log(selectedTile);
+		selectedTile ? setSelectedYoyo(null) : setSelectedYoyo(id);
 	};
 
 	return (
