@@ -6,6 +6,9 @@ import React, { useState } from 'react';
 // Styles
 import styles from './yoyoTile.module.scss';
 
+// MUI
+import { Edit, Undo } from '@mui/icons-material';
+
 // Components
 import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 import Heart from '@/app/components/icons/heart/Heart';
@@ -36,6 +39,22 @@ function YoyoTile({
 		yoyo_condition: condition,
 		yoyo_value: value,
 	} = yoyoData;
+
+	const left = [
+		['Model', model],
+		['Brand', brand],
+		['Colorway', colorway],
+		['Category', category],
+		['Released', releaseYear],
+		['Response', responseType],
+		['Bearing', bearing],
+	];
+	const right = [
+		['Original owner', originalOwner],
+		['Purchased', purchaseYear],
+		['Purchase price', purchasePrice],
+		['Approximate value', value],
+	];
 
 	const handleSelect = () => {
 		console.log(yoyoData);
@@ -85,74 +104,34 @@ function YoyoTile({
 					<div className={styles['content-box']}>
 						<div className={styles.details}>
 							<div className={styles.left}>
-								<div className={styles.attribute}>
-									<label className={styles.label} htmlFor='model'>
-										Model:
-									</label>
-									<p>{model}</p>
-								</div>
-								<div className={styles.attribute}>
-									<label className={styles.label} htmlFor='brand'>
-										Brand:
-									</label>
-									<p>{brand}</p>
-								</div>
-								<div className={styles.attribute}>
-									<label className={styles.label} htmlFor='colorway'>
-										Colorway:
-									</label>
-									<p>{colorway}</p>
-								</div>
-								<div className={styles.attribute}>
-									<label className={styles.label} htmlFor='category'>
-										Category:
-									</label>
-									<p>{category}</p>
-								</div>
-								<div className={styles.attribute}>
-									<label className={styles.label} htmlFor='releaseYear'>
-										Released:
-									</label>
-									<p>{releaseYear}</p>
-								</div>
-								<div className={styles.attribute}>
-									<label className={styles.label} htmlFor='responseType'>
-										Response:
-									</label>
-									<p>{responseType}</p>
-								</div>
-								<div className={styles.attribute}>
-									<label className={styles.label} htmlFor='bearing'>
-										Bearing:
-									</label>
-									<p>{bearing}</p>
-								</div>
+								{left.map((item, index) => {
+									return (
+										<div key={index} className={styles.attribute}>
+											<label className={styles.label} htmlFor={item[1]}>
+												{item[0]}:
+											</label>
+											<p>{item[1]}</p>
+										</div>
+									);
+								})}
 							</div>
 							<div className={styles.right}>
-								<div className={styles.attribute}>
-									<label className={styles.label} htmlFor='originalOwner'>
-										Original Owner:
-									</label>
-									<p>{originalOwner ? 'Yes' : 'No'}</p>
-								</div>
-								<div className={styles.attribute}>
-									<label className={styles.label} htmlFor='purchaseYear'>
-										Purchased:
-									</label>
-									<p>{purchaseYear}</p>
-								</div>
-								<div className={styles.attribute}>
-									<label className={styles.label} htmlFor='purchasePrice'>
-										Purchase price:
-									</label>
-									<p>{purchasePrice}</p>
-								</div>
-								<div className={styles.attribute}>
-									<label className={styles.label} htmlFor='value'>
-										Approximate value:
-									</label>
-									<p>{value}</p>
-								</div>
+								{right.map((item, index) => {
+									return (
+										<div key={index} className={styles.attribute}>
+											<label className={styles.label} htmlFor={item[1]}>
+												{item[0]}:
+											</label>
+											<p>
+												{item[0] === 'Original owner'
+													? item[1] === 0
+														? 'No'
+														: 'Yes'
+													: item[1]}
+											</p>
+										</div>
+									);
+								})}
 							</div>
 						</div>
 						<div className={styles.about}>

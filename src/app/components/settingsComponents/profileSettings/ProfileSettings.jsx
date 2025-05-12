@@ -42,13 +42,6 @@ function ProfileSettings() {
 	useEffect(() => {
 		if (!user) return;
 
-		// console.log(
-		// 	'user: ',
-		// 	user,
-		// 	'profilesettingsformdata: ',
-		// 	profileSettingsFormData
-		// );
-
 		setDirty(
 			profileSettingsFormData.first !== first_name ||
 				profileSettingsFormData.last !== last_name ||
@@ -141,7 +134,6 @@ function ProfileSettings() {
 			return;
 		}
 		const { name, value } = e.target;
-		// console.log('Setting:', name, 'with value:', value);
 		setProfileSettingsFormData((prev) => ({
 			...prev,
 			[name]: value,

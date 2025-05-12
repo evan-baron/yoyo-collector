@@ -69,8 +69,15 @@ export async function POST(req, res) {
 		const trimAndValidate = (formData) => {
 			const trimmedData = Object.fromEntries(
 				Object.entries(formData).map(([key, value]) => {
-					const trimmed = typeof value === 'string' ? value.trim() : value;
-					return [key, trimmed === '' ? null : trimmed];
+					if (typeof value === 'string') {
+						const trimmed = value.trim();
+						return [key, trimmed === '' ? null : trimmed];
+					}
+					// Convert NaN to null for numeric inputs
+					if (typeof value === 'number' && isNaN(value)) {
+						return [key, null];
+					}
+					return [key, value];
 				})
 			);
 
@@ -81,9 +88,9 @@ export async function POST(req, res) {
 			return { trimmedData, failed };
 		};
 
-		const validated = trimAndValidate(yoyoData);
+		const { trimmedData, failed } = trimAndValidate(yoyoData);
 
-		if (validated.failed.length > 0) {
+		if (failed.length > 0) {
 			return NextResponse.json(
 				{
 					message:
@@ -93,9 +100,11 @@ export async function POST(req, res) {
 			);
 		}
 
-		if (yoyoData.originalOwner === 'yes') {
-			yoyoData.originalOwner = 1;
-		} else yoyoData.originalOwner = 0;
+		if (trimmedData.originalOwner === 'yes') {
+			trimmedData.originalOwner = 1;
+		} else if (trimmedData.originalOwner === 'no') {
+			trimmedData.originalOwner = 0;
+		}
 
 		const {
 			collectionId,
@@ -111,7 +120,7 @@ export async function POST(req, res) {
 			responseType,
 			value,
 			year,
-		} = yoyoData;
+		} = trimmedData;
 
 		const response = await createYoyo(
 			userId,
