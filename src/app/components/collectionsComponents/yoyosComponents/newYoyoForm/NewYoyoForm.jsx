@@ -127,9 +127,7 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 							<ArrowBackIosNew className={styles.icon} />
 						</div>
 					)}
-					<div className={styles.image}>
-						<BlankYoyoPhoto />
-					</div>
+					<BlankYoyoPhoto />
 					{imagesToUpload.length > 0 && (
 						<div className={styles.arrow}>
 							<ArrowForwardIos className={styles.icon} />

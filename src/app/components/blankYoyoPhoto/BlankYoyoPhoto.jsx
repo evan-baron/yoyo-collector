@@ -10,7 +10,13 @@ import styles from './blankYoyoPhoto.module.scss';
 
 function BlankYoyoPhoto() {
 	return (
-		<Image src={yoyoPhoto} className={styles.image} alt='default yoyo photo' />
+		<div className={styles['image-box']}>
+			<Image
+				src={yoyoPhoto}
+				className={styles.image}
+				alt='default yoyo photo'
+			/>
+		</div>
 	);
 }
 
