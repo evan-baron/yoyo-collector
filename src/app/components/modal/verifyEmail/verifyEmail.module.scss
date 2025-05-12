@@ -20,7 +20,7 @@
 	}
 
 	.p {
-		align-self: start;
+		align-self: flex-start;
 		font-size: 1.25rem;
 	}
 
@@ -31,7 +31,7 @@
 
 	.ul {
 		position: relative;
-		align-self: start;
+		align-self: flex-start;
 		left: 2rem;
 		display: flex;
 		flex-direction: column;

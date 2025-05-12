@@ -34,7 +34,7 @@
 		.ul {
 			flex-grow: 1;
 			display: flex;
-			justify-content: end;
+			justify-content: flex-end;
 			gap: 1rem;
 			padding: 0 1rem;
 
@@ -130,7 +130,7 @@
 			display: flex;
 			position: relative;
 			justify-content: center;
-			align-items: end;
+			align-items: flex-end;
 			background-color: rgb(25, 25, 25);
 			cursor: pointer;
 

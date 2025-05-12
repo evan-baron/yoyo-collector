@@ -18,6 +18,7 @@ import YearDropdown from './yearDropdown/YearDropdown';
 import ResponseDropdown from './responseDropdown/ResponseDropdown';
 import BearingDropdown from './bearingDropdown/bearingDropdown';
 import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
+import yoyoPhoto from '@/app/assets/site/blank-yoyo-photo.png';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
