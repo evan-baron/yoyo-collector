@@ -1,4 +1,4 @@
-const customSelectStyles = {
+const customInputSelectStyles = {
 	container: (styles) => ({
 		...styles,
 		padding: '0px',
@@ -11,9 +11,9 @@ const customSelectStyles = {
 		backgroundColor: '#454545',
 		border: 'none',
 		borderRadius: 'none',
-		fontSize: '1.25rem',
-		maxHeight: '2.5rem',
-		minHeight: '2.5rem',
+		fontSize: '1.125rem',
+		maxHeight: '1.5rem',
+		minHeight: '1.5rem',
 		boxShadow: 'none',
 		'&:hover': {
 			borderColor: 'transparent',
@@ -107,6 +107,8 @@ const customSelectStyles = {
 		display: 'auto',
 		backgroundColor: '#696969',
 		width: '2px',
+		padding: '0px',
+		margin: '4px 0px',
 	}),
 
 	dropdownIndicator: (styles) => ({
@@ -115,6 +117,7 @@ const customSelectStyles = {
 		'&:hover': {
 			color: '#696969',
 		},
+		padding: '0px 8px',
 	}),
 
 	clearIndicator: (styles, { isFocused }) => ({
@@ -122,7 +125,8 @@ const customSelectStyles = {
 		'&:hover': {
 			color: '#eeeeee',
 		},
+		padding: '0px 8px',
 	}),
 };
 
-export default customSelectStyles;
+export default customInputSelectStyles;

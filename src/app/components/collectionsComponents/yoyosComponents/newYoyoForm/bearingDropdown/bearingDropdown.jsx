@@ -3,9 +3,10 @@ import React from 'react';
 import Select from 'react-select';
 
 // Styles
-import customSelectStyles from '../customSelectStyles';
+import customFormSelectStyles from '../customFormSelectStyles';
+import customInputSelectStyles from '../customInputSelectStyles';
 
-function BearingDropdown({ disabled, value, handleChange, name }) {
+function BearingDropdown({ type, disabled, value, handleChange, name }) {
 	const response = ['A', 'C', 'D', 'Other'];
 
 	const options = response.map((option) => ({
@@ -22,7 +23,9 @@ function BearingDropdown({ disabled, value, handleChange, name }) {
 			placeholder='Select bearing type...'
 			menuPlacement='bottom'
 			menuShouldScrollIntoView={false}
-			styles={customSelectStyles}
+			styles={
+				type === 'yoyoForm' ? customFormSelectStyles : customInputSelectStyles
+			}
 			name={name}
 			isClearable
 			isDisabled={disabled}

@@ -3,9 +3,10 @@ import React from 'react';
 import Select from 'react-select';
 
 // Styles
-import customSelectStyles from '../customSelectStyles';
+import customFormSelectStyles from '../customFormSelectStyles';
+import customInputSelectStyles from '../customInputSelectStyles';
 
-function YearDropdown({ disabled, value, handleChange, name }) {
+function YearDropdown({ type, disabled, value, handleChange, name }) {
 	const startYear = 1950;
 	const endYear = new Date().getFullYear();
 
@@ -28,7 +29,9 @@ function YearDropdown({ disabled, value, handleChange, name }) {
 			placeholder='Select year...'
 			menuPlacement='bottom'
 			menuShouldScrollIntoView={false}
-			styles={customSelectStyles}
+			styles={
+				type === 'yoyoForm' ? customFormSelectStyles : customInputSelectStyles
+			}
 			isClearable
 			isDisabled={disabled}
 		/>

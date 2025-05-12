@@ -27,6 +27,37 @@ function EditableYoyoTile({
 	const { newYoyoData, setNewYoyoData, originalYoyoData, setOriginalYoyoData } =
 		useAppContext();
 
+	const [error, setError] = useState({
+		model: {
+			valid: true,
+			message: '',
+		},
+		brand: {
+			valid: true,
+			message: '',
+		},
+		colorway: {
+			valid: true,
+			message: '',
+		},
+		category: {
+			valid: true,
+			message: '',
+		},
+		purchasePrice: {
+			valid: true,
+			message: '',
+		},
+		value: {
+			valid: true,
+			message: '',
+		},
+		condition: {
+			valid: true,
+			message: '',
+		},
+	});
+
 	const {
 		id,
 		bearing,
@@ -135,15 +166,124 @@ function EditableYoyoTile({
 	];
 
 	const handleSelect = () => {
-		console.log(yoyoData);
+		// console.log(yoyoData);
 		setSelectedYoyo(id);
 		// selectedTile ? setSelectedYoyo(null) : setSelectedYoyo(id);
 	};
 
+	// Validation
+	//Constants
+	const noSpecials = [
+		'model',
+		'brand',
+		'bearing',
+		'responseType',
+		'color',
+		'category',
+	];
+	const onlyNums = ['year', 'purchased'];
+	const specialsAllowed = ['value', 'price', 'condition'];
+
+	const getInvalidChars = (name, input) => {
+		const noSpecialsTest = /[^a-zA-Z0-9 \-./!']/g;
+		const specialsTest = /[^a-zA-Z0-9 '$%^&*()\-\+\/!@,.?:\";#]/g;
+		if (noSpecials.includes(name)) {
+			const matches = input.match(noSpecialsTest);
+			return matches ? matches.join('') : '';
+		}
+		if (specialsAllowed.includes(name)) {
+			const matches = input.match(specialsTest);
+			return matches ? matches.join('') : '';
+		}
+	};
+
+	const handleDropdownChange = (e, meta) => {
+		const { name } = meta;
+		const value = e ? e.value : '';
+
+		error &&
+			setError((prev) => ({
+				...prev,
+				[name]: {
+					valid: true,
+					message: '',
+				},
+			}));
+
+		const invalidChars = getInvalidChars(name, value);
+
+		if (invalidChars) {
+			setError((prev) => ({
+				...prev,
+				[name]: {
+					valid: false,
+					message: `Invalid characters used: ${invalidChars}`,
+				},
+			}));
+		} else {
+			setError((prev) => ({
+				...prev,
+				[name]: {
+					valid: true,
+					message: '',
+				},
+			})); // Clear any previous error
+		}
+
+		setNewYoyoData((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+	};
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		console.log(value);
+		console.log(name, value);
+
+		error &&
+			setError((prev) => ({
+				...prev,
+				[name]: {
+					valid: true,
+					message: '',
+				},
+			}));
+
+		const invalidChars = getInvalidChars(name, value);
+
+		if (invalidChars) {
+			setError((prev) => ({
+				...prev,
+				[name]: {
+					valid: false,
+					message: `Invalid characters used: ${invalidChars}`,
+				},
+			}));
+		} else {
+			setError((prev) => ({
+				...prev,
+				[name]: {
+					valid: true,
+					message: '',
+				},
+			})); // Clear any previous error
+		}
+
+		setNewYoyoData((prev) => ({
+			...prev,
+			[name]: value,
+		}));
 	};
+
+	// const handleChange = (e) => {
+	// 	const { name, value } = e.target;
+	// 	console.log(value);
+
+	// 	setNewYoyoData((prev) => ({
+	// 		...prev,
+	// 		[name]: value,
+	// 	}));
+	// };
 
 	const loadingComplete = useMemo(() => {
 		return originalYoyoData !== undefined && newYoyoData !== undefined;
@@ -175,28 +315,51 @@ function EditableYoyoTile({
 						<div className={styles.left}>
 							{left.map((item, index) => {
 								return (
-									<YoyoTileInput
-										key={index}
-										name={item.name}
-										itemLabel={item.label}
-										value={item.value}
-										handleChange={handleChange}
-										type={'text'}
-										maxLength={item.maxLength}
-									/>
+									<React.Fragment key={index}>
+										<YoyoTileInput
+											name={item.name}
+											itemLabel={item.label}
+											value={newYoyoData[item.name]}
+											handleChange={handleChange}
+											handleDropdownChange={handleDropdownChange}
+											type={'text'}
+											maxLength={item.maxLength}
+											error={error}
+										/>
+										{item.name !== 'responseType' &&
+											item.name !== 'bearing' &&
+											item.name !== 'releaseYear' &&
+											!error[item.name]?.valid && (
+												<p className={styles.error}>
+													{error[item.name]?.message}
+												</p>
+											)}
+									</React.Fragment>
 								);
 							})}
 						</div>
 						<div className={styles.right}>
 							{right.map((item, index) => {
 								return (
-									<YoyoTileInput
-										key={index}
-										name={item.name}
-										itemLabel={item.label}
-										value={item.value}
-										type={item.name === 'originalOwner' ? 'radio' : 'text'}
-									/>
+									<React.Fragment key={index}>
+										<YoyoTileInput
+											name={item.name}
+											itemLabel={item.label}
+											handleChange={handleChange}
+											handleDropdownChange={handleDropdownChange}
+											value={item.value}
+											type={item.name === 'originalOwner' ? 'radio' : 'text'}
+											maxLength={item.maxLength}
+											error={error}
+										/>
+										{item.name !== 'originalOwner' &&
+											item.name !== 'purchaseYear' &&
+											!error[item.name]?.valid && (
+												<p className={styles.error}>
+													{error[item.name]?.message}
+												</p>
+											)}
+									</React.Fragment>
 								);
 							})}
 						</div>

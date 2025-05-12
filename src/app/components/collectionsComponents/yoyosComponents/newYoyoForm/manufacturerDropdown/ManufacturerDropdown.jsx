@@ -7,9 +7,10 @@ import { components } from 'react-select';
 import { yoyoBrands } from '../yoyoBrands';
 
 // Styles
-import customSelectStyles from '../customSelectStyles';
+import customFormSelectStyles from '../customFormSelectStyles';
+import customInputSelectStyles from '../customInputSelectStyles';
 
-function ManufacturerDropdown({ value, handleChange, name }) {
+function ManufacturerDropdown({ type, value, handleChange, name }) {
 	const options = yoyoBrands.map((brand) => ({
 		value: brand.toString(),
 		label: brand.toString(),
@@ -27,7 +28,9 @@ function ManufacturerDropdown({ value, handleChange, name }) {
 			placeholder='Select brand...'
 			menuPlacement='bottom'
 			menuShouldScrollIntoView={false}
-			styles={customSelectStyles}
+			styles={
+				type === 'yoyoForm' ? customFormSelectStyles : customInputSelectStyles
+			}
 			name={name}
 			isClearable
 		/>

@@ -3,9 +3,10 @@ import React from 'react';
 import Select from 'react-select';
 
 // Styles
-import customSelectStyles from '../customSelectStyles';
+import customFormSelectStyles from '../customFormSelectStyles';
+import customInputSelectStyles from '../customInputSelectStyles';
 
-function ResponseDropdown({ disabled, value, handleChange, name }) {
+function ResponseDropdown({ type, disabled, value, handleChange, name }) {
 	const response = ['Fixed', 'Responsive', 'Unresponsive'];
 
 	const options = response.map((option) => ({
@@ -22,7 +23,9 @@ function ResponseDropdown({ disabled, value, handleChange, name }) {
 			placeholder='Select response type...'
 			menuPlacement='bottom'
 			menuShouldScrollIntoView={false}
-			styles={customSelectStyles}
+			styles={
+				type === 'yoyoForm' ? customFormSelectStyles : customInputSelectStyles
+			}
 			name={name}
 			isClearable
 			isDisabled={disabled}

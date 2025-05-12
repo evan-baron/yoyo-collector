@@ -1,13 +1,19 @@
 'use client';
 
 // Libraries
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // Styles
 import styles from './yoyoTileInput.module.scss';
 
 // MUI
 import { Edit } from '@mui/icons-material';
+
+// Components
+import ManufacturerDropdown from '../newYoyoForm/manufacturerDropdown/ManufacturerDropdown';
+import ResponseDropdown from '../newYoyoForm/responseDropdown/ResponseDropdown';
+import YearDropdown from '../newYoyoForm/yearDropdown/YearDropdown';
+import BearingDropdown from '../newYoyoForm/bearingDropdown/bearingDropdown';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -18,20 +24,21 @@ function YoyoTileInput({
 	itemLabel,
 	value,
 	handleChange,
+	handleDropdownChange,
 	maxLength,
+	error,
 }) {
-	const { currentlyEditing } = useAppContext();
-	const [editing, setEditing] = useState(false);
+	const { currentlyEditing, setCurrentlyEditing } = useAppContext();
 
 	const inputRef = useRef(null);
 
-	// const editingInput = currentlyEditing === name;
+	const editingInput = currentlyEditing === itemLabel;
 
-	// useEffect(() => {
-	// 	if (editingInput && inputRef.current) {
-	// 		inputRef.current.focus();
-	// 	}
-	// }, [editingInput]);
+	useEffect(() => {
+		if (editingInput && inputRef.current) {
+			inputRef.current.focus();
+		}
+	}, [editingInput]);
 
 	return (
 		<div
@@ -42,20 +49,34 @@ function YoyoTileInput({
 				{itemLabel}:
 			</label>
 			{value ? (
-				editing ? (
-					<input
-						type={type}
-						id={name}
-						name={name}
-						className={styles.input}
-						value={value || ''}
-						onChange={handleChange}
-						maxLength={maxLength}
-						autoComplete='off'
-						spellCheck='off'
-					/>
+				editingInput ? (
+					name === 'brand' ? (
+						<ManufacturerDropdown
+							value={value}
+							handleChange={handleDropdownChange}
+							name='brand'
+						/>
+					) : (
+						<input
+							type={type}
+							id={name}
+							ref={inputRef}
+							name={name}
+							className={styles.input}
+							value={value || ''}
+							onChange={handleChange}
+							maxLength={maxLength}
+							autoComplete='off'
+							spellCheck='off'
+						/>
+					)
 				) : (
-					<p className={styles.p} onClick={() => setEditing(true)}>
+					<p
+						className={styles.p}
+						onClick={() => {
+							setCurrentlyEditing(itemLabel);
+						}}
+					>
 						{name === 'Original owner'
 							? String(value) === '0'
 								? 'No'
@@ -72,6 +93,19 @@ function YoyoTileInput({
 						/>
 					</p>
 				)
+			) : editingInput ? (
+				<input
+					type={type}
+					id={name}
+					ref={inputRef}
+					name={name}
+					className={styles.input}
+					value={value || ''}
+					onChange={handleChange}
+					maxLength={maxLength}
+					autoComplete='off'
+					spellCheck='off'
+				/>
 			) : (
 				<Edit
 					sx={{
@@ -79,7 +113,9 @@ function YoyoTileInput({
 						alignSelf: 'end',
 					}}
 					className={styles.icon}
-					onClick={() => setEditing(true)}
+					onClick={() => {
+						setCurrentlyEditing(itemLabel);
+					}}
 				/>
 			)}
 		</div>

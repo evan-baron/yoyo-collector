@@ -367,6 +367,7 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 												value={yoyoData.brand}
 												handleChange={handleDropdownChange}
 												name='brand'
+												type='yoyoForm'
 											/>
 											{!error.brand.valid && (
 												<p className={styles.error}>{error.brand.message}</p>
@@ -429,6 +430,7 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 														handleChange={handleDropdownChange}
 														name='responseType'
 														disabled={!more}
+														type='yoyoForm'
 													/>
 												</div>
 												<div className={styles['input-box']}>
@@ -440,6 +442,7 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 														handleChange={handleDropdownChange}
 														name='bearing'
 														disabled={!more}
+														type='yoyoForm'
 													/>
 												</div>
 												<div className={styles['input-box']}>
@@ -451,6 +454,7 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 														handleChange={handleDropdownChange}
 														name='year'
 														disabled={!more}
+														type='yoyoForm'
 													/>
 												</div>
 											</div>
@@ -508,6 +512,7 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 														handleChange={handleDropdownChange}
 														name='purchased'
 														disabled={!more}
+														type='yoyoForm'
 													/>
 												</div>
 												<div className={styles['input-box']}>
