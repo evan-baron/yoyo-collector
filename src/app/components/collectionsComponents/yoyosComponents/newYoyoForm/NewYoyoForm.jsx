@@ -2,6 +2,7 @@
 
 // Libraries
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 // Utils
 import axiosInstance from '@/lib/utils/axios';
@@ -10,7 +11,7 @@ import axiosInstance from '@/lib/utils/axios';
 import styles from './newYoyoForm.module.scss';
 
 // MUI
-import { North } from '@mui/icons-material';
+import { North, ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 
 // Components
 import ManufacturerDropdown from './manufacturerDropdown/ManufacturerDropdown';
@@ -18,7 +19,7 @@ import YearDropdown from './yearDropdown/YearDropdown';
 import ResponseDropdown from './responseDropdown/ResponseDropdown';
 import BearingDropdown from './bearingDropdown/bearingDropdown';
 import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
-import yoyoPhoto from '@/app/assets/site/blank-yoyo-photo.png';
+import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -120,7 +121,21 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 	return (
 		<>
 			<section className={styles['add-yoyo-form']}>
-				<div className={styles['picture-box']}></div>
+				<div className={styles['picture-box']}>
+					{imagesToUpload.length > 0 && (
+						<div className={styles.arrow}>
+							<ArrowBackIosNew className={styles.icon} />
+						</div>
+					)}
+					<div className={styles.image}>
+						<BlankYoyoPhoto />
+					</div>
+					{imagesToUpload.length > 0 && (
+						<div className={styles.arrow}>
+							<ArrowForwardIos className={styles.icon} />
+						</div>
+					)}
+				</div>
 				<div className={styles['form-container']}>
 					<div className={styles.add}>Add Yoyo</div>
 					<form className={styles.form}>

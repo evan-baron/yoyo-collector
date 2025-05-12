@@ -2,19 +2,46 @@
 	width: 100%;
 
 	display: flex;
+	align-items: flex-start;
 	justify-content: center;
 	gap: 2rem;
 
 	.picture-box {
-		width: 15.25rem;
-		height: 15.25rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 
-		border: 1px solid white;
+		border-radius: 0.5rem;
+
+		.image {
+			width: 15.25rem;
+			height: 15.25rem;
+
+			padding: 1rem;
+			background-color: var(--darkerGray);
+			box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.75);
+		}
+
+		.arrow {
+			width: 2rem;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--mediumGray);
+
+			cursor: pointer;
+
+			.icon {
+				font-size: 2rem;
+			}
+		}
 	}
 
 	.form-container {
-		width: 65%;
+		flex-grow: 1;
 
+		max-width: 45rem;
 		position: relative;
 		display: flex;
 		flex-direction: column;
