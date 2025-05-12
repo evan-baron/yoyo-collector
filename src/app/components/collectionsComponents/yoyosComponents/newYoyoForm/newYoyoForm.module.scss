@@ -1,334 +1,350 @@
-.form-container {
-	width: 65%;
+.add-yoyo-form {
+	width: 100%;
 
-	position: relative;
 	display: flex;
-	flex-direction: column;
-	border-radius: 0.5rem;
+	justify-content: center;
+	gap: 2rem;
 
-	box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.75);
+	.picture-box {
+		width: 15.25rem;
+		height: 15.25rem;
 
-	.add {
-		width: 100%;
-
-		padding: 0.5rem 0.5rem;
-		text-align: center;
-		font-size: 1.5rem;
-		user-select: none;
-		background-color: var(--darkerGray);
-		border-top-right-radius: 0.5rem;
-		border-top-left-radius: 0.5rem;
+		border: 1px solid white;
 	}
 
-	.more {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.5rem;
-		padding: 0.5rem 0.5rem;
-		text-align: center;
-		font-size: 1.5rem;
-		user-select: none;
-		background-color: var(--darkerGray);
-		cursor: pointer;
+	.form-container {
+		width: 65%;
 
-		border-bottom-left-radius: 0.5rem;
-		border-bottom-right-radius: 0.5rem;
-
-		.icon {
-			height: 1.25rem;
-		}
-	}
-
-	.remove {
-		position: absolute;
-		top: 50%;
-		bottom: 50%;
-		left: 50%;
-		right: 50%;
-
-		transform: translate(-50%, -50%);
-
-		width: 15rem;
-		height: 8rem;
-
+		position: relative;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 0.75rem;
-		z-index: 1;
-		padding: 0.75rem 1.25rem;
-		font-size: 1.125rem;
 		border-radius: 0.5rem;
-		border: 2px solid var(--lightGray);
 
-		.error {
+		box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.75);
+
+		.add {
+			width: 100%;
+
+			padding: 0.5rem 0.5rem;
 			text-align: center;
-			color: red;
-			z-index: 2;
-		}
-
-		.delete {
-			z-index: 2;
-		}
-
-		.buttons {
-			z-index: 2;
-
-			.delete-button {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				padding: 0.25rem 0.5rem;
-				font-size: 1.125rem;
-				line-height: 1;
-				margin: 0;
-				border: 2px solid var(--lightestGray);
-				border-radius: 0.5rem;
-				color: var(--lightestGray);
-				background-color: transparent;
-				cursor: pointer;
-				opacity: 0.75;
-
-				&:hover {
-					opacity: 1;
-				}
-			}
-		}
-
-		.background {
-			position: absolute;
-			height: 100%;
-			width: 100%;
+			font-size: 1.5rem;
+			user-select: none;
 			background-color: var(--darkerGray);
-			border-radius: 0.5rem;
-			opacity: 0.85;
+			border-top-right-radius: 0.5rem;
+			border-top-left-radius: 0.5rem;
 		}
-	}
 
-	.form {
-		display: flex;
-		flex-direction: column;
-		background-color: #303030;
-		overflow: hidden;
+		.more {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			padding: 0.5rem 0.5rem;
+			text-align: center;
+			font-size: 1.5rem;
+			user-select: none;
+			background-color: var(--darkerGray);
+			cursor: pointer;
 
-		.content {
+			border-bottom-left-radius: 0.5rem;
+			border-bottom-right-radius: 0.5rem;
+
+			.icon {
+				height: 1.25rem;
+			}
+		}
+
+		.remove {
+			position: absolute;
+			top: 50%;
+			bottom: 50%;
+			left: 50%;
+			right: 50%;
+
+			transform: translate(-50%, -50%);
+
+			width: 15rem;
+			height: 8rem;
+
 			display: flex;
 			flex-direction: column;
+			align-items: center;
+			justify-content: center;
 			gap: 0.75rem;
-			padding: 0.75rem 1.5rem;
+			z-index: 1;
+			padding: 0.75rem 1.25rem;
+			font-size: 1.125rem;
+			border-radius: 0.5rem;
+			border: 2px solid var(--lightGray);
 
-			.bottom {
-				display: flex;
-				flex-direction: column;
-				gap: 0.75rem;
-
-				&.active {
-					max-height: 25rem;
-					animation: slideIn 0.7s ease-in-out;
-				}
-
-				&.inactive {
-					max-height: 0;
-					animation: slideOut 0.7s ease-in-out;
-				}
-			}
-
-			@keyframes slideIn {
-				from {
-					max-height: 0;
-				}
-				to {
-					max-height: 25rem;
-				}
-			}
-
-			@keyframes slideOut {
-				from {
-					max-height: 25rem;
-				}
-				to {
-					max-height: 0rem;
-				}
-			}
-		}
-
-		.details {
-			display: flex;
-			gap: 2.5rem;
-
-			.left {
-				width: 50%;
-				display: flex;
-				flex-direction: column;
-				gap: 0.75rem;
-			}
-
-			.right {
-				width: 50%;
-				display: flex;
-				flex-direction: column;
-				gap: 0.75rem;
-			}
-		}
-
-		.photo-input {
-			width: 100%;
-			height: 4rem;
-			display: flex;
-			align-items: flex-end;
-
-			.label {
-				width: 100%;
-
-				position: relative;
+			.error {
 				text-align: center;
-				padding: 0.75rem;
-				font-size: 1.5rem;
-				border: none;
-				border-radius: 0.5rem;
-				color: var(--lightestGray);
-				background-color: transparent;
-				cursor: pointer;
-				transition: all 0.3s ease;
-				z-index: 0;
-				isolation: isolate;
-				box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
-
-				&::before {
-					content: '';
-					position: absolute;
-					inset: 0;
-					padding: 2px; // thickness of the border
-					border-radius: inherit;
-					background: linear-gradient(
-						135deg,
-						magenta,
-						cyan,
-						magenta,
-						cyan,
-						magenta
-					);
-					background-size: 200% 1200%;
-					// background: linear-gradient(
-					// 	135deg,
-					// 	magenta,
-					// 	cyan,
-					// 	magenta,
-					// 	cyan,
-					// 	magenta,
-					// 	cyan,
-					// 	magenta,
-					// 	cyan,
-					// 	magenta
-					// );
-					// background-size: 200% 1250%;
-					animation: move-gradient 3s linear infinite;
-					mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-					mask-composite: exclude;
-					-webkit-mask-composite: destination-out;
-					z-index: -1;
-				}
+				color: red;
+				z-index: 2;
 			}
 
-			@keyframes move-gradient {
-				0% {
-					background-position: 100% 100%;
-				}
-				50% {
-					background-position: 0% 100%;
-				}
-				100% {
-					background-position: -100% 100%;
-				}
-			}
-		}
-
-		.input-box {
-			width: 100%;
-
-			display: flex;
-			flex-direction: column;
-			gap: 0.25rem;
-
-			.radio-label {
-				font-size: 1.25rem;
-				color: var(--lightestGray);
+			.delete {
+				z-index: 2;
 			}
 
-			.options {
-				height: 2.5rem;
+			.buttons {
+				z-index: 2;
 
-				display: flex;
-				align-items: center;
-				gap: 2rem;
-
-				.option {
+				.delete-button {
 					display: flex;
 					align-items: center;
-					gap: 0.25rem;
+					justify-content: center;
+					padding: 0.25rem 0.5rem;
+					font-size: 1.125rem;
+					line-height: 1;
+					margin: 0;
+					border: 2px solid var(--lightestGray);
+					border-radius: 0.5rem;
+					color: var(--lightestGray);
+					background-color: transparent;
+					cursor: pointer;
+					opacity: 0.75;
 
-					.radio {
-						width: 1rem;
-						height: 1rem;
-
-						margin: 0;
-						padding: 0;
-						accent-color: rgb(0, 200, 225);
-					}
-
-					.label {
-						font-size: 1.25rem;
+					&:hover {
+						opacity: 1;
 					}
 				}
 			}
 
-			.label {
-				font-size: 1.25rem;
-				color: var(--lightestGray);
-			}
-
-			.input {
-				border: none;
-				height: 2.5rem;
+			.background {
+				position: absolute;
+				height: 100%;
 				width: 100%;
-				font-size: 1.25rem;
-				background-color: #454545;
-				color: var(--lightestGray);
-				padding-left: 0.5rem;
+				background-color: var(--darkerGray);
+				border-radius: 0.5rem;
+				opacity: 0.85;
+			}
+		}
 
-				&::placeholder {
-					color: var(--gray);
+		.form {
+			display: flex;
+			flex-direction: column;
+			background-color: #303030;
+			overflow: hidden;
+
+			.content {
+				display: flex;
+				flex-direction: column;
+				gap: 0.75rem;
+				padding: 0.75rem 1.5rem;
+
+				.bottom {
+					display: flex;
+					flex-direction: column;
+					gap: 0.75rem;
+
+					&.active {
+						max-height: 25rem;
+						animation: slideIn 0.7s ease-in-out;
+					}
+
+					&.inactive {
+						max-height: 0;
+						animation: slideOut 0.7s ease-in-out;
+					}
 				}
 
-				&:focus {
+				@keyframes slideIn {
+					from {
+						max-height: 0;
+					}
+					to {
+						max-height: 25rem;
+					}
+				}
+
+				@keyframes slideOut {
+					from {
+						max-height: 25rem;
+					}
+					to {
+						max-height: 0rem;
+					}
+				}
+			}
+
+			.details {
+				display: flex;
+				gap: 2.5rem;
+
+				.left {
+					width: 50%;
+					display: flex;
+					flex-direction: column;
+					gap: 0.75rem;
+				}
+
+				.right {
+					width: 50%;
+					display: flex;
+					flex-direction: column;
+					gap: 0.75rem;
+				}
+			}
+
+			.photo-input {
+				width: 100%;
+				height: 4rem;
+				display: flex;
+				align-items: flex-end;
+
+				.label {
+					width: 100%;
+
+					position: relative;
+					text-align: center;
+					padding: 0.75rem;
+					font-size: 1.5rem;
+					border: none;
+					border-radius: 0.5rem;
+					color: var(--lightestGray);
+					background-color: transparent;
+					cursor: pointer;
+					transition: all 0.3s ease;
+					z-index: 0;
+					isolation: isolate;
+					box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
+
+					&::before {
+						content: '';
+						position: absolute;
+						inset: 0;
+						padding: 2px; // thickness of the border
+						border-radius: inherit;
+						background: linear-gradient(
+							135deg,
+							magenta,
+							cyan,
+							magenta,
+							cyan,
+							magenta
+						);
+						background-size: 200% 1200%;
+						// background: linear-gradient(
+						// 	135deg,
+						// 	magenta,
+						// 	cyan,
+						// 	magenta,
+						// 	cyan,
+						// 	magenta,
+						// 	cyan,
+						// 	magenta,
+						// 	cyan,
+						// 	magenta
+						// );
+						// background-size: 200% 1250%;
+						animation: move-gradient 3s linear infinite;
+						mask: linear-gradient(#fff 0 0) content-box,
+							linear-gradient(#fff 0 0);
+						mask-composite: exclude;
+						-webkit-mask-composite: destination-out;
+						z-index: -1;
+					}
+				}
+
+				@keyframes move-gradient {
+					0% {
+						background-position: 100% 100%;
+					}
+					50% {
+						background-position: 0% 100%;
+					}
+					100% {
+						background-position: -100% 100%;
+					}
+				}
+			}
+
+			.input-box {
+				width: 100%;
+
+				display: flex;
+				flex-direction: column;
+				gap: 0.25rem;
+
+				.radio-label {
+					font-size: 1.25rem;
+					color: var(--lightestGray);
+				}
+
+				.options {
+					height: 2.5rem;
+
+					display: flex;
+					align-items: center;
+					gap: 2rem;
+
+					.option {
+						display: flex;
+						align-items: center;
+						gap: 0.25rem;
+
+						.radio {
+							width: 1rem;
+							height: 1rem;
+
+							margin: 0;
+							padding: 0;
+							accent-color: rgb(0, 200, 225);
+						}
+
+						.label {
+							font-size: 1.25rem;
+						}
+					}
+				}
+
+				.label {
+					font-size: 1.25rem;
+					color: var(--lightestGray);
+				}
+
+				.input {
+					border: none;
+					height: 2.5rem;
+					width: 100%;
+					font-size: 1.25rem;
+					background-color: #454545;
+					color: var(--lightestGray);
+					padding-left: 0.5rem;
+
+					&::placeholder {
+						color: var(--gray);
+					}
+
+					&:focus {
+						outline: none;
+						background-color: var(--mediumGray);
+					}
+				}
+
+				.textarea {
+					width: 100%;
+					height: 4.5rem;
+
+					background-color: #454545;
+					color: var(--lightestGray);
+					font-size: 1.125rem;
+					padding-left: 0.25rem;
+					border: none;
 					outline: none;
-					background-color: var(--mediumGray);
-				}
-			}
+					margin: 0;
 
-			.textarea {
-				width: 100%;
-				height: 4.5rem;
+					scrollbar-width: 1rem;
+					scrollbar-color: var(--mediumGray) var(--darkerGray);
 
-				background-color: #454545;
-				color: var(--lightestGray);
-				font-size: 1.125rem;
-				padding-left: 0.25rem;
-				border: none;
-				outline: none;
-				margin: 0;
+					&::placeholder {
+						color: var(--lightGray);
+					}
 
-				scrollbar-width: 1rem;
-				scrollbar-color: var(--mediumGray) var(--darkerGray);
-
-				&::placeholder {
-					color: var(--lightGray);
-				}
-
-				&:focus {
-					background-color: var(--mediumGray);
+					&:focus {
+						background-color: var(--mediumGray);
+					}
 				}
 			}
 		}

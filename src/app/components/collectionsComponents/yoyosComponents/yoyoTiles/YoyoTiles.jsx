@@ -176,7 +176,7 @@ function YoyoTiles({
 							}`}
 							onClick={handleSort}
 						>
-							Released {/* Should it be Released or Year ?*/}
+							Released
 							<North
 								className={styles.icon}
 								style={{

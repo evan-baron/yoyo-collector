@@ -228,7 +228,7 @@ function Collection() {
 						<h3 className={styles.h3}>Created {created}</h3>
 						<p className={styles.likes}>
 							<Heart likes={collection.likes} size='small' />
-							{collection.likes ? collection.likes : '69'} likes
+							{collection.likes} likes
 						</p>
 					</div>
 
