@@ -13,7 +13,7 @@
 
 		border-radius: 0.5rem;
 
-		.image {
+		.image-box {
 			width: 15.25rem;
 			height: 15.25rem;
 
@@ -153,7 +153,10 @@
 			display: flex;
 			flex-direction: column;
 			background-color: #303030;
-			overflow: hidden;
+
+			.error {
+				color: red;
+			}
 
 			.content {
 				display: flex;
@@ -167,7 +170,7 @@
 					gap: 0.75rem;
 
 					&.active {
-						max-height: 25rem;
+						max-height: 30rem;
 						animation: slideIn 0.7s ease-in-out;
 					}
 
@@ -182,13 +185,13 @@
 						max-height: 0;
 					}
 					to {
-						max-height: 25rem;
+						max-height: 30rem;
 					}
 				}
 
 				@keyframes slideOut {
 					from {
-						max-height: 25rem;
+						max-height: 30rem;
 					}
 					to {
 						max-height: 0rem;
@@ -217,7 +220,7 @@
 
 			.photo-input {
 				width: 100%;
-				height: 4rem;
+				flex-grow: 1;
 				display: flex;
 				align-items: flex-end;
 

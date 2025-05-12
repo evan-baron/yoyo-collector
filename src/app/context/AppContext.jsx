@@ -28,9 +28,37 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 		collectionName: '',
 		description: '',
 	});
+	const [newYoyoData, setNewYoyoData] = useState({
+		model: '',
+		brand: '',
+		bearing: '',
+		color: '',
+		year: '',
+		originalOwner: '',
+		purchased: '',
+		price: '',
+		category: '',
+		responseType: '',
+		condition: '',
+		value: '',
+	});
 	const [originalCollectionData, setOriginalCollectionData] = useState({
 		collectionName: '',
 		description: '',
+	});
+	const [originalYoyoData, setOriginalYoyoData] = useState({
+		model: '',
+		brand: '',
+		bearing: '',
+		color: '',
+		year: '',
+		originalOwner: '',
+		purchased: '',
+		price: '',
+		category: '',
+		responseType: '',
+		condition: '',
+		value: '',
 	});
 	const [pendingRoute, setPendingRoute] = useState(null);
 	const [profileSettingsFormData, setProfileSettingsFormData] = useState({
@@ -255,7 +283,9 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				modalType,
 				newCollectionCounter,
 				newCollectionData,
+				newYoyoData,
 				originalCollectionData,
+				originalYoyoData,
 				pendingRoute,
 				resendEmail,
 				shareLink,
@@ -273,7 +303,9 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setImagesToUpload,
 				setNewCollectionCounter,
 				setNewCollectionData,
+				setNewYoyoData,
 				setOriginalCollectionData,
+				setOriginalYoyoData,
 				setProfileSettingsFormData,
 				setLoading,
 				setModalOpen,

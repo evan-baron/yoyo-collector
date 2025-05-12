@@ -22,7 +22,7 @@ function ManufacturerDropdown({ value, handleChange, name }) {
 		<CreatableSelect
 			components={{ Input: CustomInput }}
 			options={options}
-			value={options.find((option) => option.value === value) || null}
+			value={value ? { label: value, value } : null}
 			onChange={handleChange}
 			placeholder='Select brand...'
 			menuPlacement='bottom'

@@ -8,6 +8,68 @@
 
 	cursor: pointer;
 
+	&.selected {
+		display: flex;
+		gap: 1rem;
+		padding: 0.5rem;
+
+		.image-box {
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+			.image {
+				width: 15.25rem;
+				border-radius: 0.5rem;
+				padding: 1rem;
+				background-color: var(--darkerGray);
+			}
+
+			.likes {
+				margin-left: 0.5rem;
+				display: flex;
+				align-items: center;
+				gap: 0.25rem;
+			}
+		}
+
+		.content-box {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+
+			.label {
+				font-weight: bold;
+				white-space: nowrap;
+			}
+
+			.details {
+				flex-grow: 1;
+
+				display: flex;
+				gap: 2rem;
+
+				.attribute {
+					display: flex;
+					gap: 0.5rem;
+				}
+			}
+
+			.left {
+				width: 45%;
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+
+			.right {
+				width: 55%;
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+		}
+	}
+
 	.legend {
 		width: 100%;
 

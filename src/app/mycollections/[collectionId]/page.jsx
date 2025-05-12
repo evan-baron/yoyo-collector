@@ -35,19 +35,23 @@ function Collection() {
 		editing,
 		error,
 		loading,
-		setEditing,
-		setError,
+		newCollectionCounter,
+		newCollectionData,
+		newYoyoData,
+		originalCollectionData,
+		originalYoyoData,
 		setDirty,
 		setDirtyType,
-		setShareLink,
-		originalCollectionData,
-		newCollectionData,
-		newCollectionCounter,
-		setOriginalCollectionData,
+		setEditing,
+		setError,
 		setModalOpen,
 		setModalType,
-		setViewPhoto,
 		setNewCollectionData,
+		setNewYoyoData,
+		setOriginalCollectionData,
+		setOriginalYoyoData,
+		setShareLink,
+		setViewPhoto,
 	} = useAppContext();
 
 	const [collection, setCollection] = useState({});
@@ -362,6 +366,7 @@ function Collection() {
 							<div className={styles.yoyos}>
 								<YoyoTiles
 									yoyos={yoyos}
+									selectedYoyo={selectedYoyo}
 									setSelectedYoyo={setSelectedYoyo}
 									setSelectedYoyos={setSelectedYoyos}
 									collectionId={collection.id}

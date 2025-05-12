@@ -15,6 +15,7 @@ import NewYoyoForm from '../newYoyoForm/NewYoyoForm';
 
 function YoyoTiles({
 	yoyos,
+	selectedYoyo,
 	setSelectedYoyo,
 	setSelectedYoyos,
 	collectionId,
@@ -187,16 +188,25 @@ function YoyoTiles({
 						</li>
 					</ul>
 				</div>
-				{sortedYoyos.map((yoyo, index) => (
-					<YoyoTile
-						key={index}
-						editing={editing}
-						yoyoData={yoyo}
-						setSelectedYoyo={setSelectedYoyo}
-						setSelectedYoyos={setSelectedYoyos}
-						displayType={displayType}
-					/>
-				))}
+				{sortedYoyos.map((yoyo, index) => {
+					// console.log(
+					// 	'rendering tile for ID:',
+					// 	yoyo.id,
+					// 	'selected yoyo:',
+					// 	selectedYoyo
+					// );
+					return (
+						<YoyoTile
+							key={index}
+							editing={editing}
+							yoyoData={yoyo}
+							setSelectedYoyo={setSelectedYoyo}
+							setSelectedYoyos={setSelectedYoyos}
+							displayType={displayType}
+							selectedTile={selectedYoyo === yoyo.id}
+						/>
+					);
+				})}
 			</div>
 		</div>
 	);

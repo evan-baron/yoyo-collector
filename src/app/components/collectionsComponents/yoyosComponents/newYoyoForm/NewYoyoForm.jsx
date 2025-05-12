@@ -33,6 +33,37 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 	const [added, setAdded] = useState(false);
 	const [uploadError, setUploadError] = useState(null);
 	const [clearInputRef, setClearInputRef] = useState(null);
+	const [error, setError] = useState({
+		model: {
+			valid: true,
+			message: '',
+		},
+		brand: {
+			valid: true,
+			message: '',
+		},
+		color: {
+			valid: true,
+			message: '',
+		},
+		category: {
+			valid: true,
+			message: '',
+		},
+		price: {
+			valid: true,
+			message: '',
+		},
+		value: {
+			valid: true,
+			message: '',
+		},
+		condition: {
+			valid: true,
+			message: '',
+		},
+	});
+	const [hidden, setHidden] = useState('hidden');
 
 	useEffect(() => {
 		let timeout;
@@ -44,9 +75,76 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 		return () => clearTimeout(timeout);
 	}, [animate]);
 
+	useEffect(() => {
+		let timeout;
+		if (animate && more) {
+			timeout = setTimeout(() => {
+				setHidden('');
+			}, 700);
+		} else {
+			setHidden('hidden');
+		}
+		return () => clearTimeout(timeout);
+	}, [animate]);
+
+	// Validation
+	//Constants
+	const noSpecials = [
+		'model',
+		'brand',
+		'bearing',
+		'responseType',
+		'color',
+		'category',
+	];
+	const onlyNums = ['year', 'purchased'];
+	const specialsAllowed = ['value', 'price', 'condition'];
+
+	const getInvalidChars = (name, input) => {
+		const noSpecialsTest = /[^a-zA-Z0-9 \-.!']/g;
+		const specialsTest = /[^a-zA-Z0-9 '$%^&*()\-\+\/!@,.?:\";#]/g;
+		if (noSpecials.includes(name)) {
+			const matches = input.match(noSpecialsTest);
+			return matches ? matches.join('') : '';
+		}
+		if (specialsAllowed.includes(name)) {
+			const matches = input.match(specialsTest);
+			return matches ? matches.join('') : '';
+		}
+	};
+
 	const handleDropdownChange = (e, meta) => {
 		const { name } = meta;
 		const value = e ? e.value : '';
+
+		error &&
+			setError((prev) => ({
+				...prev,
+				[name]: {
+					valid: true,
+					message: '',
+				},
+			}));
+
+		const invalidChars = getInvalidChars(name, value);
+
+		if (invalidChars) {
+			setError((prev) => ({
+				...prev,
+				[name]: {
+					valid: false,
+					message: `Invalid characters used: ${invalidChars}`,
+				},
+			}));
+		} else {
+			setError((prev) => ({
+				...prev,
+				[name]: {
+					valid: true,
+					message: '',
+				},
+			})); // Clear any previous error
+		}
 
 		setYoyoData((prev) => ({
 			...prev,
@@ -56,6 +154,36 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+
+		error &&
+			setError((prev) => ({
+				...prev,
+				[name]: {
+					valid: true,
+					message: '',
+				},
+			}));
+
+		const invalidChars = getInvalidChars(name, value);
+
+		if (invalidChars) {
+			setError((prev) => ({
+				...prev,
+				[name]: {
+					valid: false,
+					message: `Invalid characters used: ${invalidChars}`,
+				},
+			}));
+		} else {
+			setError((prev) => ({
+				...prev,
+				[name]: {
+					valid: true,
+					message: '',
+				},
+			})); // Clear any previous error
+		}
+
 		setYoyoData((prev) => ({
 			...prev,
 			[name]: value,
@@ -81,9 +209,59 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 		more && setMore(false);
 	};
 
+	const noSpecialsTest = (param) => /^[a-zA-Z0-9 \-.!']+$/.test(param);
+	const numsTest = (param) => /^[0-9]+$/.test(param);
+	const specialsTest = (param) =>
+		/^[a-zA-Z0-9 '$%^&*()\-\+\/!@,.?:\";#]+$/.test(param);
+
+	const validateField = (name, value) => {
+		if (value === null || value === '') {
+			return true;
+		}
+
+		if (name === 'collectionId' || name === 'originalOwner') {
+			return true;
+		}
+
+		if (noSpecials.includes(name)) {
+			return noSpecialsTest(value);
+		}
+
+		if (onlyNums.includes(name)) {
+			return numsTest(value);
+		}
+
+		if (specialsAllowed.includes(name)) {
+			return specialsTest(value);
+		}
+	};
+
+	const trimAndValidate = (formData) => {
+		console.log(formData);
+		const trimmedData = Object.fromEntries(
+			Object.entries(formData).map(([key, value]) => {
+				const trimmed = typeof value === 'string' ? value.trim() : value;
+				return [key, trimmed === '' ? null : trimmed];
+			})
+		);
+
+		const values = Object.entries(trimmedData);
+
+		console.log(values);
+
+		const failed = values.filter(([key, val]) => !validateField(key, val));
+
+		return { trimmedData, failed };
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const { name } = e.target.dataset;
+
+		// Validate data
+		const validated = trimAndValidate(yoyoData);
+
+		console.log(validated);
 
 		try {
 			await axiosInstance.post('/api/user/yoyos', yoyoData);
@@ -127,7 +305,9 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 							<ArrowBackIosNew className={styles.icon} />
 						</div>
 					)}
-					<BlankYoyoPhoto />
+					<div className={styles['image-box']}>
+						<BlankYoyoPhoto />
+					</div>
 					{imagesToUpload.length > 0 && (
 						<div className={styles.arrow}>
 							<ArrowForwardIos className={styles.icon} />
@@ -154,6 +334,9 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 												value={yoyoData.model}
 												maxLength={50}
 											/>
+											{!error.model.valid && (
+												<p className={styles.error}>{error.model.message}</p>
+											)}
 										</div>
 										<div className={styles['input-box']}>
 											<label htmlFor='color' className={styles.label}>
@@ -168,6 +351,9 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 												value={yoyoData.color}
 												maxLength={50}
 											/>
+											{!error.color.valid && (
+												<p className={styles.error}>{error.color.message}</p>
+											)}
 										</div>
 									</div>
 									<div className={styles.right}>
@@ -180,6 +366,9 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 												handleChange={handleDropdownChange}
 												name='brand'
 											/>
+											{!error.brand.valid && (
+												<p className={styles.error}>{error.brand.message}</p>
+											)}
 										</div>
 										<div className={styles['photo-input']}>
 											<label htmlFor='yoyoInput' className={styles.label}>
@@ -207,6 +396,7 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 										className={`${styles.bottom} ${
 											animate ? styles.active : styles.inactive
 										}`}
+										style={{ overflow: hidden }}
 									>
 										<div className={styles.details}>
 											<div className={styles.left}>
@@ -332,6 +522,11 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 														maxLength={100}
 														disabled={!more}
 													/>
+													{!error.price.valid && (
+														<p className={styles.error}>
+															{error.price.message}
+														</p>
+													)}
 												</div>
 												<div className={styles['input-box']}>
 													<label htmlFor='value' className={styles.label}>
@@ -347,6 +542,11 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 														maxLength={20}
 														disabled={!more}
 													/>
+													{!error.value.valid && (
+														<p className={styles.error}>
+															{error.value.message}
+														</p>
+													)}
 												</div>
 											</div>
 										</div>
@@ -365,6 +565,11 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 												onChange={handleChange}
 												disabled={!more}
 											/>
+											{!error.condition.valid && (
+												<p className={styles.error}>
+													{error.condition.message}
+												</p>
+											)}
 										</div>
 									</div>
 								</>
@@ -425,7 +630,6 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 					)}
 				</div>
 			</section>
-
 			<div className={styles.buttons}>
 				<div data-name='save' className={styles.button} onClick={handleSubmit}>
 					Save
