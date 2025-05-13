@@ -3,7 +3,7 @@ const customInputSelectStyles = {
 		...styles,
 		padding: '0px',
 		margin: '0px',
-		minWidth: '15rem',
+		minWidth: '10rem',
 	}),
 
 	// Control (the outer container of the select box)
@@ -68,6 +68,7 @@ const customInputSelectStyles = {
 		...styles,
 		color: '#aaaaaa',
 		position: 'absolute',
+		display: 'none',
 	}),
 
 	// SingleValue (the selected value in the control)

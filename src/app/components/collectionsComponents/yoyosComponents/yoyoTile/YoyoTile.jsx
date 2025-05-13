@@ -26,7 +26,8 @@ function YoyoTile({
 	setSelectedYoyos,
 	selectedTile,
 }) {
-	const { editing, setEditing } = useAppContext();
+	const { editing, setEditing, setModalOpen, setModalType, dirty, setDirty } =
+		useAppContext();
 
 	const {
 		id,
@@ -71,7 +72,11 @@ function YoyoTile({
 	);
 
 	const handleSelect = () => {
-		console.log(yoyoData);
+		if (dirty) {
+			setModalOpen(true);
+			setModalType('dirty');
+			return;
+		}
 		setSelectedYoyo(id);
 		// selectedTile ? setSelectedYoyo(null) : setSelectedYoyo(id);
 	};

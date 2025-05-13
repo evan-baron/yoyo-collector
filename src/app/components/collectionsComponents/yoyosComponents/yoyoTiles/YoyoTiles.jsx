@@ -198,7 +198,6 @@ function YoyoTiles({
 					return (
 						<YoyoTile
 							key={index}
-							editing={editing}
 							yoyoData={yoyo}
 							setSelectedYoyo={setSelectedYoyo}
 							setSelectedYoyos={setSelectedYoyos}

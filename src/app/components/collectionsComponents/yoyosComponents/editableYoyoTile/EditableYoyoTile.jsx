@@ -10,7 +10,7 @@ import { getInitialInputs } from './inputConfig';
 import styles from './editableYoyoTile.module.scss';
 
 // MUI
-import { Edit, Undo } from '@mui/icons-material';
+import { Edit } from '@mui/icons-material';
 
 // Components
 import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
@@ -20,10 +20,6 @@ import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
-import ManufacturerDropdown from '../newYoyoForm/manufacturerDropdown/ManufacturerDropdown';
-import YearDropdown from '../newYoyoForm/yearDropdown/YearDropdown';
-import ResponseDropdown from '../newYoyoForm/responseDropdown/ResponseDropdown';
-import BearingDropdown from '../newYoyoForm/bearingDropdown/bearingDropdown';
 
 function EditableYoyoTile({
 	yoyoData,
@@ -31,8 +27,19 @@ function EditableYoyoTile({
 	setSelectedYoyos,
 	selectedTile,
 }) {
-	const { newYoyoData, setNewYoyoData, originalYoyoData, setOriginalYoyoData } =
-		useAppContext();
+	const {
+		newYoyoData,
+		setNewYoyoData,
+		originalYoyoData,
+		setOriginalYoyoData,
+		dirty,
+		error,
+		setError,
+		setDirty,
+		setDirtyType,
+	} = useAppContext();
+
+	const [inputs, setInputs] = useState();
 
 	const {
 		id,
@@ -52,8 +59,10 @@ function EditableYoyoTile({
 	} = yoyoData;
 
 	useEffect(() => {
-		setOriginalYoyoData({
-			id: id,
+		if (!yoyoData) return;
+
+		const yoyoObject = {
+			id,
 			model: model || '',
 			brand: brand || '',
 			bearing: bearing || '',
@@ -66,34 +75,56 @@ function EditableYoyoTile({
 			responseType: responseType || '',
 			condition: condition || '',
 			value: value || '',
-		});
+		};
+
+		setOriginalYoyoData(yoyoObject);
+		setNewYoyoData(yoyoObject);
+
+		setInputs(
+			getInitialInputs(
+				model,
+				brand,
+				colorway,
+				category,
+				releaseYear,
+				responseType,
+				bearing,
+				originalOwner,
+				purchaseYear,
+				purchasePrice,
+				value
+			)
+		);
 	}, [yoyoData]);
 
 	useEffect(() => {
-		setNewYoyoData({ ...originalYoyoData });
-	}, [originalYoyoData]);
+		if (!inputs) return;
 
-	const [inputs, setInputs] = useState(() =>
-		getInitialInputs(
-			model,
-			brand,
-			colorway,
-			category,
-			releaseYear,
-			responseType,
-			bearing,
-			originalOwner,
-			purchaseYear,
-			purchasePrice,
-			value
-		)
-	);
+		const hasError = Object.values(inputs).some(
+			(obj) => obj.error.valid === false
+		);
+		setError(hasError);
+	}, [inputs]);
 
-	const handleSelect = () => {
-		// console.log(yoyoData);
-		setSelectedYoyo(id);
-		// selectedTile ? setSelectedYoyo(null) : setSelectedYoyo(id);
-	};
+	useEffect(() => {
+		const isDirty =
+			originalYoyoData.model.trim() !== newYoyoData.model.trim() ||
+			originalYoyoData.brand.trim() !== newYoyoData.brand.trim() ||
+			originalYoyoData.bearing.trim() !== newYoyoData.bearing.trim() ||
+			originalYoyoData.colorway.trim() !== newYoyoData.colorway.trim() ||
+			originalYoyoData.releaseYear !== newYoyoData.releaseYear ||
+			originalYoyoData.originalOwner !== newYoyoData.originalOwner ||
+			originalYoyoData.purchaseYear !== newYoyoData.purchaseYear ||
+			originalYoyoData.purchasePrice.trim() !==
+				newYoyoData.purchasePrice.trim() ||
+			originalYoyoData.category.trim() !== newYoyoData.category.trim() ||
+			originalYoyoData.responseType.trim() !==
+				newYoyoData.responseType.trim() ||
+			originalYoyoData.condition.trim() !== newYoyoData.condition.trim() ||
+			originalYoyoData.value.trim() !== newYoyoData.value.trim();
+		setDirty(isDirty);
+		isDirty ? setDirtyType('yoyo') : setDirtyType(null);
+	}, [originalYoyoData, newYoyoData]);
 
 	// Validation
 	//Constants
@@ -105,7 +136,6 @@ function EditableYoyoTile({
 		'color',
 		'category',
 	];
-	const onlyNums = ['year', 'purchased'];
 	const specialsAllowed = ['value', 'price', 'condition'];
 
 	const getInvalidChars = (name, input) => {
@@ -165,7 +195,6 @@ function EditableYoyoTile({
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		console.log(name, value);
 
 		inputs[name].error.valid &&
 			setInputs((prev) => ({
@@ -213,16 +242,18 @@ function EditableYoyoTile({
 	};
 
 	const loadingComplete = useMemo(() => {
-		return originalYoyoData !== undefined && newYoyoData !== undefined;
-	}, [originalYoyoData, newYoyoData]);
+		return (
+			originalYoyoData !== undefined &&
+			newYoyoData !== undefined &&
+			inputs &&
+			Object.keys(inputs).length > 0
+		);
+	}, [inputs, originalYoyoData, newYoyoData]);
 
-	if (!loadingComplete) return <LoadingSpinner message='loading' />;
+	if (!loadingComplete) return <LoadingSpinner message='Loading' />;
 
 	return (
-		<div
-			className={`${styles.tile} ${selectedTile && styles.selected}`}
-			onClick={handleSelect}
-		>
+		<div className={`${styles.tile} ${selectedTile && styles.selected}`}>
 			<input type='checkbox' className={styles.input} />
 
 			<div className={styles['image-box']}>
@@ -245,7 +276,7 @@ function EditableYoyoTile({
 							{Object.entries(inputs).map(([key, item]) => {
 								if (item.position === 'left') {
 									return (
-										<React.Fragment key={key}>
+										<React.Fragment key={item.name}>
 											<YoyoTileInput
 												name={item.name}
 												itemLabel={item.label}
@@ -278,7 +309,7 @@ function EditableYoyoTile({
 							{Object.entries(inputs).map(([key, item]) => {
 								if (item.position === 'right') {
 									return (
-										<React.Fragment key={key}>
+										<React.Fragment key={item.name}>
 											<YoyoTileInput
 												name={item.name}
 												itemLabel={item.label}

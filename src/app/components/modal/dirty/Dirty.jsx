@@ -18,6 +18,8 @@ function Dirty() {
 	const {
 		originalCollectionData,
 		newCollectionData,
+		newYoyoData,
+		originalYoyoData,
 		setOriginalCollectionData,
 		dirtyType,
 		pendingRoute,
@@ -167,12 +169,31 @@ function Dirty() {
 				setDirty(false);
 				setError(null);
 			}
+		} else if (dirtyType === 'yoyo') {
+			console.log(newYoyoData);
+			console.log(originalYoyoData);
+			if (error) {
+				setModalType('error');
+				return;
+			}
+
+			const valuesToUpdate = Object.entries(newYoyoData).reduce(
+				(obj, [key, value]) => {
+					if (value !== originalYoyoData[key]) {
+						obj[key] = value;
+					}
+					return obj;
+				},
+				{}
+			);
+
+			console.log(valuesToUpdate);
 		}
 	};
 
 	return (
 		<div className={styles.container}>
-			<h2 className={styles.h2}>Save Changes</h2>
+			<h2 className={styles.h2}>Save Changes?</h2>
 			<div className={styles.buttons}>
 				<button
 					className={styles.button}

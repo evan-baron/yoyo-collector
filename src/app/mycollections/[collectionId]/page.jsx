@@ -396,7 +396,11 @@ function Collection() {
 						<Edit className={styles['settings-icon']} />
 					)}
 					<p className={styles.settings}>
-						{editing ? 'Save Changes' : 'Edit Collection'}
+						{editing
+							? 'Save Changes'
+							: selected === 'yoyos'
+							? 'Edit Yoyos'
+							: 'Edit Collection'}
 					</p>
 				</button>
 			</div>

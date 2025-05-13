@@ -61,7 +61,7 @@ export function getInitialInputs({
 		},
 		category: {
 			name: 'category',
-			label: 'Category',
+			label: 'Category/Material',
 			value: category,
 			maxLength: '60',
 			position: 'left',
