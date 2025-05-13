@@ -26,7 +26,6 @@ function YoyoTileInput({
 	handleChange,
 	handleDropdownChange,
 	maxLength,
-	error,
 }) {
 	const { currentlyEditing, setCurrentlyEditing } = useAppContext();
 
@@ -55,6 +54,30 @@ function YoyoTileInput({
 							value={value}
 							handleChange={handleDropdownChange}
 							name='brand'
+						/>
+					) : name === 'releaseYear' ? (
+						<YearDropdown
+							value={value}
+							handleChange={handleDropdownChange}
+							name='releaseYear'
+						/>
+					) : name === 'purchaseYear' ? (
+						<YearDropdown
+							value={value}
+							handleChange={handleDropdownChange}
+							name='purchaseYear'
+						/>
+					) : name === 'responseType' ? (
+						<ResponseDropdown
+							value={value}
+							handleChange={handleDropdownChange}
+							name='responseType'
+						/>
+					) : name === 'bearing' ? (
+						<BearingDropdown
+							value={value}
+							handleChange={handleDropdownChange}
+							name='bearing'
 						/>
 					) : (
 						<input
@@ -94,18 +117,50 @@ function YoyoTileInput({
 					</p>
 				)
 			) : editingInput ? (
-				<input
-					type={type}
-					id={name}
-					ref={inputRef}
-					name={name}
-					className={styles.input}
-					value={value || ''}
-					onChange={handleChange}
-					maxLength={maxLength}
-					autoComplete='off'
-					spellCheck='off'
-				/>
+				name === 'brand' ? (
+					<ManufacturerDropdown
+						value={value}
+						handleChange={handleDropdownChange}
+						name='brand'
+					/>
+				) : name === 'releaseYear' ? (
+					<YearDropdown
+						value={value}
+						handleChange={handleDropdownChange}
+						name='releaseYear'
+					/>
+				) : name === 'purchaseYear' ? (
+					<YearDropdown
+						value={value}
+						handleChange={handleDropdownChange}
+						name='purchaseYear'
+					/>
+				) : name === 'responseType' ? (
+					<ResponseDropdown
+						value={value}
+						handleChange={handleDropdownChange}
+						name='responseType'
+					/>
+				) : name === 'bearing' ? (
+					<BearingDropdown
+						value={value}
+						handleChange={handleDropdownChange}
+						name='bearing'
+					/>
+				) : (
+					<input
+						type={type}
+						id={name}
+						ref={inputRef}
+						name={name}
+						className={styles.input}
+						value={value || ''}
+						onChange={handleChange}
+						maxLength={maxLength}
+						autoComplete='off'
+						spellCheck='off'
+					/>
+				)
 			) : (
 				<Edit
 					sx={{

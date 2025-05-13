@@ -3,6 +3,7 @@ const customInputSelectStyles = {
 		...styles,
 		padding: '0px',
 		margin: '0px',
+		minWidth: '15rem',
 	}),
 
 	// Control (the outer container of the select box)
@@ -12,8 +13,8 @@ const customInputSelectStyles = {
 		border: 'none',
 		borderRadius: 'none',
 		fontSize: '1.125rem',
-		maxHeight: '1.5rem',
-		minHeight: '1.5rem',
+		maxHeight: '2rem',
+		minHeight: '2rem',
 		boxShadow: 'none',
 		'&:hover': {
 			borderColor: 'transparent',
