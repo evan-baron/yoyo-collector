@@ -7,7 +7,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './yoyoTileInput.module.scss';
 
 // MUI
-import { Edit } from '@mui/icons-material';
+import { Edit, Check, Close, Undo } from '@mui/icons-material';
 
 // Components
 import ManufacturerDropdown from '../newYoyoForm/manufacturerDropdown/ManufacturerDropdown';

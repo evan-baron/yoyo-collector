@@ -296,6 +296,8 @@ function EditableYoyoTile({
 			className={`${styles.tile} ${selectedTile && styles.selected}`}
 			onClick={handleSelect}
 		>
+			<input type='checkbox' className={styles.input} />
+
 			<div className={styles['image-box']}>
 				<div className={styles.image}>
 					<BlankYoyoPhoto />
