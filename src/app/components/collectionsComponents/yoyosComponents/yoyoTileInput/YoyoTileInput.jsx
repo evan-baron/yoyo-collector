@@ -19,13 +19,14 @@ import BearingDropdown from '../newYoyoForm/bearingDropdown/bearingDropdown';
 import { useAppContext } from '@/app/context/AppContext';
 
 function YoyoTileInput({
-	type,
 	name,
 	itemLabel,
 	value,
 	handleChange,
-	handleDropdownChange,
 	maxLength,
+	input,
+	undo,
+	handleUndo,
 }) {
 	const { currentlyEditing, setCurrentlyEditing } = useAppContext();
 
@@ -42,9 +43,13 @@ function YoyoTileInput({
 	return (
 		<div
 			className={styles.attribute}
-			style={{ gap: value ? '.5rem' : '.25rem' }}
+			// style={{ gap: value ? '.5rem' : '.25rem' }}
 		>
-			<label className={styles.label} htmlFor={value}>
+			<label
+				className={styles.label}
+				htmlFor={name}
+				style={{ marginRight: value ? '.5rem' : '.25rem' }}
+			>
 				{itemLabel}:
 			</label>
 			{value ? (
@@ -52,46 +57,64 @@ function YoyoTileInput({
 					name === 'brand' ? (
 						<ManufacturerDropdown
 							value={value}
-							handleChange={handleDropdownChange}
-							name='brand'
+							handleChange={handleChange}
+							name={name}
+							className={styles.input}
 						/>
 					) : name === 'releaseYear' ? (
 						<YearDropdown
 							value={value}
 							handleChange={handleDropdownChange}
-							name='releaseYear'
+							name={name}
+							className={styles.input}
 						/>
 					) : name === 'purchaseYear' ? (
 						<YearDropdown
 							value={value}
 							handleChange={handleDropdownChange}
-							name='purchaseYear'
+							name={name}
+							className={styles.input}
 						/>
 					) : name === 'responseType' ? (
 						<ResponseDropdown
 							value={value}
 							handleChange={handleDropdownChange}
-							name='responseType'
+							name={name}
+							className={styles.input}
 						/>
 					) : name === 'bearing' ? (
 						<BearingDropdown
 							value={value}
 							handleChange={handleDropdownChange}
-							name='bearing'
-						/>
-					) : (
-						<input
-							type={type}
-							id={name}
-							ref={inputRef}
 							name={name}
 							className={styles.input}
-							value={value || ''}
-							onChange={handleChange}
-							maxLength={maxLength}
-							autoComplete='off'
-							spellCheck='off'
 						/>
+					) : (
+						<>
+							<input
+								type={input.inputType}
+								id={name}
+								ref={inputRef}
+								name={name}
+								className={styles.input}
+								value={value || ''}
+								onChange={handleChange}
+								maxLength={maxLength}
+								autoComplete='off'
+								spellCheck='off'
+							/>
+							<Check
+								className={styles.check}
+								onClick={() => setCurrentlyEditing(null)}
+							/>
+							<Close
+								className={styles.close}
+								onClick={() => {
+									setCurrentlyEditing(null);
+									handleUndo(name);
+								}}
+							/>
+						</>
 					)
 				) : (
 					<p
@@ -100,56 +123,51 @@ function YoyoTileInput({
 							setCurrentlyEditing(itemLabel);
 						}}
 					>
-						{name === 'Original owner'
+						{name === 'originalOwner'
 							? String(value) === '0'
 								? 'No'
 								: String(value) === '1'
 								? 'Yes'
 								: ''
 							: value}
-						<Edit
-							sx={{
-								fontSize: '1.25rem',
-								alignSelf: 'end',
-							}}
-							className={styles.icon}
-						/>
+						<Edit className={styles.icon} />
+						{undo && (
+							<Undo
+								onClick={(e) => {
+									e.stopPropagation();
+									handleUndo(name);
+								}}
+								className={styles.undo}
+							/>
+						)}
 					</p>
 				)
 			) : editingInput ? (
 				name === 'brand' ? (
 					<ManufacturerDropdown
 						value={value}
-						handleChange={handleDropdownChange}
-						name='brand'
+						handleChange={handleChange}
+						name={name}
 					/>
 				) : name === 'releaseYear' ? (
-					<YearDropdown
-						value={value}
-						handleChange={handleDropdownChange}
-						name='releaseYear'
-					/>
+					<YearDropdown value={value} handleChange={handleChange} name={name} />
 				) : name === 'purchaseYear' ? (
-					<YearDropdown
-						value={value}
-						handleChange={handleDropdownChange}
-						name='purchaseYear'
-					/>
+					<YearDropdown value={value} handleChange={handleChange} name={name} />
 				) : name === 'responseType' ? (
 					<ResponseDropdown
 						value={value}
-						handleChange={handleDropdownChange}
-						name='responseType'
+						handleChange={handleChange}
+						name={name}
 					/>
 				) : name === 'bearing' ? (
 					<BearingDropdown
 						value={value}
-						handleChange={handleDropdownChange}
-						name='bearing'
+						handleChange={handleChange}
+						name={name}
 					/>
 				) : (
 					<input
-						type={type}
+						type={input.inputType}
 						id={name}
 						ref={inputRef}
 						name={name}
@@ -162,16 +180,23 @@ function YoyoTileInput({
 					/>
 				)
 			) : (
-				<Edit
-					sx={{
-						fontSize: '1.25rem',
-						alignSelf: 'end',
-					}}
-					className={styles.icon}
-					onClick={() => {
-						setCurrentlyEditing(itemLabel);
-					}}
-				/>
+				<>
+					<Edit
+						className={styles.icon}
+						onClick={() => {
+							setCurrentlyEditing(itemLabel);
+						}}
+					/>
+					{undo && (
+						<Undo
+							onClick={(e) => {
+								e.stopPropagation();
+								handleUndo(name);
+							}}
+							className={styles.undo}
+						/>
+					)}
+				</>
 			)}
 		</div>
 	);

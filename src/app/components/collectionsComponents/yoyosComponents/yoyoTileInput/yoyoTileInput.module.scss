@@ -9,28 +9,49 @@
 	}
 
 	.p {
+		height: 1.5rem;
 		display: flex;
+		align-items: center;
 		gap: 0.25rem;
-		cursor: pointer;
 	}
 
 	.input {
 		border: none;
-		height: 1.5rem;
-		width: 100%;
-		min-width: 10rem;
+		height: 2rem;
+		width: 12.5rem;
 		font-size: 1.125rem;
-		background-color: var(--darkGray);
+		background-color: var(--mediumGray);
 		color: var(--lightestGray);
 		padding: 0 0 0 0.25rem;
 
 		&:focus {
 			outline: none;
-			background-color: var(--mediumGray);
 		}
 	}
 
 	.icon {
+		transform: translateY(-0.125rem);
+		font-size: 1.5rem;
 		cursor: pointer;
+
+		&:hover {
+			color: rgb(0, 225, 255);
+		}
+	}
+
+	.check,
+	.close,
+	.undo {
+		font-size: 1.75rem;
+		cursor: pointer;
+
+		&:hover {
+			color: rgb(0, 225, 255);
+		}
+	}
+
+	.undo {
+		cursor: pointer;
+		transform: translateY(0.125rem);
 	}
 }
