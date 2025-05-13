@@ -40,6 +40,8 @@ function YoyoTileInput({
 		}
 	}, [editingInput]);
 
+	console.log(name, value);
+
 	return (
 		<div
 			className={styles.attribute}
@@ -233,6 +235,39 @@ function YoyoTileInput({
 							/>
 						</>
 					)
+				) : name === 'originalOwner' ? (
+					<>
+						<div className={styles.options}>
+							<div className={styles.option}>
+								<input
+									id='originalOwnerYes'
+									name={name}
+									type={input.inputType}
+									className={styles.radio}
+									onChange={handleChange}
+									value='yes'
+									checked={value === 'yes'}
+								/>
+								<label htmlFor='originalOwnerYes' className={styles.label}>
+									Yes
+								</label>
+							</div>
+							<div className={styles.option}>
+								<input
+									id='originalOwnerNo'
+									name={name}
+									type={input.inputType}
+									className={styles.radio}
+									onChange={handleChange}
+									value='no'
+									checked={value === 'no'}
+								/>
+								<label htmlFor='originalOwnerNo' className={styles.label}>
+									No
+								</label>
+							</div>
+						</div>
+					</>
 				) : (
 					<p
 						className={styles.p}
@@ -241,13 +276,7 @@ function YoyoTileInput({
 							setCurrentlyEditing(itemLabel);
 						}}
 					>
-						{name === 'originalOwner'
-							? String(value) === 'no'
-								? 'No'
-								: String(value) === 'yes'
-								? 'Yes'
-								: ''
-							: value}
+						{value}
 						<Edit
 							className={styles.icon}
 							onClick={(e) => {
@@ -444,6 +473,39 @@ function YoyoTileInput({
 						/>
 					</>
 				)
+			) : name === 'originalOwner' ? (
+				<>
+					<div className={styles.options}>
+						<div className={styles.option}>
+							<input
+								id='originalOwnerYes'
+								name={name}
+								type={input.inputType}
+								className={styles.radio}
+								onChange={handleChange}
+								value='yes'
+								checked={value === 'yes'}
+							/>
+							<label htmlFor='originalOwnerYes' className={styles.label}>
+								Yes
+							</label>
+						</div>
+						<div className={styles.option}>
+							<input
+								id='originalOwnerNo'
+								name={name}
+								type={input.inputType}
+								className={styles.radio}
+								onChange={handleChange}
+								value='no'
+								checked={value === 'no'}
+							/>
+							<label htmlFor='originalOwnerNo' className={styles.label}>
+								No
+							</label>
+						</div>
+					</div>
+				</>
 			) : (
 				<>
 					<Edit

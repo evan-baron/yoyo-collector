@@ -77,7 +77,7 @@ function YoyoTile({
 
 	return (
 		<>
-			<div style={{ display: !selectedTile ? 'flex' : 'none' }}>
+			{!selectedTile && (
 				<SummaryYoyoTile
 					model={model}
 					colorway={colorway}
@@ -87,13 +87,9 @@ function YoyoTile({
 					handleSelect={handleSelect}
 					selectedTile={selectedTile}
 				/>
-			</div>
+			)}
 
-			<div
-				style={{
-					display: selectedTile && editing ? 'flex' : 'none',
-				}}
-			>
+			{selectedTile && editing && (
 				<EditableYoyoTile
 					editing={editing}
 					yoyoData={yoyoData}
@@ -101,13 +97,9 @@ function YoyoTile({
 					setSelectedYoyos={setSelectedYoyos}
 					selectedTile={selectedTile}
 				/>
-			</div>
+			)}
 
-			<div
-				style={{
-					display: selectedTile && !editing ? 'flex' : 'none',
-				}}
-			>
+			{selectedTile && !editing && (
 				<FullDetailYoyoTile
 					selectedTile={selectedTile}
 					handleSelect={handleSelect}
@@ -117,7 +109,7 @@ function YoyoTile({
 					condition={condition}
 					setEditing={setEditing}
 				/>
-			</div>
+			)}
 		</>
 	);
 }

@@ -27,6 +27,8 @@ function EditableYoyoTile({
 	setSelectedYoyos,
 	selectedTile,
 }) {
+	console.log(yoyoData);
+
 	const {
 		newYoyoData,
 		setNewYoyoData,
@@ -68,7 +70,8 @@ function EditableYoyoTile({
 			bearing: bearing || '',
 			colorway: colorway || '',
 			releaseYear: releaseYear || '',
-			originalOwner: originalOwner || '',
+			originalOwner:
+				originalOwner === 1 ? 'yes' : originalOwner === 0 ? 'no' : '',
 			purchaseYear: purchaseYear || '',
 			purchasePrice: purchasePrice || '',
 			category: category || '',
