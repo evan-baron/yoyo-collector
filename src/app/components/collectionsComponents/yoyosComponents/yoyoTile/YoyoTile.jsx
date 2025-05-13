@@ -1,18 +1,12 @@
 'use client';
 
 // Libraries
-import React, { useState } from 'react';
-
-// Styles
-import styles from './yoyoTile.module.scss';
-
-// MUI
-import { Edit } from '@mui/icons-material';
+import React from 'react';
 
 // Components
-import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
-import Heart from '@/app/components/icons/heart/Heart';
 import EditableYoyoTile from '../editableYoyoTile/EditableYoyoTile';
+import SummaryYoyoTile from '../summaryYoyoTile/SummaryYoyoTile';
+import FullDetailYoyoTile from '../fullDetailYoyoTile/FullDetailYoyoTile';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -83,26 +77,23 @@ function YoyoTile({
 
 	return (
 		<>
-			{!selectedTile ? (
-				<div
-					className={`${styles.tile} ${selectedTile && styles.selected}`}
-					onClick={handleSelect}
-				>
-					<div className={styles.legend}>
-						<ul className={`${styles.ul} ${editing && styles.editing}`}>
-							{editing && (
-								<li className={styles.checkbox}>
-									<input type='checkbox' className={styles.input} />
-								</li>
-							)}
-							<li className={styles.name}>{model}</li>
-							<li className={styles.colorway}>{colorway}</li>
-							<li className={styles.manufacturer}>{brand}</li>
-							<li className={styles.year}>{releaseYear}</li>
-						</ul>
-					</div>
-				</div>
-			) : editing ? (
+			<div style={{ display: !selectedTile ? 'flex' : 'none' }}>
+				<SummaryYoyoTile
+					model={model}
+					colorway={colorway}
+					brand={brand}
+					releaseYear={releaseYear}
+					editing={editing}
+					handleSelect={handleSelect}
+					selectedTile={selectedTile}
+				/>
+			</div>
+
+			<div
+				style={{
+					display: selectedTile && editing ? 'flex' : 'none',
+				}}
+			>
 				<EditableYoyoTile
 					editing={editing}
 					yoyoData={yoyoData}
@@ -110,84 +101,23 @@ function YoyoTile({
 					setSelectedYoyos={setSelectedYoyos}
 					selectedTile={selectedTile}
 				/>
-			) : (
-				<div
-					className={`${styles.tile} ${selectedTile && styles.selected}`}
-					onClick={handleSelect}
-				>
-					<div className={styles['image-box']}>
-						<div className={styles.image}>
-							<BlankYoyoPhoto />
-						</div>
-						<div className={styles.likes}>
-							<Heart size='small' likes={likes} />
-							{likes > 0 && (
-								<>
-									{likes} {likes && likes === 1 ? 'like' : 'likes'}
-								</>
-							)}
-						</div>
-					</div>
-					<div className={styles['content-box']}>
-						<div className={styles.details}>
-							{validLeftItems.length > 0 && (
-								<div className={styles.left}>
-									{validLeftItems.map((item, index) => {
-										return (
-											<div key={index} className={styles.attribute}>
-												<label className={styles.label} htmlFor={item[1]}>
-													{item[0]}:
-												</label>
-												<p>{item[1]}</p>
-											</div>
-										);
-									})}
-								</div>
-							)}
-							{validRightItems.length > 0 && (
-								<div className={styles.right}>
-									{validRightItems.map((item, index) => {
-										console.log(
-											'Original owner value:',
-											item[1],
-											typeof item[1]
-										);
+			</div>
 
-										return (
-											<div key={index} className={styles.attribute}>
-												<label className={styles.label} htmlFor={item[1]}>
-													{item[0]}:
-												</label>
-												<p>
-													{item[0] === 'Original owner'
-														? String(item[1]) === '0'
-															? 'No'
-															: String(item[1]) === '1'
-															? 'Yes'
-															: ''
-														: item[1]}
-												</p>{' '}
-											</div>
-										);
-									})}
-								</div>
-							)}
-						</div>
-						{condition && (
-							<div className={styles.about}>
-								<div className={styles.attribute}>
-									<label className={styles.label} htmlFor='condition'>
-										About the yoyo:
-									</label>
-									<p>{condition}</p>
-								</div>
-							</div>
-						)}
-						<Edit className={styles.edit} onClick={() => setEditing(true)} />
-						{/* MAKE THIS CONDITIONAL SO ONLY COLLECTION OWNER CAN SEE THIS */}
-					</div>
-				</div>
-			)}
+			<div
+				style={{
+					display: selectedTile && !editing ? 'flex' : 'none',
+				}}
+			>
+				<FullDetailYoyoTile
+					selectedTile={selectedTile}
+					handleSelect={handleSelect}
+					likes={likes}
+					validLeftItems={validLeftItems}
+					validRightItems={validRightItems}
+					condition={condition}
+					setEditing={setEditing}
+				/>
+			</div>
 		</>
 	);
 }

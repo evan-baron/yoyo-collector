@@ -189,12 +189,6 @@ function YoyoTiles({
 					</ul>
 				</div>
 				{sortedYoyos.map((yoyo, index) => {
-					// console.log(
-					// 	'rendering tile for ID:',
-					// 	yoyo.id,
-					// 	'selected yoyo:',
-					// 	selectedYoyo
-					// );
 					return (
 						<YoyoTile
 							key={index}

@@ -1,0 +1,64 @@
+.tile {
+	width: 100%;
+
+	padding: 0.25rem;
+	background-color: var(--darkGray);
+	font-size: 1.25rem;
+	border-radius: 0.5rem;
+	cursor: pointer;
+
+	&.selected {
+		display: flex;
+		gap: 1rem;
+		padding: 0.5rem;
+		cursor: default;
+	}
+
+	.legend {
+		width: 100%;
+
+		padding: 0.25rem;
+
+		.ul {
+			width: 100%;
+
+			display: grid;
+			grid-template-columns: repeat(17, 1fr);
+			align-items: center;
+			gap: 0.5rem;
+
+			.name,
+			.manufacturer,
+			.colorway {
+				grid-column: span 5;
+			}
+
+			.year {
+				width: 100%;
+
+				grid-column: span 2;
+				display: flex;
+				justify-content: center;
+			}
+
+			&.editing {
+				grid-template-columns: repeat(18, 1fr);
+
+				.checkbox {
+					grid-column: span 1;
+
+					display: flex;
+					align-items: center;
+
+					.input {
+						width: 1.125rem;
+						height: 1.125rem;
+						margin: 0;
+						padding: 0;
+						accent-color: rgb(0, 225, 255);
+					}
+				}
+			}
+		}
+	}
+}
