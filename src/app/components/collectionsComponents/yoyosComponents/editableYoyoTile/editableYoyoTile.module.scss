@@ -8,75 +8,86 @@
 	gap: 0.5rem;
 	padding: 0.5rem;
 
-	.input {
+	.checkbox {
 		align-self: center;
-		width: 1.125rem;
+		width: 1.125rem !important;
 		height: 1.125rem;
 		margin: 0;
 		padding: 0;
 		accent-color: rgb(0, 225, 255);
 	}
 
-	.image-box {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-
-		.image {
-			width: 15.25rem;
-			border-radius: 0.5rem;
-			padding: 1rem;
-			background-color: var(--darkerGray);
+	&.selected {
+		.checkbox {
+			align-self: center;
+			width: 1.5rem !important;
+			height: 1.5rem;
+			margin: 0;
+			padding: 0;
+			accent-color: rgb(0, 225, 255);
 		}
 
-		.likes {
-			margin-left: 0.5rem;
+		.image-box {
 			display: flex;
-			align-items: center;
+			flex-direction: column;
 			gap: 0.25rem;
-		}
-	}
 
-	.content-box {
-		flex-grow: 1;
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		padding-left: 0.5rem;
+			.image {
+				width: 15.25rem;
+				border-radius: 0.5rem;
+				padding: 1rem;
+				background-color: var(--darkerGray);
+			}
 
-		.label {
-			font-weight: bold;
-			white-space: nowrap;
-		}
-
-		.details {
-			flex-grow: 1;
-
-			display: flex;
-			gap: 2rem;
-
-			.attribute {
+			.likes {
+				margin-left: 0.5rem;
 				display: flex;
+				align-items: center;
+				gap: 0.25rem;
+			}
+		}
+
+		.content-box {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			padding-left: 0.5rem;
+
+			.label {
+				font-weight: bold;
+				white-space: nowrap;
+			}
+
+			.details {
+				flex-grow: 1;
+
+				display: flex;
+				gap: 2rem;
+
+				.attribute {
+					display: flex;
+					gap: 0.5rem;
+				}
+
+				.error {
+					color: red;
+					font-size: 1rem;
+				}
+			}
+
+			.left {
+				min-width: 45%;
+				display: flex;
+				flex-direction: column;
 				gap: 0.5rem;
 			}
 
-			.error {
-				color: red;
-				font-size: 1rem;
+			.right {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
 			}
-		}
-
-		.left {
-			min-width: 45%;
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-		}
-
-		.right {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
 		}
 	}
 }

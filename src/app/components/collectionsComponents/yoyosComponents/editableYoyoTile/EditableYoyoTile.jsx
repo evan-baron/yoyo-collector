@@ -257,7 +257,7 @@ function EditableYoyoTile({
 
 	return (
 		<div className={`${styles.tile} ${selectedTile && styles.selected}`}>
-			<input type='checkbox' className={styles.input} />
+			<input type='checkbox' className={styles.checkbox} />
 
 			<div className={styles['image-box']}>
 				<div className={styles.image}>
