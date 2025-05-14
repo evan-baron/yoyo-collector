@@ -403,6 +403,7 @@ function EditableYoyoTile({
 										className={styles.check}
 										onClick={(e) => {
 											e.stopPropagation();
+											if (!inputs.condition.error.valid) return;
 											setEditCondition(false);
 										}}
 									/>
@@ -412,6 +413,16 @@ function EditableYoyoTile({
 											e.stopPropagation();
 											setEditCondition(false);
 											handleUndo('condition');
+											setInputs((prev) => ({
+												...prev,
+												condition: {
+													...prev.condition,
+													error: {
+														valid: true,
+														message: '',
+													},
+												},
+											}));
 										}}
 									/>
 								</div>
