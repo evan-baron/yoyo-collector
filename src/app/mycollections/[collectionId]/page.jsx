@@ -32,7 +32,10 @@ function Collection() {
 	//original params were collection, photos
 	const {
 		dirty,
+		dirtyType,
 		editing,
+		editingYoyos,
+		setEditingYoyos,
 		error,
 		loading,
 		newCollectionCounter,
@@ -159,40 +162,45 @@ function Collection() {
 			setEditing((prev) => !prev);
 			return;
 		}
-		const { title } = newCollectionData;
 
-		const trimmed = title.trim();
+		if (dirtyType === 'collection') {
+			const { title } = newCollectionData;
 
-		const valid = (param) => /^[A-Za-z0-9\-_.~()"' ]+$/.test(param);
+			const trimmed = title.trim();
 
-		if (!trimmed) {
-			setError(`Collection name can't be empty.`);
-			return;
-		}
+			const valid = (param) => /^[A-Za-z0-9\-_.~()"' ]+$/.test(param);
 
-		if (!valid(trimmed)) {
-			setError('Only letters, numbers, spaces, -, _, ., and ~ are allowed.');
-			return;
-		}
+			if (!trimmed) {
+				setError(`Collection name can't be empty.`);
+				return;
+			}
 
-		try {
-			const submitData = { ...newCollectionData };
+			if (!valid(trimmed)) {
+				setError('Only letters, numbers, spaces, -, _, ., and ~ are allowed.');
+				return;
+			}
 
-			await axiosInstance.patch(
-				'/api/user/collections/byCollectionId',
-				submitData
-			);
-		} catch (error) {
-			console.error(
-				'There was an error updating the collection',
-				error.message
-			);
-		} finally {
-			setEditing((prev) => !prev);
-			setOriginalCollectionData({
-				title: newCollectionData.title,
-				description: newCollectionData.description,
-			});
+			try {
+				const submitData = { ...newCollectionData };
+
+				await axiosInstance.patch(
+					'/api/user/collections/byCollectionId',
+					submitData
+				);
+			} catch (error) {
+				console.error(
+					'There was an error updating the collection',
+					error.message
+				);
+			} finally {
+				setEditing((prev) => !prev);
+				setOriginalCollectionData({
+					title: newCollectionData.title,
+					description: newCollectionData.description,
+				});
+			}
+		} else if (dirtyType === 'yoyo') {
+			console.log('lol');
 		}
 	};
 
@@ -371,7 +379,7 @@ function Collection() {
 									setSelectedYoyo={setSelectedYoyo}
 									setSelectedYoyos={setSelectedYoyos}
 									collectionId={collection.id}
-									editing={editing}
+									editing={editingYoyos}
 									addYoyo={addYoyo}
 									setAddYoyo={setAddYoyo}
 								/>
@@ -388,7 +396,11 @@ function Collection() {
 							if (editing) {
 								handleSubmit();
 							} else {
-								setEditing((prev) => !prev);
+								if (selected === 'collection') {
+									setEditing((prev) => !prev);
+								} else if (selected === 'yoyos') {
+									setEditingYoyos((prev) => !prev);
+								}
 							}
 						}}
 						disabled={error}
@@ -396,13 +408,13 @@ function Collection() {
 							cursor: error ? '' : 'pointer',
 						}}
 					>
-						{editing ? (
+						{editing || editingYoyos ? (
 							<Save className={styles['settings-icon']} />
 						) : (
 							<Edit className={styles['settings-icon']} />
 						)}
 						<p className={styles.settings}>
-							{editing
+							{editing || editingYoyos
 								? 'Save Changes'
 								: selected === 'yoyos'
 								? 'Edit Yoyos'

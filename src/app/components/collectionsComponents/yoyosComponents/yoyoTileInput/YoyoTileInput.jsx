@@ -40,8 +40,6 @@ function YoyoTileInput({
 		}
 	}, [editingInput]);
 
-	console.log(name, value);
-
 	return (
 		<div
 			className={styles.attribute}

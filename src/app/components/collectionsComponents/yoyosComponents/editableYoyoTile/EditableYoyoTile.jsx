@@ -27,9 +27,8 @@ function EditableYoyoTile({
 	setSelectedYoyo,
 	setSelectedYoyos,
 	selectedTile,
+	editing,
 }) {
-	console.log(yoyoData);
-
 	const {
 		newYoyoData,
 		setNewYoyoData,
@@ -260,7 +259,7 @@ function EditableYoyoTile({
 		<div
 			className={`${styles.tile} ${selectedTile && styles.selected}`}
 			onClick={() => {
-				selectedTile && setSelectedYoyo(null);
+				selectedTile && !editing && setSelectedYoyo(null);
 			}}
 		>
 			<input type='checkbox' className={styles.checkbox} />

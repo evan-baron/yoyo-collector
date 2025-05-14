@@ -17,6 +17,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [dirty, setDirty] = useState(false);
 	const [dirtyType, setDirtyType] = useState(null);
 	const [editing, setEditing] = useState(false);
+	const [editingYoyos, setEditingYoyos] = useState(false);
 	const [emailVerified, setEmailVerified] = useState(false);
 	const [error, setError] = useState(null);
 	const [imagesToUpload, setImagesToUpload] = useState([]);
@@ -276,6 +277,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				dirty,
 				dirtyType,
 				editing,
+				editingYoyos,
 				emailVerified,
 				error,
 				imagesToUpload,
@@ -300,6 +302,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setDirty,
 				setDirtyType,
 				setEditing,
+				setEditingYoyos,
 				setEmailVerified,
 				setError,
 				setImagesToUpload,

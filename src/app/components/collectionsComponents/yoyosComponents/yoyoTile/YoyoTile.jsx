@@ -20,8 +20,14 @@ function YoyoTile({
 	setSelectedYoyos,
 	selectedTile,
 }) {
-	const { editing, setEditing, setModalOpen, setModalType, dirty, setDirty } =
-		useAppContext();
+	const {
+		editingYoyos,
+		setEditingYoyos,
+		setModalOpen,
+		setModalType,
+		dirty,
+		setDirty,
+	} = useAppContext();
 
 	const {
 		id,
@@ -83,15 +89,15 @@ function YoyoTile({
 					colorway={colorway}
 					brand={brand}
 					releaseYear={releaseYear}
-					editing={editing}
+					editing={editingYoyos}
 					handleSelect={handleSelect}
 					selectedTile={selectedTile}
 				/>
 			)}
 
-			{selectedTile && editing && (
+			{selectedTile && editingYoyos && (
 				<EditableYoyoTile
-					editing={editing}
+					editing={editingYoyos}
 					yoyoData={yoyoData}
 					setSelectedYoyo={setSelectedYoyo}
 					setSelectedYoyos={setSelectedYoyos}
@@ -99,7 +105,7 @@ function YoyoTile({
 				/>
 			)}
 
-			{selectedTile && !editing && (
+			{selectedTile && !editingYoyos && (
 				<FullDetailYoyoTile
 					selectedTile={selectedTile}
 					handleSelect={handleSelect}
@@ -107,7 +113,7 @@ function YoyoTile({
 					validLeftItems={validLeftItems}
 					validRightItems={validRightItems}
 					condition={condition}
-					setEditing={setEditing}
+					setEditing={setEditingYoyos}
 				/>
 			)}
 		</>
