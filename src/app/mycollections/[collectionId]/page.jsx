@@ -200,7 +200,22 @@ function Collection() {
 				});
 			}
 		} else if (dirtyType === 'yoyo') {
-			console.log('lol');
+			if (error) {
+				setModalType('error');
+				return;
+			}
+
+			const valuesToUpdate = Object.entries(newYoyoData).reduce(
+				(obj, [key, value]) => {
+					if (value !== originalYoyoData[key]) {
+						obj[key] = value;
+					}
+					return obj;
+				},
+				{}
+			);
+
+			console.log(valuesToUpdate);
 		}
 	};
 
@@ -405,7 +420,7 @@ function Collection() {
 							error && styles.disabled
 						}`}
 						onClick={() => {
-							if (editing) {
+							if (editing || editingYoyos) {
 								handleSubmit();
 							} else {
 								if (selected === 'collection') {

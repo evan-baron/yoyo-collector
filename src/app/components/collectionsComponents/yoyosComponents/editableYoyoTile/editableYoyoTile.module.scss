@@ -80,5 +80,74 @@
 				gap: 0.5rem;
 			}
 		}
+
+		.about {
+			width: 100%;
+			display: flex;
+
+			.attribute {
+				width: 100%;
+
+				display: flex;
+				flex-direction: column;
+				gap: 0.25rem;
+
+				.p {
+					display: flex;
+					align-items: center;
+					gap: 0.25rem;
+				}
+
+				.icon {
+					transform: translateY(-0.25rem);
+					font-size: 1.5rem;
+					cursor: pointer;
+
+					&:hover {
+						color: rgb(0, 225, 255);
+					}
+				}
+
+				.undo,
+				.check,
+				.close {
+					font-size: 1.75rem;
+					cursor: pointer;
+
+					&:hover {
+						color: rgb(0, 225, 255);
+					}
+				}
+			}
+
+			.textarea-box {
+				display: flex;
+				align-items: center;
+			}
+
+			.textarea {
+				width: 100%;
+				height: 4.5rem;
+
+				background-color: #454545;
+				color: var(--lightestGray);
+				font-size: 1.125rem;
+				padding-left: 0.25rem;
+				border: none;
+				outline: none;
+				margin: 0 0.25rem 0 0;
+
+				scrollbar-width: 1rem;
+				scrollbar-color: var(--mediumGray) var(--darkerGray);
+
+				&::placeholder {
+					color: var(--lightGray);
+				}
+
+				&:focus {
+					background-color: var(--mediumGray);
+				}
+			}
+		}
 	}
 }

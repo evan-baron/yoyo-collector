@@ -10,6 +10,7 @@ export function getInitialInputs({
 	purchaseYear,
 	purchasePrice,
 	value,
+	condition,
 }) {
 	return {
 		model: {
@@ -181,6 +182,21 @@ export function getInitialInputs({
 			input: {
 				type: 'input',
 				inputType: 'text',
+			},
+		},
+		condition: {
+			name: 'condition',
+			label: 'Condition/Additional Notes',
+			value: value,
+			maxLength: '300',
+			position: 'bottom',
+			regex: 'specialsAllowed',
+			error: {
+				valid: true,
+				message: '',
+			},
+			input: {
+				type: 'textarea',
 			},
 		},
 	};

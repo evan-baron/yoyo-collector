@@ -10,7 +10,7 @@ import { getInitialInputs } from './inputConfig';
 import styles from './editableYoyoTile.module.scss';
 
 // MUI
-import { Edit } from '@mui/icons-material';
+import { Edit, Check, Close, Undo } from '@mui/icons-material';
 
 // Components
 import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
@@ -30,18 +30,19 @@ function EditableYoyoTile({
 	editing,
 }) {
 	const {
-		newYoyoData,
-		setNewYoyoData,
-		originalYoyoData,
-		setOriginalYoyoData,
 		dirty,
 		error,
-		setError,
+		originalYoyoData,
+		newYoyoData,
 		setDirty,
 		setDirtyType,
+		setError,
+		setNewYoyoData,
+		setOriginalYoyoData,
 	} = useAppContext();
 
 	const [inputs, setInputs] = useState();
+	const [editCondition, setEditCondition] = useState();
 
 	const {
 		id,
@@ -95,7 +96,8 @@ function EditableYoyoTile({
 				originalOwner,
 				purchaseYear,
 				purchasePrice,
-				value
+				value,
+				condition
 			)
 		);
 	}, [yoyoData]);
@@ -142,7 +144,7 @@ function EditableYoyoTile({
 	const specialsAllowed = ['value', 'price', 'condition'];
 
 	const getInvalidChars = (name, input) => {
-		const noSpecialsTest = /[^a-zA-Z0-9 \-./!']/g;
+		const noSpecialsTest = /[^a-zA-Z0-9 \-./?!']/g;
 		const specialsTest = /[^a-zA-Z0-9 '$%^&*()\-\+\/!@,.?:\";#]/g;
 		if (noSpecials.includes(name)) {
 			const matches = input.match(noSpecialsTest);
@@ -352,18 +354,72 @@ function EditableYoyoTile({
 				<div className={styles.about}>
 					<div className={styles.attribute}>
 						<label className={styles.label} htmlFor='condition'>
-							About the yoyo:
+							Condition/Additional Notes:
 						</label>
-						<p>
-							{condition}{' '}
-							<Edit
-								sx={{
-									fontSize: '1.25rem',
-									alignSelf: 'end',
+						{!editCondition ? (
+							<p
+								className={styles.p}
+								onClick={(e) => {
+									e.stopPropagation();
+									setEditCondition(true);
 								}}
-								className={styles.icon}
-							/>
-						</p>
+							>
+								{newYoyoData.condition}
+								<Edit
+									sx={{
+										fontSize: '1.5rem',
+										alignSelf: 'end',
+									}}
+									className={styles.icon}
+									style={{
+										cursor: 'pointer',
+									}}
+								/>
+								{newYoyoData.condition !== originalYoyoData.condition && (
+									<Undo
+										onClick={(e) => {
+											e.stopPropagation();
+											handleUndo('condition');
+										}}
+										className={styles.undo}
+										style={{ transform: 'translateY(0.125rem)' }}
+									/>
+								)}
+							</p>
+						) : (
+							<div className={styles['textarea-box']}>
+								<textarea
+									className={styles.textarea}
+									name='condition'
+									id='condition'
+									maxLength={300}
+									rows='3'
+									placeholder="This yoyo is worth at least a thousand bucks, Janice. Don't let anyone convince you otherwise. If I pass on and I see the kids sell it for anything less..."
+									value={newYoyoData.condition || ''}
+									onChange={handleChange}
+								/>
+								<Check
+									className={styles.check}
+									onClick={(e) => {
+										e.stopPropagation();
+										setEditCondition(false);
+									}}
+								/>
+								<Close
+									className={styles.close}
+									onClick={(e) => {
+										e.stopPropagation();
+										setEditCondition(false);
+										handleUndo('condition');
+									}}
+								/>
+								{!inputs.condition.error.valid && (
+									<p className={styles.error}>
+										{inputs.condition.error.message}
+									</p>
+								)}
+							</div>
+						)}
 					</div>
 				</div>
 			</div>
