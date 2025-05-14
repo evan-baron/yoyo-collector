@@ -19,7 +19,7 @@ function YoyoTiles({
 	setSelectedYoyo,
 	setSelectedYoyos,
 	collectionId,
-	editing,
+	editingYoyos,
 	addYoyo,
 	setAddYoyo,
 }) {
@@ -125,7 +125,7 @@ function YoyoTiles({
 					setAddYoyo={setAddYoyo}
 				/>
 			)}
-			{!editing && !addYoyo && (
+			{!addYoyo && (
 				<div className={styles.buttons}>
 					<div
 						className={styles.button}
@@ -158,8 +158,8 @@ function YoyoTiles({
 			)}
 			<div className={styles.list}>
 				<div className={styles.legend}>
-					<ul className={`${styles.ul} ${editing && styles.editing}`}>
-						{editing && (
+					<ul className={`${styles.ul} ${editingYoyos && styles.editing}`}>
+						{editingYoyos && (
 							<li className={styles.checkbox}>
 								<input type='checkbox' className={styles.input} />
 							</li>

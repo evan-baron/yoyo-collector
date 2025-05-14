@@ -115,7 +115,8 @@ function YoyoTile({
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
 							condition={condition}
-							setEditing={setEditingYoyos}
+							setEditingYoyos={setEditingYoyos}
+							editingYoyos={editingYoyos}
 						/>
 					)}
 				</>
@@ -153,7 +154,7 @@ function YoyoTile({
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
 							condition={condition}
-							setEditing={setEditingYoyos}
+							setEditingYoyos={setEditingYoyos}
 						/>
 					)}
 				</>
@@ -170,7 +171,8 @@ function YoyoTile({
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
 							condition={condition}
-							setEditing={setEditingYoyos}
+							setEditingYoyos={setEditingYoyos}
+							editingYoyos={editingYoyos}
 							yoyoId={id}
 						/>
 					)}
@@ -194,7 +196,8 @@ function YoyoTile({
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
 							condition={condition}
-							setEditing={setEditingYoyos}
+							setEditingYoyos={setEditingYoyos}
+							editingYoyos={editingYoyos}
 							yoyoId={id}
 						/>
 					)}

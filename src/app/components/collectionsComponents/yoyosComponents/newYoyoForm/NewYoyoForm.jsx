@@ -238,7 +238,6 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData, setAddYoyo }) {
 	};
 
 	const trimAndValidate = (formData) => {
-		console.log(formData);
 		const trimmedData = Object.fromEntries(
 			Object.entries(formData).map(([key, value]) => {
 				const trimmed = typeof value === 'string' ? value.trim() : value;
@@ -247,8 +246,6 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData, setAddYoyo }) {
 		);
 
 		const values = Object.entries(trimmedData);
-
-		console.log(values);
 
 		const failed = values.filter(([key, val]) => !validateField(key, val));
 
@@ -260,20 +257,18 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData, setAddYoyo }) {
 		const { name } = e.target.dataset;
 
 		// Validate data
-		const validated = trimAndValidate(yoyoData);
+		const { trimmedData } = trimAndValidate(yoyoData);
 
-		if (!validated.model) {
-			validated.model = 'Unknown';
+		if (!trimmedData.model) {
+			trimmedData.model = 'Unknown';
 		}
 
-		if (!validated.brand) {
-			validated.brand = 'Unknown';
+		if (!trimmedData.brand) {
+			trimmedData.brand = 'Unknown';
 		}
-
-		console.log(validated);
 
 		try {
-			await axiosInstance.post('/api/user/yoyos', yoyoData);
+			await axiosInstance.post('/api/user/yoyos', trimmedData);
 		} catch (error) {
 			console.error(
 				'There was an error saving the yoyo at NewYoyoForm.jsx',

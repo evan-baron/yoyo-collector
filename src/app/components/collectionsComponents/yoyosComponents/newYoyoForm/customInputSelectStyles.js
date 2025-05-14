@@ -4,6 +4,7 @@ const customInputSelectStyles = {
 		padding: '0px',
 		margin: '0px',
 		minWidth: '10rem',
+		maxWidth: '15rem',
 	}),
 
 	// Control (the outer container of the select box)
@@ -68,7 +69,6 @@ const customInputSelectStyles = {
 		...styles,
 		color: '#aaaaaa',
 		position: 'absolute',
-		display: 'none',
 	}),
 
 	// SingleValue (the selected value in the control)
@@ -85,7 +85,7 @@ const customInputSelectStyles = {
 		padding: '0px .25rem',
 		margin: '0px',
 		flex: 1,
-		height: '100%',
+		height: '2rem',
 	}),
 
 	// Targeting the div containing the selected value to remove padding
@@ -101,6 +101,7 @@ const customInputSelectStyles = {
 		margin: '0px',
 		padding: '0px .25rem',
 		color: '#eeeeee',
+		height: '2rem',
 	}),
 
 	// Indicator (the dropdown indicator, e.g. the arrow)

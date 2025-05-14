@@ -37,6 +37,7 @@ const ManufacturerDropdown = forwardRef(function ManufacturerDropdown(
 			}
 			name={name}
 			isClearable
+			blurInputOnSelect={true}
 		/>
 	);
 });

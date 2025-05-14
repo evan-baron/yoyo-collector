@@ -19,7 +19,8 @@ const FullDetailYoyoTile = ({
 	validLeftItems = [],
 	validRightItems = [],
 	condition,
-	setEditing,
+	setEditingYoyos,
+	editingYoyos,
 	yoyoId,
 }) => {
 	return (
@@ -27,6 +28,8 @@ const FullDetailYoyoTile = ({
 			className={`${styles.tile} ${selectedTile ? styles.selected : ''}`}
 			onClick={handleSelect}
 		>
+			{editingYoyos && <input type='checkbox' className={styles.checkbox} />}
+
 			<div className={styles['image-box']}>
 				<div className={styles.image}>
 					<BlankYoyoPhoto />
@@ -96,7 +99,8 @@ const FullDetailYoyoTile = ({
 				<Edit
 					className={styles.edit}
 					onClick={(e) => {
-						setEditing(true);
+						e.stopPropagation();
+						setEditingYoyos(true);
 						!selectedTile && setSelectedYoyo(yoyoId);
 					}}
 				/>

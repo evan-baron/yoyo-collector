@@ -424,7 +424,7 @@ function Collection() {
 									setSelectedYoyo={setSelectedYoyo}
 									setSelectedYoyos={setSelectedYoyos}
 									collectionId={collection.id}
-									editing={editingYoyos}
+									editingYoyos={editingYoyos}
 									addYoyo={addYoyo}
 									setAddYoyo={setAddYoyo}
 								/>
