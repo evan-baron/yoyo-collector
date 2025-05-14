@@ -14,8 +14,6 @@ import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 function BlankEditableYoyoTile() {
 	return (
 		<div className={`${styles.tile} ${styles.selected}`}>
-			<input type='checkbox' className={styles.checkbox} />
-
 			<div className={styles['image-box']}>
 				<div className={styles.image}>
 					<BlankYoyoPhoto />

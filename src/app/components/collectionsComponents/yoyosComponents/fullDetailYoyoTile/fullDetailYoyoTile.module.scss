@@ -1,24 +1,18 @@
 .tile {
 	width: 100%;
-
-	padding: 0.25rem;
-	background-color: var(--darkGray);
+	// padding: 0.25rem;
+	// background-color: var(--darkGray);
 	font-size: 1.25rem;
-	border-radius: 0.5rem;
+	// border-radius: 0.5rem;
 	cursor: pointer;
 
 	display: flex;
 	gap: 0.5rem;
-	padding: 0.5rem;
+	// padding: 0.5rem;
 	cursor: default;
 
-	.checkbox {
-		align-self: center;
-		min-width: 1.125rem !important;
-		height: 1.125rem;
-		margin: 0;
-		padding: 0;
-		accent-color: rgb(0, 225, 255);
+	&.editing {
+		grid-column: span 17 !important;
 	}
 
 	.image-box {

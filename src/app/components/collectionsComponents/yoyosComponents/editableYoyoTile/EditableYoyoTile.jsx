@@ -264,8 +264,6 @@ function EditableYoyoTile({
 				selectedTile && !editing && setSelectedYoyo(null);
 			}}
 		>
-			<input type='checkbox' className={styles.checkbox} />
-
 			<div className={styles['image-box']}>
 				<div className={styles.image}>
 					<BlankYoyoPhoto />
@@ -366,9 +364,6 @@ function EditableYoyoTile({
 							>
 								{newYoyoData.condition}
 								<Edit
-									sx={{
-										fontSize: '1.5rem',
-									}}
 									className={styles.icon}
 									style={{
 										cursor: 'pointer',

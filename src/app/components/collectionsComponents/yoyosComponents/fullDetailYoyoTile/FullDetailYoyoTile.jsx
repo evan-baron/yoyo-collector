@@ -25,11 +25,11 @@ const FullDetailYoyoTile = ({
 }) => {
 	return (
 		<div
-			className={`${styles.tile} ${selectedTile ? styles.selected : ''}`}
+			className={`${styles.tile} ${selectedTile ? styles.selected : ''} ${
+				editingYoyos ? styles.editing : ''
+			}`}
 			onClick={handleSelect}
 		>
-			{editingYoyos && <input type='checkbox' className={styles.checkbox} />}
-
 			<div className={styles['image-box']}>
 				<div className={styles.image}>
 					<BlankYoyoPhoto />

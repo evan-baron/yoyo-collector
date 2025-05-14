@@ -6,7 +6,6 @@
 	border-radius: 0.5rem;
 	display: flex;
 	gap: 0.5rem;
-	padding: 0.5rem;
 
 	&.selected {
 		.checkbox {
@@ -99,8 +98,7 @@
 				}
 
 				.icon {
-					transform: translateY(-0.25rem);
-					font-size: 1.5rem;
+					font-size: 1.25rem;
 					cursor: pointer;
 
 					&:hover {

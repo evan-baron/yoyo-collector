@@ -162,6 +162,7 @@ function Collection() {
 		if (!dirty) {
 			editing && setEditing((prev) => !prev);
 			editingYoyos && setEditingYoyos((prev) => !prev);
+			setSelectedYoyo(null);
 			return;
 		}
 

@@ -188,18 +188,20 @@ function YoyoTile({
 					)}
 
 					{selectedTile && !editingYoyos && (
-						<FullDetailYoyoTile
-							selectedTile={selectedTile}
-							setSelectedYoyo={setSelectedYoyo}
-							handleSelect={handleSelect}
-							likes={likes}
-							validLeftItems={validLeftItems}
-							validRightItems={validRightItems}
-							condition={condition}
-							setEditingYoyos={setEditingYoyos}
-							editingYoyos={editingYoyos}
-							yoyoId={id}
-						/>
+						<>
+							<FullDetailYoyoTile
+								selectedTile={selectedTile}
+								setSelectedYoyo={setSelectedYoyo}
+								handleSelect={handleSelect}
+								likes={likes}
+								validLeftItems={validLeftItems}
+								validRightItems={validRightItems}
+								condition={condition}
+								setEditingYoyos={setEditingYoyos}
+								editingYoyos={editingYoyos}
+								yoyoId={id}
+							/>
+						</>
 					)}
 				</>
 			)}

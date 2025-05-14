@@ -15,16 +15,13 @@ const SummaryYoyoTile = ({
 }) => {
 	return (
 		<div
-			className={`${styles.tile} ${selectedTile ? styles.selected : ''}`}
+			className={`${styles.tile} ${selectedTile ? styles.selected : ''} ${
+				editing ? styles.editing : ''
+			}`}
 			onClick={handleSelect}
 		>
 			<div className={styles.legend}>
 				<ul className={`${styles.ul} ${editing ? styles.editing : ''}`}>
-					{editing && (
-						<li className={styles.checkbox}>
-							<input type='checkbox' className={styles.input} />
-						</li>
-					)}
 					<li className={styles.name}>{model}</li>
 					<li className={styles.colorway}>{colorway}</li>
 					<li className={styles.manufacturer}>{brand}</li>

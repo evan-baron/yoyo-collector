@@ -56,8 +56,7 @@
 	}
 
 	.icon {
-		transform: translateY(-0.125rem);
-		font-size: 1.5rem;
+		font-size: 1.25rem;
 		cursor: pointer;
 
 		&:hover {
@@ -68,7 +67,7 @@
 	.check,
 	.close,
 	.undo {
-		font-size: 1.75rem;
+		font-size: 1.5rem;
 		cursor: pointer;
 
 		&:hover {

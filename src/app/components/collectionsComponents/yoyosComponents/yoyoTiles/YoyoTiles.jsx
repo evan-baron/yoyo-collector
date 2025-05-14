@@ -218,14 +218,24 @@ function YoyoTiles({
 				</div>
 				{sortedYoyos.map((yoyo, index) => {
 					return (
-						<YoyoTile
+						<div
+							className={`${styles.tile} ${
+								displayType === 'small' && styles.summary
+							}`}
 							key={index}
-							yoyoData={yoyo}
-							setSelectedYoyo={setSelectedYoyo}
-							setSelectedYoyos={setSelectedYoyos}
-							displayType={displayType}
-							selectedTile={selectedYoyo === yoyo.id}
-						/>
+						>
+							{editingYoyos && (
+								<input type='checkbox' className={styles.checkbox} />
+							)}
+
+							<YoyoTile
+								yoyoData={yoyo}
+								setSelectedYoyo={setSelectedYoyo}
+								setSelectedYoyos={setSelectedYoyos}
+								displayType={displayType}
+								selectedTile={selectedYoyo === yoyo.id}
+							/>
+						</div>
 					);
 				})}
 			</div>

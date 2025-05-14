@@ -107,5 +107,32 @@
 				}
 			}
 		}
+
+		.tile {
+			display: flex;
+			align-items: center;
+			background-color: var(--darkGray);
+			border-radius: 0.5rem;
+			padding: 0.5rem;
+			gap: 0.5rem;
+
+			&.summary {
+				display: grid;
+				grid-template-columns: repeat(18, 1fr);
+
+				.checkbox {
+					justify-self: start;
+				}
+			}
+
+			.checkbox {
+				align-self: center;
+				min-width: 1.125rem !important;
+				height: 1.125rem;
+				margin: 0;
+				padding: 0;
+				accent-color: rgb(0, 225, 255);
+			}
+		}
 	}
 }
