@@ -387,38 +387,40 @@ function EditableYoyoTile({
 								)}
 							</p>
 						) : (
-							<div className={styles['textarea-box']}>
-								<textarea
-									className={styles.textarea}
-									name='condition'
-									id='condition'
-									maxLength={300}
-									rows='3'
-									placeholder="This yoyo is worth at least a thousand bucks, Janice. Don't let anyone convince you otherwise. If I pass on and I see the kids sell it for anything less..."
-									value={newYoyoData.condition || ''}
-									onChange={handleChange}
-								/>
-								<Check
-									className={styles.check}
-									onClick={(e) => {
-										e.stopPropagation();
-										setEditCondition(false);
-									}}
-								/>
-								<Close
-									className={styles.close}
-									onClick={(e) => {
-										e.stopPropagation();
-										setEditCondition(false);
-										handleUndo('condition');
-									}}
-								/>
+							<>
+								<div className={styles['textarea-box']}>
+									<textarea
+										className={styles.textarea}
+										name='condition'
+										id='condition'
+										maxLength={300}
+										rows='3'
+										placeholder="This yoyo is worth at least a thousand bucks, Janice. Don't let anyone convince you otherwise. If I pass on and I see the kids sell it for anything less..."
+										value={newYoyoData.condition || ''}
+										onChange={handleChange}
+									/>
+									<Check
+										className={styles.check}
+										onClick={(e) => {
+											e.stopPropagation();
+											setEditCondition(false);
+										}}
+									/>
+									<Close
+										className={styles.close}
+										onClick={(e) => {
+											e.stopPropagation();
+											setEditCondition(false);
+											handleUndo('condition');
+										}}
+									/>
+								</div>
 								{!inputs.condition.error.valid && (
 									<p className={styles.error}>
 										{inputs.condition.error.message}
 									</p>
 								)}
-							</div>
+							</>
 						)}
 					</div>
 				</div>
