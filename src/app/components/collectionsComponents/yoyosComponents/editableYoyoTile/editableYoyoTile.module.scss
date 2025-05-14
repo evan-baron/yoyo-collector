@@ -8,20 +8,11 @@
 	gap: 0.5rem;
 	padding: 0.5rem;
 
-	.checkbox {
-		align-self: center;
-		width: 1.125rem !important;
-		height: 1.125rem;
-		margin: 0;
-		padding: 0;
-		accent-color: rgb(0, 225, 255);
-	}
-
 	&.selected {
 		.checkbox {
 			align-self: center;
-			width: 1.5rem !important;
-			height: 1.5rem;
+			min-width: 1.125rem !important;
+			height: 1.125rem;
 			margin: 0;
 			padding: 0;
 			accent-color: rgb(0, 225, 255);

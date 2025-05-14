@@ -20,6 +20,8 @@ function YoyoTiles({
 	setSelectedYoyos,
 	collectionId,
 	editing,
+	addYoyo,
+	setAddYoyo,
 }) {
 	const [sort, setSort] = useState({
 		name: {
@@ -114,14 +116,15 @@ function YoyoTiles({
 
 	return (
 		<div className={styles['yoyos-container']}>
-			{editing && (
+			{addYoyo && (
 				<NewYoyoForm
 					collectionId={collectionId}
 					yoyoData={yoyoFormData}
 					setYoyoData={setYoyoFormData}
+					setAddYoyo={setAddYoyo}
 				/>
 			)}
-			{!editing && (
+			{!editing && !addYoyo && (
 				<div className={styles['sort-buttons']}>
 					<div className={styles.style}>Photos and Details</div>
 					<div className={styles.style}>Photos Only</div>

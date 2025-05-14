@@ -1,0 +1,177 @@
+.attribute {
+	display: flex;
+	align-items: center;
+
+	.label {
+		font-weight: bold;
+		white-space: nowrap;
+	}
+
+	.options {
+		height: 2rem;
+
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+
+		.option {
+			display: flex;
+			align-items: center;
+			gap: 0.25rem;
+
+			.radio {
+				width: 1rem;
+				height: 1rem;
+
+				margin: 0;
+				padding: 0;
+				accent-color: rgb(0, 200, 225);
+			}
+
+			.label {
+				font-size: 1.25rem;
+				font-weight: normal;
+			}
+		}
+	}
+
+	.p {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+
+	.input {
+		border: none;
+		height: 2rem;
+		width: 10rem;
+		font-size: 1.125rem;
+		background-color: var(--mediumGray);
+		color: var(--lightestGray);
+		padding: 0 0 0 0.25rem;
+
+		&:focus {
+			outline: none;
+		}
+	}
+
+	.icon {
+		transform: translateY(-0.125rem);
+		font-size: 1.5rem;
+		cursor: pointer;
+
+		&:hover {
+			color: rgb(0, 225, 255);
+		}
+	}
+
+	.check,
+	.close,
+	.undo {
+		font-size: 1.75rem;
+		cursor: pointer;
+
+		&:hover {
+			color: rgb(0, 225, 255);
+		}
+	}
+
+	.undo {
+		cursor: pointer;
+		transform: translateY(0.125rem);
+	}
+}
+
+.tile {
+	width: 100%;
+
+	background-color: var(--darkGray);
+	font-size: 1.25rem;
+	border-radius: 0.5rem;
+	display: flex;
+	gap: 0.5rem;
+	padding: 0.5rem;
+
+	.checkbox {
+		align-self: center;
+		width: 1.125rem !important;
+		height: 1.125rem;
+		margin: 0;
+		padding: 0;
+		accent-color: rgb(0, 225, 255);
+	}
+
+	&.selected {
+		.checkbox {
+			align-self: center;
+			width: 1.125rem !important;
+			height: 1.125rem;
+			margin: 0;
+			padding: 0;
+			accent-color: rgb(0, 225, 255);
+		}
+
+		.image-box {
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+
+			.image {
+				width: 15.25rem;
+				border-radius: 0.5rem;
+				padding: 1rem;
+				background-color: var(--darkerGray);
+			}
+
+			.likes {
+				margin-left: 0.5rem;
+				display: flex;
+				align-items: center;
+				gap: 0.25rem;
+			}
+		}
+
+		.content-box {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			padding-left: 0.5rem;
+
+			.label {
+				font-weight: bold;
+				white-space: nowrap;
+			}
+
+			.details {
+				flex-grow: 1;
+
+				display: flex;
+				gap: 2rem;
+
+				.attribute {
+					display: flex;
+					gap: 0.5rem;
+				}
+
+				.error {
+					color: red;
+					font-size: 1rem;
+				}
+			}
+
+			.left {
+				min-width: 45%;
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+
+			.right {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+		}
+	}
+}

@@ -24,7 +24,7 @@ import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
+function NewYoyoForm({ collectionId, yoyoData, setYoyoData, setAddYoyo }) {
 	const { imagesToUpload, setImagesToUpload, setNewCollectionCounter } =
 		useAppContext();
 
@@ -207,6 +207,7 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData }) {
 			condition: '',
 		});
 		more && setMore(false);
+		setAddYoyo(false);
 	};
 
 	const noSpecialsTest = (param) => /^[a-zA-Z0-9 \-./!']+$/.test(param);

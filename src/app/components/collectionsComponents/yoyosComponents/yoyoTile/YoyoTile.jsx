@@ -71,8 +71,8 @@ function YoyoTile({
 			setModalType('dirty');
 			return;
 		}
-		setSelectedYoyo(id);
-		// selectedTile ? setSelectedYoyo(null) : setSelectedYoyo(id);
+		// setSelectedYoyo(id);
+		selectedTile ? setSelectedYoyo(null) : setSelectedYoyo(id);
 	};
 
 	return (

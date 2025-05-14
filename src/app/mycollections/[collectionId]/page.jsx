@@ -12,7 +12,7 @@ import axiosInstance from '@/lib/utils/axios';
 import styles from './collectionPage.module.scss';
 
 // MUI
-import { Edit, Save, ZoomIn, Share } from '@mui/icons-material';
+import { Edit, Save, ZoomIn, Share, Add } from '@mui/icons-material';
 
 // Components
 import BlankCoverPhoto from '@/app/components/blankCoverPhoto/BlankCoverPhoto';
@@ -90,6 +90,7 @@ function Collection() {
 	const [selected, setSelected] = useState('collection');
 	const [selectedYoyo, setSelectedYoyo] = useState(null);
 	const [selectedYoyos, setSelectedYoyos] = useState(null);
+	const [addYoyo, setAddYoyo] = useState(false);
 
 	useEffect(() => {
 		setFormData({
@@ -371,38 +372,65 @@ function Collection() {
 									setSelectedYoyos={setSelectedYoyos}
 									collectionId={collection.id}
 									editing={editing}
+									addYoyo={addYoyo}
+									setAddYoyo={setAddYoyo}
 								/>
 							</div>
 						</section>
 					)}
 				</div>
-				<button
-					className={`${styles['settings-box']} ${error && styles.disabled}`}
-					onClick={() => {
-						if (editing) {
-							handleSubmit();
-						} else {
-							setEditing((prev) => !prev);
-						}
-					}}
-					disabled={error}
-					style={{
-						cursor: error ? '' : 'pointer',
-					}}
-				>
-					{editing ? (
-						<Save className={styles['settings-icon']} />
-					) : (
-						<Edit className={styles['settings-icon']} />
+				<div className={styles['settings-box']}>
+					<button
+						className={`${styles['settings-button']} ${
+							error && styles.disabled
+						}`}
+						onClick={() => {
+							if (editing) {
+								handleSubmit();
+							} else {
+								setEditing((prev) => !prev);
+							}
+						}}
+						disabled={error}
+						style={{
+							cursor: error ? '' : 'pointer',
+						}}
+					>
+						{editing ? (
+							<Save className={styles['settings-icon']} />
+						) : (
+							<Edit className={styles['settings-icon']} />
+						)}
+						<p className={styles.settings}>
+							{editing
+								? 'Save Changes'
+								: selected === 'yoyos'
+								? 'Edit Yoyos'
+								: 'Edit Collection'}
+						</p>
+					</button>
+					{selected === 'yoyos' && (
+						<button
+							className={`${styles['settings-button']} ${
+								error && styles.disabled
+							}`}
+							onClick={() => {
+								!addYoyo && setAddYoyo(true);
+							}}
+							disabled={error}
+							style={{
+								cursor: error ? '' : 'pointer',
+							}}
+						>
+							<Add
+								className={styles['settings-icon']}
+								style={{ fontSize: '1.75rem' }}
+							/>
+
+							<p className={styles.settings}>Add Yoyo</p>
+						</button>
 					)}
-					<p className={styles.settings}>
-						{editing
-							? 'Save Changes'
-							: selected === 'yoyos'
-							? 'Edit Yoyos'
-							: 'Edit Collection'}
-					</p>
-				</button>
+				</div>
 			</div>
 			{loading && <LoadingSpinner message='Saving' />}
 		</>

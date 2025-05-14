@@ -91,7 +91,13 @@ const FullDetailYoyoTile = ({
 					</div>
 				)}
 
-				<Edit className={styles.edit} onClick={() => setEditing(true)} />
+				<Edit
+					className={styles.edit}
+					onClick={(e) => {
+						e.stopPropagation();
+						setEditing(true);
+					}}
+				/>
 				{/* Optional: Only show edit if current user owns this yoyo */}
 			</div>
 		</div>

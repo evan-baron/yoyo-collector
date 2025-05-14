@@ -17,6 +17,7 @@ import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 import Heart from '@/app/components/icons/heart/Heart';
 import YoyoTileInput from '../yoyoTileInput/YoyoTileInput';
 import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
+import BlankEditableYoyoTile from '../blankEditableYoyoTile/BlankEditableYoyoTile';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -253,10 +254,15 @@ function EditableYoyoTile({
 		);
 	}, [inputs, originalYoyoData, newYoyoData]);
 
-	if (!loadingComplete) return <LoadingSpinner message='Loading' />;
+	if (!loadingComplete) return <BlankEditableYoyoTile />;
 
 	return (
-		<div className={`${styles.tile} ${selectedTile && styles.selected}`}>
+		<div
+			className={`${styles.tile} ${selectedTile && styles.selected}`}
+			onClick={() => {
+				selectedTile && setSelectedYoyo(null);
+			}}
+		>
 			<input type='checkbox' className={styles.checkbox} />
 
 			<div className={styles['image-box']}>
