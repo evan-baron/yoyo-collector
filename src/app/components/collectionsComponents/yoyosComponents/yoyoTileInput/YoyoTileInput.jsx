@@ -27,6 +27,7 @@ function YoyoTileInput({
 	input,
 	undo,
 	handleUndo,
+	error,
 }) {
 	const { currentlyEditing, setCurrentlyEditing } = useAppContext();
 
@@ -220,6 +221,7 @@ function YoyoTileInput({
 								className={styles.check}
 								onClick={(e) => {
 									e.stopPropagation();
+									if (!error.valid) return;
 									setCurrentlyEditing(null);
 								}}
 							/>
@@ -458,6 +460,7 @@ function YoyoTileInput({
 							className={styles.check}
 							onClick={(e) => {
 								e.stopPropagation();
+								if (!error.valid) return;
 								setCurrentlyEditing(null);
 							}}
 						/>

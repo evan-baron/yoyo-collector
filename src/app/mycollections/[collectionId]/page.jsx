@@ -50,6 +50,7 @@ function Collection() {
 		setModalOpen,
 		setModalType,
 		setNewCollectionData,
+		setNewCollectionCounter,
 		setNewYoyoData,
 		setOriginalCollectionData,
 		setOriginalYoyoData,
@@ -215,7 +216,23 @@ function Collection() {
 				{}
 			);
 
-			console.log(valuesToUpdate);
+			try {
+				await axiosInstance.patch('/api/user/yoyos', {
+					yoyoId: selectedYoyo,
+					valuesToUpdate: valuesToUpdate,
+				});
+			} catch (error) {
+				console.log(
+					'There was an error updating the yoyo details at mycollections/id/page',
+					error
+				);
+				return;
+			} finally {
+				setEditingYoyos((prev) => !prev);
+				setDirty(false);
+				setDirtyType(null);
+				setNewCollectionCounter((prev) => prev + 1);
+			}
 		}
 	};
 

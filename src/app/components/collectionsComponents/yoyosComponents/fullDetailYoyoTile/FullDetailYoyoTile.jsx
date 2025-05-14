@@ -86,7 +86,7 @@ const FullDetailYoyoTile = ({
 							<label className={styles.label} htmlFor='condition'>
 								About the yoyo:
 							</label>
-							<p>{condition}</p>
+							<p className={styles.p}>{condition}</p>
 						</div>
 					</div>
 				)}
