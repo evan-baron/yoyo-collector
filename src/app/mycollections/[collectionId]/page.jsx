@@ -160,7 +160,8 @@ function Collection() {
 
 	const handleSubmit = async () => {
 		if (!dirty) {
-			setEditing((prev) => !prev);
+			editing && setEditing((prev) => !prev);
+			editingYoyos && setEditingYoyos((prev) => !prev);
 			return;
 		}
 

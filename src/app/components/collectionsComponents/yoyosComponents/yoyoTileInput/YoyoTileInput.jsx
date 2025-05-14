@@ -61,6 +61,7 @@ function YoyoTileInput({
 								value={value}
 								handleChange={handleChange}
 								name={name}
+								ref={inputRef}
 							/>
 							<Check
 								className={styles.check}
@@ -84,6 +85,7 @@ function YoyoTileInput({
 								value={value}
 								handleChange={handleChange}
 								name={name}
+								ref={inputRef}
 							/>
 							<Check
 								className={styles.check}
@@ -107,6 +109,7 @@ function YoyoTileInput({
 								value={value}
 								handleChange={handleChange}
 								name={name}
+								ref={inputRef}
 							/>
 							<Check
 								className={styles.check}
@@ -130,6 +133,7 @@ function YoyoTileInput({
 								value={value}
 								handleChange={handleChange}
 								name={name}
+								ref={inputRef}
 							/>
 							<Check
 								className={styles.check}
@@ -153,6 +157,7 @@ function YoyoTileInput({
 								value={value}
 								handleChange={handleChange}
 								name={name}
+								ref={inputRef}
 							/>
 							<Check
 								className={styles.check}
@@ -302,6 +307,7 @@ function YoyoTileInput({
 							value={value}
 							handleChange={handleChange}
 							name={name}
+							ref={inputRef}
 						/>
 						<Check
 							className={styles.check}
@@ -325,6 +331,7 @@ function YoyoTileInput({
 							value={value}
 							handleChange={handleChange}
 							name={name}
+							ref={inputRef}
 						/>
 						<Check
 							className={styles.check}
@@ -348,6 +355,7 @@ function YoyoTileInput({
 							value={value}
 							handleChange={handleChange}
 							name={name}
+							ref={inputRef}
 						/>
 						<Check
 							className={styles.check}
@@ -371,6 +379,7 @@ function YoyoTileInput({
 							value={value}
 							handleChange={handleChange}
 							name={name}
+							ref={inputRef}
 						/>
 						<Check
 							className={styles.check}
@@ -394,6 +403,7 @@ function YoyoTileInput({
 							value={value}
 							handleChange={handleChange}
 							name={name}
+							ref={inputRef}
 						/>
 						<Check
 							className={styles.check}

@@ -357,7 +357,7 @@ function EditableYoyoTile({
 							Condition/Additional Notes:
 						</label>
 						{!editCondition ? (
-							<p
+							<div
 								className={styles.p}
 								onClick={(e) => {
 									e.stopPropagation();
@@ -368,7 +368,6 @@ function EditableYoyoTile({
 								<Edit
 									sx={{
 										fontSize: '1.5rem',
-										alignSelf: 'end',
 									}}
 									className={styles.icon}
 									style={{
@@ -382,10 +381,9 @@ function EditableYoyoTile({
 											handleUndo('condition');
 										}}
 										className={styles.undo}
-										style={{ transform: 'translateY(0.125rem)' }}
 									/>
 								)}
-							</p>
+							</div>
 						) : (
 							<>
 								<div className={styles['textarea-box']}>

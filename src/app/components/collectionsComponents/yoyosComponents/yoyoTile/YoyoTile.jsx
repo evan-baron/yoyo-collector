@@ -83,38 +83,122 @@ function YoyoTile({
 
 	return (
 		<>
-			{!selectedTile && (
-				<SummaryYoyoTile
-					model={model}
-					colorway={colorway}
-					brand={brand}
-					releaseYear={releaseYear}
-					editing={editingYoyos}
-					handleSelect={handleSelect}
-					selectedTile={selectedTile}
-				/>
+			{displayType === 'small' && (
+				<>
+					{!selectedTile && (
+						<SummaryYoyoTile
+							model={model}
+							colorway={colorway}
+							brand={brand}
+							releaseYear={releaseYear}
+							editing={editingYoyos}
+							handleSelect={handleSelect}
+							selectedTile={selectedTile}
+						/>
+					)}
+
+					{selectedTile && editingYoyos && (
+						<EditableYoyoTile
+							editing={editingYoyos}
+							yoyoData={yoyoData}
+							setSelectedYoyo={setSelectedYoyo}
+							setSelectedYoyos={setSelectedYoyos}
+							selectedTile={selectedTile}
+						/>
+					)}
+
+					{selectedTile && !editingYoyos && (
+						<FullDetailYoyoTile
+							selectedTile={selectedTile}
+							handleSelect={handleSelect}
+							likes={likes}
+							validLeftItems={validLeftItems}
+							validRightItems={validRightItems}
+							condition={condition}
+							setEditing={setEditingYoyos}
+						/>
+					)}
+				</>
 			)}
 
-			{selectedTile && editingYoyos && (
-				<EditableYoyoTile
-					editing={editingYoyos}
-					yoyoData={yoyoData}
-					setSelectedYoyo={setSelectedYoyo}
-					setSelectedYoyos={setSelectedYoyos}
-					selectedTile={selectedTile}
-				/>
+			{displayType === 'photos' && (
+				<>
+					{!selectedTile && (
+						<SummaryYoyoTile
+							model={model}
+							colorway={colorway}
+							brand={brand}
+							releaseYear={releaseYear}
+							editing={editingYoyos}
+							handleSelect={handleSelect}
+							selectedTile={selectedTile}
+						/>
+					)}
+
+					{selectedTile && editingYoyos && (
+						<EditableYoyoTile
+							editing={editingYoyos}
+							yoyoData={yoyoData}
+							setSelectedYoyo={setSelectedYoyo}
+							setSelectedYoyos={setSelectedYoyos}
+							selectedTile={selectedTile}
+						/>
+					)}
+
+					{selectedTile && !editingYoyos && (
+						<FullDetailYoyoTile
+							selectedTile={selectedTile}
+							handleSelect={handleSelect}
+							likes={likes}
+							validLeftItems={validLeftItems}
+							validRightItems={validRightItems}
+							condition={condition}
+							setEditing={setEditingYoyos}
+						/>
+					)}
+				</>
 			)}
 
-			{selectedTile && !editingYoyos && (
-				<FullDetailYoyoTile
-					selectedTile={selectedTile}
-					handleSelect={handleSelect}
-					likes={likes}
-					validLeftItems={validLeftItems}
-					validRightItems={validRightItems}
-					condition={condition}
-					setEditing={setEditingYoyos}
-				/>
+			{displayType === 'full' && (
+				<>
+					{!selectedTile && (
+						<FullDetailYoyoTile
+							selectedTile={selectedTile}
+							setSelectedYoyo={setSelectedYoyo}
+							handleSelect={handleSelect}
+							likes={likes}
+							validLeftItems={validLeftItems}
+							validRightItems={validRightItems}
+							condition={condition}
+							setEditing={setEditingYoyos}
+							yoyoId={id}
+						/>
+					)}
+
+					{selectedTile && editingYoyos && (
+						<EditableYoyoTile
+							editing={editingYoyos}
+							yoyoData={yoyoData}
+							setSelectedYoyo={setSelectedYoyo}
+							setSelectedYoyos={setSelectedYoyos}
+							selectedTile={selectedTile}
+						/>
+					)}
+
+					{selectedTile && !editingYoyos && (
+						<FullDetailYoyoTile
+							selectedTile={selectedTile}
+							setSelectedYoyo={setSelectedYoyo}
+							handleSelect={handleSelect}
+							likes={likes}
+							validLeftItems={validLeftItems}
+							validRightItems={validRightItems}
+							condition={condition}
+							setEditing={setEditingYoyos}
+							yoyoId={id}
+						/>
+					)}
+				</>
 			)}
 		</>
 	);

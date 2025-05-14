@@ -1,12 +1,15 @@
 // Libraries
-import React from 'react';
+import React, { forwardRef } from 'react';
 import Select from 'react-select';
 
 // Styles
 import customFormSelectStyles from '../customFormSelectStyles';
 import customInputSelectStyles from '../customInputSelectStyles';
 
-function YearDropdown({ type, disabled, value, handleChange, name }) {
+const YearDropdown = forwardRef(function YearDropdown(
+	{ type, disabled, value, handleChange, name },
+	ref
+) {
 	const startYear = 1950;
 	const endYear = new Date().getFullYear();
 
@@ -23,6 +26,7 @@ function YearDropdown({ type, disabled, value, handleChange, name }) {
 
 	return (
 		<Select
+			ref={ref}
 			options={years}
 			value={years.find((year) => year.value === value)}
 			onChange={(selectedOption) => handleChange(selectedOption, { name })}
@@ -36,6 +40,6 @@ function YearDropdown({ type, disabled, value, handleChange, name }) {
 			isDisabled={disabled}
 		/>
 	);
-}
+});
 
 export default YearDropdown;

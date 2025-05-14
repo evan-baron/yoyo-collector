@@ -1,5 +1,5 @@
 // Libraries
-import React from 'react';
+import React, { forwardRef } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import { components } from 'react-select';
 
@@ -10,7 +10,10 @@ import { yoyoBrands } from '../yoyoBrands';
 import customFormSelectStyles from '../customFormSelectStyles';
 import customInputSelectStyles from '../customInputSelectStyles';
 
-function ManufacturerDropdown({ type, value, handleChange, name }) {
+const ManufacturerDropdown = forwardRef(function ManufacturerDropdown(
+	{ type, value, handleChange, name },
+	ref
+) {
 	const options = yoyoBrands.map((brand) => ({
 		value: brand.toString(),
 		label: brand.toString(),
@@ -21,6 +24,7 @@ function ManufacturerDropdown({ type, value, handleChange, name }) {
 
 	return (
 		<CreatableSelect
+			ref={ref}
 			components={{ Input: CustomInput }}
 			options={options}
 			value={value ? { label: value, value } : null}
@@ -35,6 +39,6 @@ function ManufacturerDropdown({ type, value, handleChange, name }) {
 			isClearable
 		/>
 	);
-}
+});
 
 export default ManufacturerDropdown;

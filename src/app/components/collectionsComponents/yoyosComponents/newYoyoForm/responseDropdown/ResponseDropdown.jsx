@@ -1,12 +1,15 @@
 // Libraries
-import React from 'react';
+import React, { forwardRef } from 'react';
 import Select from 'react-select';
 
 // Styles
 import customFormSelectStyles from '../customFormSelectStyles';
 import customInputSelectStyles from '../customInputSelectStyles';
 
-function ResponseDropdown({ type, disabled, value, handleChange, name }) {
+const ResponseDropdown = forwardRef(function ResponseDropdown(
+	{ type, disabled, value, handleChange, name },
+	ref
+) {
 	const response = ['Fixed', 'Responsive', 'Unresponsive'];
 
 	const options = response.map((option) => ({
@@ -17,6 +20,7 @@ function ResponseDropdown({ type, disabled, value, handleChange, name }) {
 
 	return (
 		<Select
+			ref={ref}
 			options={options}
 			value={options.find((option) => option.value === value)}
 			onChange={handleChange}
@@ -31,6 +35,6 @@ function ResponseDropdown({ type, disabled, value, handleChange, name }) {
 			isDisabled={disabled}
 		/>
 	);
-}
+});
 
 export default ResponseDropdown;

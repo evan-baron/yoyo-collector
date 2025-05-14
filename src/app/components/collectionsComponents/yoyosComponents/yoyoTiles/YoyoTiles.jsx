@@ -125,10 +125,34 @@ function YoyoTiles({
 				/>
 			)}
 			{!editing && !addYoyo && (
-				<div className={styles['sort-buttons']}>
-					<div className={styles.style}>Photos and Details</div>
-					<div className={styles.style}>Photos Only</div>
-					<div className={styles.style}>Small Details</div>
+				<div className={styles.buttons}>
+					<div
+						className={styles.button}
+						onClick={() => {
+							setDisplayType('full');
+							setSelectedYoyo(null);
+						}}
+					>
+						Photos and Details
+					</div>
+					<div
+						className={styles.button}
+						onClick={() => {
+							setDisplayType('photos');
+							setSelectedYoyo(null);
+						}}
+					>
+						Photos Only
+					</div>
+					<div
+						className={styles.button}
+						onClick={() => {
+							setDisplayType('small');
+							setSelectedYoyo(null);
+						}}
+					>
+						Small Details
+					</div>
 				</div>
 			)}
 			<div className={styles.list}>

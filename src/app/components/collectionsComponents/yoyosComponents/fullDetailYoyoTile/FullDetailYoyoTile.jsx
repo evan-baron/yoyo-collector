@@ -13,12 +13,14 @@ import Heart from '@/app/components/icons/heart/Heart';
 
 const FullDetailYoyoTile = ({
 	selectedTile,
+	setSelectedYoyo,
 	handleSelect,
 	likes,
 	validLeftItems = [],
 	validRightItems = [],
 	condition,
 	setEditing,
+	yoyoId,
 }) => {
 	return (
 		<div
@@ -94,8 +96,8 @@ const FullDetailYoyoTile = ({
 				<Edit
 					className={styles.edit}
 					onClick={(e) => {
-						e.stopPropagation();
 						setEditing(true);
+						!selectedTile && setSelectedYoyo(yoyoId);
 					}}
 				/>
 				{/* Optional: Only show edit if current user owns this yoyo */}
