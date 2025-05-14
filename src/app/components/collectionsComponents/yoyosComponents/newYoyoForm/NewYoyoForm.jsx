@@ -262,6 +262,14 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData, setAddYoyo }) {
 		// Validate data
 		const validated = trimAndValidate(yoyoData);
 
+		if (!validated.model) {
+			validated.model = 'Unknown';
+		}
+
+		if (!validated.brand) {
+			validated.brand = 'Unknown';
+		}
+
 		console.log(validated);
 
 		try {

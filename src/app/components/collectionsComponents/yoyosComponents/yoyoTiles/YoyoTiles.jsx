@@ -89,6 +89,7 @@ function YoyoTiles({
 
 	const handleSort = (e) => {
 		const { name } = e.target.dataset;
+		setSelectedYoyo(null);
 
 		setSort((prev) => {
 			const newSort = {};
