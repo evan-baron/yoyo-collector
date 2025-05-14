@@ -39,6 +39,7 @@ export async function POST(req) {
 			secure: process.env.NODE_ENV === 'production',
 			sameSite: 'Strict',
 			path: '/',
+			maxAge: checked ? 60 * 60 * 24 * 365 : undefined,
 		});
 
 		const response = NextResponse.json({
