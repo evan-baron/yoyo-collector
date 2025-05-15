@@ -18,6 +18,11 @@ function YoyoTile({
 	yoyoData,
 	setSelectedYoyos,
 	selectedTile,
+	collectionId,
+	added,
+	setAdded,
+	uploadError,
+	setUploadError,
 }) {
 	const {
 		editingYoyos,
@@ -108,6 +113,11 @@ function YoyoTile({
 							setSelectedYoyos={setSelectedYoyos}
 							selectedTile={selectedTile}
 							handleSelect={handleSelect}
+							collectionId={collectionId}
+							added={added}
+							setAdded={setAdded}
+							uploadError={uploadError}
+							setUploadError={setUploadError}
 						/>
 					)}
 
@@ -122,6 +132,11 @@ function YoyoTile({
 							setEditingYoyos={setEditingYoyos}
 							editingYoyos={editingYoyos}
 							yoyoId={id}
+							collectionId={collectionId}
+							added={added}
+							setAdded={setAdded}
+							uploadError={uploadError}
+							setUploadError={setUploadError}
 						/>
 					)}
 				</>
@@ -149,6 +164,11 @@ function YoyoTile({
 							setSelectedYoyos={setSelectedYoyos}
 							selectedTile={selectedTile}
 							handleSelect={handleSelect}
+							collectionId={collectionId}
+							added={added}
+							setAdded={setAdded}
+							uploadError={uploadError}
+							setUploadError={setUploadError}
 						/>
 					)}
 
@@ -163,6 +183,11 @@ function YoyoTile({
 							setEditingYoyos={setEditingYoyos}
 							editingYoyos={editingYoyos}
 							yoyoId={id}
+							collectionId={collectionId}
+							added={added}
+							setAdded={setAdded}
+							uploadError={uploadError}
+							setUploadError={setUploadError}
 						/>
 					)}
 				</>
@@ -181,6 +206,11 @@ function YoyoTile({
 							setEditingYoyos={setEditingYoyos}
 							editingYoyos={editingYoyos}
 							yoyoId={id}
+							collectionId={collectionId}
+							added={added}
+							setAdded={setAdded}
+							uploadError={uploadError}
+							setUploadError={setUploadError}
 						/>
 					)}
 
@@ -191,6 +221,11 @@ function YoyoTile({
 							setSelectedYoyos={setSelectedYoyos}
 							selectedTile={selectedTile}
 							handleSelect={handleSelect}
+							collectionId={collectionId}
+							added={added}
+							setAdded={setAdded}
+							uploadError={uploadError}
+							setUploadError={setUploadError}
 						/>
 					)}
 
@@ -206,6 +241,11 @@ function YoyoTile({
 								setEditingYoyos={setEditingYoyos}
 								editingYoyos={editingYoyos}
 								yoyoId={id}
+								collectionId={collectionId}
+								added={added}
+								setAdded={setAdded}
+								uploadError={uploadError}
+								setUploadError={setUploadError}
 							/>
 						</>
 					)}

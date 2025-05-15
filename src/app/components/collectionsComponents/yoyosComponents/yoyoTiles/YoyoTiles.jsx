@@ -24,6 +24,10 @@ function YoyoTiles({
 	editingYoyos,
 	addYoyo,
 	setAddYoyo,
+	added,
+	setAdded,
+	uploadError,
+	setUploadError,
 }) {
 	const { dirty, setModalOpen, setModalType, selectedYoyo, setSelectedYoyo } =
 		useAppContext();
@@ -153,6 +157,10 @@ function YoyoTiles({
 					yoyoData={yoyoFormData}
 					setYoyoData={setYoyoFormData}
 					setAddYoyo={setAddYoyo}
+					added={added}
+					setAdded={setAdded}
+					uploadError={uploadError}
+					setUploadError={setUploadError}
 				/>
 			)}
 			{!addYoyo && (
@@ -292,6 +300,11 @@ function YoyoTiles({
 								setSelectedYoyos={setSelectedYoyos}
 								displayType={displayType}
 								selectedTile={selectedYoyo === yoyo.id}
+								collectionId={collectionId}
+								added={added}
+								setAdded={setAdded}
+								uploadError={uploadError}
+								setUploadError={setUploadError}
 							/>
 						</div>
 					);

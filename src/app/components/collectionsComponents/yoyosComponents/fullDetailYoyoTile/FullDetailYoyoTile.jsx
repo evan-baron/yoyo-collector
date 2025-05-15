@@ -23,6 +23,11 @@ const FullDetailYoyoTile = ({
 	condition,
 	setEditingYoyos,
 	yoyoId,
+	collectionId,
+	added,
+	setAdded,
+	uploadError,
+	setUploadError,
 }) => {
 	const { setSelectedYoyo, selectedYoyo } = useAppContext();
 

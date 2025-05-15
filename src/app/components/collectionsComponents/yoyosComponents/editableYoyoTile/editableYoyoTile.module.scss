@@ -6,63 +6,46 @@
 	display: flex;
 	gap: 0.5rem;
 
-	&.selected {
-		.checkbox {
-			align-self: center;
-			min-width: 1.125rem !important;
-			height: 1.125rem;
-			margin: 0;
-			padding: 0;
-			accent-color: rgb(0, 225, 255);
+	.picture-uploader {
+		display: none;
+	}
+
+	.image-box {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+
+		.image {
+			width: 15.25rem;
+			border-radius: 0.5rem;
+			padding: 1rem;
+			background-color: var(--darkerGray);
 		}
 
-		.image-box {
+		.likes {
+			margin-left: 0.5rem;
 			display: flex;
-			flex-direction: column;
+			align-items: center;
 			gap: 0.25rem;
-
-			.image {
-				width: 15.25rem;
-				border-radius: 0.5rem;
-				padding: 1rem;
-				background-color: var(--darkerGray);
-			}
-
-			.likes {
-				margin-left: 0.5rem;
-				display: flex;
-				align-items: center;
-				gap: 0.25rem;
-			}
 		}
+	}
 
-		.content-box {
+	.content-box {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding-left: 0.5rem;
+
+		.details {
 			flex-grow: 1;
+
 			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-			padding-left: 0.5rem;
+			gap: 2rem;
 
-			.label {
-				font-weight: bold;
-				white-space: nowrap;
-			}
-
-			.details {
-				flex-grow: 1;
-
-				display: flex;
-				gap: 2rem;
-
-				.attribute {
-					display: flex;
-					gap: 0.5rem;
-				}
-
-				.error {
-					color: red;
-					font-size: 1rem;
-				}
+			.error {
+				color: red;
+				font-size: 1rem;
 			}
 
 			.left {
@@ -73,55 +56,124 @@
 			}
 
 			.right {
+				flex-grow: 1;
 				display: flex;
 				flex-direction: column;
 				gap: 0.5rem;
+
+				.photo-input {
+					width: 100%;
+
+					margin-top: 1rem;
+					padding-right: 1.5rem;
+					padding-bottom: 1rem;
+					display: flex;
+
+					.label {
+						width: 100%;
+
+						position: relative;
+						text-align: center;
+						padding: 0.75rem;
+						font-size: 1.5rem;
+						border: none;
+						border-radius: 0.5rem;
+						color: var(--lightestGray);
+						background-color: transparent;
+						cursor: pointer;
+						transition: all 0.3s ease;
+						z-index: 0;
+						isolation: isolate;
+						box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
+
+						&::before {
+							content: '';
+							position: absolute;
+							inset: 0;
+							padding: 2px; // thickness of the border
+							border-radius: inherit;
+							background: linear-gradient(
+								135deg,
+								magenta,
+								cyan,
+								magenta,
+								cyan,
+								magenta
+							);
+							background-size: 200% 900%;
+
+							animation: move-gradient 3s linear infinite;
+							mask: linear-gradient(#fff 0 0) content-box,
+								linear-gradient(#fff 0 0);
+							mask-composite: exclude;
+							-webkit-mask-composite: destination-out;
+							z-index: -1;
+						}
+					}
+
+					@keyframes move-gradient {
+						0% {
+							background-position: 100% 100%;
+						}
+						50% {
+							background-position: 0% 100%;
+						}
+						100% {
+							background-position: -100% 100%;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.about {
+		width: 100%;
+		display: flex;
+
+		.attribute {
+			width: 100%;
+
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+
+			.label {
+				font-weight: bold;
+				white-space: nowrap;
+			}
+
+			.p {
+				display: flex;
+				align-items: center;
+				gap: 0.25rem;
+				cursor: pointer;
+			}
+
+			.icon {
+				font-size: 1.25rem;
+				cursor: pointer;
+
+				&:hover {
+					color: rgb(0, 225, 255);
+				}
+			}
+
+			.undo,
+			.check,
+			.close {
+				font-size: 1.75rem;
+				cursor: pointer;
+
+				&:hover {
+					color: rgb(0, 225, 255);
+				}
 			}
 		}
 
-		.about {
-			width: 100%;
+		.textarea-box {
 			display: flex;
-
-			.attribute {
-				width: 100%;
-
-				display: flex;
-				flex-direction: column;
-				gap: 0.25rem;
-
-				.p {
-					display: flex;
-					align-items: center;
-					gap: 0.25rem;
-					cursor: pointer;
-				}
-
-				.icon {
-					font-size: 1.25rem;
-					cursor: pointer;
-
-					&:hover {
-						color: rgb(0, 225, 255);
-					}
-				}
-
-				.undo,
-				.check,
-				.close {
-					font-size: 1.75rem;
-					cursor: pointer;
-
-					&:hover {
-						color: rgb(0, 225, 255);
-					}
-				}
-			}
-
-			.textarea-box {
-				display: flex;
-				align-items: center;
-			}
+			align-items: center;
 
 			.textarea {
 				width: 100%;
@@ -146,11 +198,11 @@
 					background-color: var(--mediumGray);
 				}
 			}
+		}
 
-			.error {
-				color: red;
-				font-size: 1rem;
-			}
+		.error {
+			color: red;
+			font-size: 1rem;
 		}
 	}
 }

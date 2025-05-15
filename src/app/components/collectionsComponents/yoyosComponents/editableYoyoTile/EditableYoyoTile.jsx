@@ -18,11 +18,20 @@ import Heart from '@/app/components/icons/heart/Heart';
 import YoyoTileInput from '../yoyoTileInput/YoyoTileInput';
 import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
 import BlankEditableYoyoTile from '../blankEditableYoyoTile/BlankEditableYoyoTile';
+import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function EditableYoyoTile({ yoyoData, selectedTile }) {
+function EditableYoyoTile({
+	yoyoData,
+	selectedTile,
+	collectionId,
+	added,
+	setAdded,
+	uploadError,
+	setUploadError,
+}) {
 	const {
 		dirty,
 		error,
@@ -39,6 +48,7 @@ function EditableYoyoTile({ yoyoData, selectedTile }) {
 	const [inputs, setInputs] = useState();
 	const [editCondition, setEditCondition] = useState();
 	const [currentlyEditing, setCurrentlyEditing] = useState(null);
+	const [clearInputRef, setClearInputRef] = useState(null);
 
 	const {
 		id,
@@ -259,7 +269,7 @@ function EditableYoyoTile({ yoyoData, selectedTile }) {
 	if (!loadingComplete) return <BlankEditableYoyoTile />;
 
 	return (
-		<div className={`${styles.tile} ${selectedTile && styles.selected}`}>
+		<div className={styles.tile}>
 			<div className={styles['image-box']}>
 				<div className={styles.image}>
 					<BlankYoyoPhoto />
@@ -349,6 +359,23 @@ function EditableYoyoTile({ yoyoData, selectedTile }) {
 									);
 								}
 							})}
+							<div className={styles['photo-input']}>
+								<label htmlFor='yoyoInput' className={styles.label}>
+									Add Photos
+								</label>
+								<div className={styles['picture-uploader']}>
+									<PictureUploader
+										collection={collectionId}
+										key='yoyo'
+										uploadType='yoyo'
+										input='yoyoInput'
+										setAdded={setAdded}
+										setUploadError={setUploadError}
+										clearInputRef={clearInputRef}
+										setClearInputRef={setClearInputRef}
+									/>
+								</div>
+							</div>
 						</div>
 					</>
 				</div>

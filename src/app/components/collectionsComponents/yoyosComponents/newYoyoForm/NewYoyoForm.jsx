@@ -24,14 +24,21 @@ import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function NewYoyoForm({ collectionId, yoyoData, setYoyoData, setAddYoyo }) {
+function NewYoyoForm({
+	collectionId,
+	yoyoData,
+	setYoyoData,
+	setAddYoyo,
+	added,
+	setAdded,
+	uploadError,
+	setUploadError,
+}) {
 	const { imagesToUpload, setImagesToUpload, setNewCollectionCounter } =
 		useAppContext();
 
 	const [more, setMore] = useState(null);
 	const [animate, setAnimate] = useState(false);
-	const [added, setAdded] = useState(false);
-	const [uploadError, setUploadError] = useState(null);
 	const [clearInputRef, setClearInputRef] = useState(null);
 	const [error, setError] = useState({
 		model: {

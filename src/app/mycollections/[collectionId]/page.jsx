@@ -104,6 +104,8 @@ function Collection() {
 	const [coverPhoto, setCoverPhoto] = useState(null);
 	const [selected, setSelected] = useState('collection');
 	const [addYoyo, setAddYoyo] = useState(false);
+	const [added, setAdded] = useState(false);
+	const [uploadError, setUploadError] = useState(null);
 
 	// Resets editing state on page load
 	useEffect(() => {
@@ -179,7 +181,7 @@ function Collection() {
 		if (!dirty) {
 			editing && setEditing((prev) => !prev);
 			editingYoyos && setEditingYoyos((prev) => !prev);
-			setSelectedYoyo(null);
+			// setSelectedYoyo(null);
 			return;
 		}
 
@@ -467,6 +469,10 @@ function Collection() {
 									editingYoyos={editingYoyos}
 									addYoyo={addYoyo}
 									setAddYoyo={setAddYoyo}
+									added={added}
+									setAdded={setAdded}
+									uploadError={uploadError}
+									setUploadError={setUploadError}
 								/>
 							</div>
 						</section>
@@ -519,7 +525,7 @@ function Collection() {
 								}
 								!addYoyo && setAddYoyo(true);
 								editingYoyos && setEditingYoyos(false);
-								selectedYoyo && setSelectedYoyo(null);
+								// selectedYoyo && setSelectedYoyo(null);
 							}}
 							disabled={error}
 							style={{
