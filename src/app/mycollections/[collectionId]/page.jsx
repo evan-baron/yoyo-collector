@@ -72,12 +72,6 @@ function Collection() {
 	const [yoyos, setYoyos] = useState([]);
 	const [hover, setHover] = useState(false);
 
-	// Resets editing state on page load
-	useEffect(() => {
-		setEditing(false);
-		setEditingYoyos(false);
-	}, []);
-
 	useEffect(() => {
 		if (!collectionId) return;
 
@@ -109,6 +103,14 @@ function Collection() {
 	const [selected, setSelected] = useState('collection');
 	const [selectedYoyo, setSelectedYoyo] = useState(null);
 	const [addYoyo, setAddYoyo] = useState(false);
+
+	// Resets editing state on page load
+	useEffect(() => {
+		setEditing(false);
+		setEditingYoyos(false);
+		setSelectedYoyo(null);
+		setSelectedYoyos([]);
+	}, []);
 
 	useEffect(() => {
 		setFormData({
@@ -319,17 +321,19 @@ function Collection() {
 						className={`${styles.option} ${styles['col-1']}									
 										${(selected === 'collection' || !selected) && styles.selected}`}
 						onClick={() => {
-							/////////////////////////
-							// ADD DIRTY LOGIC HERE//
-							/////////////////////////
+							if (dirty) {
+								setModalOpen(true);
+								setModalType('dirty');
+								return;
+							}
 
 							if (selected === 'yoyos') {
 								editingYoyos && setEditingYoyos(false);
 								setSelected('collection');
 								setSelectedYoyos([]);
+								setSelectedYoyo(null);
 							} else if (selected === 'collection') {
-								editing && setEditing(false);
-								setSelected('yoyos');
+								return;
 							}
 						}}
 					>
@@ -340,14 +344,14 @@ function Collection() {
 						className={`${styles.option} ${styles['col-2']}	 									
 										${(selected === 'yoyos' || !selected) && styles.selected}`}
 						onClick={() => {
-							/////////////////////////
-							// ADD DIRTY LOGIC HERE//
-							/////////////////////////
+							if (dirty) {
+								setModalOpen(true);
+								setModalType('dirty');
+								return;
+							}
 
 							if (selected === 'yoyos') {
-								editingYoyos && setEditingYoyos(false);
-								setSelected('collection');
-								setSelectedYoyos([]);
+								return;
 							} else if (selected === 'collection') {
 								editing && setEditing(false);
 								setSelected('yoyos');
@@ -509,7 +513,14 @@ function Collection() {
 								error && styles.disabled
 							}`}
 							onClick={() => {
+								if (dirty) {
+									setModalOpen(true);
+									setModalType('dirty');
+									return;
+								}
 								!addYoyo && setAddYoyo(true);
+								editingYoyos && setEditingYoyos(false);
+								selectedYoyo && setSelectedYoyo(null);
 							}}
 							disabled={error}
 							style={{

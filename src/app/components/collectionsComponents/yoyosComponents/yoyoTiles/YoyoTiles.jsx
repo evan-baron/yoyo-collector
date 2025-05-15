@@ -13,6 +13,9 @@ import { North } from '@mui/icons-material';
 import YoyoTile from '../yoyoTile/YoyoTile';
 import NewYoyoForm from '../newYoyoForm/NewYoyoForm';
 
+// Context
+import { useAppContext } from '@/app/context/AppContext';
+
 function YoyoTiles({
 	yoyos,
 	selectedYoyo,
@@ -24,6 +27,8 @@ function YoyoTiles({
 	addYoyo,
 	setAddYoyo,
 }) {
+	const { dirty, setModalOpen, setModalType } = useAppContext();
+
 	const [sort, setSort] = useState({
 		name: {
 			selected: false,
@@ -153,6 +158,14 @@ function YoyoTiles({
 					<div
 						className={styles.button}
 						onClick={() => {
+							if (displayType === 'full') {
+								return;
+							}
+							if (dirty) {
+								setModalOpen(true);
+								setModalType('dirty');
+								return;
+							}
 							setDisplayType('full');
 							setSelectedYoyo(null);
 						}}
@@ -162,6 +175,14 @@ function YoyoTiles({
 					<div
 						className={styles.button}
 						onClick={() => {
+							if (displayType === 'photos') {
+								return;
+							}
+							if (dirty) {
+								setModalOpen(true);
+								setModalType('dirty');
+								return;
+							}
 							setDisplayType('photos');
 							setSelectedYoyo(null);
 						}}
@@ -171,6 +192,14 @@ function YoyoTiles({
 					<div
 						className={styles.button}
 						onClick={() => {
+							if (displayType === 'small') {
+								return;
+							}
+							if (dirty) {
+								setModalOpen(true);
+								setModalType('dirty');
+								return;
+							}
 							setDisplayType('small');
 							setSelectedYoyo(null);
 						}}

@@ -296,6 +296,7 @@ function NewYoyoForm({ collectionId, yoyoData, setYoyoData, setAddYoyo }) {
 				more && setMore(false);
 				animate && setAnimate(false);
 				setHidden('hidden');
+				setAddYoyo(false);
 			}
 
 			setNewCollectionCounter((prev) => prev + 1);

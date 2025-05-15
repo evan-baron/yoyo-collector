@@ -36,6 +36,7 @@ function Dirty() {
 		setError,
 		setModalOpen,
 		setModalType,
+		setNewYoyoData,
 	} = useAppContext();
 
 	const router = useRouter();
@@ -195,6 +196,32 @@ function Dirty() {
 		<div className={styles.container}>
 			<h2 className={styles.h2}>Save Changes?</h2>
 			<div className={styles.buttons}>
+				<button className={styles.button} onClick={handleSubmit}>
+					Save
+				</button>
+
+				{dirtyType === 'yoyo' && (
+					<button
+						className={styles.button}
+						onClick={() => {
+							console.log('new:', newYoyoData, 'old:', originalYoyoData);
+							setModalOpen(false);
+							setDirty(false);
+							if (pendingRoute) {
+								if (pendingRoute === 'logout') {
+									handleLogout();
+								} else {
+									router.push(pendingRoute);
+								}
+								setPendingRoute(null);
+							}
+							setNewYoyoData({ ...originalYoyoData });
+						}}
+					>
+						No
+					</button>
+				)}
+
 				<button
 					className={styles.button}
 					onClick={() => {
@@ -203,9 +230,6 @@ function Dirty() {
 					}}
 				>
 					Cancel
-				</button>
-				<button className={styles.button} onClick={handleSubmit}>
-					Save
 				</button>
 			</div>
 		</div>
