@@ -19,6 +19,7 @@ import { useAppContext } from '@/app/context/AppContext';
 // Components
 import BlankProfilePhoto from '../blankProfilePhoto/BlankProfilePhoto';
 import BlankCoverPhoto from '../blankCoverPhoto/BlankCoverPhoto';
+import BlankYoyoPhoto from '../blankYoyoPhoto/BlankYoyoPhoto';
 
 function PictureUploader({
 	input,
@@ -344,9 +345,7 @@ function PictureUploader({
 						${uploadType === 'collection' && styles.collection}
 					`}
 					style={{
-						boxShadow:
-							(uploadType === 'cover' || uploadType === 'yoyo') &&
-							'0.25rem 0.25rem 1rem black',
+						boxShadow: uploadType === 'cover' && '0.25rem 0.25rem 1rem black',
 					}}
 				>
 					<input
@@ -404,6 +403,8 @@ function PictureUploader({
 						<BlankProfilePhoto />
 					) : uploadType === 'cover' ? (
 						<BlankCoverPhoto />
+					) : uploadType === 'yoyo' ? (
+						<BlankYoyoPhoto />
 					) : (
 						<div className={styles.new}></div>
 					)}

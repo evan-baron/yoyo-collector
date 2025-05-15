@@ -42,7 +42,10 @@ function EditableYoyoTile({
 		setError,
 		setNewYoyoData,
 		setOriginalYoyoData,
+		setSelectedYoyo,
 		selectedYoyo,
+		setModalOpen,
+		setModalType,
 	} = useAppContext();
 
 	const [inputs, setInputs] = useState();
@@ -58,6 +61,7 @@ function EditableYoyoTile({
 		colorway,
 		likes,
 		model,
+		photos,
 		original_owner: originalOwner,
 		purchase_price: purchasePrice,
 		purchase_year: purchaseYear,
@@ -271,8 +275,17 @@ function EditableYoyoTile({
 	return (
 		<div className={styles.tile}>
 			<div className={styles['image-box']}>
-				<div className={styles.image}>
-					<BlankYoyoPhoto />
+				<div className={styles.image} onClick={() => console.log(yoyoData)}>
+					<PictureUploader
+						collection={collectionId}
+						key='yoyo'
+						uploadType='yoyo'
+						input='yoyoInput'
+						setAdded={setAdded}
+						setUploadError={setUploadError}
+						clearInputRef={clearInputRef}
+						setClearInputRef={setClearInputRef}
+					/>
 				</div>
 				<div className={styles.likes}>
 					<Heart size='small' likes={likes} />
@@ -363,18 +376,6 @@ function EditableYoyoTile({
 								<label htmlFor='yoyoInput' className={styles.label}>
 									Add Photos
 								</label>
-								<div className={styles['picture-uploader']}>
-									<PictureUploader
-										collection={collectionId}
-										key='yoyo'
-										uploadType='yoyo'
-										input='yoyoInput'
-										setAdded={setAdded}
-										setUploadError={setUploadError}
-										clearInputRef={clearInputRef}
-										setClearInputRef={setClearInputRef}
-									/>
-								</div>
 							</div>
 						</div>
 					</>
@@ -460,6 +461,19 @@ function EditableYoyoTile({
 						)}
 					</div>
 				</div>
+			</div>
+			<div
+				className={styles['close-tile']}
+				onClick={() => {
+					if (dirty) {
+						setModalOpen(true);
+						setModalType('dirty');
+						return;
+					}
+					setSelectedYoyo(null);
+				}}
+			>
+				<Close className={styles.close} />
 			</div>
 		</div>
 	);

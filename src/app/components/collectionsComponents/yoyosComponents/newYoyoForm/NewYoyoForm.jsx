@@ -320,7 +320,16 @@ function NewYoyoForm({
 						</div>
 					)}
 					<div className={styles['image-box']}>
-						<BlankYoyoPhoto />
+						<PictureUploader
+							collection={collectionId}
+							key='yoyo'
+							uploadType='yoyo'
+							input='yoyoInput'
+							setAdded={setAdded}
+							setUploadError={setUploadError}
+							clearInputRef={clearInputRef}
+							setClearInputRef={setClearInputRef}
+						/>
 					</div>
 					{imagesToUpload.length > 0 && (
 						<div className={styles.arrow}>
@@ -389,18 +398,6 @@ function NewYoyoForm({
 											<label htmlFor='yoyoInput' className={styles.label}>
 												Add Photos
 											</label>
-											<div className={styles['1px']}>
-												<PictureUploader
-													collection={collectionId}
-													key='yoyo'
-													uploadType='yoyo'
-													input='yoyoInput'
-													setAdded={setAdded}
-													setUploadError={setUploadError}
-													clearInputRef={clearInputRef}
-													setClearInputRef={setClearInputRef}
-												/>
-											</div>
 										</div>
 									</div>
 								</div>

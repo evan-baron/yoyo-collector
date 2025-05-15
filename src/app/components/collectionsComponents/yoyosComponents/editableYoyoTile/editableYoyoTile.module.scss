@@ -1,14 +1,11 @@
 .tile {
 	width: 100%;
 
+	position: relative;
 	font-size: 1.25rem;
 	border-radius: 0.5rem;
 	display: flex;
 	gap: 0.5rem;
-
-	.picture-uploader {
-		display: none;
-	}
 
 	.image-box {
 		display: flex;
@@ -203,6 +200,22 @@
 		.error {
 			color: red;
 			font-size: 1rem;
+		}
+	}
+
+	.close-tile {
+		position: absolute;
+		right: 0;
+
+		.close {
+			font-size: 2rem;
+			opacity: 0.5;
+			cursor: pointer;
+
+			&:hover {
+				opacity: 1;
+				color: rgb(0, 225, 255);
+			}
 		}
 	}
 }

@@ -58,6 +58,13 @@ export async function GET(req, res) {
 			);
 		}
 
+		response.yoyosData = response.yoyosData.map((yoyo) => ({
+			...yoyo,
+			photos: response.collectionPhotos.filter(
+				(photo) => photo.yoyo_id === yoyo.id
+			),
+		}));
+
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {
 		return NextResponse.json(

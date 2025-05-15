@@ -66,13 +66,18 @@
 		}
 
 		.edit {
-			height: 2.25rem;
-			width: 2.25rem;
+			font-size: 2rem;
+			opacity: 0.5;
 
 			position: absolute;
 			top: 0;
 			right: 0;
 			cursor: pointer;
+
+			&:hover {
+				opacity: 1;
+				color: rgb(0, 225, 255);
+			}
 		}
 	}
 }
