@@ -87,8 +87,6 @@ const Header = () => {
 			<nav className={styles.nav}>
 				<div className={styles['logo-box']}>
 					<Link
-						href={dirty ? '' : '/'}
-						className={styles.logo}
 						onClick={() => {
 							if (dirty) {
 								setPendingRoute('/');
@@ -99,6 +97,8 @@ const Header = () => {
 							router.push(window.location.pathname);
 							setModalOpen(false);
 						}}
+						href={dirty ? '' : '/'}
+						className={styles.logo}
 					>
 						<Image
 							src={logo}
