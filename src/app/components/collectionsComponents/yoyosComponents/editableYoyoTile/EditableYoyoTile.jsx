@@ -22,14 +22,7 @@ import BlankEditableYoyoTile from '../blankEditableYoyoTile/BlankEditableYoyoTil
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function EditableYoyoTile({
-	yoyoData,
-	setSelectedYoyo,
-	setSelectedYoyos,
-	selectedTile,
-	editing,
-	handleSelect,
-}) {
+function EditableYoyoTile({ yoyoData, selectedTile }) {
 	const {
 		dirty,
 		error,
@@ -40,6 +33,7 @@ function EditableYoyoTile({
 		setError,
 		setNewYoyoData,
 		setOriginalYoyoData,
+		selectedYoyo,
 	} = useAppContext();
 
 	const [inputs, setInputs] = useState();
@@ -114,6 +108,10 @@ function EditableYoyoTile({
 	}, [inputs]);
 
 	useEffect(() => {
+		if (!originalYoyoData || !newYoyoData) {
+			return;
+		}
+
 		const isDirty =
 			originalYoyoData.model.trim() !== newYoyoData.model.trim() ||
 			originalYoyoData.brand.trim() !== newYoyoData.brand.trim() ||
@@ -263,7 +261,7 @@ function EditableYoyoTile({
 	return (
 		<div className={`${styles.tile} ${selectedTile && styles.selected}`}>
 			<div className={styles['image-box']}>
-				<div className={styles.image}>
+				<div className={styles.image} onClick={() => console.log(selectedYoyo)}>
 					<BlankYoyoPhoto />
 				</div>
 				<div className={styles.likes}>

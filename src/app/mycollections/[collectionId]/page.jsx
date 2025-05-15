@@ -49,6 +49,7 @@ function Collection() {
 		newYoyoData,
 		originalCollectionData,
 		originalYoyoData,
+		selectedYoyo,
 		selectedYoyos,
 		setDirty,
 		setDirtyType,
@@ -62,6 +63,7 @@ function Collection() {
 		setNewYoyoData,
 		setOriginalCollectionData,
 		setOriginalYoyoData,
+		setSelectedYoyo,
 		setSelectedYoyos,
 		setShareLink,
 		setViewPhoto,
@@ -101,7 +103,6 @@ function Collection() {
 	const [pendingData, setPendingData] = useState({});
 	const [coverPhoto, setCoverPhoto] = useState(null);
 	const [selected, setSelected] = useState('collection');
-	const [selectedYoyo, setSelectedYoyo] = useState(null);
 	const [addYoyo, setAddYoyo] = useState(false);
 
 	// Resets editing state on page load
@@ -223,6 +224,8 @@ function Collection() {
 				setModalType('error');
 				return;
 			}
+
+			console.log(selectedYoyo);
 
 			const valuesToUpdate = Object.entries(newYoyoData).reduce(
 				(obj, [key, value]) => {
@@ -460,9 +463,7 @@ function Collection() {
 							<div className={styles.yoyos}>
 								<YoyoTiles
 									yoyos={yoyos}
-									selectedYoyo={selectedYoyo}
 									selectedYoyos={selectedYoyos}
-									setSelectedYoyo={setSelectedYoyo}
 									setSelectedYoyos={setSelectedYoyos}
 									collectionId={collection.id}
 									editingYoyos={editingYoyos}

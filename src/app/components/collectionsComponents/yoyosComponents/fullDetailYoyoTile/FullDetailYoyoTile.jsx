@@ -11,9 +11,11 @@ import { Edit } from '@mui/icons-material';
 import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 import Heart from '@/app/components/icons/heart/Heart';
 
+// Context
+import { useAppContext } from '@/app/context/AppContext';
+
 const FullDetailYoyoTile = ({
 	selectedTile,
-	setSelectedYoyo,
 	handleSelect,
 	likes,
 	validLeftItems = [],
@@ -22,6 +24,8 @@ const FullDetailYoyoTile = ({
 	setEditingYoyos,
 	yoyoId,
 }) => {
+	const { setSelectedYoyo, selectedYoyo } = useAppContext();
+
 	return (
 		<div
 			className={`${styles.tile} ${selectedTile ? styles.selected : ''}`}
@@ -96,6 +100,7 @@ const FullDetailYoyoTile = ({
 				<Edit
 					className={styles.edit}
 					onClick={(e) => {
+						console.log(selectedYoyo);
 						e.stopPropagation();
 						setEditingYoyos(true);
 						!selectedTile && setSelectedYoyo(yoyoId);

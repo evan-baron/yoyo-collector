@@ -18,8 +18,6 @@ import { useAppContext } from '@/app/context/AppContext';
 
 function YoyoTiles({
 	yoyos,
-	selectedYoyo,
-	setSelectedYoyo,
 	setSelectedYoyos,
 	selectedYoyos,
 	collectionId,
@@ -27,7 +25,8 @@ function YoyoTiles({
 	addYoyo,
 	setAddYoyo,
 }) {
-	const { dirty, setModalOpen, setModalType } = useAppContext();
+	const { dirty, setModalOpen, setModalType, selectedYoyo, setSelectedYoyo } =
+		useAppContext();
 
 	const [sort, setSort] = useState({
 		name: {
@@ -290,7 +289,6 @@ function YoyoTiles({
 
 							<YoyoTile
 								yoyoData={yoyo}
-								setSelectedYoyo={setSelectedYoyo}
 								setSelectedYoyos={setSelectedYoyos}
 								displayType={displayType}
 								selectedTile={selectedYoyo === yoyo.id}

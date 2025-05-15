@@ -24,6 +24,7 @@ function Dirty() {
 		dirtyType,
 		pendingRoute,
 		profileSettingsFormData,
+		selectedYoyo,
 		user,
 		error,
 		setProfileSettingsFormData,
@@ -33,10 +34,13 @@ function Dirty() {
 		setCurrentlyEditing,
 		setDirty,
 		setDirtyType,
+		setEditingYoyos,
 		setError,
 		setModalOpen,
 		setModalType,
+		setNewCollectionCounter,
 		setNewYoyoData,
+		setOriginalYoyoData,
 	} = useAppContext();
 
 	const router = useRouter();
@@ -188,7 +192,29 @@ function Dirty() {
 				{}
 			);
 
-			console.log(valuesToUpdate);
+			console.log(selectedYoyo, valuesToUpdate);
+
+			try {
+				await axiosInstance.patch('/api/user/yoyos', {
+					yoyoId: selectedYoyo,
+					valuesToUpdate: valuesToUpdate,
+				});
+			} catch (error) {
+				console.log(
+					'There was an error updating the yoyo details at dirty modal',
+					error
+				);
+				return;
+			} finally {
+				setEditingYoyos(false);
+				setDirty(false);
+				setDirtyType(null);
+				setNewCollectionCounter((prev) => prev + 1);
+				setNewYoyoData(null);
+				setOriginalYoyoData(null);
+				setModalOpen(false);
+				setModalType(null);
+			}
 		}
 	};
 

@@ -77,6 +77,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 		privacy: '',
 	});
 	const [resendEmail, setResendEmail] = useState(null);
+	const [selectedYoyo, setSelectedYoyo] = useState(null);
 	const [selectedYoyos, setSelectedYoyos] = useState([]);
 	const [shareLink, setShareLink] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState(null);
@@ -293,6 +294,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				originalYoyoData,
 				pendingRoute,
 				resendEmail,
+				selectedYoyo,
 				selectedYoyos,
 				shareLink,
 				timeRemaining,
@@ -319,6 +321,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setModalType,
 				setPendingRoute,
 				setResendEmail,
+				setSelectedYoyo,
 				setSelectedYoyos,
 				setShareLink,
 				setTimeRemaining,

@@ -16,7 +16,6 @@ function YoyoTile({
 	ownerId, // ADD IN LATER TO PROTECT PRIVATE FIELDS FROM PUBLIC YOYOTILE
 	displayType, // 'small' = SMALL DETAILS (DEFAULT), 'photos' = PHOTOS ONLY WITH NAME AND COLORWAY, 'full' = BIG TILE WITH PICTURES AND ALL INFO
 	yoyoData,
-	setSelectedYoyo,
 	setSelectedYoyos,
 	selectedTile,
 }) {
@@ -28,6 +27,8 @@ function YoyoTile({
 		dirty,
 		setDirty,
 		setCurrentlyEditing,
+		selectedYoyo,
+		setSelectedYoyo,
 	} = useAppContext();
 
 	const {
@@ -104,7 +105,6 @@ function YoyoTile({
 						<EditableYoyoTile
 							editing={editingYoyos}
 							yoyoData={yoyoData}
-							setSelectedYoyo={setSelectedYoyo}
 							setSelectedYoyos={setSelectedYoyos}
 							selectedTile={selectedTile}
 							handleSelect={handleSelect}
@@ -114,7 +114,6 @@ function YoyoTile({
 					{selectedTile && !editingYoyos && (
 						<FullDetailYoyoTile
 							selectedTile={selectedTile}
-							setSelectedYoyo={setSelectedYoyo}
 							handleSelect={handleSelect}
 							likes={likes}
 							validLeftItems={validLeftItems}
@@ -147,7 +146,6 @@ function YoyoTile({
 						<EditableYoyoTile
 							editing={editingYoyos}
 							yoyoData={yoyoData}
-							setSelectedYoyo={setSelectedYoyo}
 							setSelectedYoyos={setSelectedYoyos}
 							selectedTile={selectedTile}
 							handleSelect={handleSelect}
@@ -157,7 +155,6 @@ function YoyoTile({
 					{selectedTile && !editingYoyos && (
 						<FullDetailYoyoTile
 							selectedTile={selectedTile}
-							setSelectedYoyo={setSelectedYoyo}
 							handleSelect={handleSelect}
 							likes={likes}
 							validLeftItems={validLeftItems}
@@ -176,7 +173,6 @@ function YoyoTile({
 					{!selectedTile && (
 						<FullDetailYoyoTile
 							selectedTile={selectedTile}
-							setSelectedYoyo={setSelectedYoyo}
 							handleSelect={handleSelect}
 							likes={likes}
 							validLeftItems={validLeftItems}
@@ -192,7 +188,6 @@ function YoyoTile({
 						<EditableYoyoTile
 							editing={editingYoyos}
 							yoyoData={yoyoData}
-							setSelectedYoyo={setSelectedYoyo}
 							setSelectedYoyos={setSelectedYoyos}
 							selectedTile={selectedTile}
 							handleSelect={handleSelect}
@@ -203,7 +198,6 @@ function YoyoTile({
 						<>
 							<FullDetailYoyoTile
 								selectedTile={selectedTile}
-								setSelectedYoyo={setSelectedYoyo}
 								handleSelect={handleSelect}
 								likes={likes}
 								validLeftItems={validLeftItems}

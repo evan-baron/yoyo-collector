@@ -29,7 +29,6 @@ function PictureUploader({
 	collection,
 	setCoverPhoto,
 	editing,
-	selectedYoyo,
 	setAdded,
 	setUploadError,
 }) {
@@ -42,6 +41,7 @@ function PictureUploader({
 		user,
 		setUser,
 		setNewCollectionCounter,
+		selectedYoyo,
 	} = useAppContext();
 
 	const MAX_FILES = 10;
