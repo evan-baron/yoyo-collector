@@ -52,8 +52,262 @@ function YoyoTileInput({
 			>
 				{itemLabel}:
 			</label>
-			{value ? (
-				editingInput ? (
+			<div className={styles['input-contents']}>
+				{value ? (
+					editingInput ? (
+						name === 'brand' ? (
+							<>
+								<ManufacturerDropdown
+									value={value}
+									handleChange={handleChange}
+									name={name}
+									ref={inputRef}
+								/>
+								<Check
+									className={styles.check}
+									onClick={(e) => {
+										e.stopPropagation();
+										setCurrentlyEditing(null);
+									}}
+								/>
+								<Close
+									className={styles.close}
+									onClick={(e) => {
+										e.stopPropagation();
+										setCurrentlyEditing(null);
+										handleUndo(name);
+									}}
+								/>
+							</>
+						) : name === 'releaseYear' ? (
+							<>
+								<YearDropdown
+									value={value}
+									handleChange={handleChange}
+									name={name}
+									ref={inputRef}
+								/>
+								<Check
+									className={styles.check}
+									onClick={(e) => {
+										e.stopPropagation();
+										setCurrentlyEditing(null);
+									}}
+								/>
+								<Close
+									className={styles.close}
+									onClick={(e) => {
+										e.stopPropagation();
+										setCurrentlyEditing(null);
+										handleUndo(name);
+									}}
+								/>
+							</>
+						) : name === 'purchaseYear' ? (
+							<>
+								<YearDropdown
+									value={value}
+									handleChange={handleChange}
+									name={name}
+									ref={inputRef}
+								/>
+								<Check
+									className={styles.check}
+									onClick={(e) => {
+										e.stopPropagation();
+										setCurrentlyEditing(null);
+									}}
+								/>
+								<Close
+									className={styles.close}
+									onClick={(e) => {
+										e.stopPropagation();
+										setCurrentlyEditing(null);
+										handleUndo(name);
+									}}
+								/>
+							</>
+						) : name === 'responseType' ? (
+							<>
+								<ResponseDropdown
+									value={value}
+									handleChange={handleChange}
+									name={name}
+									ref={inputRef}
+								/>
+								<Check
+									className={styles.check}
+									onClick={(e) => {
+										e.stopPropagation();
+										setCurrentlyEditing(null);
+									}}
+								/>
+								<Close
+									className={styles.close}
+									onClick={(e) => {
+										e.stopPropagation();
+										setCurrentlyEditing(null);
+										handleUndo(name);
+									}}
+								/>
+							</>
+						) : name === 'bearing' ? (
+							<>
+								<BearingDropdown
+									value={value}
+									handleChange={handleChange}
+									name={name}
+									ref={inputRef}
+								/>
+								<Check
+									className={styles.check}
+									onClick={(e) => {
+										e.stopPropagation();
+										setCurrentlyEditing(null);
+									}}
+								/>
+								<Close
+									className={styles.close}
+									onClick={(e) => {
+										e.stopPropagation();
+										setCurrentlyEditing(null);
+										handleUndo(name);
+									}}
+								/>
+							</>
+						) : name === 'originalOwner' ? (
+							<>
+								<div className={styles.options}>
+									<div className={styles.option}>
+										<input
+											id='originalOwnerYes'
+											name={name}
+											type={input.inputType}
+											className={styles.radio}
+											onChange={handleChange}
+											value='yes'
+											checked={value === 'yes'}
+											onClick={(e) => e.stopPropagation()}
+										/>
+										<label htmlFor='originalOwnerYes' className={styles.label}>
+											Yes
+										</label>
+									</div>
+									<div className={styles.option}>
+										<input
+											id='originalOwnerNo'
+											name={name}
+											type={input.inputType}
+											className={styles.radio}
+											onChange={handleChange}
+											value='no'
+											checked={value === 'no'}
+											onClick={(e) => e.stopPropagation()}
+										/>
+										<label htmlFor='originalOwnerNo' className={styles.label}>
+											No
+										</label>
+									</div>
+								</div>
+							</>
+						) : (
+							<>
+								<input
+									type={input.inputType}
+									id={name}
+									ref={inputRef}
+									name={name}
+									className={styles.input}
+									value={value || ''}
+									onChange={handleChange}
+									maxLength={maxLength}
+									autoComplete='off'
+									spellCheck='off'
+									onFocus={() => {
+										if (onStartEditing) onStartEditing();
+									}}
+								/>
+								<Check
+									className={styles.check}
+									onClick={(e) => {
+										e.stopPropagation();
+										if (!error.valid) return;
+										setCurrentlyEditing(null);
+									}}
+								/>
+								<Close
+									className={styles.close}
+									onClick={(e) => {
+										e.stopPropagation();
+										setCurrentlyEditing(null);
+										handleUndo(name);
+									}}
+								/>
+							</>
+						)
+					) : name === 'originalOwner' ? (
+						<>
+							<div className={styles.options}>
+								<div className={styles.option}>
+									<input
+										id='originalOwnerYes'
+										name={name}
+										type={input.inputType}
+										className={styles.radio}
+										onChange={handleChange}
+										value='yes'
+										checked={value === 'yes'}
+										onClick={(e) => e.stopPropagation()}
+									/>
+									<label htmlFor='originalOwnerYes' className={styles.label}>
+										Yes
+									</label>
+								</div>
+								<div className={styles.option}>
+									<input
+										id='originalOwnerNo'
+										name={name}
+										type={input.inputType}
+										className={styles.radio}
+										onChange={handleChange}
+										value='no'
+										checked={value === 'no'}
+										onClick={(e) => e.stopPropagation()}
+									/>
+									<label htmlFor='originalOwnerNo' className={styles.label}>
+										No
+									</label>
+								</div>
+							</div>
+						</>
+					) : (
+						<p
+							className={styles.p}
+							onClick={(e) => {
+								e.stopPropagation();
+								setCurrentlyEditing(itemLabel);
+							}}
+						>
+							{value}
+							<Edit
+								className={styles.icon}
+								onClick={(e) => {
+									e.stopPropagation();
+									setCurrentlyEditing(`${id}-${itemLabel}`);
+								}}
+							/>
+							{undo && (
+								<Undo
+									onClick={(e) => {
+										e.stopPropagation();
+										handleUndo(name);
+									}}
+									className={styles.undo}
+								/>
+							)}
+						</p>
+					)
+				) : editingInput ? (
 					name === 'brand' ? (
 						<>
 							<ManufacturerDropdown
@@ -175,40 +429,38 @@ function YoyoTileInput({
 							/>
 						</>
 					) : name === 'originalOwner' ? (
-						<>
-							<div className={styles.options}>
-								<div className={styles.option}>
-									<input
-										id='originalOwnerYes'
-										name={name}
-										type={input.inputType}
-										className={styles.radio}
-										onChange={handleChange}
-										value='yes'
-										checked={value === 'yes'}
-										onClick={(e) => e.stopPropagation()}
-									/>
-									<label htmlFor='originalOwnerYes' className={styles.label}>
-										Yes
-									</label>
-								</div>
-								<div className={styles.option}>
-									<input
-										id='originalOwnerNo'
-										name={name}
-										type={input.inputType}
-										className={styles.radio}
-										onChange={handleChange}
-										value='no'
-										checked={value === 'no'}
-										onClick={(e) => e.stopPropagation()}
-									/>
-									<label htmlFor='originalOwnerNo' className={styles.label}>
-										No
-									</label>
-								</div>
+						<div className={styles.options}>
+							<div className={styles.option}>
+								<input
+									id='originalOwnerYes'
+									name={name}
+									type={input.inputType}
+									className={styles.radio}
+									onChange={handleChange}
+									value='yes'
+									checked={value === 'yes'}
+									onClick={(e) => e.stopPropagation()}
+								/>
+								<label htmlFor='originalOwnerYes' className={styles.label}>
+									Yes
+								</label>
 							</div>
-						</>
+							<div className={styles.option}>
+								<input
+									id='originalOwnerNo'
+									name={name}
+									type={input.inputType}
+									className={styles.radio}
+									onChange={handleChange}
+									value='no'
+									checked={value === 'no'}
+									onClick={(e) => e.stopPropagation()}
+								/>
+								<label htmlFor='originalOwnerNo' className={styles.label}>
+									No
+								</label>
+							</div>
+						</div>
 					) : (
 						<>
 							<input
@@ -280,14 +532,7 @@ function YoyoTileInput({
 						</div>
 					</>
 				) : (
-					<p
-						className={styles.p}
-						onClick={(e) => {
-							e.stopPropagation();
-							setCurrentlyEditing(itemLabel);
-						}}
-					>
-						{value}
+					<>
 						<Edit
 							className={styles.icon}
 							onClick={(e) => {
@@ -304,252 +549,9 @@ function YoyoTileInput({
 								className={styles.undo}
 							/>
 						)}
-					</p>
-				)
-			) : editingInput ? (
-				name === 'brand' ? (
-					<>
-						<ManufacturerDropdown
-							value={value}
-							handleChange={handleChange}
-							name={name}
-							ref={inputRef}
-						/>
-						<Check
-							className={styles.check}
-							onClick={(e) => {
-								e.stopPropagation();
-								setCurrentlyEditing(null);
-							}}
-						/>
-						<Close
-							className={styles.close}
-							onClick={(e) => {
-								e.stopPropagation();
-								setCurrentlyEditing(null);
-								handleUndo(name);
-							}}
-						/>
 					</>
-				) : name === 'releaseYear' ? (
-					<>
-						<YearDropdown
-							value={value}
-							handleChange={handleChange}
-							name={name}
-							ref={inputRef}
-						/>
-						<Check
-							className={styles.check}
-							onClick={(e) => {
-								e.stopPropagation();
-								setCurrentlyEditing(null);
-							}}
-						/>
-						<Close
-							className={styles.close}
-							onClick={(e) => {
-								e.stopPropagation();
-								setCurrentlyEditing(null);
-								handleUndo(name);
-							}}
-						/>
-					</>
-				) : name === 'purchaseYear' ? (
-					<>
-						<YearDropdown
-							value={value}
-							handleChange={handleChange}
-							name={name}
-							ref={inputRef}
-						/>
-						<Check
-							className={styles.check}
-							onClick={(e) => {
-								e.stopPropagation();
-								setCurrentlyEditing(null);
-							}}
-						/>
-						<Close
-							className={styles.close}
-							onClick={(e) => {
-								e.stopPropagation();
-								setCurrentlyEditing(null);
-								handleUndo(name);
-							}}
-						/>
-					</>
-				) : name === 'responseType' ? (
-					<>
-						<ResponseDropdown
-							value={value}
-							handleChange={handleChange}
-							name={name}
-							ref={inputRef}
-						/>
-						<Check
-							className={styles.check}
-							onClick={(e) => {
-								e.stopPropagation();
-								setCurrentlyEditing(null);
-							}}
-						/>
-						<Close
-							className={styles.close}
-							onClick={(e) => {
-								e.stopPropagation();
-								setCurrentlyEditing(null);
-								handleUndo(name);
-							}}
-						/>
-					</>
-				) : name === 'bearing' ? (
-					<>
-						<BearingDropdown
-							value={value}
-							handleChange={handleChange}
-							name={name}
-							ref={inputRef}
-						/>
-						<Check
-							className={styles.check}
-							onClick={(e) => {
-								e.stopPropagation();
-								setCurrentlyEditing(null);
-							}}
-						/>
-						<Close
-							className={styles.close}
-							onClick={(e) => {
-								e.stopPropagation();
-								setCurrentlyEditing(null);
-								handleUndo(name);
-							}}
-						/>
-					</>
-				) : name === 'originalOwner' ? (
-					<div className={styles.options}>
-						<div className={styles.option}>
-							<input
-								id='originalOwnerYes'
-								name={name}
-								type={input.inputType}
-								className={styles.radio}
-								onChange={handleChange}
-								value='yes'
-								checked={value === 'yes'}
-								onClick={(e) => e.stopPropagation()}
-							/>
-							<label htmlFor='originalOwnerYes' className={styles.label}>
-								Yes
-							</label>
-						</div>
-						<div className={styles.option}>
-							<input
-								id='originalOwnerNo'
-								name={name}
-								type={input.inputType}
-								className={styles.radio}
-								onChange={handleChange}
-								value='no'
-								checked={value === 'no'}
-								onClick={(e) => e.stopPropagation()}
-							/>
-							<label htmlFor='originalOwnerNo' className={styles.label}>
-								No
-							</label>
-						</div>
-					</div>
-				) : (
-					<>
-						<input
-							type={input.inputType}
-							id={name}
-							ref={inputRef}
-							name={name}
-							className={styles.input}
-							value={value || ''}
-							onChange={handleChange}
-							maxLength={maxLength}
-							autoComplete='off'
-							spellCheck='off'
-							onFocus={() => {
-								if (onStartEditing) onStartEditing();
-							}}
-						/>
-						<Check
-							className={styles.check}
-							onClick={(e) => {
-								e.stopPropagation();
-								if (!error.valid) return;
-								setCurrentlyEditing(null);
-							}}
-						/>
-						<Close
-							className={styles.close}
-							onClick={(e) => {
-								e.stopPropagation();
-								setCurrentlyEditing(null);
-								handleUndo(name);
-							}}
-						/>
-					</>
-				)
-			) : name === 'originalOwner' ? (
-				<>
-					<div className={styles.options}>
-						<div className={styles.option}>
-							<input
-								id='originalOwnerYes'
-								name={name}
-								type={input.inputType}
-								className={styles.radio}
-								onChange={handleChange}
-								value='yes'
-								checked={value === 'yes'}
-								onClick={(e) => e.stopPropagation()}
-							/>
-							<label htmlFor='originalOwnerYes' className={styles.label}>
-								Yes
-							</label>
-						</div>
-						<div className={styles.option}>
-							<input
-								id='originalOwnerNo'
-								name={name}
-								type={input.inputType}
-								className={styles.radio}
-								onChange={handleChange}
-								value='no'
-								checked={value === 'no'}
-								onClick={(e) => e.stopPropagation()}
-							/>
-							<label htmlFor='originalOwnerNo' className={styles.label}>
-								No
-							</label>
-						</div>
-					</div>
-				</>
-			) : (
-				<>
-					<Edit
-						className={styles.icon}
-						onClick={(e) => {
-							e.stopPropagation();
-							setCurrentlyEditing(`${id}-${itemLabel}`);
-						}}
-					/>
-					{undo && (
-						<Undo
-							onClick={(e) => {
-								e.stopPropagation();
-								handleUndo(name);
-							}}
-							className={styles.undo}
-						/>
-					)}
-				</>
-			)}
+				)}
+			</div>
 		</div>
 	);
 }

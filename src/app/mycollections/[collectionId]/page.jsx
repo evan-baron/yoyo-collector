@@ -107,8 +107,8 @@ function Collection() {
 
 	// Resets editing state on page load
 	useEffect(() => {
-		setEditing(false);
-		setEditingYoyos(false);
+		// setEditing(false);
+		// setEditingYoyos(false);
 		setSelectedYoyo(null);
 		setSelectedYoyos([]);
 	}, []);

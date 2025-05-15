@@ -1,12 +1,18 @@
 .attribute {
 	display: flex;
-	align-items: center;
+	flex-direction: column;
+	gap: 0.125rem;
+	// align-items: center;
 
 	.label {
 		font-weight: bold;
 		white-space: nowrap;
 	}
 
+	.input-contents {
+		display: flex;
+		align-items: center;
+	}
 	.options {
 		height: 2rem;
 
@@ -44,8 +50,7 @@
 	.input {
 		border: none;
 		height: 2rem;
-		width: 10rem;
-		font-size: 1.125rem;
+		font-size: 1.25rem;
 		background-color: var(--mediumGray);
 		color: var(--lightestGray);
 		padding: 0 0 0 0.25rem;

@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react';
 
 // Utils
 import axiosInstance from '@/lib/utils/axios';
-import useCollectionCounter from '@/lib/helpers/collectionCounter';
 
 // Styles
 import styles from './deleteYoyos.module.scss';
@@ -23,7 +22,7 @@ function DeleteYoyos() {
 		setUser,
 		user,
 	} = useAppContext();
-	const { delete_yoyos_warning: deleteWarning } = user;
+	const { delete_yoyo_warning: deleteWarning } = user;
 
 	const [warning, setWarning] = useState(null);
 	const [formData, setFormData] = useState({
@@ -34,7 +33,7 @@ function DeleteYoyos() {
 
 	useEffect(() => {
 		setDontAsk(deleteWarning);
-	}, [user.delete_yoyos_warning]);
+	}, [user.delete_yoyo_warning]);
 
 	function handleChange(e) {
 		const { name, checked } = e.target;
@@ -66,13 +65,13 @@ function DeleteYoyos() {
 					});
 				} catch (error) {
 					throw new Error(
-						'Error setting delete_yoyos_warning in DeleteYoyos modal',
+						'Error setting delete_yoyo_warning in DeleteYoyos modal',
 						error.message
 					);
 				} finally {
 					setUser((prev) => ({
 						...prev,
-						delete_yoyos_warning: 1,
+						delete_yoyo_warning: 1,
 					}));
 				}
 			}
