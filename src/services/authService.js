@@ -23,7 +23,7 @@ const login = async (email, password, checked) => {
 			return { user, token };
 		}
 
-		const { session_token: token } = response;
+		const { session_token: token, remember_me } = response;
 
 		const date = new Date();
 		const diff = date.getTimezoneOffset();
@@ -35,7 +35,7 @@ const login = async (email, password, checked) => {
 		let expiration;
 
 		if (rememberMe) {
-			await sessionService.updateRememberMe(user.id, token);
+			!remember_me && (await sessionService.updateRememberMe(user.id, token));
 
 			expiration = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000 - diffInMs)
 				.toISOString()
