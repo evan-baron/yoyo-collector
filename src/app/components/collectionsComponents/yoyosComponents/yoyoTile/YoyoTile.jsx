@@ -94,6 +94,7 @@ function YoyoTile({
 							editing={editingYoyos}
 							handleSelect={handleSelect}
 							selectedTile={selectedTile}
+							yoyoId={id}
 						/>
 					)}
 
@@ -104,12 +105,14 @@ function YoyoTile({
 							setSelectedYoyo={setSelectedYoyo}
 							setSelectedYoyos={setSelectedYoyos}
 							selectedTile={selectedTile}
+							handleSelect={handleSelect}
 						/>
 					)}
 
 					{selectedTile && !editingYoyos && (
 						<FullDetailYoyoTile
 							selectedTile={selectedTile}
+							setSelectedYoyo={setSelectedYoyo}
 							handleSelect={handleSelect}
 							likes={likes}
 							validLeftItems={validLeftItems}
@@ -117,6 +120,7 @@ function YoyoTile({
 							condition={condition}
 							setEditingYoyos={setEditingYoyos}
 							editingYoyos={editingYoyos}
+							yoyoId={id}
 						/>
 					)}
 				</>
@@ -133,6 +137,7 @@ function YoyoTile({
 							editing={editingYoyos}
 							handleSelect={handleSelect}
 							selectedTile={selectedTile}
+							yoyoId={id}
 						/>
 					)}
 
@@ -143,18 +148,22 @@ function YoyoTile({
 							setSelectedYoyo={setSelectedYoyo}
 							setSelectedYoyos={setSelectedYoyos}
 							selectedTile={selectedTile}
+							handleSelect={handleSelect}
 						/>
 					)}
 
 					{selectedTile && !editingYoyos && (
 						<FullDetailYoyoTile
 							selectedTile={selectedTile}
+							setSelectedYoyo={setSelectedYoyo}
 							handleSelect={handleSelect}
 							likes={likes}
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
 							condition={condition}
 							setEditingYoyos={setEditingYoyos}
+							editingYoyos={editingYoyos}
+							yoyoId={id}
 						/>
 					)}
 				</>
@@ -184,6 +193,7 @@ function YoyoTile({
 							setSelectedYoyo={setSelectedYoyo}
 							setSelectedYoyos={setSelectedYoyos}
 							selectedTile={selectedTile}
+							handleSelect={handleSelect}
 						/>
 					)}
 

@@ -20,14 +20,11 @@ const FullDetailYoyoTile = ({
 	validRightItems = [],
 	condition,
 	setEditingYoyos,
-	editingYoyos,
 	yoyoId,
 }) => {
 	return (
 		<div
-			className={`${styles.tile} ${selectedTile ? styles.selected : ''} ${
-				editingYoyos ? styles.editing : ''
-			}`}
+			className={`${styles.tile} ${selectedTile ? styles.selected : ''}`}
 			onClick={handleSelect}
 		>
 			<div className={styles['image-box']}>

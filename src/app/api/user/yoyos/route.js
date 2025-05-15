@@ -228,3 +228,56 @@ export async function PATCH(req, res) {
 		);
 	}
 }
+
+// Delete a yoyo
+export async function DELETE(req, res) {
+	try {
+		const { userId, valid } = await getUserIdFromToken({
+			cookies,
+		});
+
+		if (!userId) {
+			throw new Error('User ID is missing');
+		}
+
+		if (!valid) {
+			throw new Error('Token no longer valid');
+		}
+
+		const { id } = await req.json();
+
+		const deleteYoyoResponse = await deleteYoyo(id, userId);
+
+		// const getAllCollectionPhotosResponse = await getAllCollectionPhotosByUserId(
+		// 	userId,
+		// 	id
+		// );
+
+		// const publicIds = getAllCollectionPhotosResponse.map(
+		// 	(photo) => photo.public_id
+		// );
+
+		// await Promise.all(publicIds.map((id) => cloudinary.uploader.destroy(id)));
+
+		// const deleteUploadsResponse = await deleteUploadsByCollectionId(userId, id);
+
+		const response = {
+			yoyo: deleteYoyoResponse,
+			// uploads: deleteUploadsResponse,
+		};
+
+		await validateAndExtendSession(
+			'api/user/collections/byCollectionId/route.js DELETE'
+		);
+
+		return NextResponse.json(response, { status: 201 });
+	} catch (error) {
+		return NextResponse.json(
+			{
+				'There was an error deleting the yoyo at /api/user/yoyos DELETE':
+					error.message,
+			},
+			{ status: 500 }
+		);
+	}
+}

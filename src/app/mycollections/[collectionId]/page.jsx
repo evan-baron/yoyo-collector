@@ -12,7 +12,14 @@ import axiosInstance from '@/lib/utils/axios';
 import styles from './collectionPage.module.scss';
 
 // MUI
-import { Edit, Save, ZoomIn, Share, Add } from '@mui/icons-material';
+import {
+	Edit,
+	Save,
+	ZoomIn,
+	Share,
+	Add,
+	DeleteOutline,
+} from '@mui/icons-material';
 
 // Components
 import BlankCoverPhoto from '@/app/components/blankCoverPhoto/BlankCoverPhoto';
@@ -93,7 +100,7 @@ function Collection() {
 	const [coverPhoto, setCoverPhoto] = useState(null);
 	const [selected, setSelected] = useState('collection');
 	const [selectedYoyo, setSelectedYoyo] = useState(null);
-	const [selectedYoyos, setSelectedYoyos] = useState(null);
+	const [selectedYoyos, setSelectedYoyos] = useState([]);
 	const [addYoyo, setAddYoyo] = useState(false);
 
 	useEffect(() => {
@@ -238,6 +245,30 @@ function Collection() {
 		}
 	};
 
+	const handleDeleteYoyos = async () => {
+		console.log(selectedYoyos);
+		try {
+			await Promise.all(
+				selectedYoyos.map((yoyo) =>
+					axiosInstance.delete('/api/user/yoyos', {
+						data: {
+							id: yoyo,
+						},
+					})
+				)
+			);
+		} catch (error) {
+			console.log(
+				'There was an error deleting the yoyos at mycollections/id/page',
+				error
+			);
+			return;
+		} finally {
+			setSelectedYoyos([]);
+			setNewCollectionCounter((prev) => prev + 1);
+		}
+	};
+
 	const loadingComplete = useMemo(() => {
 		return (
 			collection?.id &&
@@ -305,6 +336,7 @@ function Collection() {
 							if (selected === 'yoyos') {
 								editingYoyos && setEditingYoyos(false);
 								setSelected('collection');
+								setSelectedYoyos([]);
 							} else if (selected === 'collection') {
 								editing && setEditing(false);
 								setSelected('yoyos');
@@ -422,6 +454,7 @@ function Collection() {
 								<YoyoTiles
 									yoyos={yoyos}
 									selectedYoyo={selectedYoyo}
+									selectedYoyos={selectedYoyos}
 									setSelectedYoyo={setSelectedYoyo}
 									setSelectedYoyos={setSelectedYoyos}
 									collectionId={collection.id}
@@ -486,6 +519,25 @@ function Collection() {
 							/>
 
 							<p className={styles.settings}>Add Yoyo</p>
+						</button>
+					)}
+					{selectedYoyos.length > 0 && selected === 'yoyos' && (
+						<button
+							className={`${styles['settings-button']} ${
+								error && styles.disabled
+							}`}
+							onClick={handleDeleteYoyos}
+							disabled={error}
+							style={{
+								cursor: error ? '' : 'pointer',
+							}}
+						>
+							<DeleteOutline
+								className={styles['settings-icon']}
+								style={{ fontSize: '1.75rem' }}
+							/>
+
+							<p className={styles.settings}>Delete Selected</p>
 						</button>
 					)}
 				</div>

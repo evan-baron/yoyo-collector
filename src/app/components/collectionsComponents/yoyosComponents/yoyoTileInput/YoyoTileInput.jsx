@@ -187,6 +187,7 @@ function YoyoTileInput({
 										onChange={handleChange}
 										value='yes'
 										checked={value === 'yes'}
+										onClick={(e) => e.stopPropagation()}
 									/>
 									<label htmlFor='originalOwnerYes' className={styles.label}>
 										Yes
@@ -201,6 +202,7 @@ function YoyoTileInput({
 										onChange={handleChange}
 										value='no'
 										checked={value === 'no'}
+										onClick={(e) => e.stopPropagation()}
 									/>
 									<label htmlFor='originalOwnerNo' className={styles.label}>
 										No
@@ -252,6 +254,7 @@ function YoyoTileInput({
 									onChange={handleChange}
 									value='yes'
 									checked={value === 'yes'}
+									onClick={(e) => e.stopPropagation()}
 								/>
 								<label htmlFor='originalOwnerYes' className={styles.label}>
 									Yes
@@ -266,6 +269,7 @@ function YoyoTileInput({
 									onChange={handleChange}
 									value='no'
 									checked={value === 'no'}
+									onClick={(e) => e.stopPropagation()}
 								/>
 								<label htmlFor='originalOwnerNo' className={styles.label}>
 									No

@@ -1,4 +1,5 @@
 .tile {
+	width: 100%;
 	grid-column: span 18;
 	background-color: var(--darkGray);
 	font-size: 1.25rem;
@@ -7,6 +8,7 @@
 
 	&.editing {
 		grid-column: span 17 !important;
+		margin-left: 1.75rem;
 	}
 
 	.legend {

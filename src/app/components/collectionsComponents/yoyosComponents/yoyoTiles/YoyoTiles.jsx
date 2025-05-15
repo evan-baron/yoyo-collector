@@ -18,6 +18,7 @@ function YoyoTiles({
 	selectedYoyo,
 	setSelectedYoyo,
 	setSelectedYoyos,
+	selectedYoyos,
 	collectionId,
 	editingYoyos,
 	addYoyo,
@@ -115,6 +116,28 @@ function YoyoTiles({
 		});
 	};
 
+	const handleChange = (e, yoyoId) => {
+		const isChecked = e.target.checked;
+
+		setSelectedYoyos((prev) => {
+			if (isChecked) {
+				return [...prev, yoyoId];
+			} else {
+				return prev.filter((id) => id !== yoyoId);
+			}
+		});
+	};
+
+	const handleSelectAll = (e) => {
+		const isChecked = e.target.checked;
+
+		if (isChecked) {
+			setSelectedYoyos(yoyos.map((yoyo) => yoyo.id));
+		} else {
+			setSelectedYoyos([]);
+		}
+	};
+
 	return (
 		<div className={styles['yoyos-container']}>
 			{addYoyo && (
@@ -161,7 +184,11 @@ function YoyoTiles({
 					<ul className={`${styles.ul} ${editingYoyos && styles.editing}`}>
 						{editingYoyos && (
 							<li className={styles.checkbox}>
-								<input type='checkbox' className={styles.input} />
+								<input
+									type='checkbox'
+									className={styles.input}
+									onClick={(e) => handleSelectAll(e)}
+								/>
 							</li>
 						)}
 						<li
@@ -218,14 +245,15 @@ function YoyoTiles({
 				</div>
 				{sortedYoyos.map((yoyo, index) => {
 					return (
-						<div
-							className={`${styles.tile} ${
-								displayType === 'small' && styles.summary
-							}`}
-							key={index}
-						>
+						<div className={styles.tile} key={index}>
 							{editingYoyos && (
-								<input type='checkbox' className={styles.checkbox} />
+								<input
+									name='checkbox'
+									type='checkbox'
+									className={styles.checkbox}
+									onChange={(e) => handleChange(e, yoyo.id)}
+									checked={selectedYoyos.includes(yoyo.id)}
+								/>
 							)}
 
 							<YoyoTile

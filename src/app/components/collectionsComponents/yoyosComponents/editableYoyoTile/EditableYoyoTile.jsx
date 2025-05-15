@@ -28,6 +28,7 @@ function EditableYoyoTile({
 	setSelectedYoyos,
 	selectedTile,
 	editing,
+	handleSelect,
 }) {
 	const {
 		dirty,
@@ -199,6 +200,7 @@ function EditableYoyoTile({
 	};
 
 	const handleChange = (e) => {
+		e.stopPropagation();
 		const { name, value } = e.target;
 
 		inputs[name].error.valid &&
@@ -260,9 +262,7 @@ function EditableYoyoTile({
 	return (
 		<div
 			className={`${styles.tile} ${selectedTile && styles.selected}`}
-			onClick={() => {
-				selectedTile && !editing && setSelectedYoyo(null);
-			}}
+			onClick={handleSelect}
 		>
 			<div className={styles['image-box']}>
 				<div className={styles.image}>
@@ -391,6 +391,7 @@ function EditableYoyoTile({
 										placeholder="This yoyo is worth at least a thousand bucks, Janice. Don't let anyone convince you otherwise. If I pass on and I see the kids sell it for anything less..."
 										value={newYoyoData.condition || ''}
 										onChange={handleChange}
+										onClick={(e) => e.stopPropagation()}
 									/>
 									<Check
 										className={styles.check}
