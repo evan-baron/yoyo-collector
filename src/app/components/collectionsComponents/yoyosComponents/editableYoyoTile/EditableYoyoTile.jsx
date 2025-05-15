@@ -261,7 +261,7 @@ function EditableYoyoTile({ yoyoData, selectedTile }) {
 	return (
 		<div className={`${styles.tile} ${selectedTile && styles.selected}`}>
 			<div className={styles['image-box']}>
-				<div className={styles.image} onClick={() => console.log(selectedYoyo)}>
+				<div className={styles.image}>
 					<BlankYoyoPhoto />
 				</div>
 				<div className={styles.likes}>

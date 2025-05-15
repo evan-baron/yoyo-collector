@@ -192,8 +192,6 @@ function Dirty() {
 				{}
 			);
 
-			console.log(selectedYoyo, valuesToUpdate);
-
 			try {
 				await axiosInstance.patch('/api/user/yoyos', {
 					yoyoId: selectedYoyo,

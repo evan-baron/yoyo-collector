@@ -225,8 +225,6 @@ function Collection() {
 				return;
 			}
 
-			console.log(selectedYoyo);
-
 			const valuesToUpdate = Object.entries(newYoyoData).reduce(
 				(obj, [key, value]) => {
 					if (value !== originalYoyoData[key]) {

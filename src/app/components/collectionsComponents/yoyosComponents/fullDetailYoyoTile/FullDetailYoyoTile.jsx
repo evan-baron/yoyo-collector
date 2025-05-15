@@ -100,7 +100,6 @@ const FullDetailYoyoTile = ({
 				<Edit
 					className={styles.edit}
 					onClick={(e) => {
-						console.log(selectedYoyo);
 						e.stopPropagation();
 						setEditingYoyos(true);
 						!selectedTile && setSelectedYoyo(yoyoId);
