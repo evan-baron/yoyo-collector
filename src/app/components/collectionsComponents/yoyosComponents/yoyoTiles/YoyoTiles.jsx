@@ -94,6 +94,9 @@ function YoyoTiles({
 	});
 
 	const handleSort = (e) => {
+		if (editingYoyos && selectedYoyo) {
+			return;
+		}
 		const { name } = e.target.dataset;
 		setSelectedYoyo(null);
 

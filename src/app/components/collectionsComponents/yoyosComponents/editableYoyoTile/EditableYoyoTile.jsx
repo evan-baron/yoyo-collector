@@ -44,6 +44,7 @@ function EditableYoyoTile({
 
 	const [inputs, setInputs] = useState();
 	const [editCondition, setEditCondition] = useState();
+	const [currentlyEditing, setCurrentlyEditing] = useState(null);
 
 	const {
 		id,
@@ -260,10 +261,7 @@ function EditableYoyoTile({
 	if (!loadingComplete) return <BlankEditableYoyoTile />;
 
 	return (
-		<div
-			className={`${styles.tile} ${selectedTile && styles.selected}`}
-			// onClick={handleSelect}
-		>
+		<div className={`${styles.tile} ${selectedTile && styles.selected}`}>
 			<div className={styles['image-box']}>
 				<div className={styles.image}>
 					<BlankYoyoPhoto />
@@ -284,7 +282,7 @@ function EditableYoyoTile({
 							{Object.entries(inputs).map(([key, item]) => {
 								if (item.position === 'left') {
 									return (
-										<React.Fragment key={item.name}>
+										<React.Fragment key={id + item.name}>
 											<YoyoTileInput
 												name={item.name}
 												itemLabel={item.label}
@@ -300,6 +298,10 @@ function EditableYoyoTile({
 												input={item.input}
 												undo={
 													originalYoyoData[item.name] !== newYoyoData[item.name]
+												}
+												id={id}
+												onStartEditing={() =>
+													setCurrentlyEditing(`${id}-${item.label}`)
 												}
 											/>
 											{item.name !== 'responseType' &&
@@ -317,7 +319,7 @@ function EditableYoyoTile({
 							{Object.entries(inputs).map(([key, item]) => {
 								if (item.position === 'right') {
 									return (
-										<React.Fragment key={item.name}>
+										<React.Fragment key={id + item.name}>
 											<YoyoTileInput
 												name={item.name}
 												itemLabel={item.label}
@@ -333,6 +335,10 @@ function EditableYoyoTile({
 												input={item.input}
 												undo={
 													originalYoyoData[item.name] !== newYoyoData[item.name]
+												}
+												id={id}
+												onStartEditing={() =>
+													setCurrentlyEditing(`${id}-${item.label}`)
 												}
 											/>
 											{item.name !== 'responseType' &&

@@ -27,6 +27,7 @@ function YoyoTile({
 		setModalType,
 		dirty,
 		setDirty,
+		setCurrentlyEditing,
 	} = useAppContext();
 
 	const {
@@ -79,6 +80,7 @@ function YoyoTile({
 		}
 		// setSelectedYoyo(id);
 		selectedTile ? setSelectedYoyo(null) : setSelectedYoyo(id);
+		setCurrentlyEditing(null);
 	};
 
 	return (

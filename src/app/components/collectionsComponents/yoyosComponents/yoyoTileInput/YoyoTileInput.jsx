@@ -28,12 +28,14 @@ function YoyoTileInput({
 	undo,
 	handleUndo,
 	error,
+	id,
+	onStartEditing,
 }) {
 	const { currentlyEditing, setCurrentlyEditing } = useAppContext();
 
 	const inputRef = useRef(null);
 
-	const editingInput = currentlyEditing === itemLabel;
+	const editingInput = currentlyEditing === `${id}-${itemLabel}`;
 
 	useEffect(() => {
 		if (editingInput && inputRef.current) {
@@ -42,10 +44,7 @@ function YoyoTileInput({
 	}, [editingInput]);
 
 	return (
-		<div
-			className={styles.attribute}
-			// style={{ gap: value ? '.5rem' : '.25rem' }}
-		>
+		<div className={styles.attribute}>
 			<label
 				className={styles.label}
 				htmlFor={name}
@@ -223,6 +222,9 @@ function YoyoTileInput({
 								maxLength={maxLength}
 								autoComplete='off'
 								spellCheck='off'
+								onFocus={() => {
+									if (onStartEditing) onStartEditing();
+								}}
 							/>
 							<Check
 								className={styles.check}
@@ -290,7 +292,7 @@ function YoyoTileInput({
 							className={styles.icon}
 							onClick={(e) => {
 								e.stopPropagation();
-								setCurrentlyEditing(itemLabel);
+								setCurrentlyEditing(`${id}-${itemLabel}`);
 							}}
 						/>
 						{undo && (
@@ -471,6 +473,9 @@ function YoyoTileInput({
 							maxLength={maxLength}
 							autoComplete='off'
 							spellCheck='off'
+							onFocus={() => {
+								if (onStartEditing) onStartEditing();
+							}}
 						/>
 						<Check
 							className={styles.check}
@@ -531,7 +536,7 @@ function YoyoTileInput({
 						className={styles.icon}
 						onClick={(e) => {
 							e.stopPropagation();
-							setCurrentlyEditing(itemLabel);
+							setCurrentlyEditing(`${id}-${itemLabel}`);
 						}}
 					/>
 					{undo && (
