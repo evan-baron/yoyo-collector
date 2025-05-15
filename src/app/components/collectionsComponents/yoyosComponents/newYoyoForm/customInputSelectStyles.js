@@ -4,7 +4,7 @@ const customInputSelectStyles = {
 		padding: '0px',
 		margin: '0px',
 		minWidth: '10rem',
-		maxWidth: '15rem',
+		// maxWidth: '15rem',
 	}),
 
 	// Control (the outer container of the select box)

@@ -349,7 +349,20 @@ function Collection() {
 					<div
 						className={`${styles.option} ${styles['col-2']}	 									
 										${(selected === 'yoyos' || !selected) && styles.selected}`}
-						onClick={() => setSelected('yoyos')}
+						onClick={() => {
+							/////////////////////////
+							// ADD DIRTY LOGIC HERE//
+							/////////////////////////
+
+							if (selected === 'yoyos') {
+								editingYoyos && setEditingYoyos(false);
+								setSelected('collection');
+								setSelectedYoyos([]);
+							} else if (selected === 'collection') {
+								editing && setEditing(false);
+								setSelected('yoyos');
+							}
+						}}
 					>
 						Yoyos
 					</div>

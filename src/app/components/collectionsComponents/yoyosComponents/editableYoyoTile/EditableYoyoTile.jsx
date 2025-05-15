@@ -262,7 +262,7 @@ function EditableYoyoTile({
 	return (
 		<div
 			className={`${styles.tile} ${selectedTile && styles.selected}`}
-			onClick={handleSelect}
+			// onClick={handleSelect}
 		>
 			<div className={styles['image-box']}>
 				<div className={styles.image}>
