@@ -49,6 +49,7 @@ function Collection() {
 		newYoyoData,
 		originalCollectionData,
 		originalYoyoData,
+		selectedYoyos,
 		setDirty,
 		setDirtyType,
 		setEditing,
@@ -61,6 +62,7 @@ function Collection() {
 		setNewYoyoData,
 		setOriginalCollectionData,
 		setOriginalYoyoData,
+		setSelectedYoyos,
 		setShareLink,
 		setViewPhoto,
 	} = useAppContext();
@@ -106,7 +108,6 @@ function Collection() {
 	const [coverPhoto, setCoverPhoto] = useState(null);
 	const [selected, setSelected] = useState('collection');
 	const [selectedYoyo, setSelectedYoyo] = useState(null);
-	const [selectedYoyos, setSelectedYoyos] = useState([]);
 	const [addYoyo, setAddYoyo] = useState(false);
 
 	useEffect(() => {
@@ -254,27 +255,8 @@ function Collection() {
 	};
 
 	const handleDeleteYoyos = async () => {
-		console.log(selectedYoyos);
-		try {
-			await Promise.all(
-				selectedYoyos.map((yoyo) =>
-					axiosInstance.delete('/api/user/yoyos', {
-						data: {
-							id: yoyo,
-						},
-					})
-				)
-			);
-		} catch (error) {
-			console.log(
-				'There was an error deleting the yoyos at mycollections/id/page',
-				error
-			);
-			return;
-		} finally {
-			setSelectedYoyos([]);
-			setNewCollectionCounter((prev) => prev + 1);
-		}
+		setModalOpen(true);
+		setModalType('delete-yoyos');
 	};
 
 	const loadingComplete = useMemo(() => {

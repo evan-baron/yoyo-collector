@@ -151,6 +151,8 @@ export async function PATCH(req, res) {
 
 		if (warningType === 'collection') {
 			await updateWarning(userId, 'delete_collection_warning');
+		} else if (warningType === 'yoyo') {
+			await updateWarning(userId, 'delete_yoyo_warning');
 		}
 
 		return NextResponse.json(

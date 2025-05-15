@@ -16,6 +16,7 @@ import DeleteCollection from './deleteCollection/DeleteCollection';
 import Inactivity from './inactivity/Inactivity';
 import ViewPhoto from './viewPhoto/ViewPhoto';
 import Share from './share/Share';
+import DeleteYoyos from './deleteYoyos/DeleteYoyos';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -56,6 +57,8 @@ function Modal() {
 				return <ViewPhoto />;
 			case 'share':
 				return <Share />;
+			case 'delete-yoyos':
+				return <DeleteYoyos />;
 			default:
 				return <div>Modal</div>;
 		}

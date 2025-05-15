@@ -37,10 +37,28 @@ function ProfileSettings() {
 		setUser,
 	} = useAppContext();
 
+	const {
+		first_name,
+		last_name,
+		handle,
+		favorite_yoyo,
+		favorite_brand,
+		country,
+		state,
+		city,
+		description,
+		privacy,
+	} = user;
+
 	// Effects
 	useEffect(() => {}, [error]);
 	useEffect(() => {
-		if (!user) return;
+		if (
+			!user ||
+			!profileSettingsFormData ||
+			Object.keys(profileSettingsFormData).length === 0
+		)
+			return;
 
 		setDirty(
 			profileSettingsFormData.first !== first_name ||
@@ -60,19 +78,6 @@ function ProfileSettings() {
 
 	// User Checked
 	if (!user || !profileSettingsFormData) return null;
-
-	const {
-		first_name,
-		last_name,
-		handle,
-		favorite_yoyo,
-		favorite_brand,
-		country,
-		state,
-		city,
-		description,
-		privacy,
-	} = user;
 
 	const inputsArr = ['first', 'last', 'handle', 'yoyo', 'brand'];
 
@@ -185,7 +190,7 @@ function ProfileSettings() {
 		} catch (error) {
 			console.log(
 				'There was an error submitting profileSettings in components/settingsConsole/profileSettings.jsx: ',
-				error.message
+				error
 			);
 			return;
 		} finally {
