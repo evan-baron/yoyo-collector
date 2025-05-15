@@ -42,7 +42,6 @@ function Collection() {
 		dirtyType,
 		editing,
 		editingYoyos,
-		setEditingYoyos,
 		error,
 		loading,
 		newCollectionCounter,
@@ -53,6 +52,7 @@ function Collection() {
 		setDirty,
 		setDirtyType,
 		setEditing,
+		setEditingYoyos,
 		setError,
 		setModalOpen,
 		setModalType,
@@ -69,6 +69,12 @@ function Collection() {
 	const [photos, setPhotos] = useState([]);
 	const [yoyos, setYoyos] = useState([]);
 	const [hover, setHover] = useState(false);
+
+	// Resets editing state on page load
+	useEffect(() => {
+		setEditing(false);
+		setEditingYoyos(false);
+	}, []);
 
 	useEffect(() => {
 		if (!collectionId) return;
@@ -241,6 +247,8 @@ function Collection() {
 				setDirty(false);
 				setDirtyType(null);
 				setNewCollectionCounter((prev) => prev + 1);
+				setNewYoyoData(null);
+				setOriginalYoyoData(null);
 			}
 		}
 	};
