@@ -285,7 +285,7 @@ function YoyoTileInput({
 							className={styles.p}
 							onClick={(e) => {
 								e.stopPropagation();
-								setCurrentlyEditing(itemLabel);
+								setCurrentlyEditing(`${id}-${itemLabel}`);
 							}}
 						>
 							{value}

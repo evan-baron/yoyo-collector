@@ -109,7 +109,7 @@ function BlankEditableYoyoTile() {
 						<label className={styles.label} htmlFor='condition'>
 							About the yoyo:
 						</label>
-						<p>
+						<p style={{ height: '1.5rem' }}>
 							<Edit
 								sx={{
 									fontSize: '1.25rem',
