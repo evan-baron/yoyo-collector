@@ -38,17 +38,19 @@ const FullDetailYoyoTile = ({
 			onClick={handleSelect}
 		>
 			<div className={styles['image-box']}>
-				{photos.length > 0 && (
+				{photos?.length > 0 && (
 					<YoyoPhotoScroller optionsSize={'small'} photos={photos} />
 				)}
 				<div
 					className={`${styles.image} ${
-						photos.length > 0 ? styles.hidden : ''
+						photos?.length > 0 ? styles.hidden : ''
 					}`}
 				>
 					<BlankYoyoPhoto />
 				</div>
-				<div className={styles.likes}>
+				<div
+					className={`${styles.likes} ${photos?.length > 1 && styles.indented}`}
+				>
 					<Heart size='small' likes={likes} />
 					{likes > 0 && (
 						<>

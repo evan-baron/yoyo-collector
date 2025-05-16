@@ -314,7 +314,7 @@ function NewYoyoForm({
 		<>
 			<section className={styles['add-yoyo-form']}>
 				<div className={styles['picture-box']}>
-					{imagesToUpload.length > 0 && (
+					{imagesToUpload?.length > 0 && (
 						<div className={styles.arrow}>
 							<ArrowBackIosNew className={styles.icon} />
 						</div>
@@ -331,7 +331,7 @@ function NewYoyoForm({
 							setClearInputRef={setClearInputRef}
 						/>
 					</div>
-					{imagesToUpload.length > 0 && (
+					{imagesToUpload?.length > 0 && (
 						<div className={styles.arrow}>
 							<ArrowForwardIos className={styles.icon} />
 						</div>

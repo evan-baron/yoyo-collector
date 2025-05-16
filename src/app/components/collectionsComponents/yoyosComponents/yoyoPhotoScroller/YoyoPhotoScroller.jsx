@@ -1,7 +1,7 @@
 'use client';
 
 // Libraries
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Styles
 import styles from './yoyoPhotoScroller.module.scss';
@@ -17,6 +17,15 @@ function YoyoPhotoScroller({ optionsSize, photos }) {
 	const [displayPhoto, setDisplayPhoto] = useState(
 		mainIndex !== -1 ? mainIndex : 0
 	);
+
+	useEffect(() => {
+		if (photos.length === 0) return;
+
+		// Reset to 0 if displayPhoto is now out of bounds
+		if (displayPhoto >= photos.length) {
+			setDisplayPhoto(photos.length - 1);
+		}
+	}, [photos, displayPhoto]);
 
 	const handleChange = (e) => {
 		e.stopPropagation();
@@ -53,8 +62,18 @@ function YoyoPhotoScroller({ optionsSize, photos }) {
 				</div>
 			)}
 			<div className={styles['image-box']}>
-				<img src={photos[displayPhoto].secure_url} className={styles.image} />
-				<PhotoOptions optionsSize={optionsSize} photo={photos[displayPhoto]} />
+				{photos.length > 0 && photos[displayPhoto] && (
+					<>
+						<img
+							src={photos[displayPhoto].secure_url}
+							className={styles.image}
+						/>
+						<PhotoOptions
+							optionsSize={optionsSize}
+							photo={photos[displayPhoto]}
+						/>
+					</>
+				)}
 			</div>
 			{photos.length > 1 && (
 				<div

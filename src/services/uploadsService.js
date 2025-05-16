@@ -28,6 +28,19 @@ const deleteUploadsByCollectionId = async (userId, collectionId) => {
 	}
 };
 
+// Delete all uploads by yoyoId
+const deleteUploadsByYoyoId = async (userId, yoyoId) => {
+	try {
+		return await uploadsModel.deleteUploadsByYoyoId(userId, yoyoId);
+	} catch (error) {
+		console.error(
+			'Error deleting uploads in uploadsModel deleteUploadsByYoyoId',
+			error.message
+		);
+		throw error;
+	}
+};
+
 // Get all collection photos by collectionId
 const getAllCollectionPhotos = async (collectionId) => {
 	return await uploadsModel.getAllCollectionPhotos(collectionId);
@@ -170,6 +183,7 @@ const updateProfilePicture = async (
 export default {
 	deletePhoto,
 	deleteUploadsByCollectionId,
+	deleteUploadsByYoyoId,
 	getAllCollectionPhotos,
 	getAllCollectionPhotosByUserId,
 	getAllYoyoPhotos,

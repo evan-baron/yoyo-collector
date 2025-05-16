@@ -214,6 +214,7 @@ function YoyoTile({
 							setAdded={setAdded}
 							uploadError={uploadError}
 							setUploadError={setUploadError}
+							photos={photos}
 						/>
 					)}
 

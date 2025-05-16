@@ -10,6 +10,15 @@ const Uploads = {
 		return result;
 	},
 
+	// Delete all uploads by yoyoId
+	async deleteUploadsByYoyoId(userId, yoyoId) {
+		const [result] = await pool.execute(
+			`DELETE FROM user_uploads WHERE user_id = ? AND yoyo_id = ?`,
+			[userId, yoyoId]
+		);
+		return result;
+	},
+
 	// Delete photo by Id
 	async deletePhotoById(userId, photoId) {
 		const [result] = await pool.execute(

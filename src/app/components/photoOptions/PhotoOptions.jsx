@@ -30,7 +30,8 @@ function PhotoOptions({ optionsSize, photo }) {
 	const [changeModal, setChangeModal] = useState(false);
 	const [changeModalType, setChangeModalType] = useState(false);
 
-	async function handleSave() {
+	async function handleSave(e) {
+		e.stopPropagation();
 		if (changeModalType === 'yoyo') {
 			try {
 				await axiosInstance.patch('/api/user/yoyoPictures', {
@@ -76,12 +77,13 @@ function PhotoOptions({ optionsSize, photo }) {
 							: 'Delete photo?'}
 					</h3>
 					<div className={styles.buttons}>
-						<button className={styles.button} onClick={handleSave}>
+						<button className={styles.button} onClick={(e) => handleSave(e)}>
 							Yes
 						</button>
 						<button
 							className={styles.button}
-							onClick={() => {
+							onClick={(e) => {
+								e.stopPropagation();
 								setChangeModal((prev) => !prev);
 								setChangeModalType(null);
 							}}
@@ -138,7 +140,8 @@ function PhotoOptions({ optionsSize, photo }) {
 						<>
 							<div
 								className={styles.cover}
-								onClick={() => {
+								onClick={(e) => {
+									e.stopPropagation();
 									setChangeModal((prev) => !prev);
 									setChangeModalType('yoyo');
 								}}
@@ -147,7 +150,8 @@ function PhotoOptions({ optionsSize, photo }) {
 							</div>
 							<div
 								className={styles.cover}
-								onClick={() => {
+								onClick={(e) => {
+									e.stopPropagation();
 									setChangeModal((prev) => !prev);
 									setChangeModalType('delete');
 								}}

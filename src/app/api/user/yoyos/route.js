@@ -1,11 +1,19 @@
 import { NextResponse } from 'next/server';
+import { v2 as cloudinary } from 'cloudinary';
 import yoyosService from '@/services/yoyosService';
 import uploadsService from '@/services/uploadsService';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 import { cookies } from 'next/headers';
 import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 
-const { createYoyo, getYoyoById, updateYoyo, deleteYoyo } = yoyosService;
+const { createYoyo, updateYoyo, deleteYoyo } = yoyosService;
+const { deleteUploadsByYoyoId, getAllYoyoPhotos } = uploadsService;
+
+cloudinary.config({
+	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Validation
 //Constants
@@ -246,24 +254,21 @@ export async function DELETE(req, res) {
 
 		const { id } = await req.json();
 
+		const getYoyoPhotosResponse = await getAllYoyoPhotos(id);
+
+		const publicIds = getYoyoPhotosResponse.map((photo) => photo.public_id);
+
+		console.log(publicIds);
+
+		await Promise.all(publicIds.map((id) => cloudinary.uploader.destroy(id)));
+
+		const deleteUploadsResponse = await deleteUploadsByYoyoId(userId, id);
+
 		const deleteYoyoResponse = await deleteYoyo(id, userId);
-
-		// const getAllCollectionPhotosResponse = await getAllCollectionPhotosByUserId(
-		// 	userId,
-		// 	id
-		// );
-
-		// const publicIds = getAllCollectionPhotosResponse.map(
-		// 	(photo) => photo.public_id
-		// );
-
-		// await Promise.all(publicIds.map((id) => cloudinary.uploader.destroy(id)));
-
-		// const deleteUploadsResponse = await deleteUploadsByCollectionId(userId, id);
 
 		const response = {
 			yoyo: deleteYoyoResponse,
-			// uploads: deleteUploadsResponse,
+			uploads: deleteUploadsResponse,
 		};
 
 		await validateAndExtendSession(
