@@ -1,5 +1,6 @@
 .photo-scroller {
 	display: flex;
+	border-radius: 0.25rem;
 
 	.arrow {
 		width: 2rem;
@@ -22,19 +23,22 @@
 	}
 
 	.image-box {
-		min-width: 15.25rem;
+		width: 15.25rem;
+		height: 15.25rem;
+
 		position: relative;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		gap: 0.25rem;
+		padding: 1rem;
+		background-color: var(--darkerGray);
+		border-radius: 0.5rem;
 
 		.image {
-			width: 15.25rem;
-			height: 15.25rem;
-			border-radius: 0.5rem;
-			padding: 1rem;
-			background-color: var(--darkerGray);
+			width: 100%;
+			height: 100%;
+			border-radius: 0.25rem;
 			object-fit: cover;
 		}
 	}

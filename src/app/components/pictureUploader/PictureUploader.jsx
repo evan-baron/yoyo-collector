@@ -32,9 +32,12 @@ function PictureUploader({
 	editing,
 	setAdded,
 	setUploadError,
+	newYoyoForm,
 }) {
 	// Context
 	const {
+		formImagesToUpload,
+		setFormImagesToUpload,
 		imagesToUpload,
 		setImagesToUpload,
 		loading,
@@ -117,6 +120,8 @@ function PictureUploader({
 	const handleUpload = async (e) => {
 		setError(null);
 
+		console.log(newYoyoForm);
+
 		const files = Array.from(e.target.files);
 
 		if (!files.length) return;
@@ -158,7 +163,8 @@ function PictureUploader({
 			setPreviewUrl(URL.createObjectURL(file));
 
 			return;
-		} else if (uploadType === 'yoyo' && !selectedYoyo) {
+		} else if (uploadType === 'yoyo' && newYoyoForm) {
+			console.log("we're inside the upload now");
 			if (!validFiles.length && files.length === 1) {
 				setUploadError('File must not exceed 4MB');
 				return;
@@ -169,7 +175,8 @@ function PictureUploader({
 				setUploadError('Some files were larger than 4MB and were skipped.');
 			}
 
-			setImagesToUpload(validFiles);
+			setFormImagesToUpload(validFiles);
+			setPreviewUrl(URL.createObjectURL(validFiles[0]));
 			return;
 		} else {
 			if (uploadType === 'yoyo') {
@@ -341,7 +348,13 @@ function PictureUploader({
 					htmlFor={input}
 					className={`
 						${styles.placeholder} 
-						${uploadType === 'profile' ? styles.circle : styles.square} 
+						${
+							uploadType === 'profile'
+								? styles.circle
+								: newYoyoForm
+								? styles['small-square']
+								: styles.square
+						} 
 						${editing && !picture && styles.glowing} 
 						${uploadType === 'collection' && styles.collection}
 					`}
@@ -359,18 +372,30 @@ function PictureUploader({
 						onChange={handleUpload}
 						disabled={loading}
 						className={`${styles.input} ${
-							uploadType === 'profile' ? styles.circle : styles.square
+							uploadType === 'profile'
+								? styles.circle
+								: newYoyoForm
+								? styles['small-square']
+								: styles.square
 						}`}
 					/>
 					{uploadType !== 'collection' && uploadType !== 'yoyo' && (
 						<div
 							className={`${styles.options} ${
-								uploadType === 'profile' ? styles.circle : styles.square
+								uploadType === 'profile'
+									? styles.circle
+									: newYoyoForm
+									? styles['small-square']
+									: styles.square
 							}`}
 						>
 							<div
 								className={`${styles.update} ${
-									uploadType === 'profile' ? styles.circle : styles.square
+									uploadType === 'profile'
+										? styles.circle
+										: newYoyoForm
+										? styles['small-square']
+										: styles.square
 								}`}
 								style={{
 									fontSize:
@@ -389,7 +414,11 @@ function PictureUploader({
 							src={previewUrl}
 							alt='Preview profile picture'
 							className={`${styles.image} ${
-								uploadType === 'profile' ? styles.circle : styles.square
+								uploadType === 'profile'
+									? styles.circle
+									: newYoyoForm
+									? styles['small-square']
+									: styles.square
 							}`}
 						/>
 					) : picture && !updatingPicture ? (
@@ -397,7 +426,11 @@ function PictureUploader({
 							src={picture}
 							alt='Current profile picture'
 							className={`${styles.image} ${
-								uploadType === 'profile' ? styles.circle : styles.square
+								uploadType === 'profile'
+									? styles.circle
+									: newYoyoForm
+									? styles['small-square']
+									: styles.square
 							}`}
 						/>
 					) : uploadType === 'profile' ? (
@@ -413,7 +446,11 @@ function PictureUploader({
 				{remove && (
 					<div
 						className={`${styles['remove-container']} ${
-							uploadType === 'profile' ? styles.circle : styles.square
+							uploadType === 'profile'
+								? styles.circle
+								: newYoyoForm
+								? styles['small-square']
+								: styles.square
 						}`}
 					>
 						<div className={styles.remove}>

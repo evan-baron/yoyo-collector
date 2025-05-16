@@ -21,6 +21,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [emailVerified, setEmailVerified] = useState(false);
 	const [error, setError] = useState(null);
 	const [imagesToUpload, setImagesToUpload] = useState([]);
+	const [formImagesToUpload, setFormImagesToUpload] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalType, setModalType] = useState(null);
@@ -282,6 +283,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				editingYoyos,
 				emailVerified,
 				error,
+				formImagesToUpload,
 				imagesToUpload,
 				profileSettingsFormData,
 				loading,
@@ -309,6 +311,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setEditingYoyos,
 				setEmailVerified,
 				setError,
+				setFormImagesToUpload,
 				setImagesToUpload,
 				setNewCollectionCounter,
 				setNewCollectionData,

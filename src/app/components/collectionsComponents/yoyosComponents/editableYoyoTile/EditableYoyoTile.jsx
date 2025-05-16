@@ -293,9 +293,9 @@ function EditableYoyoTile({
 				>
 					<PictureUploader
 						collection={collectionId}
-						key='yoyo'
+						key='editYoyoTileYoyoInput'
 						uploadType='yoyo'
-						input='yoyoInput'
+						input='editYoyoTileYoyoInput'
 						setAdded={setAdded}
 						setUploadError={setUploadError}
 						clearInputRef={clearInputRef}
@@ -380,7 +380,7 @@ function EditableYoyoTile({
 								}
 							})}
 							<div className={styles['photo-input']}>
-								<label htmlFor='yoyoInput' className={styles.label}>
+								<label htmlFor='editYoyoTileYoyoInput' className={styles.label}>
 									Add Photos
 								</label>
 							</div>

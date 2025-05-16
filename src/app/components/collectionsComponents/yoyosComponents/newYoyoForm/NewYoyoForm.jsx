@@ -322,13 +322,14 @@ function NewYoyoForm({
 					<div className={styles['image-box']}>
 						<PictureUploader
 							collection={collectionId}
-							key='yoyo'
+							key='addYoyoFormYoyoInput'
 							uploadType='yoyo'
-							input='yoyoInput'
+							input='addYoyoFormYoyoInput'
 							setAdded={setAdded}
 							setUploadError={setUploadError}
 							clearInputRef={clearInputRef}
 							setClearInputRef={setClearInputRef}
+							newYoyoForm={true}
 						/>
 					</div>
 					{imagesToUpload?.length > 0 && (
@@ -395,7 +396,10 @@ function NewYoyoForm({
 											)}
 										</div>
 										<div className={styles['photo-input']}>
-											<label htmlFor='yoyoInput' className={styles.label}>
+											<label
+												htmlFor='addYoyoFormYoyoInput'
+												className={styles.label}
+											>
 												Add Photos
 											</label>
 										</div>
