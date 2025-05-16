@@ -1,0 +1,38 @@
+.photo-scroller {
+	display: flex;
+
+	.arrow {
+		width: 2rem;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--lightestGray);
+		opacity: 0.5;
+
+		cursor: pointer;
+
+		&:hover {
+			opacity: 1;
+		}
+
+		.icon {
+			font-size: 1.5rem;
+		}
+	}
+
+	.image-box {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+
+		.image {
+			width: 15.25rem;
+			height: 15.25rem;
+			border-radius: 0.5rem;
+			padding: 1rem;
+			background-color: var(--darkerGray);
+			object-fit: cover;
+		}
+	}
+}

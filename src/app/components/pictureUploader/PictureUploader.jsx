@@ -229,6 +229,7 @@ function PictureUploader({
 				setLoading(false);
 				setImagesToUpload(null);
 				setUpdatingPicture(false);
+				setClearInputRef(true);
 			}
 			return;
 		}

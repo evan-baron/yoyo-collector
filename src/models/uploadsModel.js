@@ -41,7 +41,7 @@ const Uploads = {
 	// Get all collection photos by collectionId
 	async getAllCollectionPhotos(collectionId) {
 		const [rows] = await pool.execute(
-			`SELECT * FROM user_uploads WHERE collection_id = ? AND (upload_category = 'cover' OR upload_category = 'collection')`,
+			`SELECT * FROM user_uploads WHERE collection_id = ? AND (upload_category = 'cover' OR upload_category = 'collection' OR upload_category = 'yoyo')`,
 			[collectionId]
 		);
 		return rows;

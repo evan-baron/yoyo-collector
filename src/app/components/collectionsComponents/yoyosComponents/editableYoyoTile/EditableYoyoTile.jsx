@@ -13,12 +13,11 @@ import styles from './editableYoyoTile.module.scss';
 import { Edit, Check, Close, Undo } from '@mui/icons-material';
 
 // Components
-import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 import Heart from '@/app/components/icons/heart/Heart';
 import YoyoTileInput from '../yoyoTileInput/YoyoTileInput';
-import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
 import BlankEditableYoyoTile from '../blankEditableYoyoTile/BlankEditableYoyoTile';
 import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
+import YoyoPhotoScroller from '../yoyoPhotoScroller/YoyoPhotoScroller';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -254,11 +253,22 @@ function EditableYoyoTile({
 		}));
 	};
 
-	const handleUndo = (item) => {
+	const handleUndo = (item, name) => {
+		console.log(inputs[item]);
+
 		setNewYoyoData((prev) => ({
 			...prev,
 			[item]: originalYoyoData[item],
 		}));
+
+		!inputs[item].error.valid &&
+			setInputs((prev) => ({
+				...prev,
+				[item]: {
+					...prev[item],
+					error: { valid: true, message: '' },
+				},
+			}));
 	};
 
 	const loadingComplete = useMemo(() => {
@@ -275,7 +285,11 @@ function EditableYoyoTile({
 	return (
 		<div className={styles.tile}>
 			<div className={styles['image-box']}>
-				<div className={styles.image} onClick={() => console.log(yoyoData)}>
+				<YoyoPhotoScroller photos={photos} />
+				<div
+					className={styles.image}
+					style={{ display: photos.length > 0 && 'none' }}
+				>
 					<PictureUploader
 						collection={collectionId}
 						key='yoyo'
@@ -287,14 +301,14 @@ function EditableYoyoTile({
 						setClearInputRef={setClearInputRef}
 					/>
 				</div>
-				<div className={styles.likes}>
+				{/* <div className={styles.likes}>
 					<Heart size='small' likes={likes} />
 					{likes > 0 && (
 						<>
 							{likes} {likes && likes === 1 ? 'like' : 'likes'}
 						</>
 					)}
-				</div>
+				</div> */}
 			</div>
 			<div className={styles['content-box']}>
 				<div className={styles.details}>
