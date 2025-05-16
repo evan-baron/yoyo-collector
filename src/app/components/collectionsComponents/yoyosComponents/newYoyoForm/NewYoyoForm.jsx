@@ -37,7 +37,6 @@ function NewYoyoForm({
 		formImagesToUpload,
 		setFormImagesToUpload,
 		setNewCollectionCounter,
-		clearInputRef,
 		setClearInputRef,
 		setPreviewUrls,
 	} = useAppContext();
