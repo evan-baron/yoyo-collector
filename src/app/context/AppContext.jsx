@@ -12,6 +12,7 @@ const AppContext = createContext(null);
 
 // Create the context provider component
 export const ContextProvider = ({ children, initialUser = null }) => {
+	const [clearInputRef, setClearInputRef] = useState(null);
 	const [collectionToDelete, setCollectionToDelete] = useState(null);
 	const [currentlyEditing, setCurrentlyEditing] = useState(null);
 	const [dirty, setDirty] = useState(false);
@@ -275,6 +276,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	return (
 		<AppContext.Provider
 			value={{
+				clearInputRef,
 				collectionToDelete,
 				currentlyEditing,
 				dirty,
@@ -303,6 +305,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				tokenValid,
 				user,
 				viewPhoto,
+				setClearInputRef,
 				setCollectionToDelete,
 				setCurrentlyEditing,
 				setDirty,

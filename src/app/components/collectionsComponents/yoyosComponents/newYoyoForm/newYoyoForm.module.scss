@@ -14,13 +14,18 @@
 		border-radius: 0.5rem;
 
 		.image-box {
-			width: 15.25rem;
 			height: 15.25rem;
+			width: 15.25rem;
 
 			border-radius: 0.5rem;
 			padding: 1rem;
 			background-color: var(--darkerGray);
 			box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.75);
+
+			&.multi-yoyo {
+				display: flex;
+				width: 17.25rem;
+			}
 		}
 
 		.arrow {

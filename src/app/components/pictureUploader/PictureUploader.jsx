@@ -11,7 +11,13 @@ import axiosInstance from '@/lib/utils/axios';
 import styles from './pictureUploader.module.scss';
 
 // MUI
-import { FileUpload, Undo } from '@mui/icons-material';
+import {
+	FileUpload,
+	Undo,
+	ArrowBackIosNew,
+	ArrowForwardIos,
+	Close,
+} from '@mui/icons-material';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -25,8 +31,6 @@ function PictureUploader({
 	input,
 	uploadType,
 	defaultUrl,
-	clearInputRef,
-	setClearInputRef,
 	collection,
 	setCoverPhoto,
 	editing,
@@ -36,6 +40,8 @@ function PictureUploader({
 }) {
 	// Context
 	const {
+		clearInputRef,
+		setClearInputRef,
 		formImagesToUpload,
 		setFormImagesToUpload,
 		imagesToUpload,
@@ -53,6 +59,9 @@ function PictureUploader({
 
 	// State to hold the uploaded image URL
 	const [previewUrl, setPreviewUrl] = useState();
+	const [previewUrls, setPreviewUrls] = useState();
+	const [previewIndex, setPreviewIndex] = useState(0);
+	const [hover, setHover] = useState(false);
 	const [uploadAction, setUploadAction] = useState(null);
 	const [error, setError] = useState(null);
 	const [remove, setRemove] = useState(false);
@@ -175,8 +184,9 @@ function PictureUploader({
 				setUploadError('Some files were larger than 4MB and were skipped.');
 			}
 
-			setFormImagesToUpload(validFiles);
-			setPreviewUrl(URL.createObjectURL(validFiles[0]));
+			setFormImagesToUpload([...formImagesToUpload, ...validFiles]);
+			setPreviewUrls([...previewUrls, ...validFiles]);
+			setClearInputRef(true);
 			return;
 		} else {
 			if (uploadType === 'yoyo') {
@@ -343,10 +353,82 @@ function PictureUploader({
 
 	return (
 		<div className={styles.container}>
-			<div className={styles['picture-container']}>
-				<label
-					htmlFor={input}
-					className={`
+			<div
+				className={`${styles['picture-container']} ${
+					formImagesToUpload?.length > 1 && styles['yoyo-upload']
+				}`}
+			>
+				{formImagesToUpload?.length > 0 ? (
+					<div className={styles['yoyo-upload']}>
+						{formImagesToUpload?.length > 1 && (
+							<div
+								className={styles.arrow}
+								onClick={() => {
+									if (previewIndex === 0) {
+										setPreviewIndex(previewUrls.length - 1);
+									} else {
+										setPreviewIndex((prev) => prev - 1);
+									}
+									return;
+								}}
+							>
+								<ArrowBackIosNew className={styles.icon} />
+							</div>
+						)}
+						<input
+							name={input}
+							id={input}
+							type='file'
+							multiple={uploadType !== 'profile' && uploadType !== 'cover'}
+							ref={fileInputRef}
+							accept='image/*'
+							onChange={handleUpload}
+							disabled={loading}
+							className={styles.input}
+						/>
+						<img
+							src={URL.createObjectURL(previewUrls[previewIndex])}
+							alt='Preview profile picture'
+							className={styles.image}
+							onMouseOver={() => setHover(true)}
+							onMouseOut={() => setHover(false)}
+						/>
+						<div
+							className={`${styles.close} ${hover && styles.hover}`}
+							onClick={() => {
+								setFormImagesToUpload(
+									formImagesToUpload.filter(
+										(_, index) => index !== previewIndex
+									)
+								);
+								setPreviewUrls(
+									previewUrls.filter((_, index) => index !== previewIndex)
+								);
+								setPreviewIndex(0);
+							}}
+						>
+							<Close className={styles['close-icon']} />
+						</div>
+						{formImagesToUpload?.length > 1 && (
+							<div
+								className={styles.arrow}
+								onClick={() => {
+									if (previewIndex === previewUrls.length - 1) {
+										setPreviewIndex(0);
+									} else {
+										setPreviewIndex((prev) => prev + 1);
+									}
+									return;
+								}}
+							>
+								<ArrowForwardIos className={styles.icon} />
+							</div>
+						)}
+					</div>
+				) : (
+					<label
+						htmlFor={input}
+						className={`
 						${styles.placeholder} 
 						${
 							uploadType === 'profile'
@@ -358,91 +440,92 @@ function PictureUploader({
 						${editing && !picture && styles.glowing} 
 						${uploadType === 'collection' && styles.collection}
 					`}
-					style={{
-						boxShadow: uploadType === 'cover' && '0.25rem 0.25rem 1rem black',
-					}}
-				>
-					<input
-						name={input}
-						id={input}
-						type='file'
-						multiple={uploadType !== 'profile' && uploadType !== 'cover'}
-						ref={fileInputRef}
-						accept='image/*'
-						onChange={handleUpload}
-						disabled={loading}
-						className={`${styles.input} ${
-							uploadType === 'profile'
-								? styles.circle
-								: newYoyoForm
-								? styles['small-square']
-								: styles.square
-						}`}
-					/>
-					{uploadType !== 'collection' && uploadType !== 'yoyo' && (
-						<div
-							className={`${styles.options} ${
+						style={{
+							boxShadow: uploadType === 'cover' && '0.25rem 0.25rem 1rem black',
+						}}
+					>
+						<input
+							name={input}
+							id={input}
+							type='file'
+							multiple={uploadType !== 'profile' && uploadType !== 'cover'}
+							ref={fileInputRef}
+							accept='image/*'
+							onChange={handleUpload}
+							disabled={loading}
+							className={`${styles.input} ${
 								uploadType === 'profile'
 									? styles.circle
 									: newYoyoForm
 									? styles['small-square']
 									: styles.square
 							}`}
-						>
+						/>
+						{uploadType !== 'collection' && uploadType !== 'yoyo' && (
 							<div
-								className={`${styles.update} ${
+								className={`${styles.options} ${
 									uploadType === 'profile'
 										? styles.circle
 										: newYoyoForm
 										? styles['small-square']
 										: styles.square
 								}`}
-								style={{
-									fontSize:
-										uploadType === 'collection' || uploadType === 'profile'
-											? '2rem'
-											: '2.5rem',
-								}}
 							>
-								<FileUpload className={styles.upload} />
-								{picture || previewUrl ? 'Change' : 'Upload Photo'}
+								<div
+									className={`${styles.update} ${
+										uploadType === 'profile'
+											? styles.circle
+											: newYoyoForm
+											? styles['small-square']
+											: styles.square
+									}`}
+									style={{
+										fontSize:
+											uploadType === 'collection' || uploadType === 'profile'
+												? '2rem'
+												: '2.5rem',
+									}}
+								>
+									<FileUpload className={styles.upload} />
+									{picture || previewUrl ? 'Change' : 'Upload Photo'}
+								</div>
 							</div>
-						</div>
-					)}
-					{previewUrl ? (
-						<img
-							src={previewUrl}
-							alt='Preview profile picture'
-							className={`${styles.image} ${
-								uploadType === 'profile'
-									? styles.circle
-									: newYoyoForm
-									? styles['small-square']
-									: styles.square
-							}`}
-						/>
-					) : picture && !updatingPicture ? (
-						<img
-							src={picture}
-							alt='Current profile picture'
-							className={`${styles.image} ${
-								uploadType === 'profile'
-									? styles.circle
-									: newYoyoForm
-									? styles['small-square']
-									: styles.square
-							}`}
-						/>
-					) : uploadType === 'profile' ? (
-						<BlankProfilePhoto />
-					) : uploadType === 'cover' ? (
-						<BlankCoverPhoto />
-					) : uploadType === 'yoyo' ? (
-						<BlankYoyoPhoto />
-					) : (
-						<div className={styles.new}></div>
-					)}
-				</label>
+						)}
+						{previewUrl ? (
+							<img
+								src={previewUrl}
+								alt='Preview profile picture'
+								className={`${styles.image} ${
+									uploadType === 'profile'
+										? styles.circle
+										: newYoyoForm
+										? styles['small-square']
+										: styles.square
+								}`}
+							/>
+						) : picture && !updatingPicture ? (
+							<img
+								src={picture}
+								alt='Current profile picture'
+								className={`${styles.image} ${
+									uploadType === 'profile'
+										? styles.circle
+										: newYoyoForm
+										? styles['small-square']
+										: styles.square
+								}`}
+							/>
+						) : uploadType === 'profile' ? (
+							<BlankProfilePhoto />
+						) : uploadType === 'cover' ? (
+							<BlankCoverPhoto />
+						) : uploadType === 'yoyo' ? (
+							<BlankYoyoPhoto />
+						) : (
+							<div className={styles.new}></div>
+						)}
+					</label>
+				)}
 				{remove && (
 					<div
 						className={`${styles['remove-container']} ${

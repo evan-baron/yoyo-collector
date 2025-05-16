@@ -53,13 +53,6 @@ export async function POST(req, res) {
 		} = await req.json();
 
 		const response = await getCollectionById(collectionId);
-		console.log(
-			'from collectionpictures route line 56',
-			'category:',
-			category,
-			'uploadAction:',
-			uploadAction
-		);
 
 		if (userId !== response.collectionData.user_id)
 			return NextResponse.json(

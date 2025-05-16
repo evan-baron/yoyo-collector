@@ -32,10 +32,12 @@ function EditableYoyoTile({
 	setUploadError,
 }) {
 	const {
+		clearInputRef,
 		dirty,
 		error,
 		originalYoyoData,
 		newYoyoData,
+		setClearInputRef,
 		setDirty,
 		setDirtyType,
 		setError,
@@ -50,7 +52,6 @@ function EditableYoyoTile({
 	const [inputs, setInputs] = useState();
 	const [editCondition, setEditCondition] = useState();
 	const [currentlyEditing, setCurrentlyEditing] = useState(null);
-	const [clearInputRef, setClearInputRef] = useState(null);
 
 	const {
 		id,
@@ -298,8 +299,6 @@ function EditableYoyoTile({
 						input='editYoyoTileYoyoInput'
 						setAdded={setAdded}
 						setUploadError={setUploadError}
-						clearInputRef={clearInputRef}
-						setClearInputRef={setClearInputRef}
 					/>
 				</div>
 			</div>

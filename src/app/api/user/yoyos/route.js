@@ -7,7 +7,7 @@ import { cookies } from 'next/headers';
 import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 
 const { createYoyo, updateYoyo, deleteYoyo } = yoyosService;
-const { deleteUploadsByYoyoId, getAllYoyoPhotos } = uploadsService;
+const { uploadPhoto, deleteUploadsByYoyoId, getAllYoyoPhotos } = uploadsService;
 
 cloudinary.config({
 	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -98,7 +98,7 @@ export async function POST(req, res) {
 			throw new Error('Token no longer valid');
 		}
 
-		const yoyoData = await req.json();
+		const { yoyoData, yoyoPhotos } = await req.json();
 
 		const { trimmedData, failed } = trimAndValidate(yoyoData);
 
@@ -151,8 +151,36 @@ export async function POST(req, res) {
 			year
 		);
 
-		// Eventually figure out how to connect uploading images while inserting yoyo into db...
-		console.log(response.data);
+		if (Array.isArray(yoyoPhotos) && yoyoPhotos.length > 0) {
+			await Promise.all(
+				yoyoPhotos.map(async (file) => {
+					const {
+						public_id,
+						secure_url,
+						format,
+						resource_type,
+						bytes,
+						height,
+						width,
+						category,
+					} = file;
+
+					await uploadPhoto(
+						userId,
+						public_id,
+						secure_url,
+						format,
+						resource_type,
+						bytes,
+						height,
+						width,
+						category,
+						collectionId,
+						response
+					);
+				})
+			);
+		}
 
 		await validateAndExtendSession('api/user/yoyos/route.js POST');
 

@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 // Utils
+import axios from 'axios';
 import axiosInstance from '@/lib/utils/axios';
 
 // Styles
@@ -34,12 +35,16 @@ function NewYoyoForm({
 	uploadError,
 	setUploadError,
 }) {
-	const { imagesToUpload, setImagesToUpload, setNewCollectionCounter } =
-		useAppContext();
+	const {
+		formImagesToUpload,
+		setFormImagesToUpload,
+		setNewCollectionCounter,
+		clearInputRef,
+		setClearInputRef,
+	} = useAppContext();
 
 	const [more, setMore] = useState(null);
 	const [animate, setAnimate] = useState(false);
-	const [clearInputRef, setClearInputRef] = useState(null);
 	const [error, setError] = useState({
 		model: {
 			valid: true,
@@ -215,6 +220,8 @@ function NewYoyoForm({
 		});
 		more && setMore(false);
 		setAddYoyo(false);
+		setFormImagesToUpload(null);
+		setClearInputRef(true);
 	};
 
 	const noSpecialsTest = (param) => /^[a-zA-Z0-9 \-./!']+$/.test(param);
@@ -275,7 +282,35 @@ function NewYoyoForm({
 		}
 
 		try {
-			await axiosInstance.post('/api/user/yoyos', trimmedData);
+			if (formImagesToUpload?.length > 0) {
+				const imagesToUpload = await Promise.all(
+					formImagesToUpload.map(async (file) => {
+						const formData = new FormData();
+						formData.append('file', file);
+						formData.append(
+							'upload_preset',
+							process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET_YOYO
+						);
+
+						const { data } = await axios.post(
+							'https://api.cloudinary.com/v1_1/ddbotvjio/image/upload',
+							formData
+						);
+
+						data.category = 'yoyo';
+						data.uploadAction = 'new';
+
+						return data;
+					})
+				);
+
+				await axiosInstance.post('/api/user/yoyos', {
+					yoyoData: trimmedData,
+					yoyoPhotos: imagesToUpload,
+				});
+			} else {
+				await axiosInstance.post('/api/user/yoyos', { yoyoData: trimmedData });
+			}
 		} catch (error) {
 			console.error(
 				'There was an error saving the yoyo at NewYoyoForm.jsx',
@@ -307,6 +342,8 @@ function NewYoyoForm({
 			}
 
 			setNewCollectionCounter((prev) => prev + 1);
+			setFormImagesToUpload(null);
+			setClearInputRef(true);
 		}
 	};
 
@@ -314,12 +351,11 @@ function NewYoyoForm({
 		<>
 			<section className={styles['add-yoyo-form']}>
 				<div className={styles['picture-box']}>
-					{imagesToUpload?.length > 0 && (
-						<div className={styles.arrow}>
-							<ArrowBackIosNew className={styles.icon} />
-						</div>
-					)}
-					<div className={styles['image-box']}>
+					<div
+						className={`${styles['image-box']} ${
+							formImagesToUpload?.length > 1 && styles['multi-yoyo']
+						}`}
+					>
 						<PictureUploader
 							collection={collectionId}
 							key='addYoyoFormYoyoInput'
@@ -327,16 +363,9 @@ function NewYoyoForm({
 							input='addYoyoFormYoyoInput'
 							setAdded={setAdded}
 							setUploadError={setUploadError}
-							clearInputRef={clearInputRef}
-							setClearInputRef={setClearInputRef}
 							newYoyoForm={true}
 						/>
 					</div>
-					{imagesToUpload?.length > 0 && (
-						<div className={styles.arrow}>
-							<ArrowForwardIos className={styles.icon} />
-						</div>
-					)}
 				</div>
 				<div className={styles['form-container']}>
 					<div className={styles.add}>Add Yoyo</div>
@@ -636,7 +665,7 @@ function NewYoyoForm({
 												uploadError !==
 												'Some files were larger than 4MB and were skipped.'
 											) {
-												setImagesToUpload(null);
+												setFormImagesToUpload(null);
 												setClearInputRef(true);
 											}
 										}}
