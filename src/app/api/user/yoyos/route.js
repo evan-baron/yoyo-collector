@@ -258,8 +258,6 @@ export async function DELETE(req, res) {
 
 		const publicIds = getYoyoPhotosResponse.map((photo) => photo.public_id);
 
-		console.log(publicIds);
-
 		await Promise.all(publicIds.map((id) => cloudinary.uploader.destroy(id)));
 
 		const deleteUploadsResponse = await deleteUploadsByYoyoId(userId, id);
