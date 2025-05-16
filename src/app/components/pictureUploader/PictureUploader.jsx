@@ -34,7 +34,6 @@ function PictureUploader({
 	collection,
 	setCoverPhoto,
 	editing,
-	setAdded,
 	setUploadError,
 	newYoyoForm,
 }) {

@@ -28,8 +28,6 @@ function NewYoyoForm({
 	yoyoData,
 	setYoyoData,
 	setAddYoyo,
-	added,
-	setAdded,
 	uploadError,
 	setUploadError,
 }) {
@@ -360,7 +358,6 @@ function NewYoyoForm({
 							key='addYoyoFormYoyoInput'
 							uploadType='yoyo'
 							input='addYoyoFormYoyoInput'
-							setAdded={setAdded}
 							setUploadError={setUploadError}
 							newYoyoForm={true}
 						/>
