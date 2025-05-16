@@ -66,6 +66,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 		value: '',
 	});
 	const [pendingRoute, setPendingRoute] = useState(null);
+	const [previewUrls, setPreviewUrls] = useState([]);
 	const [profileSettingsFormData, setProfileSettingsFormData] = useState({
 		first: '',
 		last: '',
@@ -297,6 +298,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				originalCollectionData,
 				originalYoyoData,
 				pendingRoute,
+				previewUrls,
 				resendEmail,
 				selectedYoyo,
 				selectedYoyos,
@@ -321,6 +323,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setNewYoyoData,
 				setOriginalCollectionData,
 				setOriginalYoyoData,
+				setPreviewUrls,
 				setProfileSettingsFormData,
 				setLoading,
 				setModalOpen,

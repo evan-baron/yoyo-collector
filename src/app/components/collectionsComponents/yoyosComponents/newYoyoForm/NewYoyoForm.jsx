@@ -41,6 +41,7 @@ function NewYoyoForm({
 		setNewCollectionCounter,
 		clearInputRef,
 		setClearInputRef,
+		setPreviewUrls,
 	} = useAppContext();
 
 	const [more, setMore] = useState(null);
@@ -342,7 +343,8 @@ function NewYoyoForm({
 			}
 
 			setNewCollectionCounter((prev) => prev + 1);
-			setFormImagesToUpload(null);
+			setFormImagesToUpload([]);
+			setPreviewUrls([]);
 			setClearInputRef(true);
 		}
 	};
@@ -428,9 +430,10 @@ function NewYoyoForm({
 											<label
 												htmlFor='addYoyoFormYoyoInput'
 												className={styles.label}
-												disabled={formImagesToUpload.length > 9}
+												disabled={formImagesToUpload?.length > 9}
 											>
-												Add Photos
+												Add {formImagesToUpload?.length > 0 ? 'More' : ''}{' '}
+												Photos
 											</label>
 										</div>
 									</div>

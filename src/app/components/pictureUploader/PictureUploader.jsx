@@ -40,6 +40,8 @@ function PictureUploader({
 }) {
 	// Context
 	const {
+		previewUrls,
+		setPreviewUrls,
 		clearInputRef,
 		setClearInputRef,
 		formImagesToUpload,
@@ -59,7 +61,6 @@ function PictureUploader({
 
 	// State to hold the uploaded image URL
 	const [previewUrl, setPreviewUrl] = useState();
-	const [previewUrls, setPreviewUrls] = useState();
 	const [previewIndex, setPreviewIndex] = useState(0);
 	const [hover, setHover] = useState(false);
 	const [uploadAction, setUploadAction] = useState(null);
@@ -184,8 +185,8 @@ function PictureUploader({
 				setUploadError('Some files were larger than 4MB and were skipped.');
 			}
 
-			setFormImagesToUpload([...formImagesToUpload, ...validFiles]);
-			setPreviewUrls([...previewUrls, ...validFiles]);
+			setFormImagesToUpload((prev) => [...prev, ...validFiles]);
+			setPreviewUrls((prev) => [...prev, ...validFiles]);
 			setClearInputRef(true);
 			return;
 		} else {
