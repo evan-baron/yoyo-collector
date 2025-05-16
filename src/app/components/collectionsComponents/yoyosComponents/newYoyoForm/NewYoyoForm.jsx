@@ -428,6 +428,7 @@ function NewYoyoForm({
 											<label
 												htmlFor='addYoyoFormYoyoInput'
 												className={styles.label}
+												disabled={formImagesToUpload.length > 9}
 											>
 												Add Photos
 											</label>
