@@ -285,10 +285,11 @@ function EditableYoyoTile({
 	return (
 		<div className={styles.tile}>
 			<div className={styles['image-box']}>
-				<YoyoPhotoScroller photos={photos} />
+				{photos.length > 0 && <YoyoPhotoScroller photos={photos} />}
 				<div
-					className={styles.image}
-					style={{ display: photos.length > 0 && 'none' }}
+					className={`${styles.image} ${
+						photos.length > 0 ? styles.hidden : ''
+					}`}
 				>
 					<PictureUploader
 						collection={collectionId}
@@ -301,14 +302,6 @@ function EditableYoyoTile({
 						setClearInputRef={setClearInputRef}
 					/>
 				</div>
-				{/* <div className={styles.likes}>
-					<Heart size='small' likes={likes} />
-					{likes > 0 && (
-						<>
-							{likes} {likes && likes === 1 ? 'like' : 'likes'}
-						</>
-					)}
-				</div> */}
 			</div>
 			<div className={styles['content-box']}>
 				<div className={styles.details}>

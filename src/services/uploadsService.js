@@ -41,6 +41,11 @@ const getAllCollectionPhotosByUserId = async (userId, collectionId) => {
 	);
 };
 
+// Get all yoyo photos by yoyoId
+const getAllYoyoPhotos = async (yoyoId) => {
+	return await uploadsModel.getAllYoyoPhotos(yoyoId);
+};
+
 // Get photo by UserID and Category
 const getPhotosByUserIdAndCategory = async (userId, category) => {
 	return await uploadsModel.getPhotosByIdAndCategory(userId, category);
@@ -56,9 +61,19 @@ const setCoverPhoto = async (newCover, collectionId) => {
 	return await uploadsModel.setCoverPhoto(newCover, collectionId);
 };
 
+// Set main yoyo photo
+const setMainYoyoPhoto = async (photoId, yoyoId) => {
+	return await uploadsModel.setMainYoyoPhoto(photoId, yoyoId);
+};
+
 // Switch cover photos
 const switchCoverPhoto = async (oldCover, newCover, collectionId) => {
 	return await uploadsModel.switchCoverPhoto(oldCover, newCover, collectionId);
+};
+
+// Switch main yoyo photo
+const switchMainYoyoPhoto = async (oldMainPhoto, photoId, yoyoId) => {
+	return await uploadsModel.switchMainYoyoPhoto(oldMainPhoto, photoId, yoyoId);
 };
 
 // Unset cover photo
@@ -157,11 +172,14 @@ export default {
 	deleteUploadsByCollectionId,
 	getAllCollectionPhotos,
 	getAllCollectionPhotosByUserId,
+	getAllYoyoPhotos,
 	getPhotoById,
 	getPhotosByUserIdAndCategory,
 	setCoverPhoto,
 	switchCoverPhoto,
+	switchMainYoyoPhoto,
 	unsetCoverPhoto,
+	setMainYoyoPhoto,
 	updateProfilePicture,
 	uploadPhoto,
 };

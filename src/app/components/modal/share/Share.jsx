@@ -1,7 +1,7 @@
 'use client';
 
 // Libraries
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Styles
 import styles from './share.module.scss';
@@ -15,7 +15,17 @@ import { useAppContext } from '@/app/context/AppContext';
 function Share() {
 	const { setModalOpen, shareLink, setShareLink } = useAppContext();
 
-	const [copied, setCopied] = useState(null);
+	const [copied, setCopied] = useState(false);
+
+	useEffect(() => {
+		let timeout;
+		if (copied) {
+			timeout = setTimeout(() => {
+				setCopied(false);
+			}, 5000);
+		}
+		return () => clearTimeout(timeout);
+	}, [copied]);
 
 	const handleCopy = () => {
 		navigator.clipboard
@@ -31,11 +41,15 @@ function Share() {
 	return (
 		<div className={styles.container}>
 			<div className={styles.link}>
-				<ContentCopy
-					sx={{ fontSize: 30 }}
-					className={styles.icon}
-					onClick={handleCopy}
-				/>
+				{copied ? (
+					<div className={styles.copied}>Copied!</div>
+				) : (
+					<ContentCopy
+						sx={{ fontSize: 30 }}
+						className={styles.icon}
+						onClick={handleCopy}
+					/>
+				)}
 				<textarea
 					className={styles.textarea}
 					value={shareLink}

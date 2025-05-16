@@ -32,5 +32,9 @@
 		color: var(--lightGray);
 		cursor: pointer;
 		text-shadow: 2px 2px 0.5rem black;
+
+		&:hover {
+			color: var(--lightestGray);
+		}
 	}
 }

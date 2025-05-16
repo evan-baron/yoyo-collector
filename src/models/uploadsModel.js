@@ -76,6 +76,17 @@ const Uploads = {
 		return rows;
 	},
 
+	// Set main yoyo photo
+	async setMainYoyoPhoto(photoId, yoyoId) {
+		const [rows] = await pool.execute(
+			`UPDATE user_uploads
+			SET main_yoyo_photo = 1
+			WHERE id = ? AND yoyo_id = ?`,
+			[photoId, yoyoId]
+		);
+		return rows;
+	},
+
 	// Switch cover photo
 	async switchCoverPhoto(oldCover, newCover, collectionId) {
 		try {
@@ -93,6 +104,32 @@ const Uploads = {
 				SET upload_category = 'collection'
 				WHERE id = ? AND collection_id = ?`,
 				[oldCover, collectionId]
+			);
+
+			return { success: true };
+		} catch (error) {
+			console.error('Error switching cover photo:', error);
+			throw error;
+		}
+	},
+
+	// Switch main yoyo photo
+	async switchMainYoyoPhoto(oldMainPhoto, photoId, yoyoId) {
+		try {
+			// Set the new cover photo
+			await pool.execute(
+				`UPDATE user_uploads
+				SET main_yoyo_photo = 1
+				WHERE id = ? AND yoyo_id = ?`,
+				[photoId, yoyoId]
+			);
+
+			// Reset the old cover photo to "collection"
+			await pool.execute(
+				`UPDATE user_uploads
+				SET main_yoyo_photo = 0
+				WHERE id = ? AND yoyo_id = ?`,
+				[oldMainPhoto, yoyoId]
 			);
 
 			return { success: true };

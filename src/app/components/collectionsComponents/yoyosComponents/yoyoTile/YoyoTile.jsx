@@ -44,6 +44,7 @@ function YoyoTile({
 		colorway,
 		likes,
 		model,
+		photos,
 		original_owner: originalOwner,
 		purchase_price: purchasePrice,
 		purchase_year: purchaseYear,
@@ -137,6 +138,7 @@ function YoyoTile({
 							setAdded={setAdded}
 							uploadError={uploadError}
 							setUploadError={setUploadError}
+							photos={photos}
 						/>
 					)}
 				</>
@@ -188,6 +190,7 @@ function YoyoTile({
 							setAdded={setAdded}
 							uploadError={uploadError}
 							setUploadError={setUploadError}
+							photos={photos}
 						/>
 					)}
 				</>
@@ -246,6 +249,7 @@ function YoyoTile({
 								setAdded={setAdded}
 								uploadError={uploadError}
 								setUploadError={setUploadError}
+								photos={photos}
 							/>
 						</>
 					)}

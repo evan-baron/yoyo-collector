@@ -9,10 +9,17 @@ import styles from './yoyoPhotoScroller.module.scss';
 // MUI
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 
-function YoyoPhotoScroller({ photos }) {
-	const [displayPhoto, setDisplayPhoto] = useState(0);
+// Components
+import PhotoOptions from '@/app/components/photoOptions/PhotoOptions';
+
+function YoyoPhotoScroller({ optionsSize, photos }) {
+	const mainIndex = photos.findIndex((photo) => photo.main_yoyo_photo === 1);
+	const [displayPhoto, setDisplayPhoto] = useState(
+		mainIndex !== -1 ? mainIndex : 0
+	);
 
 	const handleChange = (e) => {
+		e.stopPropagation();
 		const { name } = e.currentTarget.dataset;
 
 		if (name === 'increment') {
@@ -47,6 +54,7 @@ function YoyoPhotoScroller({ photos }) {
 			)}
 			<div className={styles['image-box']}>
 				<img src={photos[displayPhoto].secure_url} className={styles.image} />
+				<PhotoOptions optionsSize={optionsSize} photo={photos[displayPhoto]} />
 			</div>
 			{photos.length > 1 && (
 				<div

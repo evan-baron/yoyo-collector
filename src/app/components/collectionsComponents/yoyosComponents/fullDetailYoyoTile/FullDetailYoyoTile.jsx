@@ -10,6 +10,7 @@ import { Edit } from '@mui/icons-material';
 // Components
 import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 import Heart from '@/app/components/icons/heart/Heart';
+import YoyoPhotoScroller from '../yoyoPhotoScroller/YoyoPhotoScroller';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -21,15 +22,15 @@ const FullDetailYoyoTile = ({
 	validLeftItems = [],
 	validRightItems = [],
 	condition,
-	setEditingYoyos,
 	yoyoId,
+	photos,
 	collectionId,
 	added,
 	setAdded,
 	uploadError,
 	setUploadError,
 }) => {
-	const { setSelectedYoyo, selectedYoyo } = useAppContext();
+	const { setSelectedYoyo, selectedYoyo, setEditingYoyos } = useAppContext();
 
 	return (
 		<div
@@ -37,7 +38,14 @@ const FullDetailYoyoTile = ({
 			onClick={handleSelect}
 		>
 			<div className={styles['image-box']}>
-				<div className={styles.image}>
+				{photos.length > 0 && (
+					<YoyoPhotoScroller optionsSize={'small'} photos={photos} />
+				)}
+				<div
+					className={`${styles.image} ${
+						photos.length > 0 ? styles.hidden : ''
+					}`}
+				>
 					<BlankYoyoPhoto />
 				</div>
 				<div className={styles.likes}>

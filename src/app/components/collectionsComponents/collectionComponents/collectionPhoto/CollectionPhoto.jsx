@@ -73,7 +73,7 @@ function CollectionPhoto({
 					error.message
 				);
 			} finally {
-				setNewCollectionCounter((prev) => (prev += 1));
+				setNewCollectionCounter((prev) => prev + 1);
 				setChangeModal(false);
 			}
 		}
