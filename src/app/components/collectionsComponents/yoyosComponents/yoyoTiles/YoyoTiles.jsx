@@ -225,53 +225,67 @@ function YoyoTiles({
 					</div>
 				</div>
 			)}
-			{displayType !== 'photos' ? (
-				<div className={styles.list}>
-					<div className={styles.legend}>
-						<ul className={`${styles.ul} ${editingYoyos && styles.editing}`}>
-							{editingYoyos && (
-								<li className={styles.checkbox}>
-									<input
-										type='checkbox'
-										className={styles.input}
-										onClick={(e) => handleSelectAll(e)}
-									/>
-								</li>
-							)}
-							<li
-								data-name='name'
-								className={`${styles.sort} ${styles.name} ${
-									sort.name.selected && styles.selected
-								}`}
-								onClick={handleSort}
-							>
-								Model Name
-								<North
-									className={styles.icon}
-									style={{
-										transform:
-											sort.name.direction === 'descending' && 'rotate(180deg)',
-									}}
+			<div
+				className={`${styles.list} ${
+					displayType === 'photos' && styles['photos-list']
+				}`}
+			>
+				<div
+					className={`${styles.legend} ${
+						displayType === 'photos' && styles['photos-legend']
+					}`}
+				>
+					<ul
+						className={`${styles.ul} ${editingYoyos && styles.editing} ${
+							displayType === 'photos' && styles['photos-ul']
+						}`}
+					>
+						{editingYoyos && (
+							<li className={styles.checkbox}>
+								<input
+									type='checkbox'
+									className={styles.input}
+									onClick={(e) => handleSelectAll(e)}
 								/>
 							</li>
+						)}
+						<li
+							data-name='name'
+							className={`${styles.sort} ${styles.name} ${
+								sort.name.selected && styles.selected
+							} ${displayType === 'photos' && styles['photos-li']}`}
+							onClick={handleSort}
+						>
+							Model Name
+							<North
+								className={styles.icon}
+								style={{
+									transform:
+										sort.name.direction === 'descending' && 'rotate(180deg)',
+								}}
+							/>
+						</li>
+						{displayType !== 'photos' && (
 							<li className={`${styles.sort} ${styles.colorway}`}>Colorway</li>
-							<li
-								data-name='manufacturer'
-								className={`${styles.sort} ${styles.manufacturer} ${
-									sort.manufacturer.selected && styles.selected
-								}`}
-								onClick={handleSort}
-							>
-								Manufacturer
-								<North
-									className={styles.icon}
-									style={{
-										transform:
-											sort.manufacturer.direction === 'descending' &&
-											'rotate(180deg)',
-									}}
-								/>
-							</li>
+						)}
+						<li
+							data-name='manufacturer'
+							className={`${styles.sort} ${styles.manufacturer} ${
+								sort.manufacturer.selected && styles.selected
+							} ${displayType === 'photos' && styles['photos-li']}`}
+							onClick={handleSort}
+						>
+							Manufacturer
+							<North
+								className={styles.icon}
+								style={{
+									transform:
+										sort.manufacturer.direction === 'descending' &&
+										'rotate(180deg)',
+								}}
+							/>
+						</li>
+						{displayType !== 'photos' && (
 							<li
 								data-name='year'
 								className={`${styles.sort} ${styles.year} ${
@@ -288,9 +302,11 @@ function YoyoTiles({
 									}}
 								/>
 							</li>
-						</ul>
-					</div>
-					{sortedYoyos.map((yoyo, index) => {
+						)}
+					</ul>
+				</div>
+				{displayType !== 'photos' ? (
+					sortedYoyos.map((yoyo, index) => {
 						return (
 							<div className={styles.tile} key={index}>
 								{editingYoyos && (
@@ -316,15 +332,15 @@ function YoyoTiles({
 								/>
 							</div>
 						);
-					})}
-				</div>
-			) : (
-				<div className={styles['photos-container']}>
-					{sortedYoyos.map((yoyo, index) => {
-						return <PhotoYoyoTile yoyoData={yoyo} key={index} />;
-					})}
-				</div>
-			)}
+					})
+				) : (
+					<div className={styles['photos-container']}>
+						{sortedYoyos.map((yoyo, index) => {
+							return <PhotoYoyoTile yoyoData={yoyo} key={index} />;
+						})}
+					</div>
+				)}
+			</div>
 		</div>
 	);
 }

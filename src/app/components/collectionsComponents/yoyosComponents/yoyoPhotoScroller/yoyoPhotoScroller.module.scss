@@ -36,6 +36,11 @@
 		background-color: var(--darkerGray);
 		border-radius: 0.5rem;
 
+		&.photo-tile {
+			width: auto;
+			height: auto;
+		}
+
 		.image {
 			width: 100%;
 			aspect-ratio: 1;

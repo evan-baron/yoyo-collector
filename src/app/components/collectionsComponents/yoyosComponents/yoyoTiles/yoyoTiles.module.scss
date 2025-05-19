@@ -87,10 +87,24 @@
 		background-color: var(--darkerGray);
 		box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.75);
 
+		&.photos-list {
+			align-items: center;
+			background-color: transparent;
+			box-shadow: none;
+			gap: 1rem;
+		}
+
 		.legend {
 			width: 100%;
 
 			padding: 0.25rem 0.5rem;
+
+			&.photos-legend {
+				box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.75);
+
+				padding: 0.5rem;
+				border-radius: 0.5rem;
+			}
 
 			.ul {
 				width: 100%;
@@ -98,6 +112,11 @@
 				display: grid;
 				grid-template-columns: repeat(17, 1fr);
 				gap: 0.5rem;
+
+				&.photos-ul {
+					display: flex;
+					justify-content: space-evenly;
+				}
 
 				.sort {
 					width: 100%;
@@ -185,13 +204,6 @@
 
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 1rem;
-
-		.photo-tile {
-			width: 100%;
-			aspect-ratio: 1;
-
-			border: 1px solid white;
-		}
+		gap: 2rem;
 	}
 }

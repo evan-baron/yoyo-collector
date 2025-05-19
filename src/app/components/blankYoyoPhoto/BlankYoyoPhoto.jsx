@@ -8,9 +8,13 @@ import yoyoPhoto from '@/app/assets/site/blank-yoyo-photo-trimmed.png';
 // Styles
 import styles from './blankYoyoPhoto.module.scss';
 
-function BlankYoyoPhoto() {
+function BlankYoyoPhoto({ noBorder }) {
 	return (
-		<Image src={yoyoPhoto} className={styles.image} alt='default yoyo photo' />
+		<Image
+			src={yoyoPhoto}
+			className={`${styles.image} ${noBorder && styles['no-border']}`}
+			alt='default yoyo photo'
+		/>
 	);
 }
 

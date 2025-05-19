@@ -11,8 +11,9 @@ import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 
 // Components
 import PhotoOptions from '@/app/components/photoOptions/PhotoOptions';
+import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 
-function YoyoPhotoScroller({ optionsSize, photos }) {
+function YoyoPhotoScroller({ displayType, optionsSize, photos }) {
 	const mainIndex = photos.findIndex((photo) => photo.main_yoyo_photo === 1);
 	const [displayPhoto, setDisplayPhoto] = useState(
 		mainIndex !== -1 ? mainIndex : 0
@@ -61,18 +62,25 @@ function YoyoPhotoScroller({ optionsSize, photos }) {
 					<ArrowBackIosNew className={styles.icon} />
 				</div>
 			)}
-			<div className={styles['image-box']}>
-				{photos.length > 0 && photos[displayPhoto] && (
+			<div
+				className={`${styles['image-box']} ${
+					displayType === 'photo' && styles['photo-tile']
+				}`}
+			>
+				{photos.length > 0 && photos[displayPhoto] ? (
 					<>
 						<img
 							src={photos[displayPhoto].secure_url}
 							className={styles.image}
 						/>
 						<PhotoOptions
+							// displayType={displayType}
 							optionsSize={optionsSize}
 							photo={photos[displayPhoto]}
 						/>
 					</>
+				) : (
+					<BlankYoyoPhoto />
 				)}
 			</div>
 			{photos.length > 1 && (
