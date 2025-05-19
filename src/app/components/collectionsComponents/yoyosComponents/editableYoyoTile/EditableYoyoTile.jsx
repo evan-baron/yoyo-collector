@@ -27,6 +27,7 @@ function EditableYoyoTile({
 	collectionId,
 	setAdded,
 	setUploadError,
+	uploadError,
 }) {
 	const {
 		dirty,
@@ -40,6 +41,7 @@ function EditableYoyoTile({
 		setSelectedYoyo,
 		setModalOpen,
 		setModalType,
+		setClearInputRef,
 	} = useAppContext();
 
 	const [inputs, setInputs] = useState();
@@ -292,6 +294,7 @@ function EditableYoyoTile({
 						input='editYoyoTileYoyoInput'
 						setAdded={setAdded}
 						setUploadError={setUploadError}
+						photosLength={photos.length || 0}
 					/>
 				</div>
 			</div>
@@ -371,8 +374,17 @@ function EditableYoyoTile({
 									);
 								}
 							})}
-							<div className={styles['photo-input']}>
-								<label htmlFor='editYoyoTileYoyoInput' className={styles.label}>
+							<div
+								className={`${styles['photo-input']} ${
+									photos?.length > 9 && styles.disabled
+								}`}
+							>
+								<label
+									htmlFor='editYoyoTileYoyoInput'
+									className={`${styles.label} ${
+										photos?.length > 9 && styles.disabled
+									}`}
+								>
 									Add Photos
 								</label>
 							</div>
@@ -461,6 +473,32 @@ function EditableYoyoTile({
 					</div>
 				</div>
 			</div>
+
+			{uploadError && (
+				<div className={styles['remove-container']}>
+					<div className={styles.remove}>
+						<p className={styles.error}>{uploadError}</p>
+						<div className={styles.buttons}>
+							<button
+								className={styles['delete-button']}
+								onClick={() => {
+									setUploadError(null);
+									if (
+										uploadError !==
+										'Some files were larger than 4MB and were skipped.'
+									) {
+										setClearInputRef(true);
+									}
+								}}
+							>
+								Ok
+							</button>
+						</div>
+						<div className={styles.background}></div>
+					</div>
+				</div>
+			)}
+
 			<div
 				className={styles['close-tile']}
 				onClick={() => {

@@ -35,7 +35,7 @@
 				transition: all 0.3s ease;
 				z-index: 0;
 				isolation: isolate;
-				box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
+				box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.75);
 
 				&::before {
 					content: '';
@@ -176,6 +176,22 @@
 				padding: 0;
 				accent-color: rgb(0, 225, 255);
 			}
+		}
+	}
+
+	.photos-container {
+		width: 100%;
+		// border: 1px solid white;
+
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1rem;
+
+		.photo-tile {
+			width: 100%;
+			aspect-ratio: 1;
+
+			border: 1px solid white;
 		}
 	}
 }

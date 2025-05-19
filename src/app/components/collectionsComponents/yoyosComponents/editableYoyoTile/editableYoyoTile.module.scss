@@ -77,6 +77,11 @@
 					padding-bottom: 1rem;
 					display: flex;
 
+					&.disabled {
+						opacity: 0.5;
+						cursor: default;
+					}
+
 					.label {
 						width: 100%;
 
@@ -93,6 +98,11 @@
 						z-index: 0;
 						isolation: isolate;
 						box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
+						user-select: none;
+
+						&.disabled {
+							cursor: default;
+						}
 
 						&::before {
 							content: '';
@@ -211,6 +221,73 @@
 		.error {
 			color: red;
 			font-size: 1rem;
+		}
+	}
+
+	.remove {
+		position: absolute;
+		top: 50%;
+		bottom: 50%;
+		left: 50%;
+		right: 50%;
+
+		transform: translate(-50%, -50%);
+
+		width: 18rem;
+		height: 8rem;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+		z-index: 1;
+		padding: 0.75rem 1.25rem;
+		font-size: 1.125rem;
+		border-radius: 0.5rem;
+		border: 2px solid var(--lightGray);
+
+		.error {
+			text-align: center;
+			color: red;
+			z-index: 2;
+		}
+
+		.delete {
+			z-index: 2;
+		}
+
+		.buttons {
+			z-index: 2;
+
+			.delete-button {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 0.25rem 0.5rem;
+				font-size: 1.125rem;
+				line-height: 1;
+				margin: 0;
+				border: 2px solid var(--lightestGray);
+				border-radius: 0.5rem;
+				color: var(--lightestGray);
+				background-color: transparent;
+				cursor: pointer;
+				opacity: 0.75;
+
+				&:hover {
+					opacity: 1;
+				}
+			}
+		}
+
+		.background {
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			background-color: var(--darkerGray);
+			border-radius: 0.5rem;
+			opacity: 0.85;
 		}
 	}
 

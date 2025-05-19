@@ -144,7 +144,7 @@ function YoyoTile({
 				</>
 			)}
 
-			{displayType === 'photos' && (
+			{/* {displayType === 'photos' && (
 				<>
 					{!selectedTile && (
 						<SummaryYoyoTile
@@ -194,7 +194,7 @@ function YoyoTile({
 						/>
 					)}
 				</>
-			)}
+			)} */}
 
 			{displayType === 'full' && (
 				<>

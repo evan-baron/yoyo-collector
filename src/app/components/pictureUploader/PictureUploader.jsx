@@ -36,6 +36,7 @@ function PictureUploader({
 	editing,
 	setUploadError,
 	newYoyoForm,
+	photosLength,
 }) {
 	// Context
 	const {
@@ -203,6 +204,15 @@ function PictureUploader({
 					return;
 				} else if (validFiles.length !== files.length) {
 					setUploadError('Some files were larger than 4MB and were skipped.');
+				}
+
+				if (validFiles.length > 10 || photosLength + validFiles.length > 10) {
+					setUploadError(
+						`A maximum of 10 images is allowed per yoyo. You may upload ${
+							10 - photosLength
+						} ${10 - photosLength === 1 ? 'photo' : 'photos'} to this yoyo.`
+					);
+					return;
 				}
 			} else {
 				if (!validFiles.length && files.length === 1) {
@@ -391,7 +401,9 @@ function PictureUploader({
 								ref={fileInputRef}
 								accept='image/*'
 								onChange={handleUpload}
-								disabled={loading || previewUrls?.length > 9}
+								disabled={
+									loading || previewUrls?.length > 9 || photosLength > 9
+								}
 								className={styles.input}
 							/>
 							<img
@@ -466,7 +478,7 @@ function PictureUploader({
 							ref={fileInputRef}
 							accept='image/*'
 							onChange={handleUpload}
-							disabled={loading}
+							disabled={loading || previewUrls?.length > 9 || photosLength > 9}
 							className={`${styles.input} ${
 								uploadType === 'profile'
 									? styles.circle

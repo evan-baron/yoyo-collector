@@ -12,6 +12,7 @@ import { North } from '@mui/icons-material';
 // Components
 import YoyoTile from '../yoyoTile/YoyoTile';
 import NewYoyoForm from '../newYoyoForm/NewYoyoForm';
+import PhotoYoyoTile from '../photoYoyoTile/PhotoYoyoTile';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -167,6 +168,25 @@ function YoyoTiles({
 				<div className={styles.buttons}>
 					<div
 						className={`${styles.button} ${
+							displayType === 'small' && styles['selected-view']
+						}`}
+						onClick={() => {
+							if (displayType === 'small') {
+								return;
+							}
+							if (dirty) {
+								setModalOpen(true);
+								setModalType('dirty');
+								return;
+							}
+							setDisplayType('small');
+							setSelectedYoyo(null);
+						}}
+					>
+						Small Details
+					</div>
+					<div
+						className={`${styles.button} ${
 							displayType === 'full' && styles['selected-view']
 						}`}
 						onClick={() => {
@@ -182,7 +202,7 @@ function YoyoTiles({
 							setSelectedYoyo(null);
 						}}
 					>
-						Photos and Details
+						Full Details
 					</div>
 					<div
 						className={`${styles.button} ${
@@ -203,119 +223,108 @@ function YoyoTiles({
 					>
 						Photos Only
 					</div>
-					<div
-						className={`${styles.button} ${
-							displayType === 'small' && styles['selected-view']
-						}`}
-						onClick={() => {
-							if (displayType === 'small') {
-								return;
-							}
-							if (dirty) {
-								setModalOpen(true);
-								setModalType('dirty');
-								return;
-							}
-							setDisplayType('small');
-							setSelectedYoyo(null);
-						}}
-					>
-						Small Details
-					</div>
 				</div>
 			)}
-			<div className={styles.list}>
-				<div className={styles.legend}>
-					<ul className={`${styles.ul} ${editingYoyos && styles.editing}`}>
-						{editingYoyos && (
-							<li className={styles.checkbox}>
-								<input
-									type='checkbox'
-									className={styles.input}
-									onClick={(e) => handleSelectAll(e)}
+			{displayType !== 'photos' ? (
+				<div className={styles.list}>
+					<div className={styles.legend}>
+						<ul className={`${styles.ul} ${editingYoyos && styles.editing}`}>
+							{editingYoyos && (
+								<li className={styles.checkbox}>
+									<input
+										type='checkbox'
+										className={styles.input}
+										onClick={(e) => handleSelectAll(e)}
+									/>
+								</li>
+							)}
+							<li
+								data-name='name'
+								className={`${styles.sort} ${styles.name} ${
+									sort.name.selected && styles.selected
+								}`}
+								onClick={handleSort}
+							>
+								Model Name
+								<North
+									className={styles.icon}
+									style={{
+										transform:
+											sort.name.direction === 'descending' && 'rotate(180deg)',
+									}}
 								/>
 							</li>
-						)}
-						<li
-							data-name='name'
-							className={`${styles.sort} ${styles.name} ${
-								sort.name.selected && styles.selected
-							}`}
-							onClick={handleSort}
-						>
-							Model Name
-							<North
-								className={styles.icon}
-								style={{
-									transform:
-										sort.name.direction === 'descending' && 'rotate(180deg)',
-								}}
-							/>
-						</li>
-						<li className={`${styles.sort} ${styles.colorway}`}>Colorway</li>
-						<li
-							data-name='manufacturer'
-							className={`${styles.sort} ${styles.manufacturer} ${
-								sort.manufacturer.selected && styles.selected
-							}`}
-							onClick={handleSort}
-						>
-							Manufacturer
-							<North
-								className={styles.icon}
-								style={{
-									transform:
-										sort.manufacturer.direction === 'descending' &&
-										'rotate(180deg)',
-								}}
-							/>
-						</li>
-						<li
-							data-name='year'
-							className={`${styles.sort} ${styles.year} ${
-								sort.year.selected && styles.selected
-							}`}
-							onClick={handleSort}
-						>
-							Released
-							<North
-								className={styles.icon}
-								style={{
-									transform:
-										sort.year.direction === 'descending' && 'rotate(180deg)',
-								}}
-							/>
-						</li>
-					</ul>
-				</div>
-				{sortedYoyos.map((yoyo, index) => {
-					return (
-						<div className={styles.tile} key={index}>
-							{editingYoyos && (
-								<input
-									name='checkbox'
-									type='checkbox'
-									className={styles.checkbox}
-									onChange={(e) => handleChange(e, yoyo.id)}
-									checked={selectedYoyos.includes(yoyo.id)}
+							<li className={`${styles.sort} ${styles.colorway}`}>Colorway</li>
+							<li
+								data-name='manufacturer'
+								className={`${styles.sort} ${styles.manufacturer} ${
+									sort.manufacturer.selected && styles.selected
+								}`}
+								onClick={handleSort}
+							>
+								Manufacturer
+								<North
+									className={styles.icon}
+									style={{
+										transform:
+											sort.manufacturer.direction === 'descending' &&
+											'rotate(180deg)',
+									}}
 								/>
-							)}
+							</li>
+							<li
+								data-name='year'
+								className={`${styles.sort} ${styles.year} ${
+									sort.year.selected && styles.selected
+								}`}
+								onClick={handleSort}
+							>
+								Released
+								<North
+									className={styles.icon}
+									style={{
+										transform:
+											sort.year.direction === 'descending' && 'rotate(180deg)',
+									}}
+								/>
+							</li>
+						</ul>
+					</div>
+					{sortedYoyos.map((yoyo, index) => {
+						return (
+							<div className={styles.tile} key={index}>
+								{editingYoyos && (
+									<input
+										name='checkbox'
+										type='checkbox'
+										className={styles.checkbox}
+										onChange={(e) => handleChange(e, yoyo.id)}
+										checked={selectedYoyos.includes(yoyo.id)}
+									/>
+								)}
 
-							<YoyoTile
-								yoyoData={yoyo}
-								setSelectedYoyos={setSelectedYoyos}
-								displayType={displayType}
-								selectedTile={selectedYoyo === yoyo.id}
-								collectionId={collectionId}
-								added={added}
-								setAdded={setAdded}
-								uploadError={uploadError}
-								setUploadError={setUploadError}
-							/>
-						</div>
-					);
-				})}
-			</div>
+								<YoyoTile
+									yoyoData={yoyo}
+									setSelectedYoyos={setSelectedYoyos}
+									displayType={displayType}
+									selectedTile={selectedYoyo === yoyo.id}
+									collectionId={collectionId}
+									added={added}
+									setAdded={setAdded}
+									uploadError={uploadError}
+									setUploadError={setUploadError}
+								/>
+							</div>
+						);
+					})}
+				</div>
+			) : (
+				<div className={styles['photos-container']}>
+					{sortedYoyos.map((yoyo, index) => {
+						return <PhotoYoyoTile yoyoData={yoyo} key={index} />;
+					})}
+				</div>
+			)}
 		</div>
 	);
 }
