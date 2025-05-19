@@ -155,7 +155,7 @@ function CollectionsTiles({ scroll, size, collectionType, userName, page }) {
 	// Loading screen
 	const loadingComplete = !!(collections && splitUpCollection && !loading);
 
-	if (!loadingComplete) return <LoadingSpinner message='loading' />;
+	if (!loadingComplete) return <LoadingSpinner message='Loading' />;
 
 	return (
 		<>

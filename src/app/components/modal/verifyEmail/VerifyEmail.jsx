@@ -90,7 +90,7 @@ function VerifyEmail() {
 					<Close sx={{ fontSize: '2rem' }} />
 				</div>
 			</div>
-			{loading && <LoadingSpinner message='sending' />}
+			{loading && <LoadingSpinner message='Sending' />}
 		</>
 	);
 }

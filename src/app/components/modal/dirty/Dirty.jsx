@@ -29,6 +29,7 @@ function Dirty() {
 		error,
 		setProfileSettingsFormData,
 		setLoading,
+		setLoadingMessage,
 		setPendingRoute,
 		setUser,
 		setCurrentlyEditing,
@@ -175,8 +176,6 @@ function Dirty() {
 				setError(null);
 			}
 		} else if (dirtyType === 'yoyo') {
-			console.log(newYoyoData);
-			console.log(originalYoyoData);
 			if (error) {
 				setModalType('error');
 				return;
@@ -193,6 +192,8 @@ function Dirty() {
 			);
 
 			try {
+				setLoading(true);
+				setLoadingMessage('Saving');
 				await axiosInstance.patch('/api/user/yoyos', {
 					yoyoId: selectedYoyo,
 					valuesToUpdate: valuesToUpdate,
@@ -212,6 +213,7 @@ function Dirty() {
 				setOriginalYoyoData(null);
 				setModalOpen(false);
 				setModalType(null);
+				setLoading(false);
 			}
 		}
 	};

@@ -37,6 +37,10 @@ function NewYoyoForm({
 		setNewCollectionCounter,
 		setClearInputRef,
 		setPreviewUrls,
+		previewUrls,
+		setLoading,
+		setLoadingMessage,
+		loading,
 	} = useAppContext();
 
 	const [more, setMore] = useState(null);
@@ -72,6 +76,7 @@ function NewYoyoForm({
 		},
 	});
 	const [hidden, setHidden] = useState('hidden');
+	const [saving, setSaving] = useState(false);
 
 	useEffect(() => {
 		let timeout;
@@ -216,7 +221,7 @@ function NewYoyoForm({
 		});
 		more && setMore(false);
 		setAddYoyo(false);
-		setFormImagesToUpload(null);
+		setFormImagesToUpload([]);
 		setClearInputRef(true);
 	};
 
@@ -264,6 +269,7 @@ function NewYoyoForm({
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		if (loading) return;
 		const { name } = e.target.dataset;
 
 		// Validate data
@@ -278,6 +284,8 @@ function NewYoyoForm({
 		}
 
 		try {
+			setLoading(true);
+			setLoadingMessage('Saving');
 			if (formImagesToUpload?.length > 0) {
 				const imagesToUpload = await Promise.all(
 					formImagesToUpload.map(async (file) => {
@@ -341,6 +349,7 @@ function NewYoyoForm({
 			setFormImagesToUpload([]);
 			setPreviewUrls([]);
 			setClearInputRef(true);
+			setLoading(false);
 		}
 	};
 
@@ -350,7 +359,7 @@ function NewYoyoForm({
 				<div className={styles['picture-box']}>
 					<div
 						className={`${styles['image-box']} ${
-							formImagesToUpload?.length > 1 && styles['multi-yoyo']
+							previewUrls?.length > 1 && styles['multi-yoyo']
 						}`}
 					>
 						<PictureUploader
@@ -420,14 +429,18 @@ function NewYoyoForm({
 												<p className={styles.error}>{error.brand.message}</p>
 											)}
 										</div>
-										<div className={styles['photo-input']}>
+										<div
+											className={`${styles['photo-input']} ${
+												previewUrls?.length > 9 && styles.disabled
+											}`}
+										>
 											<label
 												htmlFor='addYoyoFormYoyoInput'
-												className={styles.label}
-												disabled={formImagesToUpload?.length > 9}
+												className={`${styles.label} ${
+													previewUrls?.length > 9 && styles.disabled
+												}`}
 											>
-												Add {formImagesToUpload?.length > 0 ? 'More' : ''}{' '}
-												Photos
+												Add {previewUrls?.length > 0 ? 'More' : ''} Photos
 											</label>
 										</div>
 									</div>
@@ -663,7 +676,6 @@ function NewYoyoForm({
 												uploadError !==
 												'Some files were larger than 4MB and were skipped.'
 											) {
-												setFormImagesToUpload(null);
 												setClearInputRef(true);
 											}
 										}}

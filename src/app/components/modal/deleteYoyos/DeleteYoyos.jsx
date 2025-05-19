@@ -19,6 +19,7 @@ function DeleteYoyos() {
 		setNewCollectionCounter,
 		setModalOpen,
 		setLoading,
+		setLoadingMessage,
 		setUser,
 		user,
 	} = useAppContext();
@@ -60,6 +61,7 @@ function DeleteYoyos() {
 
 		try {
 			setLoading(true);
+			setLoadingMessage('Saving');
 			if (formData.ask) {
 				try {
 					await axiosInstance.patch('/api/user/updateSettings', {

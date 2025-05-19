@@ -230,6 +230,11 @@
 				display: flex;
 				align-items: flex-end;
 
+				&.disabled {
+					opacity: 0.5;
+					cursor: default;
+				}
+
 				.label {
 					width: 100%;
 
@@ -246,6 +251,11 @@
 					z-index: 0;
 					isolation: isolate;
 					box-shadow: 2px 2px 0.5rem rgb(0, 0, 0);
+					user-select: none;
+
+					&.disabled {
+						cursor: default;
+					}
 
 					&::before {
 						content: '';

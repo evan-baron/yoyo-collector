@@ -19,6 +19,7 @@ function DeleteCollection() {
 		setCollectionToDelete,
 		setModalOpen,
 		setLoading,
+		setLoadingMessage,
 		setUser,
 		user,
 	} = useAppContext();
@@ -59,6 +60,7 @@ function DeleteCollection() {
 
 		try {
 			setLoading(true);
+			setLoadingMessage('Saving');
 			if (formData.ask) {
 				try {
 					await axiosInstance.patch('/api/user/updateSettings', {

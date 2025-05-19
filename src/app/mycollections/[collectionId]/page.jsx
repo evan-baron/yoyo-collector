@@ -44,6 +44,7 @@ function Collection() {
 		editingYoyos,
 		error,
 		loading,
+		loadingMessage,
 		newCollectionCounter,
 		newCollectionData,
 		newYoyoData,
@@ -275,7 +276,7 @@ function Collection() {
 		);
 	}, [collection, formData, pendingData, photos]);
 
-	if (!loadingComplete) return <LoadingSpinner message='loading' />;
+	if (!loadingComplete) return <LoadingSpinner message='Loading' />;
 
 	return (
 		<>
@@ -561,7 +562,7 @@ function Collection() {
 					)}
 				</div>
 			</div>
-			{loading && <LoadingSpinner message='Saving' />}
+			{loading && <LoadingSpinner message={loadingMessage} />}
 		</>
 	);
 }

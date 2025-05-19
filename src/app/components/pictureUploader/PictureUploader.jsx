@@ -49,6 +49,7 @@ function PictureUploader({
 		setImagesToUpload,
 		loading,
 		setLoading,
+		setLoadingMessage,
 		user,
 		setUser,
 		setNewCollectionCounter,
@@ -173,9 +174,6 @@ function PictureUploader({
 
 			return;
 		} else if (uploadType === 'yoyo' && newYoyoForm) {
-			console.log(previewUrls.length);
-			console.log(formImagesToUpload.length);
-
 			if (!validFiles.length && files.length === 1) {
 				setUploadError('File must not exceed 4MB');
 				return;
@@ -186,8 +184,13 @@ function PictureUploader({
 				setUploadError('Some files were larger than 4MB and were skipped.');
 			}
 
-			setFormImagesToUpload((prev) => [...prev, ...validFiles]);
-			setPreviewUrls((prev) => [...prev, ...validFiles]);
+			if ((previewUrls?.length || 0) + validFiles.length > 10) {
+				setUploadError('A maximum of 10 images is allowed per yoyo');
+				return;
+			}
+
+			setFormImagesToUpload((prev) => [...(prev || []), ...validFiles]);
+			setPreviewUrls((prev) => [...(prev || []), ...validFiles]);
 			setClearInputRef(true);
 			return;
 		} else {
@@ -215,6 +218,7 @@ function PictureUploader({
 
 			try {
 				setLoading(true);
+				setLoadingMessage('Uploading');
 
 				const preset = getPreset(uploadType);
 
@@ -246,7 +250,7 @@ function PictureUploader({
 			} finally {
 				fileInputRef.current.value = '';
 				setLoading(false);
-				setImagesToUpload(null);
+				setImagesToUpload([]);
 				setUpdatingPicture(false);
 				setClearInputRef(true);
 			}
@@ -271,6 +275,7 @@ function PictureUploader({
 		formData.append('upload_preset', preset);
 
 		setLoading(true);
+		setLoadingMessage('Saving');
 		try {
 			// Uploading to cloudinary first
 			const uploadData = await cloudinaryData(formData);
@@ -311,7 +316,7 @@ function PictureUploader({
 			);
 		} finally {
 			setLoading(false);
-			setImagesToUpload(null);
+			setImagesToUpload([]);
 			setUpdatingPicture(false);
 			setNewCollectionCounter((prev) => prev + 1);
 		}
@@ -357,13 +362,13 @@ function PictureUploader({
 		<div className={styles.container}>
 			<div
 				className={`${styles['picture-container']} ${
-					formImagesToUpload?.length > 1 && styles['yoyo-upload']
+					previewUrls?.length > 1 && styles['yoyo-upload']
 				}`}
 			>
-				{formImagesToUpload?.length > 0 ? (
+				{previewUrls?.length > 0 ? (
 					<div className={styles.preview}>
 						<div className={styles['yoyo-upload']}>
-							{formImagesToUpload?.length > 1 && (
+							{previewUrls?.length > 1 && (
 								<div
 									className={styles.arrow}
 									onClick={() => {
@@ -386,7 +391,7 @@ function PictureUploader({
 								ref={fileInputRef}
 								accept='image/*'
 								onChange={handleUpload}
-								disabled={loading}
+								disabled={loading || previewUrls?.length > 9}
 								className={styles.input}
 							/>
 							<img
@@ -400,7 +405,7 @@ function PictureUploader({
 								className={`${styles.close} ${hover && styles.hover}`}
 								onClick={() => {
 									setFormImagesToUpload(
-										formImagesToUpload.filter(
+										formImagesToUpload?.filter(
 											(_, index) => index !== previewIndex
 										)
 									);
@@ -412,7 +417,7 @@ function PictureUploader({
 							>
 								<Close className={styles['close-icon']} />
 							</div>
-							{formImagesToUpload?.length > 1 && (
+							{previewUrls?.length > 1 && (
 								<div
 									className={styles.arrow}
 									onClick={() => {
@@ -428,9 +433,9 @@ function PictureUploader({
 								</div>
 							)}
 						</div>
-						{formImagesToUpload.length > 1 && (
+						{previewUrls?.length > 1 && (
 							<div className={styles['preview-counter']}>
-								{previewIndex + 1}/{formImagesToUpload.length}
+								{previewIndex + 1}/{previewUrls?.length}
 							</div>
 						)}
 					</div>
@@ -574,8 +579,12 @@ function PictureUploader({
 									className={styles['delete-button']}
 									onClick={() => {
 										setError(null);
-										setImagesToUpload(null);
-										fileInputRef.current.value = '';
+										if (uploadType === 'profile' || uploadType === 'cover') {
+											setImagesToUpload([]);
+											if (fileInputRef.current) {
+												fileInputRef.current.value = '';
+											}
+										}
 									}}
 								>
 									Ok
@@ -592,7 +601,7 @@ function PictureUploader({
 						<Undo
 							className={styles.undo}
 							onClick={() => {
-								setImagesToUpload(null);
+								setImagesToUpload([]);
 								setUpdatingPicture(null);
 								setPreviewUrl(null);
 								if (fileInputRef.current) {

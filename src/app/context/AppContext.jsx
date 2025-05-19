@@ -24,6 +24,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [imagesToUpload, setImagesToUpload] = useState([]);
 	const [formImagesToUpload, setFormImagesToUpload] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [loadingMessage, setLoadingMessage] = useState('Loading');
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalType, setModalType] = useState(null);
 	const [newCollectionCounter, setNewCollectionCounter] = useState(0);
@@ -290,6 +291,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				imagesToUpload,
 				profileSettingsFormData,
 				loading,
+				loadingMessage,
 				modalOpen,
 				modalType,
 				newCollectionCounter,
@@ -326,6 +328,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setPreviewUrls,
 				setProfileSettingsFormData,
 				setLoading,
+				setLoadingMessage,
 				setModalOpen,
 				setModalType,
 				setPendingRoute,

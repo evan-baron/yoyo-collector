@@ -26,7 +26,7 @@ function CollectionPhotos({
 }) {
 	// collection is the collection id
 
-	const { newCollectionCounter } = useAppContext();
+	const { newCollectionCounter, setLoadingMessage } = useAppContext();
 
 	const [photos, setPhotos] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -37,6 +37,7 @@ function CollectionPhotos({
 		const fetchCollectionPhotos = async () => {
 			try {
 				setLoading(true);
+				setLoadingMessage('Loading');
 				const collectionData = await axiosInstance.get(
 					`/api/user/collections/byCollectionId?collectionId=${collectionId}`,
 					{

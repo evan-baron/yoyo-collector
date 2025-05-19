@@ -24,27 +24,20 @@ import { useAppContext } from '@/app/context/AppContext';
 
 function EditableYoyoTile({
 	yoyoData,
-	selectedTile,
 	collectionId,
-	added,
 	setAdded,
-	uploadError,
 	setUploadError,
 }) {
 	const {
-		clearInputRef,
 		dirty,
-		error,
 		originalYoyoData,
 		newYoyoData,
-		setClearInputRef,
 		setDirty,
 		setDirtyType,
 		setError,
 		setNewYoyoData,
 		setOriginalYoyoData,
 		setSelectedYoyo,
-		selectedYoyo,
 		setModalOpen,
 		setModalType,
 	} = useAppContext();
