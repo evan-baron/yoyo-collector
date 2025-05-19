@@ -428,9 +428,11 @@ function PictureUploader({
 								</div>
 							)}
 						</div>
-						<div className={styles['preview-counter']}>
-							{previewIndex + 1}/{formImagesToUpload.length}
-						</div>
+						{formImagesToUpload.length > 1 && (
+							<div className={styles['preview-counter']}>
+								{previewIndex + 1}/{formImagesToUpload.length}
+							</div>
+						)}
 					</div>
 				) : (
 					<label
