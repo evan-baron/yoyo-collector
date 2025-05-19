@@ -166,7 +166,9 @@ function YoyoTiles({
 			{!addYoyo && (
 				<div className={styles.buttons}>
 					<div
-						className={styles.button}
+						className={`${styles.button} ${
+							displayType === 'full' && styles['selected-view']
+						}`}
 						onClick={() => {
 							if (displayType === 'full') {
 								return;
@@ -183,7 +185,9 @@ function YoyoTiles({
 						Photos and Details
 					</div>
 					<div
-						className={styles.button}
+						className={`${styles.button} ${
+							displayType === 'photos' && styles['selected-view']
+						}`}
 						onClick={() => {
 							if (displayType === 'photos') {
 								return;
@@ -200,7 +204,9 @@ function YoyoTiles({
 						Photos Only
 					</div>
 					<div
-						className={styles.button}
+						className={`${styles.button} ${
+							displayType === 'small' && styles['selected-view']
+						}`}
 						onClick={() => {
 							if (displayType === 'small') {
 								return;
