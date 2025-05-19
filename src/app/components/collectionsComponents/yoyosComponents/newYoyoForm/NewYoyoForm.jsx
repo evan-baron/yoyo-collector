@@ -351,7 +351,8 @@ function NewYoyoForm({
 					<div
 						className={`${styles['image-box']} ${
 							formImagesToUpload?.length > 1 && styles['multi-yoyo']
-						}`}
+						}
+						${formImagesToUpload?.length > 2 && styles['counter']}`}
 					>
 						<PictureUploader
 							collection={collectionId}

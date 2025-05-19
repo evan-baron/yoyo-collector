@@ -173,7 +173,9 @@ function PictureUploader({
 
 			return;
 		} else if (uploadType === 'yoyo' && newYoyoForm) {
-			console.log("we're inside the upload now");
+			console.log(previewUrls.length);
+			console.log(formImagesToUpload.length);
+
 			if (!validFiles.length && files.length === 1) {
 				setUploadError('File must not exceed 4MB');
 				return;
@@ -359,71 +361,76 @@ function PictureUploader({
 				}`}
 			>
 				{formImagesToUpload?.length > 0 ? (
-					<div className={styles['yoyo-upload']}>
-						{formImagesToUpload?.length > 1 && (
+					<div className={styles.preview}>
+						<div className={styles['yoyo-upload']}>
+							{formImagesToUpload?.length > 1 && (
+								<div
+									className={styles.arrow}
+									onClick={() => {
+										if (previewIndex === 0) {
+											setPreviewIndex(previewUrls.length - 1);
+										} else {
+											setPreviewIndex((prev) => prev - 1);
+										}
+										return;
+									}}
+								>
+									<ArrowBackIosNew className={styles.icon} />
+								</div>
+							)}
+							<input
+								name={input}
+								id={input}
+								type='file'
+								multiple={uploadType !== 'profile' && uploadType !== 'cover'}
+								ref={fileInputRef}
+								accept='image/*'
+								onChange={handleUpload}
+								disabled={loading}
+								className={styles.input}
+							/>
+							<img
+								src={URL.createObjectURL(previewUrls[previewIndex])}
+								alt='Preview profile picture'
+								className={styles.image}
+								onMouseOver={() => setHover(true)}
+								onMouseOut={() => setHover(false)}
+							/>
 							<div
-								className={styles.arrow}
+								className={`${styles.close} ${hover && styles.hover}`}
 								onClick={() => {
-									if (previewIndex === 0) {
-										setPreviewIndex(previewUrls.length - 1);
-									} else {
-										setPreviewIndex((prev) => prev - 1);
-									}
-									return;
+									setFormImagesToUpload(
+										formImagesToUpload.filter(
+											(_, index) => index !== previewIndex
+										)
+									);
+									setPreviewUrls(
+										previewUrls.filter((_, index) => index !== previewIndex)
+									);
+									setPreviewIndex(0);
 								}}
 							>
-								<ArrowBackIosNew className={styles.icon} />
+								<Close className={styles['close-icon']} />
 							</div>
-						)}
-						<input
-							name={input}
-							id={input}
-							type='file'
-							multiple={uploadType !== 'profile' && uploadType !== 'cover'}
-							ref={fileInputRef}
-							accept='image/*'
-							onChange={handleUpload}
-							disabled={loading}
-							className={styles.input}
-						/>
-						<img
-							src={URL.createObjectURL(previewUrls[previewIndex])}
-							alt='Preview profile picture'
-							className={styles.image}
-							onMouseOver={() => setHover(true)}
-							onMouseOut={() => setHover(false)}
-						/>
-						<div
-							className={`${styles.close} ${hover && styles.hover}`}
-							onClick={() => {
-								setFormImagesToUpload(
-									formImagesToUpload.filter(
-										(_, index) => index !== previewIndex
-									)
-								);
-								setPreviewUrls(
-									previewUrls.filter((_, index) => index !== previewIndex)
-								);
-								setPreviewIndex(0);
-							}}
-						>
-							<Close className={styles['close-icon']} />
+							{formImagesToUpload?.length > 1 && (
+								<div
+									className={styles.arrow}
+									onClick={() => {
+										if (previewIndex === previewUrls.length - 1) {
+											setPreviewIndex(0);
+										} else {
+											setPreviewIndex((prev) => prev + 1);
+										}
+										return;
+									}}
+								>
+									<ArrowForwardIos className={styles.icon} />
+								</div>
+							)}
 						</div>
-						{formImagesToUpload?.length > 1 && (
-							<div
-								className={styles.arrow}
-								onClick={() => {
-									if (previewIndex === previewUrls.length - 1) {
-										setPreviewIndex(0);
-									} else {
-										setPreviewIndex((prev) => prev + 1);
-									}
-									return;
-								}}
-							>
-								<ArrowForwardIos className={styles.icon} />
-							</div>
-						)}
+						<div className={styles['preview-counter']}>
+							{previewIndex + 1}/{formImagesToUpload.length}
+						</div>
 					</div>
 				) : (
 					<label

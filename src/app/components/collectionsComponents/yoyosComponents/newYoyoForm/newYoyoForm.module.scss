@@ -25,6 +25,10 @@
 			&.multi-yoyo {
 				display: flex;
 				width: 17.25rem;
+
+				&.counter {
+					height: 15.75rem;
+				}
 			}
 		}
 
