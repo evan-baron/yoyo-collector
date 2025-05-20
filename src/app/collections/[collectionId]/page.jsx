@@ -73,8 +73,6 @@ function Collection() {
 			}
 			setPrivacyChecked(true);
 
-			console.log(response.data);
-
 			setPrivacy(privacy);
 			setCollection(collectionData);
 			setPhotos(collectionPhotos);
@@ -92,8 +90,6 @@ function Collection() {
 	const {
 		collection_description: description,
 		collection_name: collectionName,
-		first_name: first,
-		handle,
 		likes,
 	} = collection;
 
