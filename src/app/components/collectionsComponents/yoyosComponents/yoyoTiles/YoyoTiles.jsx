@@ -13,7 +13,6 @@ import { North } from '@mui/icons-material';
 import YoyoTile from '../yoyoTile/YoyoTile';
 import NewYoyoForm from '../newYoyoForm/NewYoyoForm';
 import PhotoYoyoTile from '../photoYoyoTile/PhotoYoyoTile';
-import PhotoOptions from '@/app/components/photoOptions/PhotoOptions';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
