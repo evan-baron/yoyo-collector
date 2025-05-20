@@ -53,7 +53,6 @@ function Collection() {
 		originalYoyoData,
 		selectedYoyo,
 		selectedYoyos,
-		viewingCollectionId,
 		yoyoModalOpen,
 		setDirty,
 		setDirtyType,
@@ -116,8 +115,6 @@ function Collection() {
 
 	// Resets editing state on page load
 	useEffect(() => {
-		// setEditing(false);
-		// setEditingYoyos(false);
 		setSelectedYoyo(null);
 		setSelectedYoyos([]);
 	}, []);
@@ -462,6 +459,7 @@ function Collection() {
 										scroll='click'
 										setCoverPhoto={setCoverPhoto}
 										editing={editing}
+										photos={photos}
 									/>
 								</div>
 							</div>

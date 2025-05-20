@@ -18,60 +18,18 @@ import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
 import { useAppContext } from '@/app/context/AppContext';
 
 function CollectionPhotos({
+	photos,
 	collectionId,
 	collectionType,
 	size,
 	setCoverPhoto,
 	editing,
 }) {
-	// collection is the collection id
+	const { newCollectionCounter } = useAppContext();
 
-	const { newCollectionCounter, setLoadingMessage } = useAppContext();
-
-	const [photos, setPhotos] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const [splitUpCollection, setSplitUpCollection] = useState([]);
-	const [visibleTile, setVisibleTile] = useState(0);
 
-	useEffect(() => {
-		const fetchCollectionPhotos = async () => {
-			try {
-				setLoading(true);
-				setLoadingMessage('Loading');
-				const collectionData = await axiosInstance.get(
-					`/api/user/collections/byCollectionId?collectionId=${collectionId}`,
-					{
-						withCredentials: true,
-					}
-				);
-
-				const { collectionPhotos } = collectionData.data;
-
-				setPhotos(collectionPhotos);
-
-				if (collectionPhotos.length > 4) {
-					setSplitUpCollection(arraySplitter(collectionPhotos, 4));
-				}
-			} catch (error) {
-				console.error(
-					'There was an error fetching the collectionData',
-					error.message
-				);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchCollectionPhotos();
-	}, [newCollectionCounter]);
-
-	useEffect(() => {
-		if (visibleTile + 1 > splitUpCollection.length) {
-			setVisibleTile((prev) => prev - 1);
-		}
-		if (visibleTile + 1 < splitUpCollection.length) {
-			setVisibleTile(splitUpCollection.length - 1);
-		}
-	}, [splitUpCollection]);
+	useEffect(() => {}, [newCollectionCounter]);
 
 	const renderCollections = () => {
 		if (photos.length === 0 && !loading && editing) {
@@ -99,17 +57,22 @@ function CollectionPhotos({
 				)}
 				{photos &&
 					photos.map((photo, index) => {
-						return (
-							<CollectionPhoto
-								key={index}
-								photoData={photo}
-								currentUser={true}
-								size={size}
-								collectionType={collectionType}
-								setCoverPhoto={setCoverPhoto}
-								editing={editing}
-							/>
-						);
+						if (
+							photo.upload_category === 'cover' ||
+							photo.upload_category === 'collection'
+						) {
+							return (
+								<CollectionPhoto
+									key={index}
+									photoData={photo}
+									currentUser={true}
+									size={size}
+									collectionType={collectionType}
+									setCoverPhoto={setCoverPhoto}
+									editing={editing}
+								/>
+							);
+						}
 					})}
 			</div>
 		);
