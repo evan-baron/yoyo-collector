@@ -92,8 +92,6 @@ function Collection() {
 			);
 			const { collectionData, collectionPhotos, yoyosData } = response.data;
 
-			console.log(response.data);
-
 			setCollection(collectionData);
 			setPhotos(collectionPhotos);
 			setYoyos(yoyosData);
@@ -252,7 +250,7 @@ function Collection() {
 					valuesToUpdate: valuesToUpdate,
 				});
 			} catch (error) {
-				console.log(
+				console.error(
 					'There was an error updating the yoyo details at mycollections/id/page',
 					error
 				);
@@ -410,9 +408,6 @@ function Collection() {
 													className={`${styles.option} ${
 														!editing && styles['not-editing']
 													}`}
-													onClick={() => {
-														console.log('zoom action');
-													}}
 												>
 													<ZoomIn
 														className={`${styles.icon} ${
