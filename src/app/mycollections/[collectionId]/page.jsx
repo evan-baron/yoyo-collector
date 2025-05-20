@@ -479,6 +479,7 @@ function Collection() {
 									editingYoyos={editingYoyos}
 									addYoyo={addYoyo}
 									setAddYoyo={setAddYoyo}
+									collectionType={'user'}
 								/>
 							</div>
 						</section>

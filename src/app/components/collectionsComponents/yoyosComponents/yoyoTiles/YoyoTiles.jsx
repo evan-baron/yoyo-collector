@@ -24,6 +24,7 @@ function YoyoTiles({
 	editingYoyos,
 	addYoyo,
 	setAddYoyo,
+	collectionType,
 }) {
 	const {
 		dirty,
@@ -332,7 +333,7 @@ function YoyoTiles({
 									editingYoyos={editingYoyos}
 									yoyoData={yoyo}
 									key={index}
-									collectionType={'visitor'}
+									collectionType={collectionType}
 								/>
 							);
 						})}

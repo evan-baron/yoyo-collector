@@ -16,7 +16,13 @@ import Heart from '@/app/components/icons/heart/Heart';
 import { useAppContext } from '@/app/context/AppContext';
 import axiosInstance from '@/lib/utils/axios';
 
-function CollectionPhoto({ photoData, currentUser, setCoverPhoto, editing }) {
+function CollectionPhoto({
+	photoData,
+	currentUser,
+	setCoverPhoto,
+	editing,
+	collectionType,
+}) {
 	const {
 		id: photoId,
 		collection_name: name,
@@ -117,18 +123,15 @@ function CollectionPhoto({ photoData, currentUser, setCoverPhoto, editing }) {
 											!editing && styles['not-editing']
 										}`}
 										onClick={() => {
-											console.log('zoom action');
+											setModalOpen(true);
+											setModalType('view-photo');
+											setViewPhoto(photoUrl);
 										}}
 									>
 										<ZoomIn
 											className={`${styles.icon} ${
 												!editing && styles['not-editing']
 											}`}
-											onClick={() => {
-												setModalOpen(true);
-												setModalType('view-photo');
-												setViewPhoto(photoUrl);
-											}}
 										/>
 									</div>
 									<div

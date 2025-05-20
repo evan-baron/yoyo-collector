@@ -241,7 +241,7 @@ function Collection() {
 								<div className={styles.photos}>
 									<CollectionPhotos
 										collectionId={collectionId}
-										collectionType='user'
+										collectionType='visitor'
 										scroll='click'
 										photos={photos}
 									/>
@@ -261,6 +261,7 @@ function Collection() {
 									editingYoyos={editingYoyos}
 									addYoyo={false}
 									setAddYoyo={null}
+									collectionType={'visitor'}
 								/>
 							</div>
 						</section>

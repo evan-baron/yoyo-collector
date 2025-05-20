@@ -215,7 +215,7 @@
 								}
 
 								&.not-editing {
-									border: 0.375rem solid var(--lightestGray);
+									border: 0.5rem solid var(--lightestGray);
 								}
 
 								.icon {
@@ -224,8 +224,8 @@
 									color: var(--lightestGray);
 
 									&.not-editing {
-										width: 5rem;
-										height: 5rem;
+										width: 6rem;
+										height: 6rem;
 									}
 								}
 							}
