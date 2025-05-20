@@ -26,7 +26,6 @@ import VerticalDivider from '../components/dividers/VerticalDivider';
 import CollectionCarousel from '../components/collectionCarousel/CollectionCarousel';
 import NewCollectionButton from '../components/newCollectionButton/NewCollectionButton';
 import BlankProfilePhoto from '../components/blankProfilePhoto/BlankProfilePhoto';
-import CollectionTile from '../components/collectionsComponents/myCollectionsComponents/collectionTile/CollectionTile';
 import CollectionsTiles from '../components/collectionsComponents/myCollectionsComponents/collectionsTiles/CollectionsTiles';
 
 async function Profile() {
