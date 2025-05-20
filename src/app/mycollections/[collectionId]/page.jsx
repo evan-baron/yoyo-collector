@@ -54,6 +54,7 @@ function Collection() {
 		selectedYoyo,
 		selectedYoyos,
 		yoyoModalOpen,
+		yoyoModalType,
 		setDirty,
 		setDirtyType,
 		setEditing,
@@ -72,6 +73,7 @@ function Collection() {
 		setViewingCollectionId,
 		setViewPhoto,
 		setYoyoModalOpen,
+		setYoyoModalType,
 	} = useAppContext();
 
 	const [collection, setCollection] = useState({});
@@ -186,6 +188,7 @@ function Collection() {
 			editing && setEditing((prev) => !prev);
 			if (editingYoyos && yoyoModalOpen) {
 				setYoyoModalOpen(false);
+				setEditingYoyos(false);
 				return;
 			}
 			editingYoyos && setEditingYoyos((prev) => !prev);
@@ -499,6 +502,7 @@ function Collection() {
 									setEditingYoyos((prev) => !prev);
 								}
 							}
+							yoyoModalOpen && setYoyoModalType('edit-yoyo');
 						}}
 						disabled={error}
 						style={{
@@ -514,7 +518,9 @@ function Collection() {
 							{editing || editingYoyos
 								? 'Save Changes'
 								: selected === 'yoyos'
-								? 'Edit Yoyos'
+								? yoyoModalOpen
+									? 'Edit Yoyo'
+									: 'Edit Yoyos'
 								: 'Edit Collection'}
 						</p>
 					</button>

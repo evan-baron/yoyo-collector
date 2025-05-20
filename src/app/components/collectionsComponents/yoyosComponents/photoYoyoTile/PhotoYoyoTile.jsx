@@ -16,7 +16,7 @@ import Heart from '@/app/components/icons/heart/Heart';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function PhotoYoyoTile({ editingYoyos, yoyoData }) {
+function PhotoYoyoTile({ yoyoData }) {
 	const {
 		setModalOpen,
 		setModalType,
@@ -26,6 +26,7 @@ function PhotoYoyoTile({ editingYoyos, yoyoData }) {
 		setViewingYoyoData,
 		newCollectionCounter,
 		setSelectedYoyo,
+		setEditingYoyos,
 	} = useAppContext();
 
 	useEffect(() => {}, [newCollectionCounter]);
@@ -64,27 +65,32 @@ function PhotoYoyoTile({ editingYoyos, yoyoData }) {
 								console.log('zoom action');
 							}}
 						>
-							{!editingYoyos ? (
-								<ZoomIn
-									className={styles.icon}
-									onClick={() => {
-										setSelectedYoyo(yoyoData.id);
-										setViewingYoyoData(yoyoData);
-										setYoyoModalOpen(true);
-										setYoyoModalType('view-yoyo');
-									}}
-								/>
-							) : (
-								<Edit
-									className={styles.icon}
-									onClick={() => {
-										setSelectedYoyo(yoyoData.id);
-										setViewingYoyoData(yoyoData);
-										setYoyoModalOpen(true);
-										setYoyoModalType('edit-yoyo');
-									}}
-								/>
-							)}
+							<ZoomIn
+								className={styles.icon}
+								onClick={() => {
+									setSelectedYoyo(yoyoData.id);
+									setViewingYoyoData(yoyoData);
+									setYoyoModalOpen(true);
+									setYoyoModalType('view-yoyo');
+								}}
+							/>
+						</div>
+						<div
+							className={styles.option}
+							onClick={() => {
+								console.log('zoom action');
+							}}
+						>
+							<Edit
+								className={styles.icon}
+								onClick={() => {
+									setSelectedYoyo(yoyoData.id);
+									setViewingYoyoData(yoyoData);
+									setYoyoModalOpen(true);
+									setYoyoModalType('edit-yoyo');
+									setEditingYoyos(true);
+								}}
+							/>
 						</div>
 					</div>
 				</div>
