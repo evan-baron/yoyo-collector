@@ -25,7 +25,6 @@ function CollectionsTiles({ scroll, size, collectionType, userName, page }) {
 	const [collections, setCollections] = useState([]);
 	const [splitUpCollection, setSplitUpCollection] = useState([]);
 	const [visibleTile, setVisibleTile] = useState(0);
-	const [selectedCollection, setSelectedCollection] = useState(1);
 
 	useEffect(() => {
 		const fetchCollections = async () => {
