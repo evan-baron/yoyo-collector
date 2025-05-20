@@ -86,8 +86,13 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [shareLink, setShareLink] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState(null);
 	const [tokenValid, setTokenValid] = useState(null);
+	const [uploadError, setUploadError] = useState(null);
 	const [user, setUser] = useState(initialUser);
+	const [viewingCollectionId, setViewingCollectionId] = useState(null);
 	const [viewPhoto, setViewPhoto] = useState(null);
+	const [viewingYoyoData, setViewingYoyoData] = useState({});
+	const [yoyoModalOpen, setYoyoModalOpen] = useState(null);
+	const [yoyoModalType, setYoyoModalType] = useState(null);
 
 	const currentPath = useRef('/');
 	const pathname = usePathname();
@@ -307,8 +312,13 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				shareLink,
 				timeRemaining,
 				tokenValid,
+				uploadError,
 				user,
+				viewingCollectionId,
 				viewPhoto,
+				viewingYoyoData,
+				yoyoModalOpen,
+				yoyoModalType,
 				setClearInputRef,
 				setCollectionToDelete,
 				setCurrentlyEditing,
@@ -338,8 +348,13 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setShareLink,
 				setTimeRemaining,
 				setTokenValid,
+				setUploadError,
 				setUser,
+				setViewingCollectionId,
 				setViewPhoto,
+				setViewingYoyoData,
+				setYoyoModalOpen,
+				setYoyoModalType,
 			}}
 		>
 			{children}

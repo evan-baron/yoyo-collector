@@ -13,7 +13,12 @@ import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 import PhotoOptions from '@/app/components/photoOptions/PhotoOptions';
 import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 
+// Context
+import { useAppContext } from '@/app/context/AppContext';
+
 function YoyoPhotoScroller({ displayType, optionsSize, photos }) {
+	const { yoyoModalOpen } = useAppContext();
+
 	const mainIndex = photos.findIndex((photo) => photo.main_yoyo_photo === 1);
 	const [displayPhoto, setDisplayPhoto] = useState(
 		mainIndex !== -1 ? mainIndex : 0
@@ -65,7 +70,7 @@ function YoyoPhotoScroller({ displayType, optionsSize, photos }) {
 			<div
 				className={`${styles['image-box']} ${
 					displayType === 'photo' && styles['photo-tile']
-				}`}
+				} ${yoyoModalOpen && styles['yoyo-modal']}`}
 			>
 				{photos.length > 0 && photos[displayPhoto] ? (
 					<>

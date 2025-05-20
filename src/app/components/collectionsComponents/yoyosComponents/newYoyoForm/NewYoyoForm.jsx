@@ -24,7 +24,6 @@ import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
 import { useAppContext } from '@/app/context/AppContext';
 
 function NewYoyoForm({
-	collectionId,
 	yoyoData,
 	setYoyoData,
 	setAddYoyo,
@@ -363,7 +362,6 @@ function NewYoyoForm({
 						}`}
 					>
 						<PictureUploader
-							collection={collectionId}
 							key='addYoyoFormYoyoInput'
 							uploadType='yoyo'
 							input='addYoyoFormYoyoInput'

@@ -42,6 +42,7 @@ function Dirty() {
 		setNewCollectionCounter,
 		setNewYoyoData,
 		setOriginalYoyoData,
+		setYoyoModalOpen,
 	} = useAppContext();
 
 	const router = useRouter();
@@ -214,6 +215,7 @@ function Dirty() {
 				setModalOpen(false);
 				setModalType(null);
 				setLoading(false);
+				setYoyoModalOpen(false);
 			}
 		}
 	};

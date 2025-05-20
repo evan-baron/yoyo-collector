@@ -5,7 +5,7 @@ import React from 'react';
 import styles from './fullDetailYoyoTile.module.scss';
 
 // MUI
-import { Edit } from '@mui/icons-material';
+import { Edit, Close } from '@mui/icons-material';
 
 // Components
 import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
@@ -16,21 +16,21 @@ import YoyoPhotoScroller from '../yoyoPhotoScroller/YoyoPhotoScroller';
 import { useAppContext } from '@/app/context/AppContext';
 
 const FullDetailYoyoTile = ({
+	yoyoData,
 	selectedTile,
 	handleSelect,
-	likes,
 	validLeftItems = [],
 	validRightItems = [],
-	condition,
-	yoyoId,
-	photos,
-	collectionId,
-	added,
-	setAdded,
-	uploadError,
-	setUploadError,
 }) => {
-	const { setSelectedYoyo, selectedYoyo, setEditingYoyos } = useAppContext();
+	const {
+		setSelectedYoyo,
+		setEditingYoyos,
+		yoyoModalOpen,
+		setYoyoModalType,
+		setYoyoModalOpen,
+	} = useAppContext();
+
+	const { id: yoyoId, photos, condition, likes } = yoyoData;
 
 	return (
 		<div
@@ -41,7 +41,11 @@ const FullDetailYoyoTile = ({
 				{photos?.length > 0 ? (
 					<YoyoPhotoScroller optionsSize={'small'} photos={photos} />
 				) : (
-					<div className={styles.image}>
+					<div
+						className={`${styles.image} ${
+							yoyoModalOpen && styles['yoyo-modal']
+						}`}
+					>
 						<BlankYoyoPhoto />
 					</div>
 				)}
@@ -109,14 +113,26 @@ const FullDetailYoyoTile = ({
 					</div>
 				)}
 
-				<Edit
-					className={styles.edit}
-					onClick={(e) => {
-						e.stopPropagation();
-						setEditingYoyos(true);
-						!selectedTile && setSelectedYoyo(yoyoId);
-					}}
-				/>
+				{yoyoModalOpen ? (
+					<div
+						className={styles['close-tile']}
+						onClick={() => {
+							setSelectedYoyo(null);
+							yoyoModalOpen && setYoyoModalOpen(false);
+						}}
+					>
+						<Close className={styles.close} />
+					</div>
+				) : (
+					<Edit
+						className={styles.edit}
+						onClick={(e) => {
+							e.stopPropagation();
+							setEditingYoyos(true);
+							!selectedTile && setSelectedYoyo(yoyoId);
+						}}
+					/>
+				)}
 				{/* Optional: Only show edit if current user owns this yoyo */}
 			</div>
 		</div>

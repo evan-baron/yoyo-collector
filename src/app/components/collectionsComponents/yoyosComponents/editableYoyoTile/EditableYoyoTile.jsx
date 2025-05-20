@@ -13,7 +13,6 @@ import styles from './editableYoyoTile.module.scss';
 import { Edit, Check, Close, Undo } from '@mui/icons-material';
 
 // Components
-import Heart from '@/app/components/icons/heart/Heart';
 import YoyoTileInput from '../yoyoTileInput/YoyoTileInput';
 import BlankEditableYoyoTile from '../blankEditableYoyoTile/BlankEditableYoyoTile';
 import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
@@ -22,16 +21,12 @@ import YoyoPhotoScroller from '../yoyoPhotoScroller/YoyoPhotoScroller';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function EditableYoyoTile({
-	yoyoData,
-	collectionId,
-	setAdded,
-	setUploadError,
-	uploadError,
-}) {
+function EditableYoyoTile({ yoyoData }) {
 	const {
 		dirty,
 		originalYoyoData,
+		uploadError,
+		setUploadError,
 		newYoyoData,
 		setDirty,
 		setDirtyType,
@@ -42,6 +37,8 @@ function EditableYoyoTile({
 		setModalOpen,
 		setModalType,
 		setClearInputRef,
+		setYoyoModalOpen,
+		yoyoModalOpen,
 	} = useAppContext();
 
 	const [inputs, setInputs] = useState();
@@ -54,7 +51,6 @@ function EditableYoyoTile({
 		brand,
 		category,
 		colorway,
-		likes,
 		model,
 		photos,
 		original_owner: originalOwner,
@@ -288,11 +284,9 @@ function EditableYoyoTile({
 					}`}
 				>
 					<PictureUploader
-						collection={collectionId}
 						key='editYoyoTileYoyoInput'
 						uploadType='yoyo'
 						input='editYoyoTileYoyoInput'
-						setAdded={setAdded}
 						setUploadError={setUploadError}
 						photosLength={photos.length || 0}
 					/>
@@ -508,6 +502,11 @@ function EditableYoyoTile({
 						return;
 					}
 					setSelectedYoyo(null);
+					yoyoModalOpen && setYoyoModalOpen(false);
+				}}
+				style={{
+					top: yoyoModalOpen && '-.5rem',
+					right: yoyoModalOpen && '-.5rem',
 				}}
 			>
 				<Close className={styles.close} />

@@ -31,7 +31,6 @@ function PictureUploader({
 	input,
 	uploadType,
 	defaultUrl,
-	collection,
 	setCoverPhoto,
 	editing,
 	setUploadError,
@@ -55,6 +54,7 @@ function PictureUploader({
 		setUser,
 		setNewCollectionCounter,
 		selectedYoyo,
+		viewingCollectionId,
 	} = useAppContext();
 
 	const MAX_FILES = 10;
@@ -246,7 +246,7 @@ function PictureUploader({
 						...data,
 						category: uploadType,
 						uploadAction: 'new',
-						collectionId: collection,
+						collectionId: viewingCollectionId,
 						yoyoId: selectedYoyo,
 					};
 
@@ -302,7 +302,7 @@ function PictureUploader({
 					secure_url: profilePicture.secure_url,
 				}));
 			} else if (uploadType === 'cover') {
-				uploadData.collectionId = collection;
+				uploadData.collectionId = viewingCollectionId;
 
 				const response = await axiosInstance.post(
 					'/api/user/collectionPictures',
@@ -313,7 +313,7 @@ function PictureUploader({
 				setPicture(coverPhoto.secure_url);
 				setCoverPhoto(coverPhoto.secure_url);
 			} else if (uploadType === 'collection' || uploadType === 'yoyo') {
-				uploadData.collectionId = collection;
+				uploadData.collectionId = viewingCollectionId;
 
 				await axiosInstance.post('/api/user/collectionPictures', uploadData);
 			} else {
@@ -347,7 +347,7 @@ function PictureUploader({
 				await axiosInstance.delete('/api/user/collectionPictures', {
 					data: {
 						remove,
-						collection,
+						collection: viewingCollectionId,
 						uploadType,
 					},
 				});

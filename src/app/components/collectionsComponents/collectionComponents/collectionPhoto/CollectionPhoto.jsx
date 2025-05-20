@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import styles from './collectionPhoto.module.scss';
 
 // MUI
-import { Share, ZoomIn, DeleteOutline } from '@mui/icons-material';
+import { Share, ZoomIn } from '@mui/icons-material';
 
 // Components
 import Heart from '@/app/components/icons/heart/Heart';
@@ -16,13 +16,7 @@ import Heart from '@/app/components/icons/heart/Heart';
 import { useAppContext } from '@/app/context/AppContext';
 import axiosInstance from '@/lib/utils/axios';
 
-function CollectionPhoto({
-	photoData,
-	currentUser,
-	collectionType,
-	setCoverPhoto,
-	editing,
-}) {
+function CollectionPhoto({ photoData, currentUser, setCoverPhoto, editing }) {
 	const {
 		id: photoId,
 		collection_name: name,
@@ -155,17 +149,6 @@ function CollectionPhoto({
 									</div>
 								</>
 							)}
-							{/* {currentUser && editing && (
-								<div
-									className={styles.option}
-									onClick={() => {
-										setChangeModal((prev) => !prev);
-										setChangeModalType('delete');
-									}}
-								>
-									<DeleteOutline className={styles.icon} />
-								</div>
-							)} */}
 						</div>
 						{currentUser && editing && (
 							<>

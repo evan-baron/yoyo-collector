@@ -30,6 +30,7 @@ import Heart from '@/app/components/icons/heart/Heart';
 import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
 import CollectionPhotos from '@/app/components/collectionsComponents/collectionComponents/collectionPhotos/CollectionPhotos';
 import YoyoTiles from '@/app/components/collectionsComponents/yoyosComponents/yoyoTiles/YoyoTiles';
+import YoyoModal from '@/app/components/yoyoModal/YoyoModal';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -52,6 +53,8 @@ function Collection() {
 		originalYoyoData,
 		selectedYoyo,
 		selectedYoyos,
+		viewingCollectionId,
+		yoyoModalOpen,
 		setDirty,
 		setDirtyType,
 		setEditing,
@@ -67,7 +70,9 @@ function Collection() {
 		setSelectedYoyo,
 		setSelectedYoyos,
 		setShareLink,
+		setViewingCollectionId,
 		setViewPhoto,
+		setYoyoModalOpen,
 	} = useAppContext();
 
 	const [collection, setCollection] = useState({});
@@ -77,6 +82,8 @@ function Collection() {
 
 	useEffect(() => {
 		if (!collectionId) return;
+
+		setViewingCollectionId(collectionId);
 
 		const fetchCollectionData = async () => {
 			const response = await axiosInstance.get(
@@ -106,7 +113,6 @@ function Collection() {
 	const [selected, setSelected] = useState('collection');
 	const [addYoyo, setAddYoyo] = useState(false);
 	const [added, setAdded] = useState(false);
-	const [uploadError, setUploadError] = useState(null);
 
 	// Resets editing state on page load
 	useEffect(() => {
@@ -181,8 +187,11 @@ function Collection() {
 	const handleSubmit = async () => {
 		if (!dirty) {
 			editing && setEditing((prev) => !prev);
+			if (editingYoyos && yoyoModalOpen) {
+				setYoyoModalOpen(false);
+				return;
+			}
 			editingYoyos && setEditingYoyos((prev) => !prev);
-			// setSelectedYoyo(null);
 			return;
 		}
 
@@ -256,6 +265,7 @@ function Collection() {
 				setNewCollectionCounter((prev) => prev + 1);
 				setNewYoyoData(null);
 				setOriginalYoyoData(null);
+				setYoyoModalOpen(false);
 			}
 		}
 	};
@@ -466,14 +476,11 @@ function Collection() {
 									yoyos={yoyos}
 									selectedYoyos={selectedYoyos}
 									setSelectedYoyos={setSelectedYoyos}
-									collectionId={collection.id}
 									editingYoyos={editingYoyos}
 									addYoyo={addYoyo}
 									setAddYoyo={setAddYoyo}
 									added={added}
 									setAdded={setAdded}
-									uploadError={uploadError}
-									setUploadError={setUploadError}
 								/>
 							</div>
 						</section>
@@ -513,7 +520,7 @@ function Collection() {
 								: 'Edit Collection'}
 						</p>
 					</button>
-					{selected === 'yoyos' && (
+					{selected === 'yoyos' && !yoyoModalOpen && (
 						<button
 							className={`${styles['settings-button']} ${
 								error && styles.disabled
@@ -563,6 +570,7 @@ function Collection() {
 				</div>
 			</div>
 			{loading && <LoadingSpinner message={loadingMessage} />}
+			{yoyoModalOpen && <YoyoModal />}
 		</>
 	);
 }

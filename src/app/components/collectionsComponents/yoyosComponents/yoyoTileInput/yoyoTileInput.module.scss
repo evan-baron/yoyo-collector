@@ -48,6 +48,9 @@
 	}
 
 	.input {
+		display: flex;
+		width: fit-content;
+		max-width: 12.5rem;
 		border: none;
 		height: 2rem;
 		font-size: 1.25rem;

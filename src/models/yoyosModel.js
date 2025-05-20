@@ -104,8 +104,6 @@ const Yoyos = {
 		let query = `UPDATE yoyos SET `;
 		const params = [];
 
-		console.log('from update yoyo model:', yoyoId, updates);
-
 		// Dynamically build the query based on the provided updates
 		for (const [key, value] of Object.entries(updates)) {
 			query += `${key} = ?, `;

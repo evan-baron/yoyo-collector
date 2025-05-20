@@ -1,15 +1,35 @@
+'use client';
+
 // Libraries
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Styles
 import styles from './photoYoyoTile.module.scss';
 
+// MUI
+import { Share, ZoomIn, Edit } from '@mui/icons-material';
+
 // Components
-import YoyoPhotoScroller from '../yoyoPhotoScroller/YoyoPhotoScroller';
 import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
 import Heart from '@/app/components/icons/heart/Heart';
 
-function PhotoYoyoTile({ yoyoData }) {
+// Context
+import { useAppContext } from '@/app/context/AppContext';
+
+function PhotoYoyoTile({ editingYoyos, yoyoData }) {
+	const {
+		setModalOpen,
+		setModalType,
+		setYoyoModalOpen,
+		setYoyoModalType,
+		viewingYoyoData,
+		setViewingYoyoData,
+		newCollectionCounter,
+		setSelectedYoyo,
+	} = useAppContext();
+
+	useEffect(() => {}, [newCollectionCounter]);
+
 	const { brand, likes, model, photos } = yoyoData;
 
 	const displayUrl = (() => {
@@ -30,13 +50,45 @@ function PhotoYoyoTile({ yoyoData }) {
 
 	return (
 		<div className={styles.container}>
-			{photos.length ? (
-				<img className={styles.image} src={displayUrl} />
-			) : (
-				<div className={styles.image}>
+			<div className={styles.image}>
+				{photos.length ? (
+					<img className={styles.image} src={displayUrl} />
+				) : (
 					<BlankYoyoPhoto noBorder={true} />
+				)}
+				<div className={styles.options}>
+					<div className={styles.menu}>
+						<div
+							className={styles.option}
+							onClick={() => {
+								console.log('zoom action');
+							}}
+						>
+							{!editingYoyos ? (
+								<ZoomIn
+									className={styles.icon}
+									onClick={() => {
+										setSelectedYoyo(yoyoData.id);
+										setViewingYoyoData(yoyoData);
+										setYoyoModalOpen(true);
+										setYoyoModalType('view-yoyo');
+									}}
+								/>
+							) : (
+								<Edit
+									className={styles.icon}
+									onClick={() => {
+										setSelectedYoyo(yoyoData.id);
+										setViewingYoyoData(yoyoData);
+										setYoyoModalOpen(true);
+										setYoyoModalType('edit-yoyo');
+									}}
+								/>
+							)}
+						</div>
+					</div>
 				</div>
-			)}
+			</div>
 			<div className={styles.details}>
 				<div className={styles.attributes}>
 					<h3 className={styles.model}>{model}</h3>

@@ -91,7 +91,7 @@
 			align-items: center;
 			background-color: transparent;
 			box-shadow: none;
-			gap: 1rem;
+			gap: 1.5rem;
 		}
 
 		.legend {
@@ -204,6 +204,6 @@
 
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 2rem;
+		gap: 3rem;
 	}
 }

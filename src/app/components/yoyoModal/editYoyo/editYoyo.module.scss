@@ -1,0 +1,11 @@
+.container {
+	position: absolute;
+	min-width: 50rem;
+	width: fit-content;
+	max-width: 60rem;
+	background-color: var(--darkGray);
+	color: var(--lightestGray);
+	padding: 1rem;
+	border-radius: 0.5rem;
+	box-shadow: 0.25rem 0.25rem 1rem black;
+}

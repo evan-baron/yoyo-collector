@@ -13,6 +13,7 @@ import { North } from '@mui/icons-material';
 import YoyoTile from '../yoyoTile/YoyoTile';
 import NewYoyoForm from '../newYoyoForm/NewYoyoForm';
 import PhotoYoyoTile from '../photoYoyoTile/PhotoYoyoTile';
+import PhotoOptions from '@/app/components/photoOptions/PhotoOptions';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';
@@ -21,17 +22,20 @@ function YoyoTiles({
 	yoyos,
 	setSelectedYoyos,
 	selectedYoyos,
-	collectionId,
 	editingYoyos,
 	addYoyo,
 	setAddYoyo,
 	added,
 	setAdded,
-	uploadError,
-	setUploadError,
 }) {
-	const { dirty, setModalOpen, setModalType, selectedYoyo, setSelectedYoyo } =
-		useAppContext();
+	const {
+		dirty,
+		setModalOpen,
+		setModalType,
+		selectedYoyo,
+		setSelectedYoyo,
+		viewingCollectionId,
+	} = useAppContext();
 
 	const [sort, setSort] = useState({
 		name: {
@@ -48,7 +52,7 @@ function YoyoTiles({
 		},
 	});
 	const [yoyoFormData, setYoyoFormData] = useState({
-		collectionId: collectionId,
+		collectionId: viewingCollectionId,
 		model: '',
 		brand: '',
 		bearing: '',
@@ -154,14 +158,11 @@ function YoyoTiles({
 		<div className={styles['yoyos-container']}>
 			{addYoyo && (
 				<NewYoyoForm
-					collectionId={collectionId}
 					yoyoData={yoyoFormData}
 					setYoyoData={setYoyoFormData}
 					setAddYoyo={setAddYoyo}
 					added={added}
 					setAdded={setAdded}
-					uploadError={uploadError}
-					setUploadError={setUploadError}
 				/>
 			)}
 			{!addYoyo && (
@@ -240,7 +241,7 @@ function YoyoTiles({
 							displayType === 'photos' && styles['photos-ul']
 						}`}
 					>
-						{editingYoyos && (
+						{editingYoyos && displayType !== 'photos' && (
 							<li className={styles.checkbox}>
 								<input
 									type='checkbox'
@@ -324,11 +325,8 @@ function YoyoTiles({
 									setSelectedYoyos={setSelectedYoyos}
 									displayType={displayType}
 									selectedTile={selectedYoyo === yoyo.id}
-									collectionId={collectionId}
 									added={added}
 									setAdded={setAdded}
-									uploadError={uploadError}
-									setUploadError={setUploadError}
 								/>
 							</div>
 						);
@@ -336,7 +334,13 @@ function YoyoTiles({
 				) : (
 					<div className={styles['photos-container']}>
 						{sortedYoyos.map((yoyo, index) => {
-							return <PhotoYoyoTile yoyoData={yoyo} key={index} />;
+							return (
+								<PhotoYoyoTile
+									editingYoyos={editingYoyos}
+									yoyoData={yoyo}
+									key={index}
+								/>
+							);
 						})}
 					</div>
 				)}

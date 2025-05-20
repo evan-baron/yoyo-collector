@@ -231,8 +231,6 @@ export async function PATCH(req, res) {
 			{}
 		);
 
-		console.log(failed);
-
 		if (failed.length > 0) {
 			return NextResponse.json(
 				{

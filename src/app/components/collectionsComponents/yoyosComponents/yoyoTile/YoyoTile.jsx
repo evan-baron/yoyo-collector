@@ -16,13 +16,7 @@ function YoyoTile({
 	ownerId, // ADD IN LATER TO PROTECT PRIVATE FIELDS FROM PUBLIC YOYOTILE
 	displayType, // 'small' = SMALL DETAILS (DEFAULT), 'photos' = PHOTOS ONLY WITH NAME AND COLORWAY, 'full' = BIG TILE WITH PICTURES AND ALL INFO
 	yoyoData,
-	setSelectedYoyos,
 	selectedTile,
-	collectionId,
-	added,
-	setAdded,
-	uploadError,
-	setUploadError,
 }) {
 	const {
 		editingYoyos,
@@ -30,9 +24,7 @@ function YoyoTile({
 		setModalOpen,
 		setModalType,
 		dirty,
-		setDirty,
 		setCurrentlyEditing,
-		selectedYoyo,
 		setSelectedYoyo,
 	} = useAppContext();
 
@@ -42,15 +34,12 @@ function YoyoTile({
 		brand,
 		category,
 		colorway,
-		likes,
 		model,
-		photos,
 		original_owner: originalOwner,
 		purchase_price: purchasePrice,
 		purchase_year: purchaseYear,
 		release_year: releaseYear,
 		response_type: responseType,
-		yoyo_condition: condition,
 		yoyo_value: value,
 	} = yoyoData;
 
@@ -108,93 +97,20 @@ function YoyoTile({
 					)}
 
 					{selectedTile && editingYoyos && (
-						<EditableYoyoTile
-							editing={editingYoyos}
-							yoyoData={yoyoData}
-							setSelectedYoyos={setSelectedYoyos}
-							selectedTile={selectedTile}
-							handleSelect={handleSelect}
-							collectionId={collectionId}
-							added={added}
-							setAdded={setAdded}
-							uploadError={uploadError}
-							setUploadError={setUploadError}
-						/>
+						<EditableYoyoTile yoyoData={yoyoData} />
 					)}
 
 					{selectedTile && !editingYoyos && (
 						<FullDetailYoyoTile
 							selectedTile={selectedTile}
 							handleSelect={handleSelect}
-							likes={likes}
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
-							condition={condition}
-							setEditingYoyos={setEditingYoyos}
-							editingYoyos={editingYoyos}
-							yoyoId={id}
-							collectionId={collectionId}
-							added={added}
-							setAdded={setAdded}
-							uploadError={uploadError}
-							setUploadError={setUploadError}
-							photos={photos}
+							yoyoData={yoyoData}
 						/>
 					)}
 				</>
 			)}
-
-			{/* {displayType === 'photos' && (
-				<>
-					{!selectedTile && (
-						<SummaryYoyoTile
-							model={model}
-							colorway={colorway}
-							brand={brand}
-							releaseYear={releaseYear}
-							editing={editingYoyos}
-							handleSelect={handleSelect}
-							selectedTile={selectedTile}
-							yoyoId={id}
-						/>
-					)}
-
-					{selectedTile && editingYoyos && (
-						<EditableYoyoTile
-							editing={editingYoyos}
-							yoyoData={yoyoData}
-							setSelectedYoyos={setSelectedYoyos}
-							selectedTile={selectedTile}
-							handleSelect={handleSelect}
-							collectionId={collectionId}
-							added={added}
-							setAdded={setAdded}
-							uploadError={uploadError}
-							setUploadError={setUploadError}
-						/>
-					)}
-
-					{selectedTile && !editingYoyos && (
-						<FullDetailYoyoTile
-							selectedTile={selectedTile}
-							handleSelect={handleSelect}
-							likes={likes}
-							validLeftItems={validLeftItems}
-							validRightItems={validRightItems}
-							condition={condition}
-							setEditingYoyos={setEditingYoyos}
-							editingYoyos={editingYoyos}
-							yoyoId={id}
-							collectionId={collectionId}
-							added={added}
-							setAdded={setAdded}
-							uploadError={uploadError}
-							setUploadError={setUploadError}
-							photos={photos}
-						/>
-					)}
-				</>
-			)} */}
 
 			{displayType === 'full' && (
 				<>
@@ -202,35 +118,14 @@ function YoyoTile({
 						<FullDetailYoyoTile
 							selectedTile={selectedTile}
 							handleSelect={handleSelect}
-							likes={likes}
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
-							condition={condition}
-							setEditingYoyos={setEditingYoyos}
-							editingYoyos={editingYoyos}
-							yoyoId={id}
-							collectionId={collectionId}
-							added={added}
-							setAdded={setAdded}
-							uploadError={uploadError}
-							setUploadError={setUploadError}
-							photos={photos}
+							yoyoData={yoyoData}
 						/>
 					)}
 
 					{selectedTile && editingYoyos && (
-						<EditableYoyoTile
-							editing={editingYoyos}
-							yoyoData={yoyoData}
-							setSelectedYoyos={setSelectedYoyos}
-							selectedTile={selectedTile}
-							handleSelect={handleSelect}
-							collectionId={collectionId}
-							added={added}
-							setAdded={setAdded}
-							uploadError={uploadError}
-							setUploadError={setUploadError}
-						/>
+						<EditableYoyoTile yoyoData={yoyoData} />
 					)}
 
 					{selectedTile && !editingYoyos && (
@@ -238,19 +133,9 @@ function YoyoTile({
 							<FullDetailYoyoTile
 								selectedTile={selectedTile}
 								handleSelect={handleSelect}
-								likes={likes}
 								validLeftItems={validLeftItems}
 								validRightItems={validRightItems}
-								condition={condition}
-								setEditingYoyos={setEditingYoyos}
-								editingYoyos={editingYoyos}
-								yoyoId={id}
-								collectionId={collectionId}
-								added={added}
-								setAdded={setAdded}
-								uploadError={uploadError}
-								setUploadError={setUploadError}
-								photos={photos}
+								yoyoData={yoyoData}
 							/>
 						</>
 					)}
