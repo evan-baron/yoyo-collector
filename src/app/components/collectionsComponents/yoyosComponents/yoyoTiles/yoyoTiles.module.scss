@@ -100,10 +100,11 @@
 			padding: 0.25rem 0.5rem;
 
 			&.photos-legend {
-				box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.75);
+				// box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.75);
 
 				padding: 0.5rem;
-				border-radius: 0.5rem;
+				// border-radius: 0.5rem;
+				border-bottom: 2px solid var(--mediumGray);
 			}
 
 			.ul {

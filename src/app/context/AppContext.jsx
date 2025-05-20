@@ -91,6 +91,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [viewingCollectionId, setViewingCollectionId] = useState(null);
 	const [viewPhoto, setViewPhoto] = useState(null);
 	const [viewingYoyoData, setViewingYoyoData] = useState({});
+	const [yoyoDisplayType, setYoyoDisplayType] = useState('small');
 	const [yoyoModalOpen, setYoyoModalOpen] = useState(null);
 	const [yoyoModalType, setYoyoModalType] = useState(null);
 
@@ -317,6 +318,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				viewingCollectionId,
 				viewPhoto,
 				viewingYoyoData,
+				yoyoDisplayType,
 				yoyoModalOpen,
 				yoyoModalType,
 				setClearInputRef,
@@ -353,6 +355,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setViewingCollectionId,
 				setViewPhoto,
 				setViewingYoyoData,
+				setYoyoDisplayType,
 				setYoyoModalOpen,
 				setYoyoModalType,
 			}}

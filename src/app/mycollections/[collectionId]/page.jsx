@@ -53,8 +53,8 @@ function Collection() {
 		originalYoyoData,
 		selectedYoyo,
 		selectedYoyos,
+		yoyoDisplayType,
 		yoyoModalOpen,
-		yoyoModalType,
 		setDirty,
 		setDirtyType,
 		setEditing,
@@ -518,7 +518,9 @@ function Collection() {
 							{editing || editingYoyos
 								? 'Save Changes'
 								: selected === 'yoyos'
-								? yoyoModalOpen
+								? yoyoDisplayType === 'small' && selectedYoyo
+									? 'Edit Yoyo'
+									: yoyoModalOpen
 									? 'Edit Yoyo'
 									: 'Edit Yoyos'
 								: 'Edit Collection'}

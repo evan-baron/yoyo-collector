@@ -14,7 +14,6 @@ import { useAppContext } from '@/app/context/AppContext';
 function YoyoTile({
 	viewingId, // ADD IN LATER TO PROTECT PRIVATE FIELDS FROM PUBLIC YOYOTILE
 	ownerId, // ADD IN LATER TO PROTECT PRIVATE FIELDS FROM PUBLIC YOYOTILE
-	displayType, // 'small' = SMALL DETAILS (DEFAULT), 'photos' = PHOTOS ONLY WITH NAME AND COLORWAY, 'full' = BIG TILE WITH PICTURES AND ALL INFO
 	yoyoData,
 	selectedTile,
 }) {
@@ -24,6 +23,7 @@ function YoyoTile({
 		setModalOpen,
 		setModalType,
 		dirty,
+		yoyoDisplayType,
 		setCurrentlyEditing,
 		setSelectedYoyo,
 	} = useAppContext();
@@ -74,14 +74,14 @@ function YoyoTile({
 			setModalType('dirty');
 			return;
 		}
-		// setSelectedYoyo(id);
-		selectedTile ? setSelectedYoyo(null) : setSelectedYoyo(id);
+		setSelectedYoyo(id);
+		// selectedTile ? setSelectedYoyo(null) : setSelectedYoyo(id);
 		setCurrentlyEditing(null);
 	};
 
 	return (
 		<>
-			{displayType === 'small' && (
+			{yoyoDisplayType === 'small' && (
 				<>
 					{!selectedTile && (
 						<SummaryYoyoTile
@@ -112,7 +112,7 @@ function YoyoTile({
 				</>
 			)}
 
-			{displayType === 'full' && (
+			{yoyoDisplayType === 'full' && (
 				<>
 					{!selectedTile && (
 						<FullDetailYoyoTile

@@ -35,6 +35,8 @@ function YoyoTiles({
 		selectedYoyo,
 		setSelectedYoyo,
 		viewingCollectionId,
+		yoyoDisplayType,
+		setYoyoDisplayType,
 	} = useAppContext();
 
 	const [sort, setSort] = useState({
@@ -66,7 +68,6 @@ function YoyoTiles({
 		condition: '',
 		value: '',
 	});
-	const [displayType, setDisplayType] = useState('small');
 
 	const sortKeyMap = {
 		name: 'model',
@@ -169,10 +170,10 @@ function YoyoTiles({
 				<div className={styles.buttons}>
 					<div
 						className={`${styles.button} ${
-							displayType === 'small' && styles['selected-view']
+							yoyoDisplayType === 'small' && styles['selected-view']
 						}`}
 						onClick={() => {
-							if (displayType === 'small') {
+							if (yoyoDisplayType === 'small') {
 								return;
 							}
 							if (dirty) {
@@ -180,7 +181,7 @@ function YoyoTiles({
 								setModalType('dirty');
 								return;
 							}
-							setDisplayType('small');
+							setYoyoDisplayType('small');
 							setSelectedYoyo(null);
 						}}
 					>
@@ -188,10 +189,10 @@ function YoyoTiles({
 					</div>
 					<div
 						className={`${styles.button} ${
-							displayType === 'full' && styles['selected-view']
+							yoyoDisplayType === 'full' && styles['selected-view']
 						}`}
 						onClick={() => {
-							if (displayType === 'full') {
+							if (yoyoDisplayType === 'full') {
 								return;
 							}
 							if (dirty) {
@@ -199,7 +200,7 @@ function YoyoTiles({
 								setModalType('dirty');
 								return;
 							}
-							setDisplayType('full');
+							setYoyoDisplayType('full');
 							setSelectedYoyo(null);
 						}}
 					>
@@ -207,10 +208,10 @@ function YoyoTiles({
 					</div>
 					<div
 						className={`${styles.button} ${
-							displayType === 'photos' && styles['selected-view']
+							yoyoDisplayType === 'photos' && styles['selected-view']
 						}`}
 						onClick={() => {
-							if (displayType === 'photos') {
+							if (yoyoDisplayType === 'photos') {
 								return;
 							}
 							if (dirty) {
@@ -218,7 +219,7 @@ function YoyoTiles({
 								setModalType('dirty');
 								return;
 							}
-							setDisplayType('photos');
+							setYoyoDisplayType('photos');
 							setSelectedYoyo(null);
 						}}
 					>
@@ -228,20 +229,20 @@ function YoyoTiles({
 			)}
 			<div
 				className={`${styles.list} ${
-					displayType === 'photos' && styles['photos-list']
+					yoyoDisplayType === 'photos' && styles['photos-list']
 				}`}
 			>
 				<div
 					className={`${styles.legend} ${
-						displayType === 'photos' && styles['photos-legend']
+						yoyoDisplayType === 'photos' && styles['photos-legend']
 					}`}
 				>
 					<ul
 						className={`${styles.ul} ${editingYoyos && styles.editing} ${
-							displayType === 'photos' && styles['photos-ul']
+							yoyoDisplayType === 'photos' && styles['photos-ul']
 						}`}
 					>
-						{editingYoyos && displayType !== 'photos' && (
+						{editingYoyos && yoyoDisplayType !== 'photos' && (
 							<li className={styles.checkbox}>
 								<input
 									type='checkbox'
@@ -254,7 +255,7 @@ function YoyoTiles({
 							data-name='name'
 							className={`${styles.sort} ${styles.name} ${
 								sort.name.selected && styles.selected
-							} ${displayType === 'photos' && styles['photos-li']}`}
+							} ${yoyoDisplayType === 'photos' && styles['photos-li']}`}
 							onClick={handleSort}
 						>
 							Model Name
@@ -266,14 +267,14 @@ function YoyoTiles({
 								}}
 							/>
 						</li>
-						{displayType !== 'photos' && (
+						{yoyoDisplayType !== 'photos' && (
 							<li className={`${styles.sort} ${styles.colorway}`}>Colorway</li>
 						)}
 						<li
 							data-name='manufacturer'
 							className={`${styles.sort} ${styles.manufacturer} ${
 								sort.manufacturer.selected && styles.selected
-							} ${displayType === 'photos' && styles['photos-li']}`}
+							} ${yoyoDisplayType === 'photos' && styles['photos-li']}`}
 							onClick={handleSort}
 						>
 							Manufacturer
@@ -286,7 +287,7 @@ function YoyoTiles({
 								}}
 							/>
 						</li>
-						{displayType !== 'photos' && (
+						{yoyoDisplayType !== 'photos' && (
 							<li
 								data-name='year'
 								className={`${styles.sort} ${styles.year} ${
@@ -306,7 +307,7 @@ function YoyoTiles({
 						)}
 					</ul>
 				</div>
-				{displayType !== 'photos' ? (
+				{yoyoDisplayType !== 'photos' ? (
 					sortedYoyos.map((yoyo, index) => {
 						return (
 							<div className={styles.tile} key={index}>
@@ -323,7 +324,6 @@ function YoyoTiles({
 								<YoyoTile
 									yoyoData={yoyo}
 									setSelectedYoyos={setSelectedYoyos}
-									displayType={displayType}
 									selectedTile={selectedYoyo === yoyo.id}
 									added={added}
 									setAdded={setAdded}

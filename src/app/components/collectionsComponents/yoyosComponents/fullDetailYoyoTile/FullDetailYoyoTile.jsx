@@ -22,13 +22,7 @@ const FullDetailYoyoTile = ({
 	validLeftItems = [],
 	validRightItems = [],
 }) => {
-	const {
-		setSelectedYoyo,
-		setEditingYoyos,
-		yoyoModalOpen,
-		setYoyoModalType,
-		setYoyoModalOpen,
-	} = useAppContext();
+	const { setSelectedYoyo, yoyoModalOpen, setYoyoModalOpen } = useAppContext();
 
 	const { id: yoyoId, photos, condition, likes } = yoyoData;
 
@@ -120,18 +114,28 @@ const FullDetailYoyoTile = ({
 							setSelectedYoyo(null);
 							yoyoModalOpen && setYoyoModalOpen(false);
 						}}
+						style={{ right: '-0.5rem', top: '-0.5rem' }}
 					>
 						<Close className={styles.close} />
 					</div>
 				) : (
-					<Edit
-						className={styles.edit}
+					// <Edit
+					// 	className={styles.edit}
+					// 	onClick={(e) => {
+					// 		e.stopPropagation();
+					// 		setEditingYoyos(true);
+					// 		!selectedTile && setSelectedYoyo(yoyoId);
+					// 	}}
+					// />
+					<div
+						className={styles['close-tile']}
 						onClick={(e) => {
 							e.stopPropagation();
-							setEditingYoyos(true);
-							!selectedTile && setSelectedYoyo(yoyoId);
+							setSelectedYoyo(null);
 						}}
-					/>
+					>
+						<Close className={styles.close} />
+					</div>
 				)}
 				{/* Optional: Only show edit if current user owns this yoyo */}
 			</div>
