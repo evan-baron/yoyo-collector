@@ -33,7 +33,10 @@ const FullDetailYoyoTile = ({
 		>
 			<div className={styles['image-box']}>
 				{photos?.length > 0 ? (
-					<YoyoPhotoScroller optionsSize={'small'} photos={photos} />
+					<YoyoPhotoScroller
+						optionsSize={yoyoModalOpen ? 'medium' : 'small'}
+						photos={photos}
+					/>
 				) : (
 					<div
 						className={`${styles.image} ${

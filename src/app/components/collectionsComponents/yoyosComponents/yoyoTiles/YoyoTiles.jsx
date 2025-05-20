@@ -24,8 +24,6 @@ function YoyoTiles({
 	editingYoyos,
 	addYoyo,
 	setAddYoyo,
-	added,
-	setAdded,
 }) {
 	const {
 		dirty,
@@ -161,8 +159,6 @@ function YoyoTiles({
 					yoyoData={yoyoFormData}
 					setYoyoData={setYoyoFormData}
 					setAddYoyo={setAddYoyo}
-					added={added}
-					setAdded={setAdded}
 				/>
 			)}
 			{!addYoyo && (
@@ -324,8 +320,6 @@ function YoyoTiles({
 									yoyoData={yoyo}
 									setSelectedYoyos={setSelectedYoyos}
 									selectedTile={selectedYoyo === yoyo.id}
-									added={added}
-									setAdded={setAdded}
 								/>
 							</div>
 						);
@@ -338,6 +332,7 @@ function YoyoTiles({
 									editingYoyos={editingYoyos}
 									yoyoData={yoyo}
 									key={index}
+									collectionType={'visitor'}
 								/>
 							);
 						})}

@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import collectionsService from '@/services/collectionsService';
+import userService from '@/services/userService';
+const { getUserById } = userService;
 import uploadsService from '@/services/uploadsService';
 import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 import { cookies } from 'next/headers';
@@ -33,6 +35,10 @@ export async function GET(req, res) {
 			);
 		}
 
+		const userResponse = await getUserById(response.collectionData.user_id);
+
+		const { privacy } = userResponse;
+
 		if (response.collectionData.user_id) {
 			delete response.collectionData.user_id;
 		}
@@ -64,6 +70,8 @@ export async function GET(req, res) {
 				(photo) => photo.yoyo_id === yoyo.id
 			),
 		}));
+
+		response.privacy = privacy;
 
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {

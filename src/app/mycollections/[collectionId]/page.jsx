@@ -113,7 +113,6 @@ function Collection() {
 	const [coverPhoto, setCoverPhoto] = useState(null);
 	const [selected, setSelected] = useState('collection');
 	const [addYoyo, setAddYoyo] = useState(false);
-	const [added, setAdded] = useState(false);
 
 	// Resets editing state on page load
 	useEffect(() => {
@@ -480,8 +479,6 @@ function Collection() {
 									editingYoyos={editingYoyos}
 									addYoyo={addYoyo}
 									setAddYoyo={setAddYoyo}
-									added={added}
-									setAdded={setAdded}
 								/>
 							</div>
 						</section>

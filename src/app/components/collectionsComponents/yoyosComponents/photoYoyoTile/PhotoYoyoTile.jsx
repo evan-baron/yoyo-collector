@@ -16,7 +16,7 @@ import Heart from '@/app/components/icons/heart/Heart';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function PhotoYoyoTile({ yoyoData }) {
+function PhotoYoyoTile({ yoyoData, collectionType }) {
 	const {
 		setYoyoModalOpen,
 		setYoyoModalType,
@@ -25,6 +25,8 @@ function PhotoYoyoTile({ yoyoData }) {
 		setSelectedYoyo,
 		setEditingYoyos,
 	} = useAppContext();
+
+	const [hover, setHover] = useState(false);
 
 	useEffect(() => {}, [newCollectionCounter]);
 
@@ -47,8 +49,12 @@ function PhotoYoyoTile({ yoyoData }) {
 	})();
 
 	return (
-		<div className={styles.container}>
-			<div className={styles.image}>
+		<div className={`${styles.container} ${hover && styles.hover}`}>
+			<div
+				className={styles.image}
+				onMouseEnter={() => setHover(true)}
+				onMouseLeave={() => setHover(false)}
+			>
 				{photos.length ? (
 					<img className={styles.image} src={displayUrl} />
 				) : (
@@ -63,7 +69,9 @@ function PhotoYoyoTile({ yoyoData }) {
 							}}
 						>
 							<ZoomIn
-								className={styles.icon}
+								className={`${styles.icon} ${
+									collectionType === 'visitor' && styles.visitor
+								}`}
 								onClick={() => {
 									setSelectedYoyo(yoyoData.id);
 									setViewingYoyoData(yoyoData);
@@ -72,23 +80,20 @@ function PhotoYoyoTile({ yoyoData }) {
 								}}
 							/>
 						</div>
-						<div
-							className={styles.option}
-							onClick={() => {
-								console.log('zoom action');
-							}}
-						>
-							<Edit
-								className={styles.icon}
-								onClick={() => {
-									setSelectedYoyo(yoyoData.id);
-									setViewingYoyoData(yoyoData);
-									setYoyoModalOpen(true);
-									setYoyoModalType('edit-yoyo');
-									setEditingYoyos(true);
-								}}
-							/>
-						</div>
+						{collectionType !== 'visitor' && (
+							<div className={styles.option}>
+								<Edit
+									className={styles.icon}
+									onClick={() => {
+										setSelectedYoyo(yoyoData.id);
+										setViewingYoyoData(yoyoData);
+										setYoyoModalOpen(true);
+										setYoyoModalType('edit-yoyo');
+										setEditingYoyos(true);
+									}}
+								/>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>

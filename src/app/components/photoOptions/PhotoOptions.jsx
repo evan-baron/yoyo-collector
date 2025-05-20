@@ -100,12 +100,14 @@ function PhotoOptions({ optionsSize, photo }) {
 								<div
 									className={`${styles.option} ${
 										!editingYoyos && styles['not-editing']
-									}`}
+									} ${optionsSize === 'medium' && styles['medium-border']}`}
 								>
 									<ZoomIn
 										className={`${styles.icon} ${
 											!editingYoyos && styles['not-editing']
-										} ${optionsSize === 'small' && styles['small-icon']}`}
+										} ${optionsSize === 'small' && styles['small-icon']} ${
+											optionsSize === 'medium' && styles['medium-icon']
+										}`}
 										onClick={(e) => {
 											e.stopPropagation();
 											setModalOpen(true);
@@ -117,7 +119,7 @@ function PhotoOptions({ optionsSize, photo }) {
 								<div
 									className={`${styles.option} ${
 										!editingYoyos && styles['not-editing']
-									}`}
+									} ${optionsSize === 'medium' && styles['medium-border']}`}
 									onClick={(e) => {
 										e.stopPropagation();
 										setModalOpen(true);
@@ -130,7 +132,9 @@ function PhotoOptions({ optionsSize, photo }) {
 											!editingYoyos &&
 											optionsSize !== 'small' &&
 											styles['not-editing']
-										} ${optionsSize === 'small' && styles['small-icon']}`}
+										} ${optionsSize === 'small' && styles['small-icon']} ${
+											optionsSize === 'medium' && styles['medium-icon']
+										}`}
 									/>
 								</div>
 							</>

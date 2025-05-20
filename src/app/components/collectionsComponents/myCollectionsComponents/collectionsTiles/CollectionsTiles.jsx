@@ -19,13 +19,13 @@ import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
 import { useAppContext } from '@/app/context/AppContext';
 
 function CollectionsTiles({
-	profileId,
-	scroll,
-	size,
-	collectionType,
-	userName,
-	page,
-	privacy,
+	profileId, // userId of the collection owner
+	scroll, // 'click' or 'scroll' - controls if use carousel or not
+	size, // 'small' or not small - controls size of the tiles
+	collectionType, // 'user' or 'visitor' - controls UI/UX
+	userName, // either the user's name or Anonymous if their profile privacy is anonymous
+	page, // 'profile' or not profile - used to determine if h2 is present
+	privacy, // privacy of the collection owner
 }) {
 	const { newCollectionCounter } = useAppContext();
 
