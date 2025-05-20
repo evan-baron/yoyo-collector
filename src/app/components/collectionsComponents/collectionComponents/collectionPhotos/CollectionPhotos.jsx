@@ -3,10 +3,6 @@
 // Libraries
 import React, { useState, useEffect } from 'react';
 
-// Utils
-import axiosInstance from '@/lib/utils/axios';
-import arraySplitter from '@/lib/helpers/arraySplitter';
-
 // Styles
 import styles from './collectionPhotos.module.scss';
 
