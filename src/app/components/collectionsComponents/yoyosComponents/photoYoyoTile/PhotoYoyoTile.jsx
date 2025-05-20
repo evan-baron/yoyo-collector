@@ -62,12 +62,7 @@ function PhotoYoyoTile({ yoyoData, collectionType }) {
 				)}
 				<div className={styles.options}>
 					<div className={styles.menu}>
-						<div
-							className={styles.option}
-							onClick={() => {
-								console.log('zoom action');
-							}}
-						>
+						<div className={styles.option}>
 							<ZoomIn
 								className={`${styles.icon} ${
 									collectionType === 'visitor' && styles.visitor
