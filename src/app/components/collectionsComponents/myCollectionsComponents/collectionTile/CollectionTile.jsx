@@ -25,7 +25,12 @@ import Heart from '../../../icons/heart/Heart';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function CollectionTile({ collectionData, currentUser, size, collectionType }) {
+function CollectionTile({
+	collectionData, // The object of collection data passed into the component
+	size, // small or not small
+	collectionType, // user or visitor
+	privacy, // the privacy of the collection owner's profile ('public', 'anonymous', 'private')
+}) {
 	const {
 		id: collectionId,
 		collection_name: name,
@@ -92,7 +97,7 @@ function CollectionTile({ collectionData, currentUser, size, collectionType }) {
 				onMouseLeave={() => setHover(false)}
 			>
 				{cover ? (
-					currentUser ? (
+					collectionType === 'user' ? (
 						<img className={styles.image} src={cover} />
 					) : (
 						<Link href={link}>
@@ -106,7 +111,7 @@ function CollectionTile({ collectionData, currentUser, size, collectionType }) {
 						</div>
 					</Link>
 				)}
-				{currentUser && (
+				{collectionType === 'user' && (
 					<div className={styles.options}>
 						<div
 							className={styles.menu}
@@ -139,7 +144,7 @@ function CollectionTile({ collectionData, currentUser, size, collectionType }) {
 						className={styles.name}
 						style={{ fontSize: size === 'small' ? '1.25rem' : '1.75rem' }}
 					>
-						{name}
+						{privacy === 'anonymous' ? "Anonymous's Collection" : name}
 					</Link>
 
 					<div

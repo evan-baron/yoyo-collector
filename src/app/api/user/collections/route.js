@@ -53,19 +53,30 @@ export async function POST(req, res) {
 // GET all collections
 export async function GET(req, res) {
 	try {
-		const { userId, valid } = await getUserIdFromToken({
-			cookies,
-		});
+		const url = new URL(req.url);
+		const profileId = url.searchParams.get('profileId');
 
-		if (!userId) {
-			throw new Error('User ID is missing');
+		let response;
+
+		if (profileId) {
+			console.log('there was a profileId');
+			response = await getAllCollectionsById(profileId);
+		} else {
+			console.log('there was no profileId');
+			const { userId, valid } = await getUserIdFromToken({
+				cookies,
+			});
+
+			if (!userId) {
+				throw new Error('User ID is missing');
+			}
+
+			if (!valid) {
+				throw new Error('Token no longer valid');
+			}
+
+			response = await getAllCollectionsById(userId);
 		}
-
-		if (!valid) {
-			throw new Error('Token no longer valid');
-		}
-
-		const response = await getAllCollectionsById(userId);
 
 		const collections = response.map(
 			({ user_id, ...collection }) => collection

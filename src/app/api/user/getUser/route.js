@@ -18,6 +18,7 @@ export async function GET(req) {
 			return NextResponse.json({ error: 'User not found' }, { status: 404 });
 		}
 		const {
+			id,
 			first_name,
 			last_name,
 			handle,
@@ -33,6 +34,7 @@ export async function GET(req) {
 		} = response;
 
 		const user = {
+			id,
 			first_name,
 			last_name,
 			handle,

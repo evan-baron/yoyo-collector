@@ -13,6 +13,7 @@ import { East, Place, AlternateEmail, FormatQuote } from '@mui/icons-material';
 import VerticalDivider from '@/app/components/dividers/VerticalDivider';
 import CollectionCarousel from '@/app/components/collectionCarousel/CollectionCarousel';
 import BlankProfilePhoto from '@/app/components/blankProfilePhoto/BlankProfilePhoto';
+import CollectionsTiles from '@/app/components/collectionsComponents/myCollectionsComponents/collectionsTiles/CollectionsTiles';
 
 async function ProfilePage({ params }) {
 	const { handleOrId } = await params;
@@ -26,6 +27,7 @@ async function ProfilePage({ params }) {
 			`${baseUrl}/api/user/getUser?handleOrId=${handleOrId}`
 		);
 		const {
+			id,
 			first_name,
 			last_name,
 			handle,
@@ -45,6 +47,7 @@ async function ProfilePage({ params }) {
 		};
 
 		profile = {
+			profileId: id,
 			first: first_name,
 			last: last_name,
 			handle: handle,
@@ -144,17 +147,22 @@ async function ProfilePage({ params }) {
 				<VerticalDivider />
 				<section className={styles.right}>
 					<div className={styles['collections-container']}>
-						{/* MAKE THE PLURAL CONDITIONAL ON COLLECTIONS.LENGTH */}
-						<h2 className={styles.h2}>
-							{profile.privacy === 'public' ? `${profile.first}` : 'Anonymous'}
-							's Collection(s):
-						</h2>
-						<CollectionCarousel />
+						<CollectionsTiles
+							profileId={profile.profileId}
+							scroll={'click'}
+							size={'small'}
+							collectionType={'visitor'}
+							userName={
+								profile.privacy === 'public' ? profile.first : 'Anonymous'
+							}
+							page={'profile'}
+							privacy={profile.privacy}
+						/>
 					</div>
 					<div className={styles['favorites-container']}>
 						<h2 className={styles.h2}>Favorites:</h2>
-						<CollectionCarousel type='Favorite Collections:' />
-						<CollectionCarousel type='Favorite Yoyos:' />
+						<CollectionCarousel title='Favorite Collections:' />
+						<CollectionCarousel title='Favorite Yoyos:' />
 					</div>
 				</section>
 			</div>

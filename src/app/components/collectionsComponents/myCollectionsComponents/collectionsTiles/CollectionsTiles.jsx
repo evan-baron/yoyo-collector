@@ -18,7 +18,15 @@ import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function CollectionsTiles({ scroll, size, collectionType, userName, page }) {
+function CollectionsTiles({
+	profileId,
+	scroll,
+	size,
+	collectionType,
+	userName,
+	page,
+	privacy,
+}) {
 	const { newCollectionCounter } = useAppContext();
 
 	const [loading, setLoading] = useState(true);
@@ -30,15 +38,41 @@ function CollectionsTiles({ scroll, size, collectionType, userName, page }) {
 		const fetchCollections = async () => {
 			try {
 				setLoading(true);
-				const collectionsData = await axiosInstance.get(
-					'/api/user/collections',
-					{
-						withCredentials: true,
+
+				if (collectionType === 'user') {
+					const collectionsData = await axiosInstance.get(
+						'/api/user/collections',
+						{
+							withCredentials: true,
+						}
+					);
+					const allCollections = collectionsData.data;
+					setCollections(allCollections);
+
+					if (allCollections.length > 2) {
+						const split = arraySplitter(allCollections, 2);
+						setSplitUpCollection(split);
+						setVisibleTile(0);
+					} else {
+						setSplitUpCollection([]);
+						setVisibleTile(0);
 					}
-				);
-				setCollections(collectionsData.data);
-				if (collectionsData.data.length > 2) {
-					setSplitUpCollection(arraySplitter(collectionsData.data, 2));
+				} else {
+					const collectionsData = await axiosInstance.get(
+						`/api/user/collections?profileId=${profileId}`
+					);
+
+					const allCollections = collectionsData.data;
+					setCollections(allCollections);
+
+					if (allCollections.length > 2) {
+						const split = arraySplitter(allCollections, 2);
+						setSplitUpCollection(split);
+						setVisibleTile(0);
+					} else {
+						setSplitUpCollection([]);
+						setVisibleTile(0);
+					}
 				}
 			} catch (error) {
 				console.error(
@@ -53,11 +87,13 @@ function CollectionsTiles({ scroll, size, collectionType, userName, page }) {
 	}, [newCollectionCounter]);
 
 	useEffect(() => {
-		if (visibleTile + 1 > splitUpCollection.length) {
-			setVisibleTile((prev) => prev - 1);
-		}
 		if (visibleTile + 1 < splitUpCollection.length) {
 			setVisibleTile(splitUpCollection.length - 1);
+			return;
+		}
+		if (visibleTile + 1 > splitUpCollection.length) {
+			setVisibleTile((prev) => prev - 1);
+			return;
 		}
 	}, [splitUpCollection]);
 
@@ -95,9 +131,9 @@ function CollectionsTiles({ scroll, size, collectionType, userName, page }) {
 												<CollectionTile
 													key={colIndex}
 													collectionData={collection}
-													currentUser={true} // Change this when on profiles page, not profile page. This is for current user viewing their own profile, not viewing other people's profiles
 													collectionType={collectionType}
 													size={size}
+													privacy={privacy}
 												/>
 											);
 										})}
@@ -141,9 +177,9 @@ function CollectionsTiles({ scroll, size, collectionType, userName, page }) {
 							<CollectionTile
 								key={index}
 								collectionData={collection}
-								currentUser={true}
 								size={size}
 								collectionType={collectionType}
+								privacy={privacy}
 							/>
 						);
 					})}
