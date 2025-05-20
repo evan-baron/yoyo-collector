@@ -18,11 +18,8 @@ import { useAppContext } from '@/app/context/AppContext';
 
 function PhotoYoyoTile({ yoyoData }) {
 	const {
-		setModalOpen,
-		setModalType,
 		setYoyoModalOpen,
 		setYoyoModalType,
-		viewingYoyoData,
 		setViewingYoyoData,
 		newCollectionCounter,
 		setSelectedYoyo,

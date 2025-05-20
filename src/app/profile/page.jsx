@@ -11,15 +11,7 @@ import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 import styles from './profile.module.scss';
 
 // MUI
-import {
-	Add,
-	East,
-	Place,
-	AlternateEmail,
-	FormatQuote,
-	Settings,
-	Edit,
-} from '@mui/icons-material';
+import { Place, AlternateEmail, Settings, Edit } from '@mui/icons-material';
 
 // Components
 import VerticalDivider from '../components/dividers/VerticalDivider';
