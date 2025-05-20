@@ -114,7 +114,10 @@ const FullDetailYoyoTile = ({
 							setSelectedYoyo(null);
 							yoyoModalOpen && setYoyoModalOpen(false);
 						}}
-						style={{ right: '-0.5rem', top: '-0.5rem' }}
+						style={{
+							right: yoyoModalOpen && '-0.5rem',
+							top: yoyoModalOpen && '-0.5rem',
+						}}
 					>
 						<Close className={styles.close} />
 					</div>
