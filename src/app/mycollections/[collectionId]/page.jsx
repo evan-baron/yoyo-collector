@@ -487,7 +487,10 @@ function Collection() {
 						</section>
 					)}
 				</div>
-				<div className={styles['settings-box']}>
+				<div
+					className={styles['settings-box']}
+					style={{ zIndex: yoyoModalOpen && '10' }}
+				>
 					<button
 						className={`${styles['settings-button']} ${
 							error && styles.disabled

@@ -146,7 +146,7 @@ function CollectionTile({ collectionData, currentUser, size, collectionType }) {
 						className={styles.likes}
 						style={{ fontSize: size === 'small' ? '1.25rem' : '1.5rem' }}
 					>
-						<Heart size={size} likes={likes} /> {likes}{' '}
+						<Heart size={size} likes={likes} /> {likes || ''}{' '}
 						{size === 'small' ? '' : 'likes'}
 					</div>
 				</div>
