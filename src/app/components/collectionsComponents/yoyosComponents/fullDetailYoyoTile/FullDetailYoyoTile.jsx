@@ -24,7 +24,7 @@ const FullDetailYoyoTile = ({
 }) => {
 	const { setSelectedYoyo, yoyoModalOpen, setYoyoModalOpen } = useAppContext();
 
-	const { id: yoyoId, photos, condition, likes } = yoyoData;
+	const { id: yoyoId, photos, yoyo_condition: condition, likes } = yoyoData;
 
 	return (
 		<div
@@ -112,7 +112,7 @@ const FullDetailYoyoTile = ({
 
 				{yoyoModalOpen ? (
 					<div
-						className={styles['close-tile']}
+						className={`${styles['close-tile']} ${styles['yoyo-modal']}`}
 						onClick={() => {
 							setSelectedYoyo(null);
 							yoyoModalOpen && setYoyoModalOpen(false);
@@ -122,7 +122,7 @@ const FullDetailYoyoTile = ({
 							top: yoyoModalOpen && '-0.5rem',
 						}}
 					>
-						<Close className={styles.close} />
+						<Close className={styles.close} /> Close
 					</div>
 				) : (
 					// <Edit

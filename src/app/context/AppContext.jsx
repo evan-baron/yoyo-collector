@@ -92,7 +92,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [viewPhoto, setViewPhoto] = useState(null);
 	const [viewingYoyoData, setViewingYoyoData] = useState({});
 	const [yoyoDisplayType, setYoyoDisplayType] = useState('small');
-	const [yoyoModalOpen, setYoyoModalOpen] = useState(null);
+	const [yoyoModalOpen, setYoyoModalOpen] = useState(false);
 	const [yoyoModalType, setYoyoModalType] = useState(null);
 
 	const currentPath = useRef('/');

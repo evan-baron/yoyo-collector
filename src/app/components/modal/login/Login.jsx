@@ -166,7 +166,7 @@ const Login = () => {
 								{checked ? (
 									<CheckBox
 										onClick={() => setChecked((prev) => !prev)}
-										sx={{ color: 'var(--lightestGray)' }}
+										sx={{ color: 'rgb(0, 225, 255)' }}
 									/>
 								) : (
 									<CheckBoxOutlineBlank

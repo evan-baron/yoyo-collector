@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import styles from '../../profile/profile.module.scss';
 
 // MUI
-import { East, Place, AlternateEmail, FormatQuote } from '@mui/icons-material';
+import { Place, AlternateEmail } from '@mui/icons-material';
 
 // Components
 import VerticalDivider from '@/app/components/dividers/VerticalDivider';

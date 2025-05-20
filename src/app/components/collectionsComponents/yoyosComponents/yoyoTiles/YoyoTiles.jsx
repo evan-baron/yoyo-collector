@@ -321,6 +321,7 @@ function YoyoTiles({
 									yoyoData={yoyo}
 									setSelectedYoyos={setSelectedYoyos}
 									selectedTile={selectedYoyo === yoyo.id}
+									collectionType={collectionType}
 								/>
 							</div>
 						);

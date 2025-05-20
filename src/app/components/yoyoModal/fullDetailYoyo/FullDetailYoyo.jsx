@@ -12,7 +12,7 @@ import FullDetailYoyoTile from '../../collectionsComponents/yoyosComponents/full
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function FullDetailYoyo() {
+function FullDetailYoyo({ collectionType }) {
 	const { viewingYoyoData } = useAppContext();
 
 	const {
@@ -46,9 +46,13 @@ function FullDetailYoyo() {
 
 	const right = [
 		['Original owner', originalOwner],
-		['Purchased', purchaseYear],
-		['Purchase price', purchasePrice],
-		['Approximate value', value],
+		...(collectionType !== 'visitor'
+			? [
+					['Purchased', purchaseYear],
+					['Purchase price', purchasePrice],
+					['Approximate value', value],
+			  ]
+			: []),
 	];
 
 	const validRightItems = right.filter(

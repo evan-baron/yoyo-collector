@@ -24,26 +24,26 @@ import { useAppContext } from '@/app/context/AppContext';
 function EditableYoyoTile({ yoyoData }) {
 	const {
 		dirty,
-		originalYoyoData,
-		uploadError,
-		setUploadError,
 		newYoyoData,
+		originalYoyoData,
+		setClearInputRef,
+		setCurrentlyEditing,
 		setDirty,
 		setDirtyType,
 		setError,
+		setModalOpen,
+		setModalType,
 		setNewYoyoData,
 		setOriginalYoyoData,
 		setSelectedYoyo,
-		setModalOpen,
-		setModalType,
-		setClearInputRef,
+		setUploadError,
 		setYoyoModalOpen,
+		uploadError,
 		yoyoModalOpen,
 	} = useAppContext();
 
 	const [inputs, setInputs] = useState();
 	const [editCondition, setEditCondition] = useState();
-	const [currentlyEditing, setCurrentlyEditing] = useState(null);
 
 	const {
 		id,

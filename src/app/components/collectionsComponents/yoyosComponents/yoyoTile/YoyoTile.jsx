@@ -16,6 +16,7 @@ function YoyoTile({
 	ownerId, // ADD IN LATER TO PROTECT PRIVATE FIELDS FROM PUBLIC YOYOTILE
 	yoyoData,
 	selectedTile,
+	collectionType,
 }) {
 	const {
 		editingYoyos,
@@ -59,9 +60,13 @@ function YoyoTile({
 
 	const right = [
 		['Original owner', originalOwner],
-		['Purchased', purchaseYear],
-		['Purchase price', purchasePrice],
-		['Approximate value', value],
+		...(collectionType !== 'visitor'
+			? [
+					['Purchased', purchaseYear],
+					['Purchase price', purchasePrice],
+					['Approximate value', value],
+			  ]
+			: []),
 	];
 
 	const validRightItems = right.filter(
@@ -107,6 +112,7 @@ function YoyoTile({
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
 							yoyoData={yoyoData}
+							collectionType={collectionType}
 						/>
 					)}
 				</>
@@ -121,6 +127,7 @@ function YoyoTile({
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
 							yoyoData={yoyoData}
+							collectionType={collectionType}
 						/>
 					)}
 
@@ -136,6 +143,7 @@ function YoyoTile({
 								validLeftItems={validLeftItems}
 								validRightItems={validRightItems}
 								yoyoData={yoyoData}
+								collectionType={collectionType}
 							/>
 						</>
 					)}
