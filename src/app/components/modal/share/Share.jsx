@@ -22,7 +22,7 @@ function Share() {
 		if (copied) {
 			timeout = setTimeout(() => {
 				setCopied(false);
-			}, 5000);
+			}, 3000);
 		}
 		return () => clearTimeout(timeout);
 	}, [copied]);
