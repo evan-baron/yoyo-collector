@@ -59,10 +59,8 @@ export async function GET(req, res) {
 		let response;
 
 		if (profileId) {
-			console.log('there was a profileId');
 			response = await getAllCollectionsById(profileId);
 		} else {
-			console.log('there was no profileId');
 			const { userId, valid } = await getUserIdFromToken({
 				cookies,
 			});
