@@ -246,8 +246,6 @@ function EditableYoyoTile({ yoyoData }) {
 	};
 
 	const handleUndo = (item, name) => {
-		console.log(inputs[item]);
-
 		setNewYoyoData((prev) => ({
 			...prev,
 			[item]: originalYoyoData[item],

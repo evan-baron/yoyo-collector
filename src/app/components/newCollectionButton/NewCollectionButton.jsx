@@ -21,8 +21,6 @@ function NewCollectionButton() {
 	const [disabled, setDisabled] = useState(false);
 
 	useEffect(() => {
-		console.log('useEffect triggered');
-
 		const fetchCollections = async () => {
 			try {
 				const collectionsData = await axiosInstance.get(
@@ -33,8 +31,6 @@ function NewCollectionButton() {
 				);
 
 				const allCollections = collectionsData.data;
-
-				console.log(allCollections);
 
 				setDisabled(allCollections.length > 9);
 			} catch (error) {

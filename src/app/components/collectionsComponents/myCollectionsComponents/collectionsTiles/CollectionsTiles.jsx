@@ -52,8 +52,6 @@ function CollectionsTiles({
 
 					setLimitHit(allCollections.length > 9);
 
-					console.log(allCollections.length);
-
 					if (allCollections.length > 2) {
 						const split = arraySplitter(allCollections, 2);
 						setSplitUpCollection(split);

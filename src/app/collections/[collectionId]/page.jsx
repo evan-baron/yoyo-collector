@@ -217,9 +217,6 @@ function Collection() {
 													className={`${styles.option} ${
 														!editing && styles['not-editing']
 													}`}
-													onClick={() => {
-														console.log('zoom action');
-													}}
 												>
 													<ZoomIn
 														className={`${styles.icon} ${

@@ -232,7 +232,6 @@ function Dirty() {
 					<button
 						className={styles.button}
 						onClick={() => {
-							console.log('new:', newYoyoData, 'old:', originalYoyoData);
 							setModalOpen(false);
 							setDirty(false);
 							if (pendingRoute) {

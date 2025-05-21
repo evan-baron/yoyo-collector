@@ -110,7 +110,6 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 
 	// Helper function to fetch user data
 	const fetchUserData = async () => {
-		console.log('fetching user data from app context');
 		setLoading(true);
 
 		try {

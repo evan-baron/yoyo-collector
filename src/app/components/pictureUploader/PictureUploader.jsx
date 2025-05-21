@@ -131,8 +131,6 @@ function PictureUploader({
 	const handleUpload = async (e) => {
 		setError(null);
 
-		console.log(newYoyoForm);
-
 		const files = Array.from(e.target.files);
 
 		if (!files.length) return;
@@ -149,8 +147,6 @@ function PictureUploader({
 			setUploadError(`You may only upload up to ${MAX_FILES} files at a time.`);
 			return;
 		}
-
-		console.log(uploadType);
 
 		const validFiles = files.filter((file) => file.size <= MAX_FILE_SIZE);
 
@@ -353,9 +349,8 @@ function PictureUploader({
 				});
 				setPicture(null);
 				setCoverPhoto(null);
-			} else {
-				console.log('do nothing');
 			}
+
 			setPreviewUrl(null);
 			if (fileInputRef.current) {
 				fileInputRef.current.value = '';

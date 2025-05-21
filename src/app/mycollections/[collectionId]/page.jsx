@@ -92,8 +92,6 @@ function Collection() {
 			);
 			const { collectionData, collectionPhotos, yoyosData } = response.data;
 
-			console.log(response.data);
-
 			setCollection(collectionData);
 			setPhotos(collectionPhotos);
 			setYoyos(yoyosData);

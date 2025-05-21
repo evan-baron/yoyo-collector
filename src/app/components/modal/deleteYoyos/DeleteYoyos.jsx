@@ -57,8 +57,6 @@ function DeleteYoyos() {
 			return;
 		}
 
-		console.log(selectedYoyos);
-
 		try {
 			setLoading(true);
 			setLoadingMessage('Saving');

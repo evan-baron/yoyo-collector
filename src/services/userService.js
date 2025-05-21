@@ -120,7 +120,6 @@ const logUserAction = async (user, action, ip_address) => {
 
 // Update password
 const updatePassword = async (password, token) => {
-	console.log('you are in userservice.updatepassword now');
 	try {
 		// Step 1: Get the user id by searching the token
 		const response = await tokenModel.getTokenData(token);
@@ -141,17 +140,12 @@ const updatePassword = async (password, token) => {
 		}
 
 		if (isMatch) {
-			console.log("You can't use a previously used password.");
 			return {
 				success: false,
 				message:
 					'For security purposes, you cannot use a previously used password.',
 			};
 		} else {
-			console.log(
-				`The new password doesn't match a previously used password. Proceed`
-			);
-
 			// Step 4: Hash the new password
 			const newPassword = await bcrypt.hash(password, 10);
 
