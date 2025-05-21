@@ -2,6 +2,7 @@
 
 // Libraries
 import React, { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
@@ -10,10 +11,10 @@ import { useRouter } from 'next/navigation';
 import axiosInstance from '@/lib/utils/axios';
 
 // Styles
-import styles from '../../mycollections/[collectionId]/collectionPage.module.scss';
+import styles from './collectionPage.module.scss';
 
 // MUI
-import { ZoomIn, Share } from '@mui/icons-material';
+import { ZoomIn, Share, West } from '@mui/icons-material';
 
 // Components
 import BlankCoverPhoto from '@/app/components/blankCoverPhoto/BlankCoverPhoto';
@@ -64,14 +65,38 @@ function Collection() {
 			const response = await axiosInstance.get(
 				`/api/user/collections/byCollectionId?collectionId=${collectionId}`
 			);
-			const { collectionData, collectionPhotos, yoyosData, privacy } =
-				response.data;
+			const {
+				collectionData,
+				collectionPhotos,
+				yoyosData,
+				privacy,
+				prefer_handle,
+			} = response.data;
+
+			console.log(response.data);
 
 			if (privacy === 'private') {
 				router.push('/');
 				return;
 			}
 			setPrivacyChecked(true);
+
+			const displayName = (() => {
+				let name;
+				if (prefer_handle === 0) {
+					name = collectionData.first_name;
+				} else if (prefer_handle === 1) {
+					name = collectionData.handle;
+				}
+
+				if (privacy === 'public') {
+					return name;
+				} else {
+					return 'Anonymous';
+				}
+			})();
+
+			collectionData.display_name = displayName;
 
 			setPrivacy(privacy);
 			setCollection(collectionData);
@@ -90,8 +115,12 @@ function Collection() {
 	const {
 		collection_description: description,
 		collection_name: collectionName,
+		display_name: displayName,
 		likes,
+		user_id,
 	} = collection;
+
+	const link = `/profiles/${user_id}`;
 
 	// States
 	const [coverPhoto, setCoverPhoto] = useState(null);
@@ -266,6 +295,13 @@ function Collection() {
 			</div>
 			{loading && <LoadingSpinner message={loadingMessage} />}
 			{yoyoModalOpen && <YoyoModal collectionType={'visitor'} />}
+			<Link href={link}>
+				<button className={styles['profile-button']}>
+					<West className={styles.icon} style={{ fontSize: '1.75rem' }} />
+
+					<p className={styles.button}>{displayName}'s Profile</p>
+				</button>
+			</Link>
 		</>
 	);
 }

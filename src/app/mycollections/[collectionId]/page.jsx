@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import axiosInstance from '@/lib/utils/axios';
 
 // Styles
-import styles from './collectionPage.module.scss';
+import styles from './myCollectionPage.module.scss';
 
 // MUI
 import {

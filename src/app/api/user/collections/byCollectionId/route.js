@@ -37,11 +37,7 @@ export async function GET(req, res) {
 
 		const userResponse = await getUserById(response.collectionData.user_id);
 
-		const { privacy } = userResponse;
-
-		if (response.collectionData.user_id) {
-			delete response.collectionData.user_id;
-		}
+		const { privacy, prefer_handle } = userResponse;
 
 		if (response.collectionPhotos.length > 0) {
 			response.collectionPhotos = response.collectionPhotos.map(
@@ -72,6 +68,7 @@ export async function GET(req, res) {
 		}));
 
 		response.privacy = privacy;
+		response.prefer_handle = prefer_handle;
 
 		return NextResponse.json(response, { status: 201 });
 	} catch (error) {
