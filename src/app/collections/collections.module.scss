@@ -1,66 +1,28 @@
-.collections {
+.collections-container {
+	width: 100%;
+	flex-grow: 1;
+
 	position: relative;
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
 	align-items: center;
-	height: 100%;
+	color: var(--lightestGray);
 
-	overflow: auto;
-	scrollbar-width: none; /* Firefox */
-	-ms-overflow-style: none; /* Internet Explorer 10+ */
+	.collections {
+		width: 70%;
+		max-width: 60rem;
 
-	&::-webkit-scrollbar {
-		display: none; /* Chrome, Safari, Opera */
-	}
-
-	outline: 1px solid orange;
-
-	.middle {
+		position: relative;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
 		align-items: center;
-		outline: 1px solid greenyellow;
+		gap: 1rem;
+		padding: 0 2rem;
+		margin: 2rem 0;
 
-		height: 100%;
-
-		.tilebox {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			grid-template-rows: repeat(3, 1fr);
-			gap: 1rem;
-			padding: 1rem;
-			outline: 1px solid red;
-
-			height: 100%;
-			width: auto;
-			aspect-ratio: 1;
-
-			justify-self: center;
-			align-self: center;
-
-			.tile {
-				grid-column: span 1;
-				grid-row: span 1;
-				outline: 1px solid red;
-			}
-		}
-
-		.more {
-			outline: 1px solid red;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			padding: 1rem;
-
-			.h2 {
-				position: relative;
-			}
-
-			.p {
-				position: absolute;
-				transform: translateX(calc(100% + 1rem));
-			}
+		.h1 {
+			font-size: 3rem;
+			text-shadow: 2px 2px 0.5rem black;
 		}
 	}
 }

@@ -1,7 +1,7 @@
 'use client';
 
 // Libraries
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // Utils
 import axiosInstance from '@/lib/utils/axios';
@@ -35,6 +35,8 @@ function CollectionsTiles({
 	const [visibleTile, setVisibleTile] = useState(0);
 	const [limitHit, setLimitHit] = useState(false);
 
+	const prevCounterRef = useRef(newCollectionCounter);
+
 	useEffect(() => {
 		const fetchCollections = async () => {
 			try {
@@ -55,7 +57,11 @@ function CollectionsTiles({
 					if (allCollections.length > 2) {
 						const split = arraySplitter(allCollections, 2);
 						setSplitUpCollection(split);
-						setVisibleTile(0);
+						if (prevCounterRef.current !== newCollectionCounter) {
+							setVisibleTile(split.length - 1);
+						} else {
+							setVisibleTile(0);
+						}
 					} else {
 						setSplitUpCollection([]);
 						setVisibleTile(0);
@@ -88,17 +94,6 @@ function CollectionsTiles({
 		};
 		fetchCollections();
 	}, [newCollectionCounter]);
-
-	useEffect(() => {
-		if (visibleTile + 1 < splitUpCollection.length) {
-			setVisibleTile(splitUpCollection.length - 1);
-			return;
-		}
-		if (visibleTile + 1 > splitUpCollection.length) {
-			setVisibleTile((prev) => prev - 1);
-			return;
-		}
-	}, [splitUpCollection]);
 
 	const renderCollections = () => {
 		if (collections.length === 0 && collectionType === 'user' && !loading) {

@@ -36,7 +36,7 @@ export default function Home() {
 					<CollectionCarousel title='Top Collections' />
 					<CollectionCarousel title='Newest Collections' />
 				</div>
-				<Link href='/mycollections' className={styles.link}>
+				<Link href='/collections' className={styles.link}>
 					View All
 				</Link>
 			</section>
