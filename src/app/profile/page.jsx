@@ -181,7 +181,7 @@ async function Profile() {
 					<Edit className={styles['settings-icon']} />
 					<p className={styles.settings}>Edit Collections</p>
 				</Link>
-				<NewCollectionButton />
+				<NewCollectionButton userId={user_id} />
 			</div>
 		</div>
 	);

@@ -1,9 +1,8 @@
 'use client';
 
 // Libraries
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 // Utils
 import axiosInstance from '@/lib/utils/axios';
@@ -14,10 +13,8 @@ import styles from './newCollection.module.scss';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function NewCollection() {
+function NewCollection({ userId }) {
 	const { setModalOpen, setLoading, setNewCollectionCounter } = useAppContext();
-
-	const router = useRouter();
 
 	const [formData, setFormData] = useState({
 		collection: '',
@@ -69,20 +66,29 @@ function NewCollection() {
 				'/api/user/collections',
 				formData
 			);
-			const { id } = response.data;
-			setLink(`/mycollections/${id}`);
+			if (response.status === 201) {
+				const { id } = response.data;
+				setLink(`/mycollections/${id}`);
+				setCollectionCreated(true);
+				setFormData({
+					collection: '',
+				});
+				setNewCollectionCounter((prev) => (prev += 1));
+			}
 		} catch (error) {
+			if (error.response?.status === 403) {
+				setError("You've reached the limit of 10 collections.");
+			} else if (error.response?.status === 400) {
+				setError('Invalid collection name.');
+			} else {
+				setError('Something went wrong. Please try again.');
+			}
 			console.error(
 				'There was an error creating a collection at NewCollection.jsx:',
 				error.message
 			);
 		} finally {
 			setLoading(false);
-			setCollectionCreated(true);
-			setFormData({
-				collection: '',
-			});
-			setNewCollectionCounter((prev) => (prev += 1));
 		}
 	};
 

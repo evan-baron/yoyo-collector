@@ -73,8 +73,6 @@ function Collection() {
 				prefer_handle,
 			} = response.data;
 
-			console.log(response.data);
-
 			if (privacy === 'private') {
 				router.push('/');
 				return;

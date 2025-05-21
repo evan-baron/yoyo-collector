@@ -12,6 +12,15 @@
 	box-shadow: 0.125rem 0.125rem 0.5rem black;
 	transition: 0.3s;
 
+	&.disabled {
+		opacity: 0.5;
+		cursor: default;
+
+		&:hover {
+			transform: none;
+		}
+	}
+
 	&:hover {
 		transform: scale(1.1);
 	}
@@ -25,7 +34,6 @@
 			background: linear-gradient(135deg, rgb(255, 0, 255), #00e1ff);
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
-			cursor: pointer;
 		}
 	}
 

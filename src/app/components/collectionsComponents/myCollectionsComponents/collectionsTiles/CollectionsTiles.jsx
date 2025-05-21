@@ -33,6 +33,7 @@ function CollectionsTiles({
 	const [collections, setCollections] = useState([]);
 	const [splitUpCollection, setSplitUpCollection] = useState([]);
 	const [visibleTile, setVisibleTile] = useState(0);
+	const [limitHit, setLimitHit] = useState(false);
 
 	useEffect(() => {
 		const fetchCollections = async () => {
@@ -48,6 +49,10 @@ function CollectionsTiles({
 					);
 					const allCollections = collectionsData.data;
 					setCollections(allCollections);
+
+					setLimitHit(allCollections.length > 9);
+
+					console.log(allCollections.length);
 
 					if (allCollections.length > 2) {
 						const split = arraySplitter(allCollections, 2);
@@ -168,7 +173,7 @@ function CollectionsTiles({
 					gap: size === 'small' ? '0 1rem' : '0 2rem',
 				}}
 			>
-				{size !== 'small' && collectionType === 'user' && (
+				{size !== 'small' && collectionType === 'user' && !limitHit && (
 					<NewCollectionTile size={size} />
 				)}
 				{collections &&

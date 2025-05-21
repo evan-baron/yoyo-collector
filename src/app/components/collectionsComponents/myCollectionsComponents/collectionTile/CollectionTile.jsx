@@ -152,7 +152,6 @@ function CollectionTile({
 						style={{ fontSize: size === 'small' ? '1.25rem' : '1.5rem' }}
 					>
 						<Heart size={size} likes={likes} /> {likes || ''}{' '}
-						{size === 'small' ? '' : 'likes'}
 					</div>
 				</div>
 				{size !== 'small' && (
