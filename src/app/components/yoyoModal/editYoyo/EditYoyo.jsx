@@ -7,7 +7,7 @@ import React from 'react';
 import styles from './editYoyo.module.scss';
 
 // Components
-import EditableYoyoTile from '../../collectionsComponents/yoyosComponents/editableYoyoTile/EditableYoyoTile';
+import EditableYoyoTile from '../../pageSpecificComponents/myCollectionsPageComponents/yoyosComponents/editableYoyoTile/EditableYoyoTile';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';

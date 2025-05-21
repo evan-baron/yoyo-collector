@@ -6,7 +6,7 @@ import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 import styles from './myCollectionsPage.module.scss';
 
 // Components
-import CollectionsTiles from '../components/collectionsComponents/myCollectionsComponents/collectionsTiles/CollectionsTiles';
+import CollectionsTiles from '../components/pageSpecificComponents/myCollectionsPageComponents/collectionsTiles/CollectionsTiles';
 
 async function MyCollections() {
 	await validateAndExtendSession('mycollections/page.jsx');

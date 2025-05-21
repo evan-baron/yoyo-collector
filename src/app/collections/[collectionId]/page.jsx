@@ -20,8 +20,8 @@ import { ZoomIn, Share, West } from '@mui/icons-material';
 import BlankCoverPhoto from '@/app/components/blankCoverPhoto/BlankCoverPhoto';
 import Heart from '@/app/components/icons/heart/Heart';
 import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
-import CollectionPhotos from '@/app/components/collectionsComponents/collectionComponents/collectionPhotos/CollectionPhotos';
-import YoyoTiles from '@/app/components/collectionsComponents/yoyosComponents/yoyoTiles/YoyoTiles';
+import CollectionPhotos from '@/app/components/pageSpecificComponents/myCollectionsPageComponents/collectionComponents/collectionPhotos/CollectionPhotos';
+import YoyoTiles from '@/app/components/pageSpecificComponents/myCollectionsPageComponents/yoyosComponents/yoyoTiles/YoyoTiles';
 import YoyoModal from '@/app/components/yoyoModal/YoyoModal';
 
 // Context

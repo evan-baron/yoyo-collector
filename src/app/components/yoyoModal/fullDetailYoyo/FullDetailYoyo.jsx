@@ -7,7 +7,7 @@ import React from 'react';
 import styles from './fullDetailYoyo.module.scss';
 
 // Components
-import FullDetailYoyoTile from '../../collectionsComponents/yoyosComponents/fullDetailYoyoTile/FullDetailYoyoTile';
+import FullDetailYoyoTile from '../../pageSpecificComponents/myCollectionsPageComponents/yoyosComponents/fullDetailYoyoTile/FullDetailYoyoTile';
 
 // Context
 import { useAppContext } from '@/app/context/AppContext';

@@ -24,12 +24,12 @@ import {
 // Components
 import BlankCoverPhoto from '@/app/components/blankCoverPhoto/BlankCoverPhoto';
 import PictureUploader from '@/app/components/pictureUploader/PictureUploader';
-import EditableDescription from '@/app/components/collectionsComponents/myCollectionsComponents/editableDescription/EditableDescription';
-import EditableTitle from '@/app/components/collectionsComponents/myCollectionsComponents/editableTitle/EditableTitle';
+import EditableDescription from '@/app/components/pageSpecificComponents/myCollectionsPageComponents/editableDescription/EditableDescription';
+import EditableTitle from '@/app/components/pageSpecificComponents/myCollectionsPageComponents/editableTitle/EditableTitle';
 import Heart from '@/app/components/icons/heart/Heart';
 import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
-import CollectionPhotos from '@/app/components/collectionsComponents/collectionComponents/collectionPhotos/CollectionPhotos';
-import YoyoTiles from '@/app/components/collectionsComponents/yoyosComponents/yoyoTiles/YoyoTiles';
+import CollectionPhotos from '@/app/components/pageSpecificComponents/myCollectionsPageComponents/collectionComponents/collectionPhotos/CollectionPhotos';
+import YoyoTiles from '@/app/components/pageSpecificComponents/myCollectionsPageComponents/yoyosComponents/yoyoTiles/YoyoTiles';
 import YoyoModal from '@/app/components/yoyoModal/YoyoModal';
 
 // Context

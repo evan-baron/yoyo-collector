@@ -37,8 +37,6 @@ export async function POST(req, res) {
 
 		const allCollections = await getAllCollectionsById(userId);
 
-		console.log(allCollections.length);
-
 		if (allCollections.length > 9) {
 			return NextResponse.json(
 				{ 'User has reached the limit of collections they can have': 10 },
