@@ -1,3 +1,4 @@
+import userModel from '@/models/userModel';
 import collectionsModel from '@/models/collectionsModel';
 import uploadsModel from '@/models/uploadsModel';
 import yoyosModel from '@/models/yoyosModel';
@@ -24,6 +25,19 @@ const deleteCollection = async (userId, collectionId) => {
 	}
 };
 
+// Get ALL collections less 'private' user collections
+const getAllCollections = async () => {
+	const users = await userModel.getAllUsers();
+
+	const allCollections = await Promise.all(
+		users.map((user) => {
+			return collectionsModel.getAllCollectionsById(user.id);
+		})
+	);
+
+	return { allCollections };
+};
+
 // Get all collections by userId
 const getAllCollectionsById = async (userId) => {
 	const collectionsData = await collectionsModel.getAllCollectionsById(userId);
@@ -45,6 +59,18 @@ const getCollectionByName = async (userId, collectionName) => {
 	return await collectionsModel.getCollectionByName(userId, collectionName);
 };
 
+// Get ten newest collections less 'private' user collections
+const getTenNewestCollections = async () => {
+	const tenNewestCollections = await collectionsModel.getTenNewestCollections();
+	return { tenNewestCollections };
+};
+
+// Get top ten collections less 'private' user collections
+const getTopTenCollections = async () => {
+	const topTenCollections = await collectionsModel.getTopTenCollections();
+	return { topTenCollections };
+};
+
 // Update a collection
 const updateCollection = async (name, collectionId, description) => {
 	try {
@@ -60,8 +86,11 @@ const updateCollection = async (name, collectionId, description) => {
 export default {
 	createCollection,
 	deleteCollection,
+	getAllCollections,
 	getAllCollectionsById,
 	getCollectionById,
 	getCollectionByName,
+	getTenNewestCollections,
+	getTopTenCollections,
 	updateCollection,
 };

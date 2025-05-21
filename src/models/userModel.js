@@ -19,6 +19,14 @@ const User = {
 		return result;
 	},
 
+	// Get ALL non-private users
+	async getAllUsers() {
+		const [rows] = await pool.execute(
+			`SELECT id FROM users WHERE privacy != 'private'`
+		);
+		return rows;
+	},
+
 	// Get a user by email
 	async findUserByEmail(email) {
 		const [rows] = await pool.execute(

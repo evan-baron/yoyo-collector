@@ -18,7 +18,7 @@ import VerticalDivider from '../components/dividers/VerticalDivider';
 import CollectionCarousel from '../components/collectionCarousel/CollectionCarousel';
 import NewCollectionButton from '../components/newCollectionButton/NewCollectionButton';
 import BlankProfilePhoto from '../components/blankProfilePhoto/BlankProfilePhoto';
-import CollectionsTiles from '../components/pageSpecificComponents/myCollectionsPageComponents/collectionsTiles/CollectionsTiles';
+import CollectionsTiles from '../components/pageSpecificComponents/myCollectionsPageComponents/collectionComponents/collectionsTiles/CollectionsTiles';
 
 async function Profile() {
 	const { user_id } = await validateAndExtendSession('profile/page.jsx');

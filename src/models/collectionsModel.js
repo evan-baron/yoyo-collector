@@ -24,6 +24,48 @@ const Uploads = {
 		return rows;
 	},
 
+	// Get top ten collections
+	async getTopTenCollections() {
+		const [rows] = await pool.execute(
+			`SELECT user_collections.*, user_uploads.secure_url, users.privacy
+			FROM user_collections
+			LEFT JOIN user_uploads
+				ON user_collections.id = user_uploads.collection_id
+				AND user_uploads.upload_category = 'cover'
+			LEFT JOIN users
+				ON user_collections.user_id = users.id
+			WHERE user_collections.user_id NOT IN (
+				SELECT id 
+				FROM users
+				WHERE privacy = 'private'
+			) 
+			ORDER BY user_collections.likes DESC
+			LIMIT 10`
+		);
+		return rows;
+	},
+
+	// Get ten newest collections
+	async getTenNewestCollections() {
+		const [rows] = await pool.execute(
+			`SELECT user_collections.*, user_uploads.secure_url, users.privacy
+			FROM user_collections
+			LEFT JOIN user_uploads
+				ON user_collections.id = user_uploads.collection_id
+				AND user_uploads.upload_category = 'cover'
+			LEFT JOIN users
+				ON user_collections.user_id = users.id
+			WHERE user_collections.user_id NOT IN (
+				SELECT id 
+				FROM users
+				WHERE privacy = 'private'
+			) 
+			ORDER BY user_collections.created_at DESC
+			LIMIT 10`
+		);
+		return rows;
+	},
+
 	// Get collection by collectionId
 	async getCollectionById(collectionId) {
 		const [rows] = await pool.execute(

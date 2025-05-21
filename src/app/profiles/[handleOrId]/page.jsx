@@ -13,7 +13,7 @@ import { Place, AlternateEmail } from '@mui/icons-material';
 import VerticalDivider from '@/app/components/dividers/VerticalDivider';
 import CollectionCarousel from '@/app/components/collectionCarousel/CollectionCarousel';
 import BlankProfilePhoto from '@/app/components/blankProfilePhoto/BlankProfilePhoto';
-import CollectionsTiles from '@/app/components/pageSpecificComponents/myCollectionsPageComponents/collectionsTiles/CollectionsTiles';
+import CollectionsTiles from '@/app/components/pageSpecificComponents/myCollectionsPageComponents/collectionComponents/collectionsTiles/CollectionsTiles';
 
 async function ProfilePage({ params }) {
 	const { handleOrId } = await params;

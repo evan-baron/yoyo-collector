@@ -10,13 +10,7 @@ import dayjs from 'dayjs';
 import styles from './collectionTile.module.scss';
 
 // MUI
-import {
-	Search,
-	Edit,
-	Share,
-	ZoomIn,
-	DeleteOutline,
-} from '@mui/icons-material';
+import { Edit, Share, ZoomIn, DeleteOutline } from '@mui/icons-material';
 
 // Components
 import BlankCoverPhoto from '@/app/components/blankCoverPhoto/BlankCoverPhoto';
@@ -36,7 +30,6 @@ function CollectionTile({
 		collection_name: name,
 		likes,
 		created_at,
-		updated_at,
 		secure_url: cover,
 	} = collectionData;
 	const created = dayjs(created_at).format('MMMM, D, YYYY');

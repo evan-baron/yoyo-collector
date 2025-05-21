@@ -2,6 +2,7 @@
 import React from 'react';
 import { cookies } from 'next/headers';
 import userService from '@/services/userService';
+import collectionsService from '@/services/collectionsService';
 import sessionService from '@/services/sessionService';
 import dayjs from 'dayjs';
 
@@ -10,10 +11,14 @@ import styles from './collections.module.scss';
 
 // Components
 import CollectionCarousel from '../components/collectionCarousel/CollectionCarousel';
+import TopOrNew from '../components/pageSpecificComponents/allCollectionsPageComponents/topOrNew/TopOrNew';
+import AllCollectionsPages from '../components/pageSpecificComponents/allCollectionsPageComponents/allCollectionsPages/AllCollectionsPages';
 
 async function Collections() {
 	let user;
 	let favorites = [];
+	let topCollections = [];
+	let newCollections = [];
 
 	const cookieStore = await cookies();
 	const tokenFromCookie = cookieStore.get('session_token')?.value;
@@ -48,13 +53,24 @@ async function Collections() {
 		}
 	}
 
+	const { topTenCollections } = await collectionsService.getTopTenCollections();
+	topCollections = topTenCollections;
+
+	const { tenNewestCollections } =
+		await collectionsService.getTenNewestCollections();
+	newCollections = tenNewestCollections;
+
 	return (
 		<div className={styles['collections-container']}>
 			<div className={styles.collections}>
-				<h1 className={styles.h1}>All Collections</h1>
 				{user && (
-					<CollectionCarousel title={'My Favorites'} collections={favorites} />
+					<>
+						<h2 className={styles.h2}>My Favorites</h2>
+						<CollectionCarousel collections={favorites} />
+					</>
 				)}
+				<TopOrNew top={topCollections} newest={newCollections} />
+				<AllCollectionsPages />
 			</div>
 		</div>
 	);

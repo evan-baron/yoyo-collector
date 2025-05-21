@@ -34,7 +34,7 @@
 		.carousel {
 			display: flex;
 			gap: 1rem;
-			animation: scroll-left 20s linear infinite;
+			animation: scroll-left 60s linear infinite;
 			width: max-content;
 
 			.tile {
@@ -42,6 +42,10 @@
 				width: 12rem;
 				aspect-ratio: 1;
 				border: 1px solid white;
+			}
+
+			&:hover {
+				animation-play-state: paused;
 			}
 		}
 	}
