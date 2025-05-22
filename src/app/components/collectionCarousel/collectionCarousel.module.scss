@@ -37,13 +37,6 @@
 			animation: scroll-left 60s linear infinite;
 			width: max-content;
 
-			.tile {
-				flex-shrink: 0;
-				width: 12rem;
-				aspect-ratio: 1;
-				border: 1px solid white;
-			}
-
 			&:hover {
 				animation-play-state: paused;
 			}

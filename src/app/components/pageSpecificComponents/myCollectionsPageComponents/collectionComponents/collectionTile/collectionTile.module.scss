@@ -12,6 +12,10 @@
 		transform: scale(1);
 	}
 
+	&.small {
+		width: 15rem;
+	}
+
 	// border: 1px solid white;
 
 	.cover-photo {
@@ -22,6 +26,7 @@
 
 		.image {
 			width: 100%;
+			aspect-ratio: 1;
 			object-fit: cover;
 			border-radius: 0.5rem;
 			box-shadow: 0.25rem 0.25rem 1rem black;

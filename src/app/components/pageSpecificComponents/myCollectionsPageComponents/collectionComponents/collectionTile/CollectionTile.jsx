@@ -81,8 +81,10 @@ function CollectionTile({
 
 	return (
 		<div
-			className={`${styles.tile} ${hover && styles.hover}`}
-			style={{ width: size === 'small' ? '15rem' : 'auto' }}
+			className={`${styles.tile} ${hover && styles.hover} ${
+				size === 'small' && styles.small
+			}`}
+			// style={{ width: size === 'small' ? '15rem' : 'auto' }}
 		>
 			<div
 				className={styles['cover-photo']}
