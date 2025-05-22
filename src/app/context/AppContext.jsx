@@ -21,6 +21,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [editingYoyos, setEditingYoyos] = useState(false);
 	const [emailVerified, setEmailVerified] = useState(false);
 	const [error, setError] = useState(null);
+	const [errorMessage, setErrorMessage] = useState(null);
 	const [imagesToUpload, setImagesToUpload] = useState([]);
 	const [formImagesToUpload, setFormImagesToUpload] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -292,6 +293,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				editingYoyos,
 				emailVerified,
 				error,
+				errorMessage,
 				formImagesToUpload,
 				imagesToUpload,
 				profileSettingsFormData,
@@ -329,6 +331,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setEditingYoyos,
 				setEmailVerified,
 				setError,
+				setErrorMessage,
 				setFormImagesToUpload,
 				setImagesToUpload,
 				setNewCollectionCounter,

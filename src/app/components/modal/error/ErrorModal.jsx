@@ -10,11 +10,20 @@ import styles from './error.module.scss';
 import { useAppContext } from '@/app/context/AppContext';
 
 function ErrorModal() {
-	const { setModalOpen, setPendingRoute } = useAppContext();
+	const { setModalOpen, setPendingRoute, errorMessage } = useAppContext();
 
 	return (
 		<div className={styles.container}>
-			<h2 className={styles.h2}>Please address the errors before saving.</h2>
+			{errorMessage ? (
+				<>
+					<h2 className={styles.h2} style={{ color: 'red' }}>
+						Warning
+					</h2>
+					<p className={styles.p}>{errorMessage}</p>
+				</>
+			) : (
+				<h2 className={styles.h2}>Please address the errors before saving.</h2>
+			)}
 			<div className={styles.buttons}>
 				<button
 					className={styles.button}

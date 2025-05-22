@@ -40,8 +40,14 @@ function CollectionTile({
 
 	const router = useRouter();
 
-	const { setCollectionToDelete, setModalOpen, setModalType, setEditing } =
-		useAppContext();
+	const {
+		setCollectionToDelete,
+		setEditing,
+		setErrorMessage,
+		setModalOpen,
+		setModalType,
+		setShareLink,
+	} = useAppContext();
 
 	const [hover, setHover] = useState(false);
 
@@ -67,7 +73,18 @@ function CollectionTile({
 		{
 			icon: Share,
 			onClick: () => {
-				console.log('add share link later');
+				setModalOpen(true);
+				if (privacy === 'private') {
+					setModalType('error');
+					setErrorMessage(
+						"Your account privacy is currently set to 'private'. Please change your privacy to 'anonymous' or 'public' if you would like to share your collections with others."
+					);
+					return;
+				}
+				setShareLink(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/collections/${collectionId}`
+				);
+				setModalType('share');
 			},
 		},
 		{ icon: DeleteOutline, onClick: handleDelete },
@@ -142,7 +159,9 @@ function CollectionTile({
 						className={styles.name}
 						style={{ fontSize: size === 'small' ? '1.25rem' : '1.75rem' }}
 					>
-						{privacy === 'anonymous' ? 'Anonymous' : name}
+						{collectionType === 'visitor' && privacy === 'anonymous'
+							? 'Anonymous'
+							: name}
 					</Link>
 
 					<div
