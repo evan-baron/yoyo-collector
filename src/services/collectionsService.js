@@ -55,16 +55,17 @@ const getCollectionByName = async (userId, collectionName) => {
 	return await collectionsModel.getCollectionByName(userId, collectionName);
 };
 
-// Get ten newest collections less 'private' user collections
-const getTenNewestCollections = async () => {
-	const tenNewestCollections = await collectionsModel.getTenNewestCollections();
-	return { tenNewestCollections };
+// Get five newest collections less 'private' user collections
+const getFiveNewestCollections = async () => {
+	const fiveNewestCollections =
+		await collectionsModel.getFiveNewestCollections();
+	return { fiveNewestCollections };
 };
 
-// Get top ten collections less 'private' user collections
-const getTopTenCollections = async () => {
-	const topTenCollections = await collectionsModel.getTopTenCollections();
-	return { topTenCollections };
+// Get top five collections less 'private' user collections
+const getTopFiveCollections = async () => {
+	const topFiveCollections = await collectionsModel.getTopFiveCollections();
+	return { topFiveCollections };
 };
 
 // Update a collection
@@ -86,7 +87,7 @@ export default {
 	getAllCollectionsById,
 	getCollectionById,
 	getCollectionByName,
-	getTenNewestCollections,
-	getTopTenCollections,
+	getFiveNewestCollections,
+	getTopFiveCollections,
 	updateCollection,
 };

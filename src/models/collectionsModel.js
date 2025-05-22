@@ -55,8 +55,8 @@ const Uploads = {
 		return rows;
 	},
 
-	// Get top ten collections
-	async getTopTenCollections() {
+	// Get top five collections
+	async getTopFiveCollections() {
 		const [rows] = await pool.execute(
 			`SELECT user_collections.*, user_uploads.secure_url, users.privacy
 			FROM user_collections
@@ -71,13 +71,13 @@ const Uploads = {
 				WHERE privacy = 'private'
 			) 
 			ORDER BY user_collections.likes DESC
-			LIMIT 10`
+			LIMIT 5`
 		);
 		return rows;
 	},
 
-	// Get ten newest collections
-	async getTenNewestCollections() {
+	// Get five newest collections
+	async getFiveNewestCollections() {
 		const [rows] = await pool.execute(
 			`SELECT user_collections.*, user_uploads.secure_url, users.privacy
 			FROM user_collections
@@ -92,7 +92,7 @@ const Uploads = {
 				WHERE privacy = 'private'
 			) 
 			ORDER BY user_collections.created_at DESC
-			LIMIT 10`
+			LIMIT 5`
 		);
 		return rows;
 	},

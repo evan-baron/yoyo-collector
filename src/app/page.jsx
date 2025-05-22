@@ -17,12 +17,13 @@ export default async function Home() {
 	let topCollections = [];
 	let newCollections = [];
 
-	const { topTenCollections } = await collectionsService.getTopTenCollections();
-	topCollections = topTenCollections;
+	const { topFiveCollections } =
+		await collectionsService.getTopFiveCollections();
+	topCollections = topFiveCollections;
 
-	const { tenNewestCollections } =
-		await collectionsService.getTenNewestCollections();
-	newCollections = tenNewestCollections;
+	const { fiveNewestCollections } =
+		await collectionsService.getFiveNewestCollections();
+	newCollections = fiveNewestCollections;
 
 	return (
 		<div className={styles.home}>
