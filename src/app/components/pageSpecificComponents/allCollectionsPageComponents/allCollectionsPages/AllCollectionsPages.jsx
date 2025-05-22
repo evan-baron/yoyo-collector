@@ -109,10 +109,20 @@ function AllCollectionsPages() {
 				</ul>
 			</div>
 			<div className={styles['page-selector']}>
-				<div className={styles['icons-left']}>
-					<KeyboardDoubleArrowLeft className={styles.icon} />
-					<KeyboardArrowLeft className={styles.icon} />
-				</div>
+				{currentPage > 0 && (
+					<div className={styles['icons-left']}>
+						<KeyboardDoubleArrowLeft
+							className={styles.icon}
+							onClick={() => setCurrentPage(0)}
+						/>
+						<KeyboardArrowLeft
+							className={styles.icon}
+							onClick={() => {
+								setCurrentPage((prev) => prev - 1);
+							}}
+						/>
+					</div>
+				)}
 				<div
 					className={`${styles['page-box']} ${
 						editingPage && styles['input-active']
@@ -149,7 +159,12 @@ function AllCollectionsPages() {
 								}}
 								onKeyDown={(e) => {
 									if (e.key === 'Enter' || e.key === 'Tab') {
-										setCurrentPage(Number(inputValue) - 1);
+										const num = Number(inputValue);
+										if (!inputValue || num < 1 || num > pages.length) {
+											setCurrentPage(lastCommittedValueRef.current);
+										} else {
+											setCurrentPage(num - 1);
+										}
 										setEditingPage(false);
 									}
 								}}
@@ -158,10 +173,20 @@ function AllCollectionsPages() {
 						/ {pages.length}
 					</div>
 				</div>
-				<div className={styles['icons-right']}>
-					<KeyboardArrowRight className={styles.icon} />
-					<KeyboardDoubleArrowRight className={styles.icon} />
-				</div>
+				{currentPage < pages.length - 1 && (
+					<div className={styles['icons-right']}>
+						<KeyboardArrowRight
+							className={styles.icon}
+							onClick={() => {
+								setCurrentPage((prev) => prev + 1);
+							}}
+						/>
+						<KeyboardDoubleArrowRight
+							className={styles.icon}
+							onClick={() => setCurrentPage(pages.length - 1)}
+						/>
+					</div>
+				)}
 			</div>
 		</div>
 	);
