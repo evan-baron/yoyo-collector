@@ -1,6 +1,6 @@
 import pool from '@/config/db';
 
-const Uploads = {
+const Collections = {
 	// Create new collection
 	async createCollection(userId, name) {
 		const [result] = await pool.execute(
@@ -151,4 +151,4 @@ const Uploads = {
 	},
 };
 
-export default Uploads;
+export default Collections;

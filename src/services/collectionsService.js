@@ -1,4 +1,3 @@
-import userModel from '@/models/userModel';
 import collectionsModel from '@/models/collectionsModel';
 import uploadsModel from '@/models/uploadsModel';
 import yoyosModel from '@/models/yoyosModel';

@@ -158,7 +158,7 @@ function Collection() {
 							<Heart
 								likes={currentLikes}
 								size='small'
-								likeType={'collection'}
+								likeType={'collections'}
 								itemId={collectionId}
 								setLikes={setCurrentLikes}
 							/>

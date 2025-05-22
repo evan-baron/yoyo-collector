@@ -185,7 +185,7 @@ function CollectionPhoto({
 						<Heart
 							size={'small'}
 							likes={currentLikes}
-							likeType={'upload'}
+							likeType={'uploads'}
 							itemId={photoId}
 							setLikes={setCurrentLikes}
 						/>{' '}

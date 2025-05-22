@@ -173,7 +173,7 @@ function CollectionTile({
 							size={size}
 							likes={currentLikes}
 							itemId={collectionId}
-							likeType={'collection'}
+							likeType={'collections'}
 							setLikes={setCurrentLikes}
 						/>{' '}
 						{currentLikes || ''}{' '}

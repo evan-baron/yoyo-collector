@@ -103,7 +103,7 @@ function PhotoYoyoTile({ yoyoData, collectionType }) {
 						size='small'
 						likes={currentLikes}
 						itemId={id}
-						likeType={'yoyo'}
+						likeType={'yoyos'}
 						setLikes={setCurrentLikes}
 					/>
 					{currentLikes > 0 && (
