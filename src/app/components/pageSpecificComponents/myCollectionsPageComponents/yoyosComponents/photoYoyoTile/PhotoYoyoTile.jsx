@@ -26,11 +26,12 @@ function PhotoYoyoTile({ yoyoData, collectionType }) {
 		setEditingYoyos,
 	} = useAppContext();
 
+	const { id, brand, likes, model, photos } = yoyoData;
+
 	const [hover, setHover] = useState(false);
+	const [currentLikes, setCurrentLikes] = useState(likes);
 
 	useEffect(() => {}, [newCollectionCounter]);
-
-	const { brand, likes, model, photos } = yoyoData;
 
 	const displayUrl = (() => {
 		if (!photos || !photos.length) return null;
@@ -98,10 +99,16 @@ function PhotoYoyoTile({ yoyoData, collectionType }) {
 					<h3 className={styles.brand}>{brand}</h3>
 				</div>
 				<div className={styles.likes}>
-					<Heart size='small' likes={likes} />
-					{likes > 0 && (
+					<Heart
+						size='small'
+						likes={currentLikes}
+						itemId={id}
+						likeType={'yoyo'}
+						setLikes={setCurrentLikes}
+					/>
+					{currentLikes > 0 && (
 						<>
-							{likes} {likes === 1 ? 'like' : 'likes'}
+							{currentLikes} {currentLikes === 1 ? 'like' : 'likes'}
 						</>
 					)}
 				</div>

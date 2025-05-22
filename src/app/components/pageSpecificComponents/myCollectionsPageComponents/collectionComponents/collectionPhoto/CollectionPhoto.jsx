@@ -42,6 +42,7 @@ function CollectionPhoto({
 	const [hover, setHover] = useState(false);
 	const [changeModal, setChangeModal] = useState(false);
 	const [changeModalType, setChangeModalType] = useState(false);
+	const [currentLikes, setCurrentLikes] = useState(likes);
 
 	async function handleSave() {
 		if (changeModalType === 'cover') {
@@ -181,8 +182,14 @@ function CollectionPhoto({
 			<div className={styles.details}>
 				<div className={styles['name-likes']}>
 					<div className={styles.likes}>
-						<Heart size={'small'} likes={likes} />{' '}
-						{likes ? `${likes} likes` : ''}
+						<Heart
+							size={'small'}
+							likes={currentLikes}
+							likeType={'upload'}
+							itemId={photoId}
+							setLikes={setCurrentLikes}
+						/>{' '}
+						{currentLikes ? `${currentLikes} likes` : ''}
 					</div>
 				</div>
 			</div>

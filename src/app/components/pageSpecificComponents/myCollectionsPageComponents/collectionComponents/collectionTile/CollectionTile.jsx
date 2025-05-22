@@ -25,6 +25,8 @@ function CollectionTile({
 	collectionType, // user or visitor
 	privacy, // the privacy of the collection owner's profile ('public', 'anonymous', 'private')
 }) {
+	const [hover, setHover] = useState(false);
+
 	const {
 		id: collectionId,
 		collection_name: name,
@@ -38,6 +40,7 @@ function CollectionTile({
 			? `/mycollections/${collectionId}`
 			: `/collections/${collectionId}`;
 
+	const [currentLikes, setCurrentLikes] = useState(likes);
 	const router = useRouter();
 
 	const {
@@ -48,8 +51,6 @@ function CollectionTile({
 		setModalType,
 		setShareLink,
 	} = useAppContext();
-
-	const [hover, setHover] = useState(false);
 
 	const iconSize = size === 'small' ? '3rem' : '5rem';
 	const borderSize = size === 'small' ? '0.3rem' : '0.5rem';
@@ -168,7 +169,14 @@ function CollectionTile({
 						className={styles.likes}
 						style={{ fontSize: size === 'small' ? '1.25rem' : '1.5rem' }}
 					>
-						<Heart size={size} likes={likes} /> {likes || ''}{' '}
+						<Heart
+							size={size}
+							likes={currentLikes}
+							itemId={collectionId}
+							likeType={'collection'}
+							setLikes={setCurrentLikes}
+						/>{' '}
+						{currentLikes || ''}{' '}
 					</div>
 				</div>
 				{size !== 'small' && (

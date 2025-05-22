@@ -89,6 +89,11 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [tokenValid, setTokenValid] = useState(null);
 	const [uploadError, setUploadError] = useState(null);
 	const [user, setUser] = useState(initialUser);
+	const [userLikes, setUserLikes] = useState({
+		collection: {},
+		uploads: {},
+		yoyos: {},
+	});
 	const [viewingCollectionId, setViewingCollectionId] = useState(null);
 	const [viewPhoto, setViewPhoto] = useState(null);
 	const [viewingYoyoData, setViewingYoyoData] = useState({});
@@ -316,6 +321,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				tokenValid,
 				uploadError,
 				user,
+				userLikes,
 				viewingCollectionId,
 				viewPhoto,
 				viewingYoyoData,
@@ -354,6 +360,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 				setTokenValid,
 				setUploadError,
 				setUser,
+				setUserLikes,
 				setViewingCollectionId,
 				setViewPhoto,
 				setViewingYoyoData,

@@ -49,7 +49,7 @@ const FullDetailYoyoTile = ({
 				<div
 					className={`${styles.likes} ${photos?.length > 1 && styles.indented}`}
 				>
-					<Heart size='small' likes={likes} />
+					<Heart size='small' likes={likes} likeType={'yoyo'} itemId={yoyoId} />
 					{likes > 0 && (
 						<>
 							{likes} {likes === 1 ? 'like' : 'likes'}

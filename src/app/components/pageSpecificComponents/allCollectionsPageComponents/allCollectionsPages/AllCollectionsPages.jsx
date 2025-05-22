@@ -38,8 +38,6 @@ function AllCollectionsPages() {
 				`/api/user/collections?sortType=${sortType}`
 			);
 
-			console.log(collectionsData.data);
-
 			setPages(arraySplitter(collectionsData.data, 20));
 		};
 		fetchCollections();

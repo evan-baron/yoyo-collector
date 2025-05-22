@@ -55,6 +55,7 @@ function Collection() {
 	const [photos, setPhotos] = useState([]);
 	const [yoyos, setYoyos] = useState([]);
 	const [hover, setHover] = useState(false);
+	const [currentLikes, setCurrentLikes] = useState(null);
 
 	useEffect(() => {
 		if (!collectionId) return;
@@ -100,6 +101,7 @@ function Collection() {
 			setCollection(collectionData);
 			setPhotos(collectionPhotos);
 			setYoyos(yoyosData);
+			setCurrentLikes(collectionData.likes);
 			setCoverPhoto(
 				collectionPhotos.find((photo) => photo.upload_category === 'cover')
 					?.secure_url
@@ -131,7 +133,9 @@ function Collection() {
 	}, []);
 
 	const loadingComplete = useMemo(() => {
-		return collection?.id && Array.isArray(photos) && privacyChecked;
+		return (
+			collection?.id && Array.isArray(photos) && privacyChecked && currentLikes
+		);
 	}, [collection, photos, privacy]);
 
 	if (!loadingComplete) return <LoadingSpinner message='Loading' />;
@@ -151,7 +155,13 @@ function Collection() {
 					<div className={styles.details}>
 						<h3 className={styles.h3}>Created {created}</h3>
 						<p className={styles.likes}>
-							<Heart likes={likes} size='small' />
+							<Heart
+								likes={currentLikes}
+								size='small'
+								likeType={'collection'}
+								itemId={collectionId}
+								setLikes={setCurrentLikes}
+							/>
 							{likes} likes
 						</p>
 					</div>

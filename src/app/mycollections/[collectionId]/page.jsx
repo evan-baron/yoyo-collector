@@ -80,6 +80,7 @@ function Collection() {
 	const [photos, setPhotos] = useState([]);
 	const [yoyos, setYoyos] = useState([]);
 	const [hover, setHover] = useState(false);
+	const [currentLikes, setCurrentLikes] = useState(null);
 
 	useEffect(() => {
 		if (!collectionId) return;
@@ -95,6 +96,7 @@ function Collection() {
 			setCollection(collectionData);
 			setPhotos(collectionPhotos);
 			setYoyos(yoyosData);
+			setCurrentLikes(collectionData.likes);
 			setCoverPhoto(
 				collectionPhotos.find((photo) => photo.upload_category === 'cover')
 					?.secure_url
@@ -308,7 +310,13 @@ function Collection() {
 					<div className={styles.details}>
 						<h3 className={styles.h3}>Created {created}</h3>
 						<p className={styles.likes}>
-							<Heart likes={collection.likes} size='small' />
+							<Heart
+								likes={currentLikes}
+								size='small'
+								likeType={'collection'}
+								itemId={collectionId}
+								setLikes={setCurrentLikes}
+							/>
 							{collection.likes} likes
 						</p>
 					</div>
