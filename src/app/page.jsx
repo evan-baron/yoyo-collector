@@ -1,3 +1,6 @@
+// Utils
+import collectionsService from '@/services/collectionsService';
+
 // Styles
 import styles from './home.module.scss';
 
@@ -10,31 +13,47 @@ import RegisterButton from './components/registerButton/RegisterButton';
 import RegisterCTA from './components/registerCTA/RegisterCTA';
 import CollectionCarousel from './components/collectionCarousel/CollectionCarousel';
 
-export default function Home() {
+export default async function Home() {
+	let topCollections = [];
+	let newCollections = [];
+
+	const { topTenCollections } = await collectionsService.getTopTenCollections();
+	topCollections = topTenCollections;
+
+	const { tenNewestCollections } =
+		await collectionsService.getTenNewestCollections();
+	newCollections = tenNewestCollections;
+
 	return (
 		<div className={styles.home}>
 			<section className={styles.hero}>
 				<div className={styles.screen}>
 					<h1 className={styles.h1}>Welcome to Yoyo Collector!</h1>
 					<p className={styles.p}>
-						A public database where you can create, manage, and share your
-						collections with the world!{' '}
+						A public space where you can create, manage, and share your
+						collections with the world!
 					</p>
 				</div>
 			</section>
 			<section className={styles.description}>
 				<h2 className={styles.h2}>
-					With Yoyo Collector, you can create collections, keeping track of each
-					individual yoyo, it's specs, pictures, and more. You can then share
-					your collections publicly, anonymously, or keep them completely
+					With Yoyo Collector, you can easily create and manage collections to
+					keep track of your yoyos — their condition, photos, and more. Choose
+					to share your collections publicly, anonymously, or keep them entirely
 					private.
 				</h2>
 				<RegisterCTA />
 			</section>
 			<section className={styles['preview-container']}>
 				<div className={styles.preview}>
-					<CollectionCarousel title='Top Collections' />
-					<CollectionCarousel title='Newest Collections' />
+					<CollectionCarousel
+						title='Top Collections'
+						collections={topCollections}
+					/>
+					<CollectionCarousel
+						title='Newest Collections'
+						collections={newCollections}
+					/>
 				</div>
 				<Link href='/collections' className={styles.link}>
 					View All

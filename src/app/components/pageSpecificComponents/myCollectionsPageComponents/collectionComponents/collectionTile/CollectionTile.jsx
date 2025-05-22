@@ -137,7 +137,7 @@ function CollectionTile({
 						className={styles.name}
 						style={{ fontSize: size === 'small' ? '1.25rem' : '1.75rem' }}
 					>
-						{privacy === 'anonymous' ? "Anonymous's Collection" : name}
+						{privacy === 'anonymous' ? 'Anonymous Collection' : name}
 					</Link>
 
 					<div

@@ -143,7 +143,7 @@ function Collection() {
 					<div className={styles['collection-name-box']}>
 						<h1 className={styles.h1}>
 							{privacy === 'anonymous'
-								? "Anonymous's Collection"
+								? 'Anonymous Collection'
 								: collectionName}
 						</h1>
 					</div>
