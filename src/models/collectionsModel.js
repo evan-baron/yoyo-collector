@@ -10,6 +10,37 @@ const Uploads = {
 		return result;
 	},
 
+	// Get all collections by sortType
+	async getAllCollectionsBySortType(sortType) {
+		const validSorts = {
+			ascending: 'user_collections.created_at ASC',
+			descending: 'user_collections.created_at DESC',
+			likes: 'user_collections.likes DESC',
+		};
+
+		let orderClause = 'ORDER BY user_collections.created_at ASC';
+		if (sortType && validSorts[sortType]) {
+			orderClause = `ORDER BY ${validSorts[sortType]}`;
+		}
+
+		const [rows] = await pool.execute(
+			`SELECT user_collections.*, user_uploads.secure_url, users.privacy
+			FROM user_collections
+			LEFT JOIN user_uploads
+				ON user_collections.id = user_uploads.collection_id
+				AND user_uploads.upload_category = 'cover'
+			LEFT JOIN users
+				ON user_collections.user_id = users.id
+			WHERE user_collections.user_id NOT IN (
+				SELECT id 
+				FROM users
+				WHERE privacy = 'private'
+			) 
+		 	${orderClause}`
+		);
+		return rows;
+	},
+
 	// Get all collections by userId
 	async getAllCollectionsById(userId) {
 		const [rows] = await pool.execute(

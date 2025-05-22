@@ -18,10 +18,10 @@
 
 		.option {
 			cursor: pointer;
-			color: rgba(238, 238, 238, 0.35);
+			color: var(--mediumGray);
 
 			&.selected {
-				color: rgba(238, 238, 238, 1);
+				color: var(--lightestGray);
 			}
 		}
 

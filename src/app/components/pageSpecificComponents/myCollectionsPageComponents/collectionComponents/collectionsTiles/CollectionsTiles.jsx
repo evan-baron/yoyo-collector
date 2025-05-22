@@ -44,7 +44,7 @@ function CollectionsTiles({
 
 				if (collectionType === 'user') {
 					const collectionsData = await axiosInstance.get(
-						'/api/user/collections',
+						'/api/user/collections/byUserId',
 						{
 							withCredentials: true,
 						}
@@ -68,7 +68,7 @@ function CollectionsTiles({
 					}
 				} else {
 					const collectionsData = await axiosInstance.get(
-						`/api/user/collections?profileId=${profileId}`
+						`/api/user/collections/byUserId?profileId=${profileId}`
 					);
 
 					const allCollections = collectionsData.data;

@@ -4,8 +4,12 @@ import { getUserIdFromToken } from '@/lib/auth/getUserIdFromToken';
 import { cookies } from 'next/headers';
 import { validateAndExtendSession } from '@/lib/auth/validateAndExtend';
 
-const { createCollection, getCollectionByName, getAllCollectionsById } =
-	collectionsService;
+const {
+	createCollection,
+	getCollectionByName,
+	getAllCollections,
+	getAllCollectionsById,
+} = collectionsService;
 
 // Create new collection
 export async function POST(req, res) {
@@ -63,30 +67,22 @@ export async function POST(req, res) {
 export async function GET(req, res) {
 	try {
 		const url = new URL(req.url);
-		const profileId = url.searchParams.get('profileId');
+		const sortType = url.searchParams.get('sortType');
 
 		let response;
 
-		if (profileId) {
-			response = await getAllCollectionsById(profileId);
-		} else {
-			const { userId, valid } = await getUserIdFromToken({
-				cookies,
-			});
-
-			if (!userId) {
-				throw new Error('User ID is missing');
-			}
-
-			if (!valid) {
-				throw new Error('Token no longer valid');
-			}
-
-			response = await getAllCollectionsById(userId);
+		if (sortType === 'ascending') {
+			response = await getAllCollections('ascending');
+		} else if (sortType === 'descending') {
+			response = await getAllCollections('descending');
+		} else if (sortType === 'likes') {
+			response = await getAllCollections('likes');
 		}
 
-		const collections = response.map(
-			({ user_id, ...collection }) => collection
+		const { allCollections } = response;
+
+		const collections = allCollections.map(
+			({ user_id, updated_at, ...collection }) => collection
 		);
 
 		return NextResponse.json(collections, { status: 200 });

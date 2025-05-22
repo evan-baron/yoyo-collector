@@ -26,13 +26,9 @@ const deleteCollection = async (userId, collectionId) => {
 };
 
 // Get ALL collections less 'private' user collections
-const getAllCollections = async () => {
-	const users = await userModel.getAllUsers();
-
-	const allCollections = await Promise.all(
-		users.map((user) => {
-			return collectionsModel.getAllCollectionsById(user.id);
-		})
+const getAllCollections = async (sortType) => {
+	const allCollections = await collectionsModel.getAllCollectionsBySortType(
+		sortType
 	);
 
 	return { allCollections };

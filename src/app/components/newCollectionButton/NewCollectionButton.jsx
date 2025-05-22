@@ -24,7 +24,7 @@ function NewCollectionButton() {
 		const fetchCollections = async () => {
 			try {
 				const collectionsData = await axiosInstance.get(
-					'/api/user/collections',
+					'/api/user/collections/byUserId',
 					{
 						withCredentials: true,
 					}
