@@ -13,7 +13,7 @@
 	}
 
 	.legend {
-		width: 100%;
+		width: 80%;
 
 		padding: 0.5rem;
 		border-bottom: 2px solid var(--mediumGray);
@@ -35,6 +35,18 @@
 					color: var(--lightestGray);
 				}
 			}
+		}
+	}
+
+	.selected-page {
+		width: 100%;
+
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 1rem;
+
+		.tile {
+			grid-column: span 1;
 		}
 	}
 

@@ -14,7 +14,7 @@ import axiosInstance from '@/lib/utils/axios';
 import styles from './collectionPage.module.scss';
 
 // MUI
-import { ZoomIn, Share, West } from '@mui/icons-material';
+import { ZoomIn, Share, West, Search } from '@mui/icons-material';
 
 // Components
 import BlankCoverPhoto from '@/app/components/blankCoverPhoto/BlankCoverPhoto';
@@ -292,7 +292,7 @@ function Collection() {
 			{yoyoModalOpen && <YoyoModal collectionType={'visitor'} />}
 			<Link href={link}>
 				<button className={styles['profile-button']}>
-					<West className={styles.icon} style={{ fontSize: '1.75rem' }} />
+					<Search className={styles.icon} style={{ fontSize: '1.75rem' }} />
 
 					<p className={styles.button}>{displayName}'s Profile</p>
 				</button>

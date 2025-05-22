@@ -254,6 +254,7 @@
 	border-radius: 0.5rem;
 	box-shadow: 0.125rem 0.125rem 0.5rem black;
 	transition: 0.3s;
+	cursor: pointer;
 
 	.button {
 		font-size: 1.125rem;
@@ -268,7 +269,7 @@
 	}
 
 	.icon {
-		transform: translateY(-5%); // ALIGN ITEMS CENTER NOT WORK GOOD
+		// transform: translateY(-5%); // ALIGN ITEMS CENTER NOT WORK GOOD
 		@supports (-webkit-background-clip: text) {
 			color: rgb(255, 0, 225);
 		}

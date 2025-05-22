@@ -95,13 +95,16 @@ function CollectionTile({
 					collectionType === 'user' ? (
 						<img className={styles.image} src={cover} />
 					) : (
-						<Link href={link}>
+						<Link href={link} className={styles.link}>
 							<img className={styles.image} src={cover} />
 						</Link>
 					)
 				) : (
-					<Link href={link}>
-						<div style={{ boxShadow: '0.25rem 0.25rem 1rem black' }}>
+					<Link href={link} className={styles.link}>
+						<div
+							className={styles.image}
+							style={{ boxShadow: '0.25rem 0.25rem 1rem black' }}
+						>
 							<BlankCoverPhoto />
 						</div>
 					</Link>
@@ -139,7 +142,7 @@ function CollectionTile({
 						className={styles.name}
 						style={{ fontSize: size === 'small' ? '1.25rem' : '1.75rem' }}
 					>
-						{privacy === 'anonymous' ? 'Anonymous Collection' : name}
+						{privacy === 'anonymous' ? 'Anonymous' : name}
 					</Link>
 
 					<div

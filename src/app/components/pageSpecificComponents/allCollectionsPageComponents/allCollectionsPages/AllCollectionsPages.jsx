@@ -9,6 +9,7 @@ import arraySplitter from '@/lib/helpers/arraySplitter';
 
 // Components
 import LoadingSpinner from '@/app/components/loading/LoadingSpinner';
+import CollectionTile from '../../myCollectionsPageComponents/collectionComponents/collectionTile/CollectionTile';
 
 // MUI
 import {
@@ -22,7 +23,7 @@ import {
 import styles from './allCollectionsPages.module.scss';
 
 function AllCollectionsPages() {
-	const [sortType, setSortType] = useState('descending'); // can only be 'ascending', 'descending', or 'likes'
+	const [sortType, setSortType] = useState('likes'); // can only be 'ascending', 'descending', or 'likes'
 	const [pages, setPages] = useState([]);
 	const [currentPage, setCurrentPage] = useState(0);
 	const [editingPage, setEditingPage] = useState(false);
@@ -36,6 +37,8 @@ function AllCollectionsPages() {
 			const collectionsData = await axiosInstance.get(
 				`/api/user/collections?sortType=${sortType}`
 			);
+
+			console.log(collectionsData.data);
 
 			setPages(arraySplitter(collectionsData.data, 20));
 		};
@@ -68,6 +71,7 @@ function AllCollectionsPages() {
 	const handleSort = (e) => {
 		const { name } = e.target.dataset;
 		setSortType(name);
+		setCurrentPage(0);
 	};
 
 	const loadingComplete = pages.length > 0;
@@ -79,6 +83,15 @@ function AllCollectionsPages() {
 			<h2 className={styles.h2}>All Collections</h2>
 			<div className={styles.legend}>
 				<ul className={styles.ul}>
+					<li
+						data-name='likes'
+						className={`${styles.sort} ${styles.name} ${
+							sortType === 'likes' && styles.selected
+						}`}
+						onClick={handleSort}
+					>
+						Most Popular
+					</li>
 					<li
 						data-name='descending'
 						className={`${styles.sort} ${styles.name} ${
@@ -97,16 +110,21 @@ function AllCollectionsPages() {
 					>
 						Oldest
 					</li>
-					<li
-						data-name='likes'
-						className={`${styles.sort} ${styles.name} ${
-							sortType === 'likes' && styles.selected
-						}`}
-						onClick={handleSort}
-					>
-						Most Popular
-					</li>
 				</ul>
+			</div>
+			<div className={styles['selected-page']}>
+				{pages[currentPage].map((collection, index) => {
+					return (
+						<div key={index} className={styles.tile}>
+							<CollectionTile
+								collectionData={collection}
+								collectionType={'visitor'}
+								size={'small'}
+								privacy={collection.privacy}
+							/>
+						</div>
+					);
+				})}
 			</div>
 			<div className={styles['page-selector']}>
 				{currentPage > 0 && (

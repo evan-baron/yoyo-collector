@@ -24,6 +24,12 @@
 		position: relative;
 		cursor: pointer;
 
+		.link {
+			line-height: 0;
+			font-size: 0;
+			display: block;
+		}
+
 		.image {
 			width: 100%;
 			aspect-ratio: 1;
