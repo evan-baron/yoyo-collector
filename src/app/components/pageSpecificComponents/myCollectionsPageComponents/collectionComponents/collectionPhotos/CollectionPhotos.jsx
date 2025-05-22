@@ -15,6 +15,7 @@ import { useAppContext } from '@/app/context/AppContext';
 
 function CollectionPhotos({
 	photos,
+	setPhotos,
 	collectionId,
 	collectionType,
 	size,
@@ -66,6 +67,7 @@ function CollectionPhotos({
 									collectionType={collectionType}
 									setCoverPhoto={setCoverPhoto}
 									editing={editing}
+									setPhotos={setPhotos}
 								/>
 							);
 						}

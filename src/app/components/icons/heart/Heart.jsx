@@ -16,7 +16,7 @@ function Heart({
 	likes, // the likes passed in from the parent component
 	setLikes, // the update likes function passed in from the parent component
 }) {
-	const { userLikes, setUserLikes } = useAppContext();
+	const { userLikes, setUserLikes, user } = useAppContext();
 
 	const [hover, setHover] = useState(false);
 	const [liked, setLiked] = useState(userLikes?.[likeType]?.[itemId]);
@@ -25,9 +25,25 @@ function Heart({
 		if (!liked) {
 			setLikes((prev) => prev + 1);
 			setLiked(true);
+			setUserLikes((prev) => ({
+				...prev,
+				[likeType]: {
+					...prev[likeType],
+					[itemId]: true,
+				},
+			}));
 		} else {
 			setLikes((prev) => prev - 1);
 			setLiked(false);
+			setUserLikes((prev) => {
+				const updatedType = { ...prev[likeType] };
+				delete updatedType[itemId];
+
+				return {
+					...prev,
+					[likeType]: updatedType,
+				};
+			});
 		}
 	};
 
@@ -61,7 +77,7 @@ function Heart({
 				d='m12 21.35-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z'
 				fill='url(#quoteGradient)'
 				style={{
-					opacity: liked || hover ? 1 : 0,
+					opacity: user && (liked || hover) ? 1 : likes ? 1 : 0,
 					transition: 'opacity 0.1s ease-in-out',
 				}}
 			/>

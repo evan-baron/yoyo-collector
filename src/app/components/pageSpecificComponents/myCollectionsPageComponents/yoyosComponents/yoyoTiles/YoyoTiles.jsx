@@ -19,6 +19,7 @@ import { useAppContext } from '@/app/context/AppContext';
 
 function YoyoTiles({
 	yoyos,
+	setYoyos,
 	setSelectedYoyos,
 	selectedYoyos,
 	editingYoyos,
@@ -318,6 +319,7 @@ function YoyoTiles({
 								)}
 
 								<YoyoTile
+									setYoyos={setYoyos}
 									yoyoData={yoyo}
 									setSelectedYoyos={setSelectedYoyos}
 									selectedTile={selectedYoyo === yoyo.id}
@@ -333,6 +335,7 @@ function YoyoTiles({
 								<PhotoYoyoTile
 									editingYoyos={editingYoyos}
 									yoyoData={yoyo}
+									setYoyos={setYoyos}
 									key={index}
 									collectionType={collectionType}
 								/>

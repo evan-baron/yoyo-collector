@@ -1,5 +1,5 @@
 // Libraries
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Styles
 import styles from './fullDetailYoyoTile.module.scss';
@@ -21,6 +21,7 @@ const FullDetailYoyoTile = ({
 	handleSelect,
 	validLeftItems = [],
 	validRightItems = [],
+	setYoyos,
 }) => {
 	const {
 		setSelectedYoyo,
@@ -35,7 +36,13 @@ const FullDetailYoyoTile = ({
 
 	const [currentLikes, setCurrentLikes] = useState(likes);
 
-	console.log(yoyoId);
+	useEffect(() => {
+		setYoyos((prev) =>
+			prev.map((yoyo) =>
+				yoyo.id === yoyoId ? { ...yoyo, likes: currentLikes } : yoyo
+			)
+		);
+	}, [currentLikes]);
 
 	return (
 		<div

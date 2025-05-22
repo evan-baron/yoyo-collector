@@ -11,13 +11,7 @@ import FullDetailYoyoTile from '../fullDetailYoyoTile/FullDetailYoyoTile';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function YoyoTile({
-	viewingId, // ADD IN LATER TO PROTECT PRIVATE FIELDS FROM PUBLIC YOYOTILE
-	ownerId, // ADD IN LATER TO PROTECT PRIVATE FIELDS FROM PUBLIC YOYOTILE
-	yoyoData,
-	selectedTile,
-	collectionType,
-}) {
+function YoyoTile({ yoyoData, selectedTile, collectionType, setYoyos }) {
 	const {
 		editingYoyos,
 		setModalOpen,
@@ -111,6 +105,7 @@ function YoyoTile({
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
 							yoyoData={yoyoData}
+							setYoyos={setYoyos}
 							collectionType={collectionType}
 						/>
 					)}
@@ -126,6 +121,7 @@ function YoyoTile({
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
 							yoyoData={yoyoData}
+							setYoyos={setYoyos}
 							collectionType={collectionType}
 						/>
 					)}
@@ -141,6 +137,7 @@ function YoyoTile({
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
 							yoyoData={yoyoData}
+							setYoyos={setYoyos}
 							collectionType={collectionType}
 						/>
 					)}

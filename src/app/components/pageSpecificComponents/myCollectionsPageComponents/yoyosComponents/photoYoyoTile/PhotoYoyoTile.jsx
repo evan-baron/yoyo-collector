@@ -16,7 +16,7 @@ import Heart from '@/app/components/icons/heart/Heart';
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function PhotoYoyoTile({ yoyoData, collectionType }) {
+function PhotoYoyoTile({ yoyoData, collectionType, setYoyos }) {
 	const {
 		setYoyoModalOpen,
 		setYoyoModalType,
@@ -30,6 +30,14 @@ function PhotoYoyoTile({ yoyoData, collectionType }) {
 
 	const [hover, setHover] = useState(false);
 	const [currentLikes, setCurrentLikes] = useState(likes);
+
+	useEffect(() => {
+		setYoyos((prev) =>
+			prev.map((yoyo) =>
+				yoyo.id === id ? { ...yoyo, likes: currentLikes } : yoyo
+			)
+		);
+	}, [currentLikes]);
 
 	useEffect(() => {}, [newCollectionCounter]);
 

@@ -1,7 +1,7 @@
 'use client';
 
 // Libraries
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Styles
 import styles from './collectionPhoto.module.scss';
@@ -21,11 +21,10 @@ function CollectionPhoto({
 	currentUser,
 	setCoverPhoto,
 	editing,
-	collectionType,
+	setPhotos,
 }) {
 	const {
 		id: photoId,
-		collection_name: name,
 		collection_id: collectionId,
 		likes,
 		secure_url: photoUrl,
@@ -43,6 +42,14 @@ function CollectionPhoto({
 	const [changeModal, setChangeModal] = useState(false);
 	const [changeModalType, setChangeModalType] = useState(false);
 	const [currentLikes, setCurrentLikes] = useState(likes);
+
+	useEffect(() => {
+		setPhotos((prev) =>
+			prev.map((photo) =>
+				photo.id === photoId ? { ...photo, likes: currentLikes } : photo
+			)
+		);
+	}, [currentLikes]);
 
 	async function handleSave() {
 		if (changeModalType === 'cover') {

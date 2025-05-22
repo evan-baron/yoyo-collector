@@ -465,6 +465,7 @@ function Collection() {
 										setCoverPhoto={setCoverPhoto}
 										editing={editing}
 										photos={photos}
+										setPhotos={setPhotos}
 									/>
 								</div>
 							</div>
@@ -477,6 +478,7 @@ function Collection() {
 							<div className={styles.yoyos}>
 								<YoyoTiles
 									yoyos={yoyos}
+									setYoyos={setYoyos}
 									selectedYoyos={selectedYoyos}
 									setSelectedYoyos={setSelectedYoyos}
 									editingYoyos={editingYoyos}
