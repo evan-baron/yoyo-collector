@@ -1,5 +1,5 @@
 // Libraries
-import React from 'react';
+import React, { useState } from 'react';
 
 // Styles
 import styles from './fullDetailYoyoTile.module.scss';
@@ -22,9 +22,20 @@ const FullDetailYoyoTile = ({
 	validLeftItems = [],
 	validRightItems = [],
 }) => {
-	const { setSelectedYoyo, yoyoModalOpen, setYoyoModalOpen } = useAppContext();
+	const {
+		setSelectedYoyo,
+		yoyoModalOpen,
+		setYoyoModalOpen,
+		setEditingYoyos,
+		editingYoyos,
+		yoyoDisplayType,
+	} = useAppContext();
 
 	const { id: yoyoId, photos, yoyo_condition: condition, likes } = yoyoData;
+
+	const [currentLikes, setCurrentLikes] = useState(likes);
+
+	console.log(yoyoId);
 
 	return (
 		<div
@@ -51,13 +62,14 @@ const FullDetailYoyoTile = ({
 				>
 					<Heart
 						size='small'
-						likes={likes}
+						likes={currentLikes}
 						likeType={'yoyos'}
 						itemId={yoyoId}
+						setLikes={setCurrentLikes}
 					/>
-					{likes > 0 && (
+					{currentLikes > 0 && (
 						<>
-							{likes} {likes === 1 ? 'like' : 'likes'}
+							{currentLikes} {currentLikes === 1 ? 'like' : 'likes'}
 						</>
 					)}
 				</div>
@@ -129,24 +141,27 @@ const FullDetailYoyoTile = ({
 					>
 						<Close className={styles.close} /> Close
 					</div>
-				) : (
-					// <Edit
-					// 	className={styles.edit}
-					// 	onClick={(e) => {
-					// 		e.stopPropagation();
-					// 		setEditingYoyos(true);
-					// 		!selectedTile && setSelectedYoyo(yoyoId);
-					// 	}}
-					// />
-					<div
-						className={styles['close-tile']}
+				) : editingYoyos ? (
+					<Edit
+						className={styles.edit}
 						onClick={(e) => {
 							e.stopPropagation();
-							setSelectedYoyo(null);
+							setEditingYoyos(true);
+							!selectedTile && setSelectedYoyo(yoyoId);
 						}}
-					>
-						<Close className={styles.close} />
-					</div>
+					/>
+				) : (
+					yoyoDisplayType !== 'full' && (
+						<div
+							className={styles['close-tile']}
+							onClick={(e) => {
+								e.stopPropagation();
+								setSelectedYoyo(null);
+							}}
+						>
+							<Close className={styles.close} />
+						</div>
+					)
 				)}
 				{/* Optional: Only show edit if current user owns this yoyo */}
 			</div>

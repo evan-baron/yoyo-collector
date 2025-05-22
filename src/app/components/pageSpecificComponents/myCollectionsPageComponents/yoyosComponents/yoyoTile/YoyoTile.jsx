@@ -20,7 +20,6 @@ function YoyoTile({
 }) {
 	const {
 		editingYoyos,
-		setEditingYoyos,
 		setModalOpen,
 		setModalType,
 		dirty,
@@ -123,7 +122,7 @@ function YoyoTile({
 					{!selectedTile && (
 						<FullDetailYoyoTile
 							selectedTile={selectedTile}
-							handleSelect={handleSelect}
+							handleSelect={null}
 							validLeftItems={validLeftItems}
 							validRightItems={validRightItems}
 							yoyoData={yoyoData}
@@ -136,16 +135,14 @@ function YoyoTile({
 					)}
 
 					{selectedTile && !editingYoyos && (
-						<>
-							<FullDetailYoyoTile
-								selectedTile={selectedTile}
-								handleSelect={handleSelect}
-								validLeftItems={validLeftItems}
-								validRightItems={validRightItems}
-								yoyoData={yoyoData}
-								collectionType={collectionType}
-							/>
-						</>
+						<FullDetailYoyoTile
+							selectedTile={selectedTile}
+							handleSelect={null}
+							validLeftItems={validLeftItems}
+							validRightItems={validRightItems}
+							yoyoData={yoyoData}
+							collectionType={collectionType}
+						/>
 					)}
 				</>
 			)}
