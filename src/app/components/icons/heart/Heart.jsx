@@ -3,6 +3,9 @@
 // Libraries
 import React, { useState } from 'react';
 
+// Utils
+import axiosInstance from '@/lib/utils/axios';
+
 // Styles
 import styles from './heart.module.scss';
 
@@ -11,7 +14,7 @@ import { useAppContext } from '@/app/context/AppContext';
 
 function Heart({
 	itemId, // id of the item this component belongs to
-	likeType, // type of the item this component belongs to: 'collection', 'upload', or 'yoyo'
+	likeType, // type of the item this component belongs to: 'collections', 'uploads', or 'yoyos'
 	size, // 'small' or no value
 	likes, // the likes passed in from the parent component
 	setLikes, // the update likes function passed in from the parent component
@@ -21,7 +24,23 @@ function Heart({
 	const [hover, setHover] = useState(false);
 	const [liked, setLiked] = useState(userLikes?.[likeType]?.[itemId]);
 
-	const handleLike = () => {
+	const coloredIn = (() => {
+		if (user) {
+			if (liked || hover) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (!user) {
+			if (likes > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	})();
+
+	const handleLike = async () => {
 		if (!liked) {
 			setLikes((prev) => prev + 1);
 			setLiked(true);
@@ -32,6 +51,20 @@ function Heart({
 					[itemId]: true,
 				},
 			}));
+			try {
+				await axiosInstance.post(
+					'/api/likes',
+					{
+						liked_id: itemId,
+						liked_type: likeType,
+					},
+					{
+						withCredentials: true,
+					}
+				);
+			} catch (error) {
+				console.error('Error occurred with liking the photo:', error.message);
+			}
 		} else {
 			setLikes((prev) => prev - 1);
 			setLiked(false);
@@ -44,6 +77,17 @@ function Heart({
 					[likeType]: updatedType,
 				};
 			});
+			try {
+				await axiosInstance.delete('/api/likes', {
+					data: {
+						liked_id: itemId,
+						liked_type: likeType,
+					},
+					withCredentials: true,
+				});
+			} catch (error) {
+				console.error('Error occurred with liking the photo:', error.message);
+			}
 		}
 	};
 
@@ -77,7 +121,7 @@ function Heart({
 				d='m12 21.35-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z'
 				fill='url(#quoteGradient)'
 				style={{
-					opacity: user && (liked || hover) ? 1 : likes ? 1 : 0,
+					opacity: coloredIn ? 1 : 0,
 					transition: 'opacity 0.1s ease-in-out',
 				}}
 			/>

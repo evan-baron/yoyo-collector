@@ -1,6 +1,7 @@
 // Libraries
 import { cookies } from 'next/headers';
 import userService from '@/services/userService';
+import likesService from '@/services/likesService';
 import sessionService from '@/services/sessionService';
 import dayjs from 'dayjs';
 
@@ -37,6 +38,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
 	let user;
+	let likes;
 
 	const cookieStore = await cookies();
 	const tokenFromCookie = cookieStore.get('session_token')?.value;
@@ -66,6 +68,10 @@ export default async function RootLayout({ children }) {
 			}
 
 			user = userResponse;
+
+			const { userLikes } = await likesService.getAllLikesByUserId(user_id);
+
+			likes = userLikes;
 		} catch (err) {
 			// Handling this silently, but this means there's no active user or token in the browser
 		}
@@ -74,7 +80,7 @@ export default async function RootLayout({ children }) {
 	return (
 		<html lang='en'>
 			<body className={`${roboto.variable} ${openSans.variable}`}>
-				<ContextProvider initialUser={user}>
+				<ContextProvider initialUser={user} initialLikes={likes}>
 					<Header />
 					{/* <SidePanel /> */}
 					<main>{children}</main>

@@ -74,6 +74,28 @@ const Uploads = {
 		return rows;
 	},
 
+	// Increment likes
+	async incrementPhotoLikes(liked_id) {
+		const [result] = await pool.execute(
+			`UPDATE user_uploads
+			SET likes = likes + 1
+			WHERE id = ?`,
+			[liked_id]
+		);
+		return result;
+	},
+
+	// Decrement likes
+	async decrementPhotoLikes(liked_id) {
+		const [result] = await pool.execute(
+			`UPDATE user_uploads
+			SET likes = likes - 1
+			WHERE id = ?`,
+			[liked_id]
+		);
+		return result;
+	},
+
 	// Set cover photo
 	async setCoverPhoto(newCover, collectionId) {
 		const [rows] = await pool.execute(

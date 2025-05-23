@@ -11,7 +11,15 @@ import axiosInstance from '@/lib/utils/axios';
 const AppContext = createContext(null);
 
 // Create the context provider component
-export const ContextProvider = ({ children, initialUser = null }) => {
+export const ContextProvider = ({
+	children,
+	initialUser = null,
+	initialLikes = {
+		collections: {},
+		uploads: {},
+		yoyos: {},
+	},
+}) => {
 	const [clearInputRef, setClearInputRef] = useState(null);
 	const [collectionToDelete, setCollectionToDelete] = useState(null);
 	const [currentlyEditing, setCurrentlyEditing] = useState(null);
@@ -89,11 +97,7 @@ export const ContextProvider = ({ children, initialUser = null }) => {
 	const [tokenValid, setTokenValid] = useState(null);
 	const [uploadError, setUploadError] = useState(null);
 	const [user, setUser] = useState(initialUser);
-	const [userLikes, setUserLikes] = useState({
-		collection: {},
-		uploads: {},
-		yoyos: {},
-	});
+	const [userLikes, setUserLikes] = useState(initialLikes);
 	const [viewingCollectionId, setViewingCollectionId] = useState(null);
 	const [viewPhoto, setViewPhoto] = useState(null);
 	const [viewingYoyoData, setViewingYoyoData] = useState({});

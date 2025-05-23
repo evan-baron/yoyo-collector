@@ -127,6 +127,28 @@ const Collections = {
 		return rows[0];
 	},
 
+	// Increment likes
+	async incrementCollectionLikes(liked_id) {
+		const [result] = await pool.execute(
+			`UPDATE user_collections
+			SET likes = likes + 1
+			WHERE id = ?`,
+			[liked_id]
+		);
+		return result;
+	},
+
+	// Decrement likes
+	async decrementCollectionLikes(liked_id) {
+		const [result] = await pool.execute(
+			`UPDATE user_collections
+			SET likes = likes - 1
+			WHERE id = ?`,
+			[liked_id]
+		);
+		return result;
+	},
+
 	// Update collection
 	async updateCollection(name, collectionId, description) {
 		const [result] = await pool.execute(

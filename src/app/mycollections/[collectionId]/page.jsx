@@ -317,7 +317,7 @@ function Collection() {
 								itemId={collectionId}
 								setLikes={setCurrentLikes}
 							/>
-							{collection.likes} likes
+							{currentLikes} likes
 						</p>
 					</div>
 

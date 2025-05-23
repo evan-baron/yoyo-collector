@@ -99,6 +99,28 @@ const Yoyos = {
 		return result.insertId;
 	},
 
+	// Increment likes
+	async incrementYoyoLikes(liked_id) {
+		const [result] = await pool.execute(
+			`UPDATE yoyos
+			SET likes = likes + 1
+			WHERE id = ?`,
+			[liked_id]
+		);
+		return result;
+	},
+
+	// Decrement likes
+	async decrementYoyoLikes(liked_id) {
+		const [result] = await pool.execute(
+			`UPDATE yoyos
+			SET likes = likes - 1
+			WHERE id = ?`,
+			[liked_id]
+		);
+		return result;
+	},
+
 	// Update yoyo in the db - conditionally
 	async updateYoyo(yoyoId, updates) {
 		let query = `UPDATE yoyos SET `;

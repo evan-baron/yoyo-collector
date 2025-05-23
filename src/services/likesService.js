@@ -1,4 +1,7 @@
 import likesModel from '@/models/likesModel';
+import collectionsModel from '@/models/collectionsModel';
+import uploadsModel from '@/models/uploadsModel';
+import yoyosModel from '@/models/yoyosModel';
 
 // Get all likes by userId
 const getAllFavoritesByUserId = async (userId) => {
@@ -52,7 +55,43 @@ const getAllLikesByUserId = async (userId) => {
 	}
 };
 
+// Like an item
+const likeAnItem = async (userId, liked_type, liked_id) => {
+	try {
+		await likesModel.likeAnItem(userId, liked_type, liked_id);
+
+		if (liked_type === 'collections') {
+			await collectionsModel.incrementCollectionLikes(liked_id);
+		} else if (liked_type === 'uploads') {
+			await uploadsModel.incrementPhotoLikes(liked_id);
+		} else if (liked_type === 'yoyos') {
+			await yoyosModel.incrementYoyoLikes(liked_id);
+		}
+	} catch (error) {
+		console.error('Error liking an item at likesService:', error.message);
+	}
+};
+
+// Unlike an item
+const unlikeAnItem = async (userId, liked_type, liked_id) => {
+	try {
+		await likesModel.unlikeAnItem(userId, liked_type, liked_id);
+
+		if (liked_type === 'collections') {
+			await collectionsModel.decrementCollectionLikes(liked_id);
+		} else if (liked_type === 'uploads') {
+			await uploadsModel.decrementPhotoLikes(liked_id);
+		} else if (liked_type === 'yoyos') {
+			await yoyosModel.decrementYoyoLikes(liked_id);
+		}
+	} catch (error) {
+		console.error('Error unliking an item at likesService:', error.message);
+	}
+};
+
 export default {
 	getAllFavoritesByUserId,
 	getAllLikesByUserId,
+	likeAnItem,
+	unlikeAnItem,
 };
