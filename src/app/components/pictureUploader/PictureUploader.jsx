@@ -333,7 +333,10 @@ function PictureUploader({
 		try {
 			if (uploadType === 'profile') {
 				await axiosInstance.delete(
-					`/api/user/profilePictures?category=${uploadType}`
+					`/api/user/profilePictures?category=${uploadType}`,
+					{
+						withCredentials: true,
+					}
 				);
 				setUser((prev) => ({
 					...prev,
@@ -346,6 +349,7 @@ function PictureUploader({
 						collection: viewingCollectionId,
 						uploadType,
 					},
+					withCredentials: true,
 				});
 				setPicture(null);
 				setCoverPhoto(null);

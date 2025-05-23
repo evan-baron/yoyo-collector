@@ -82,6 +82,7 @@ function DeleteCollection() {
 				data: {
 					id: collectionToDelete,
 				},
+				withCredentials: true,
 			});
 		} catch (error) {
 			console.error(

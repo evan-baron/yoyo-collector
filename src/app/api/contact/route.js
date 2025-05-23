@@ -17,10 +17,7 @@ export async function POST(req) {
 
 		return response;
 	} catch (err) {
-		console.log(
-			'Error sending contact form at api/contact/contact/route.js:',
-			err
-		);
+		console.log('Error sending contact form at api/contact/route.js:', err);
 		return NextResponse.json({ message: err.message }, { status: 500 });
 	}
 }

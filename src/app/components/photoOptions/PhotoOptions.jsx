@@ -54,6 +54,7 @@ function PhotoOptions({ optionsSize, photo }) {
 						photoId: id,
 						publicId: public_id,
 					},
+					withCredentials: true,
 				});
 			} catch (error) {
 				console.error(

@@ -98,6 +98,7 @@ function Heart({
 			style={{
 				height: size === 'small' ? '1.5rem' : '2rem',
 				width: size === 'small' ? '1.5rem' : '2rem',
+				cursor: !user && 'default',
 			}}
 			onMouseEnter={() => setHover(true)}
 			onMouseLeave={() => setHover(false)}

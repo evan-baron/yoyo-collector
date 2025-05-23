@@ -18,6 +18,7 @@ import { useAppContext } from '@/app/context/AppContext';
 
 function PhotoYoyoTile({ yoyoData, collectionType, setYoyos }) {
 	const {
+		user,
 		setYoyoModalOpen,
 		setYoyoModalType,
 		setViewingYoyoData,
@@ -32,6 +33,7 @@ function PhotoYoyoTile({ yoyoData, collectionType, setYoyos }) {
 	const [currentLikes, setCurrentLikes] = useState(likes);
 
 	useEffect(() => {
+		if (!user) return;
 		setYoyos((prev) =>
 			prev.map((yoyo) =>
 				yoyo.id === id ? { ...yoyo, likes: currentLikes } : yoyo

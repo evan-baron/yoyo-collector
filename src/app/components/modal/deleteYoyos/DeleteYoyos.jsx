@@ -83,6 +83,7 @@ function DeleteYoyos() {
 						data: {
 							id: yoyo,
 						},
+						withCredentials: true,
 					})
 				)
 			);

@@ -24,6 +24,7 @@ const FullDetailYoyoTile = ({
 	setYoyos,
 }) => {
 	const {
+		user,
 		setSelectedYoyo,
 		yoyoModalOpen,
 		setYoyoModalOpen,
@@ -37,6 +38,7 @@ const FullDetailYoyoTile = ({
 	const [currentLikes, setCurrentLikes] = useState(likes);
 
 	useEffect(() => {
+		if (!user) return;
 		setYoyos((prev) =>
 			prev.map((yoyo) =>
 				yoyo.id === yoyoId ? { ...yoyo, likes: currentLikes } : yoyo

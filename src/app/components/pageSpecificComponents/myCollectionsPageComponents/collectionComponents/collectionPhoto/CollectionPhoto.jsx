@@ -31,6 +31,7 @@ function CollectionPhoto({
 	} = photoData;
 
 	const {
+		user,
 		setModalOpen,
 		setModalType,
 		setShareLink,
@@ -44,6 +45,7 @@ function CollectionPhoto({
 	const [currentLikes, setCurrentLikes] = useState(likes);
 
 	useEffect(() => {
+		if (!user) return;
 		setPhotos((prev) =>
 			prev.map((photo) =>
 				photo.id === photoId ? { ...photo, likes: currentLikes } : photo
@@ -74,6 +76,7 @@ function CollectionPhoto({
 						collection: collectionId,
 						photoId,
 					},
+					withCredentials: true,
 				});
 			} catch (error) {
 				console.error(
