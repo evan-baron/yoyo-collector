@@ -14,7 +14,7 @@ import axiosInstance from '@/lib/utils/axios';
 import styles from './collectionPage.module.scss';
 
 // MUI
-import { ZoomIn, Share, West, Search } from '@mui/icons-material';
+import { ZoomIn, Share, Star, Search } from '@mui/icons-material';
 
 // Components
 import BlankCoverPhoto from '@/app/components/blankCoverPhoto/BlankCoverPhoto';
@@ -34,6 +34,8 @@ function Collection() {
 
 	//original params were collection, photos
 	const {
+		user,
+		userFavorites,
 		editing,
 		editingYoyos,
 		loading,
@@ -45,6 +47,7 @@ function Collection() {
 		setSelectedYoyo,
 		setSelectedYoyos,
 		setShareLink,
+		setUserFavorites,
 		setViewingCollectionId,
 		setViewPhoto,
 	} = useAppContext();
@@ -56,6 +59,7 @@ function Collection() {
 	const [yoyos, setYoyos] = useState([]);
 	const [hover, setHover] = useState(false);
 	const [currentLikes, setCurrentLikes] = useState(null);
+	const [favoriteHover, setFavoriteHove] = useState(false);
 
 	useEffect(() => {
 		if (!collectionId) return;
@@ -132,6 +136,58 @@ function Collection() {
 		setSelectedYoyos([]);
 	}, []);
 
+	const handleFavorite = async () => {
+		if (!user) return;
+
+		if (!userFavorites.collections[collectionId]) {
+			setUserFavorites((prev) => ({
+				...prev,
+				collections: {
+					...prev.collections,
+					[collectionId]: true,
+				},
+			}));
+			try {
+				await axiosInstance.post(
+					'/api/favorites',
+					{
+						favorited_id: collectionId,
+						favorited_type: 'collections',
+					},
+					{
+						withCredentials: true,
+					}
+				);
+			} catch (error) {
+				console.error(
+					'Error occurred with favoriting the yoyo:',
+					error.message
+				);
+			}
+		} else {
+			setUserFavorites((prev) => {
+				const updatedType = { ...prev.collections };
+				delete updatedType[collectionId];
+
+				return {
+					...prev,
+					collections: updatedType,
+				};
+			});
+			try {
+				await axiosInstance.delete('/api/favorites', {
+					data: {
+						favorited_id: collectionId,
+						favorited_type: 'collections',
+					},
+					withCredentials: true,
+				});
+			} catch (error) {
+				console.error('Error occurred with liking the photo:', error.message);
+			}
+		}
+	};
+
 	const loadingComplete = useMemo(() => {
 		return (
 			collection?.id && Array.isArray(photos) && privacyChecked && currentLikes
@@ -168,6 +224,26 @@ function Collection() {
 
 					{privacy === 'public' && (
 						<div className={styles.description}>{description}</div>
+					)}
+
+					{user && (
+						<div
+							className={`${styles['favorites-button']} ${
+								userFavorites.collections[collectionId] && styles.favorited
+							}`}
+							onClick={handleFavorite}
+							onMouseEnter={() => setFavoriteHove(true)}
+							onMouseLeave={() => setFavoriteHove(false)}
+						>
+							<Star
+								className={`${styles.star} ${
+									userFavorites.collections[collectionId] && styles.favorited
+								} ${favoriteHover && styles.hover}`}
+							/>
+							{userFavorites.collections[collectionId]
+								? 'Favorited!'
+								: 'Add to Favorites'}
+						</div>
 					)}
 				</div>
 				<div className={styles['switch-view']}>

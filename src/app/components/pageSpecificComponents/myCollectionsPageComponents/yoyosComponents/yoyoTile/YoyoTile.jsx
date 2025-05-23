@@ -91,6 +91,7 @@ function YoyoTile({ yoyoData, selectedTile, collectionType, setYoyos }) {
 							handleSelect={handleSelect}
 							selectedTile={selectedTile}
 							yoyoId={id}
+							collectionType={collectionType}
 						/>
 					)}
 

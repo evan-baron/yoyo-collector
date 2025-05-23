@@ -127,6 +127,7 @@ function CollectionTile({
 						</div>
 					</Link>
 				)}
+
 				{collectionType === 'user' && (
 					<div className={styles.options}>
 						<div
@@ -176,7 +177,7 @@ function CollectionTile({
 							likeType={'collections'}
 							setLikes={setCurrentLikes}
 						/>{' '}
-						{currentLikes || ''}{' '}
+						{currentLikes || ''}
 					</div>
 				</div>
 				{size !== 'small' && (

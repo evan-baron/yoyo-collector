@@ -24,6 +24,7 @@ const SummaryYoyoTile = ({
 	handleSelect,
 	selectedTile,
 	yoyoId,
+	collectionType,
 }) => {
 	const { user, userFavorites, setUserFavorites } = useAppContext();
 
@@ -64,7 +65,7 @@ const SummaryYoyoTile = ({
 				<ul className={`${styles.ul} ${editing ? styles.editing : ''}`}>
 					<li className={styles.name}>
 						{model}{' '}
-						{userFavorites.yoyos[yoyoId] && (
+						{userFavorites.yoyos[yoyoId] && collectionType === 'visitor' && (
 							<Star
 								className={`${styles.star} ${
 									userFavorites.yoyos[yoyoId] && styles.favorited
