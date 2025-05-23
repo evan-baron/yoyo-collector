@@ -12,7 +12,7 @@ import FullDetailYoyoTile from '../../pageSpecificComponents/myCollectionsPageCo
 // Context
 import { useAppContext } from '@/app/context/AppContext';
 
-function FullDetailYoyo({ collectionType }) {
+function FullDetailYoyo({ collectionType, setYoyos }) {
 	const { viewingYoyoData } = useAppContext();
 
 	const {
@@ -67,6 +67,8 @@ function FullDetailYoyo({ collectionType }) {
 				validLeftItems={validLeftItems}
 				validRightItems={validRightItems}
 				yoyoData={viewingYoyoData}
+				setYoyos={setYoyos}
+				collectionType={collectionType}
 			/>
 		</div>
 	);

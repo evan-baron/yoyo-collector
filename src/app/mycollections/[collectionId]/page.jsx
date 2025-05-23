@@ -582,7 +582,7 @@ function Collection() {
 				</div>
 			</div>
 			{loading && <LoadingSpinner message={loadingMessage} />}
-			{yoyoModalOpen && <YoyoModal />}
+			{yoyoModalOpen && <YoyoModal setYoyos={setYoyos} />}
 		</>
 	);
 }

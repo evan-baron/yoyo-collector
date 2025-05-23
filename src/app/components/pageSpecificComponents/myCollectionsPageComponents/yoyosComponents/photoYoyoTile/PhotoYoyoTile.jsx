@@ -116,11 +116,7 @@ function PhotoYoyoTile({ yoyoData, collectionType, setYoyos }) {
 						likeType={'yoyos'}
 						setLikes={setCurrentLikes}
 					/>
-					{currentLikes > 0 && (
-						<>
-							{currentLikes} {currentLikes === 1 ? 'like' : 'likes'}
-						</>
-					)}
+					{currentLikes > 0 && <>{currentLikes}</>}
 				</div>
 			</div>
 		</div>

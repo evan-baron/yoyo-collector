@@ -39,6 +39,7 @@ export const metadata = {
 export default async function RootLayout({ children }) {
 	let user;
 	let likes;
+	let favorites;
 
 	const cookieStore = await cookies();
 	const tokenFromCookie = cookieStore.get('session_token')?.value;
@@ -72,6 +73,12 @@ export default async function RootLayout({ children }) {
 			const { userLikes } = await likesService.getAllLikesByUserId(user_id);
 
 			likes = userLikes;
+
+			const { userFavorites } = await likesService.getAllFavoritesByUserId(
+				user_id
+			);
+
+			favorites = userFavorites;
 		} catch (err) {
 			// Handling this silently, but this means there's no active user or token in the browser
 		}
@@ -80,7 +87,11 @@ export default async function RootLayout({ children }) {
 	return (
 		<html lang='en'>
 			<body className={`${roboto.variable} ${openSans.variable}`}>
-				<ContextProvider initialUser={user} initialLikes={likes}>
+				<ContextProvider
+					initialUser={user}
+					initialLikes={likes}
+					initialFavorites={favorites}
+				>
 					<Header />
 					{/* <SidePanel /> */}
 					<main>{children}</main>

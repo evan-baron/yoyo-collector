@@ -19,6 +19,10 @@ export const ContextProvider = ({
 		uploads: {},
 		yoyos: {},
 	},
+	initialFavorites = {
+		collections: {},
+		yoyos: {},
+	},
 }) => {
 	const [clearInputRef, setClearInputRef] = useState(null);
 	const [collectionToDelete, setCollectionToDelete] = useState(null);
@@ -97,6 +101,7 @@ export const ContextProvider = ({
 	const [tokenValid, setTokenValid] = useState(null);
 	const [uploadError, setUploadError] = useState(null);
 	const [user, setUser] = useState(initialUser);
+	const [userFavorites, setUserFavorites] = useState(initialFavorites);
 	const [userLikes, setUserLikes] = useState(initialLikes);
 	const [viewingCollectionId, setViewingCollectionId] = useState(null);
 	const [viewPhoto, setViewPhoto] = useState(null);
@@ -325,6 +330,7 @@ export const ContextProvider = ({
 				tokenValid,
 				uploadError,
 				user,
+				userFavorites,
 				userLikes,
 				viewingCollectionId,
 				viewPhoto,
@@ -364,6 +370,7 @@ export const ContextProvider = ({
 				setTokenValid,
 				setUploadError,
 				setUser,
+				setUserFavorites,
 				setUserLikes,
 				setViewingCollectionId,
 				setViewPhoto,

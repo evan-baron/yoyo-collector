@@ -11,7 +11,7 @@ import { useAppContext } from '@/app/context/AppContext';
 // Styles
 import styles from './yoyoModal.module.scss';
 
-function YoyoModal({ collectionType }) {
+function YoyoModal({ collectionType, setYoyos }) {
 	const { yoyoModalType } = useAppContext();
 
 	const modalContent = () => {
@@ -19,7 +19,9 @@ function YoyoModal({ collectionType }) {
 			case 'edit-yoyo':
 				return <EditYoyo />;
 			case 'view-yoyo':
-				return <FullDetailYoyo collectionType={collectionType} />;
+				return (
+					<FullDetailYoyo collectionType={collectionType} setYoyos={setYoyos} />
+				);
 			default:
 				return <div>Modal</div>;
 		}

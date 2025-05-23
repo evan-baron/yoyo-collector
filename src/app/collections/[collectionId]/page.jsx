@@ -162,7 +162,7 @@ function Collection() {
 								itemId={collectionId}
 								setLikes={setCurrentLikes}
 							/>
-							{likes} likes
+							{currentLikes} likes
 						</p>
 					</div>
 
@@ -274,6 +274,7 @@ function Collection() {
 										collectionType='visitor'
 										scroll='click'
 										photos={photos}
+										setPhotos={setPhotos}
 									/>
 								</div>
 							</div>
@@ -292,6 +293,7 @@ function Collection() {
 									addYoyo={false}
 									setAddYoyo={null}
 									collectionType={'visitor'}
+									setYoyos={setYoyos}
 								/>
 							</div>
 						</section>
@@ -299,7 +301,9 @@ function Collection() {
 				</div>
 			</div>
 			{loading && <LoadingSpinner message={loadingMessage} />}
-			{yoyoModalOpen && <YoyoModal collectionType={'visitor'} />}
+			{yoyoModalOpen && (
+				<YoyoModal collectionType={'visitor'} setYoyos={setYoyos} />
+			)}
 			<Link href={link}>
 				<button className={styles['profile-button']}>
 					<Search className={styles.icon} style={{ fontSize: '1.75rem' }} />

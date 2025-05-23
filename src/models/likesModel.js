@@ -2,7 +2,7 @@ import pool from '@/config/db';
 
 const Likes = {
 	// Get all favorites by userId
-	async getAllLikesByUserId(userId) {
+	async getAllFavoritesByUserId(userId) {
 		const [rows] = await pool.execute(
 			`SELECT favorited_type, favorited_id FROM likes_and_favorites
 			WHERE user_id = ?`,
@@ -35,6 +35,24 @@ const Likes = {
 		const [result] = await pool.execute(
 			'DELETE FROM likes_and_favorites WHERE user_id = ? AND liked_type = ? AND liked_id = ?',
 			[userId, liked_item, liked_id]
+		);
+		return result;
+	},
+
+	// Favorite an item
+	async favoriteAnItem(userId, favorited_item, favorited_id) {
+		const [result] = await pool.execute(
+			'INSERT INTO likes_and_favorites (user_id, favorited_type, favorited_id) VALUES (?, ?, ?)',
+			[userId, favorited_item, favorited_id]
+		);
+		return result;
+	},
+
+	// Unfavorite an item
+	async unfavoriteAnItem(userId, favorited_item, favorited_id) {
+		const [result] = await pool.execute(
+			'DELETE FROM likes_and_favorites WHERE user_id = ? AND favorited_type = ? AND favorited_id = ?',
+			[userId, favorited_item, favorited_id]
 		);
 		return result;
 	},

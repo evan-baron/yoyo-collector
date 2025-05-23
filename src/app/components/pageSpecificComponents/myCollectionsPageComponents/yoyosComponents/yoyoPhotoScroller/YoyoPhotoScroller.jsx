@@ -79,7 +79,6 @@ function YoyoPhotoScroller({ displayType, optionsSize, photos }) {
 							className={styles.image}
 						/>
 						<PhotoOptions
-							// displayType={displayType}
 							optionsSize={optionsSize}
 							photo={photos[displayPhoto]}
 						/>

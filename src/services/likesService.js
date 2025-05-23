@@ -8,7 +8,7 @@ const getAllFavoritesByUserId = async (userId) => {
 	try {
 		const rows = await likesModel.getAllFavoritesByUserId(userId);
 
-		const userLikes = rows.reduce(
+		const userFavorites = rows.reduce(
 			(accumulator, row) => {
 				const { favorited_type, favorited_id } = row;
 
@@ -20,10 +20,10 @@ const getAllFavoritesByUserId = async (userId) => {
 
 				return accumulator;
 			},
-			{ collections: {}, uploads: {}, yoyos: {} }
+			{ collections: {}, yoyos: {} }
 		);
 
-		return { userLikes };
+		return { userFavorites };
 	} catch (error) {
 		console.error('Error fetching likes:', error.message);
 	}
@@ -89,9 +89,29 @@ const unlikeAnItem = async (userId, liked_type, liked_id) => {
 	}
 };
 
+// Favorite an item
+const favoriteAnItem = async (userId, favorited_type, favorited_id) => {
+	try {
+		await likesModel.favoriteAnItem(userId, favorited_type, favorited_id);
+	} catch (error) {
+		console.error('Error favoriting an item at likesService:', error.message);
+	}
+};
+
+// Unfavorite an item
+const unfavoriteAnItem = async (userId, favorited_type, favorited_id) => {
+	try {
+		await likesModel.unfavoriteAnItem(userId, favorited_type, favorited_id);
+	} catch (error) {
+		console.error('Error unfavoriting an item at likesService:', error.message);
+	}
+};
+
 export default {
 	getAllFavoritesByUserId,
 	getAllLikesByUserId,
+	favoriteAnItem,
 	likeAnItem,
+	unfavoriteAnItem,
 	unlikeAnItem,
 };

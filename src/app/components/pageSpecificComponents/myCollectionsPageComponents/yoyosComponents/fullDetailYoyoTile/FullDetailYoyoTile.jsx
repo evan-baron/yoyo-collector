@@ -1,11 +1,16 @@
+'use client';
+
 // Libraries
 import React, { useState, useEffect } from 'react';
+
+// Utils
+import axiosInstance from '@/lib/utils/axios';
 
 // Styles
 import styles from './fullDetailYoyoTile.module.scss';
 
 // MUI
-import { Edit, Close } from '@mui/icons-material';
+import { Edit, Close, Star } from '@mui/icons-material';
 
 // Components
 import BlankYoyoPhoto from '@/app/components/blankYoyoPhoto/BlankYoyoPhoto';
@@ -22,6 +27,7 @@ const FullDetailYoyoTile = ({
 	validLeftItems = [],
 	validRightItems = [],
 	setYoyos,
+	collectionType,
 }) => {
 	const {
 		user,
@@ -31,11 +37,14 @@ const FullDetailYoyoTile = ({
 		setEditingYoyos,
 		editingYoyos,
 		yoyoDisplayType,
+		userFavorites,
+		setUserFavorites,
 	} = useAppContext();
 
 	const { id: yoyoId, photos, yoyo_condition: condition, likes } = yoyoData;
 
 	const [currentLikes, setCurrentLikes] = useState(likes);
+	const [hover, setHover] = useState(false);
 
 	useEffect(() => {
 		if (!user) return;
@@ -45,6 +54,58 @@ const FullDetailYoyoTile = ({
 			)
 		);
 	}, [currentLikes]);
+
+	const handleFavorite = async () => {
+		if (!user) return;
+
+		if (!userFavorites.yoyos[yoyoId]) {
+			setUserFavorites((prev) => ({
+				...prev,
+				yoyos: {
+					...prev.yoyos,
+					[yoyoId]: true,
+				},
+			}));
+			try {
+				await axiosInstance.post(
+					'/api/favorites',
+					{
+						favorited_id: yoyoId,
+						favorited_type: 'yoyos',
+					},
+					{
+						withCredentials: true,
+					}
+				);
+			} catch (error) {
+				console.error(
+					'Error occurred with favoriting the yoyo:',
+					error.message
+				);
+			}
+		} else {
+			setUserFavorites((prev) => {
+				const updatedType = { ...prev.yoyos };
+				delete updatedType[yoyoId];
+
+				return {
+					...prev,
+					yoyos: updatedType,
+				};
+			});
+			try {
+				await axiosInstance.delete('/api/favorites', {
+					data: {
+						favorited_id: yoyoId,
+						favorited_type: 'yoyos',
+					},
+					withCredentials: true,
+				});
+			} catch (error) {
+				console.error('Error occurred with liking the photo:', error.message);
+			}
+		}
+	};
 
 	return (
 		<div
@@ -76,11 +137,7 @@ const FullDetailYoyoTile = ({
 						itemId={yoyoId}
 						setLikes={setCurrentLikes}
 					/>
-					{currentLikes > 0 && (
-						<>
-							{currentLikes} {currentLikes === 1 ? 'like' : 'likes'}
-						</>
-					)}
+					{currentLikes > 0 && <>{currentLikes}</>}
 				</div>
 			</div>
 
@@ -121,6 +178,25 @@ const FullDetailYoyoTile = ({
 									</div>
 								);
 							})}
+							{user && collectionType === 'visitor' && (
+								<div
+									className={`${styles.button} ${
+										userFavorites.yoyos[yoyoId] && styles.favorited
+									}`}
+									onClick={handleFavorite}
+									onMouseEnter={() => setHover(true)}
+									onMouseLeave={() => setHover(false)}
+								>
+									<Star
+										className={`${styles.star} ${
+											userFavorites.yoyos[yoyoId] && styles.favorited
+										} ${hover && styles.hover}`}
+									/>
+									{userFavorites.yoyos[yoyoId]
+										? 'Favorited!'
+										: 'Add to Favorites'}
+								</div>
+							)}
 						</div>
 					)}
 				</div>
