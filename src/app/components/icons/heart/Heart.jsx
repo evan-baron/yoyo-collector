@@ -41,6 +41,8 @@ function Heart({
 	})();
 
 	const handleLike = async () => {
+		if (!user) return;
+
 		if (!liked) {
 			setLikes((prev) => prev + 1);
 			setLiked(true);
