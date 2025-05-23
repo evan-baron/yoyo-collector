@@ -411,6 +411,7 @@
 		background-color: var(--darkerGray);
 		border-radius: 0.5rem;
 		box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.75);
+		user-select: none;
 
 		cursor: pointer;
 	}

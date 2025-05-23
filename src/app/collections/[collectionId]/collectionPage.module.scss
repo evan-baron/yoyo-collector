@@ -260,6 +260,7 @@
 		font-size: 1.125rem;
 		font-weight: bold;
 		padding: 0.75rem 0;
+		user-select: none;
 
 		@supports (-webkit-background-clip: text) {
 			background: linear-gradient(135deg, rgb(255, 0, 255), #00e1ff);

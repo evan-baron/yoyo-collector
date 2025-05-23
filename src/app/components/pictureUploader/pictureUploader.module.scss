@@ -368,6 +368,7 @@
 			color: var(--lightestGray);
 			background-color: transparent;
 			cursor: pointer;
+			user-select: none;
 
 			transition: 0.2s;
 			opacity: 0.5;

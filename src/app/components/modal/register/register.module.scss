@@ -134,6 +134,7 @@
 			color: var(--lightestGray);
 			background-color: var(--darkGray);
 			border: 2px solid var(--lightestGray);
+			user-select: none;
 
 			@media (max-height: 380px) and (orientation: landscape) {
 				font-size: 1rem;

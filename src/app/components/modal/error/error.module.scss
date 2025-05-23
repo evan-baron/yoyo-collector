@@ -47,6 +47,7 @@
 			background-color: var(--darkGray);
 			border: 2px solid var(--lightestGray);
 			cursor: pointer;
+			user-select: none;
 		}
 	}
 }

@@ -137,6 +137,7 @@
 			background-color: transparent;
 			border: 0.25rem solid var(--lightestGray);
 			cursor: pointer;
+			user-select: none;
 
 			&:hover {
 				background-color: rgba(245, 245, 245, 0.35);

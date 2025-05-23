@@ -132,6 +132,7 @@
 			color: var(--lightestGray);
 			background-color: transparent;
 			border: 2px solid var(--lightestGray);
+			user-select: none;
 		}
 
 		.alert {
