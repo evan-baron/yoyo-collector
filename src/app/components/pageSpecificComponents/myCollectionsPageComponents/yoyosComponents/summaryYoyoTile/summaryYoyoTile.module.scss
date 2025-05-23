@@ -30,6 +30,21 @@
 				grid-column: span 5;
 			}
 
+			.name {
+				display: flex;
+				align-items: center;
+				gap: 0.25rem;
+
+				.star {
+					color: yellow;
+					transition: color 0.1s ease-in-out;
+
+					&:hover {
+						color: var(--lolGray);
+					}
+				}
+			}
+
 			.year {
 				width: 100%;
 
