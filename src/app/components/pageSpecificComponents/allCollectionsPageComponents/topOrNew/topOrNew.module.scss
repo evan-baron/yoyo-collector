@@ -26,8 +26,10 @@
 		}
 
 		.divider {
-			height: 100%;
-			border: 1px solid var(--lightestGray);
+			width: 0.5rem;
+			height: 0.5rem;
+			border-radius: 50%;
+			background-color: var(--mediumGray);
 		}
 	}
 }

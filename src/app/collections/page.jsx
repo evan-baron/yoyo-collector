@@ -3,6 +3,7 @@ import React from 'react';
 import { cookies } from 'next/headers';
 import userService from '@/services/userService';
 import collectionsService from '@/services/collectionsService';
+import likesService from '@/services/likesService';
 import sessionService from '@/services/sessionService';
 import dayjs from 'dayjs';
 
@@ -16,7 +17,7 @@ import AllCollectionsPages from '../components/pageSpecificComponents/allCollect
 
 async function Collections() {
 	let user;
-	let favorites = [];
+	let favorites;
 	let topCollections = [];
 	let newCollections = [];
 
@@ -43,11 +44,19 @@ async function Collections() {
 		try {
 			const userResponse = await userService.getUserById(user_id);
 
-			if (userResponse.password) {
-				delete userResponse.password;
-			}
+			console.log(userResponse);
 
 			user = userResponse;
+
+			const {
+				likes_and_favorites: {
+					favorites: { collections },
+				},
+			} = userResponse;
+
+			favorites = Object.entries(collections).map(
+				(collection) => collection[1]
+			);
 		} catch (err) {
 			// Handling this silently, but this means there's no active user or token in the browser
 		}
@@ -64,13 +73,11 @@ async function Collections() {
 	return (
 		<div className={styles['collections-container']}>
 			<div className={styles.collections}>
-				{user && (
-					<>
-						<h2 className={styles.h2}>My Favorites</h2>
-						<CollectionCarousel collections={favorites} />
-					</>
-				)}
-				<TopOrNew top={topCollections} newest={newCollections} />
+				<TopOrNew
+					top={topCollections}
+					newest={newCollections}
+					favorites={favorites}
+				/>
 				<AllCollectionsPages />
 			</div>
 		</div>

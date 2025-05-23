@@ -43,17 +43,89 @@ const User = {
 		return rows[0]; // Return the first matching user (or null if none)
 	},
 
-	// Get a user by ID
 	async findUserById(id) {
 		const [rows] = await pool.execute(
-			`SELECT users.*, user_uploads.secure_url FROM users 
-			LEFT JOIN user_uploads 
-				ON users.id = user_uploads.user_id 
-				AND user_uploads.upload_category = 'profile' 
-			WHERE users.id = ?`,
+			`WITH profile_pictures (user_id, secure_url) AS (
+			SELECT user_uploads.user_id, user_uploads.secure_url
+			FROM user_uploads
+			WHERE user_uploads.upload_category = 'profile'
+		), cover_photos (collection_id, secure_url) AS (
+			SELECT user_uploads.collection_id, user_uploads.secure_url
+			FROM user_uploads
+			WHERE user_uploads.upload_category = 'cover'
+		)
+		SELECT 
+			users.*, 
+			profile_pictures.secure_url, 
+			laf.liked_type, laf.liked_id, laf.favorited_type, laf.favorited_id,
+			uc.id AS collection_id, uc.collection_name, uc.created_at AS uc_created_at, uc.likes,
+			cover_photos.secure_url AS cover_url
+		FROM users
+		LEFT JOIN profile_pictures
+			ON users.id = profile_pictures.user_id 
+		LEFT JOIN likes_and_favorites AS laf
+			ON users.id = laf.user_id
+		LEFT JOIN user_collections AS uc
+			ON laf.favorited_type = 'collections' AND laf.favorited_id = uc.id
+		LEFT JOIN cover_photos
+			ON laf.favorited_id = cover_photos.collection_id
+		WHERE users.id = ?`,
 			[id]
 		);
-		return rows[0];
+
+		if (rows.length === 0) return null;
+
+		const user = {
+			...rows[0],
+			likes_and_favorites: {
+				likes: {
+					collections: {},
+					uploads: {},
+					yoyos: {},
+				},
+				favorites: {
+					collections: {},
+					yoyos: {},
+				},
+			},
+		};
+
+		for (const row of rows) {
+			if (row.liked_type) {
+				user.likes_and_favorites.likes[row.liked_type][row.liked_id] = true;
+			}
+
+			if (row.favorited_type === 'collections') {
+				user.likes_and_favorites.favorites[row.favorited_type][
+					row.favorited_id
+				] = {
+					id: row.collection_id,
+					collection_name: row.collection_name,
+					likes: row.likes,
+					created_at: row.uc_created_at,
+					secure_url: row.cover_url,
+				};
+			} else if (row.favorited_type === 'yoyos') {
+				user.likes_and_favorites.favorites[row.favorited_type][
+					row.favorited_id
+				] = true;
+			}
+		}
+
+		[
+			'liked_type',
+			'liked_id',
+			'favorited_type',
+			'favorited_id',
+			'collection_id',
+			'collection_name',
+			'likes',
+			'uc_created_at',
+			'cover_url',
+			'password',
+		].forEach((key) => delete user[key]);
+
+		return user;
 	},
 
 	// Get a user by Handle

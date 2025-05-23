@@ -76,6 +76,25 @@ const Collections = {
 		return rows;
 	},
 
+	// Get favorite collections by array of collection Ids
+	async getFavoriteCollectionsById(collectionIds) {
+		const placeholders = collectionIds.map(() => '?').join(', ');
+		let query = `SELECT user_collections.*, users.handle, users.first_name, users.privacy, user_uploads.secure_url 
+		FROM user_collections 
+		LEFT JOIN users 
+			ON users.id = user_collections.user_id  
+		LEFT JOIN user_uploads
+			ON user_collections.id = user_uploads.collection_id
+			AND user_uploads.upload_category = 'cover' 
+		WHERE user_collections.id IN (${placeholders})`;
+
+		if (collectionIds.length === 0) return [];
+
+		const [rows] = await pool.execute(query, collectionIds);
+
+		return rows;
+	},
+
 	// Get five newest collections
 	async getFiveNewestCollections() {
 		const [rows] = await pool.execute(
@@ -100,20 +119,15 @@ const Collections = {
 	// Get collection by collectionId
 	async getCollectionById(collectionId) {
 		const [rows] = await pool.execute(
-			`SELECT user_collections.*, users.handle, users.first_name, users.privacy FROM user_collections 
+			`SELECT user_collections.*, users.handle, users.first_name, users.privacy, user_uploads.secure_url 
+			FROM user_collections 
 			LEFT JOIN users 
 				ON users.id = user_collections.user_id  
+			LEFT JOIN user_uploads
+				ON user_collections.id = user_uploads.collection_id
+				AND user_uploads.upload_category = 'cover'
 			WHERE user_collections.id = ?`,
 			[collectionId]
-		);
-		return rows[0];
-	},
-
-	// Get collection by name
-	async getCollectionByName(userId, collectionName) {
-		const [rows] = await pool.execute(
-			`SELECT * FROM user_collections WHERE user_id = ? AND collection_name = ?`,
-			[userId, collectionName]
 		);
 		return rows[0];
 	},

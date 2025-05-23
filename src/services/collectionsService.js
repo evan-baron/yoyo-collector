@@ -54,6 +54,11 @@ const getCollectionByName = async (userId, collectionName) => {
 	return await collectionsModel.getCollectionByName(userId, collectionName);
 };
 
+// Get favorite collections by array of ids
+const getFavoriteCollectionsById = async (collectionIds) => {
+	return await collectionsModel.getFavoriteCollectionsById(collectionIds);
+};
+
 // Get five newest collections less 'private' user collections
 const getFiveNewestCollections = async () => {
 	const fiveNewestCollections =
@@ -86,6 +91,7 @@ export default {
 	getAllCollectionsById,
 	getCollectionById,
 	getCollectionByName,
+	getFavoriteCollectionsById,
 	getFiveNewestCollections,
 	getTopFiveCollections,
 	updateCollection,
